@@ -1,176 +1,84 @@
-Vortex Helper UI 🚀
-<div align="center">
-https://via.placeholder.com/800x200/1a1a2e/ffffff?text=Vortex+Helper+UI+-+Advanced+Roblox+Server+Management
+📜 **PROJECT DETAILS**  
+&nbsp;&nbsp;&nbsp;&nbsp;**Project Name:** Vortex Helper UI  
+&nbsp;&nbsp;&nbsp;&nbsp;**Version:** 1.8 - VortexScan System v2  
+&nbsp;&nbsp;&nbsp;&nbsp;**Developer:** VortexTeamDev  
+&nbsp;&nbsp;&nbsp;&nbsp;**Language:** Lua (Roblox Engine)  
+&nbsp;&nbsp;&nbsp;&nbsp;**Release Date:** 2025  
 
-A powerful server management interface for Roblox with smart server hopping and real-time monitoring
+🎯 **TECHNICAL SPECIFICATIONS**  
+&nbsp;&nbsp;&nbsp;&nbsp;**Core Features:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🌐 **Smart server hopping system**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔑 **Job ID based server joining**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📊 **Real-time system information**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🗃️ **Server history tracking**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;💾 **Automatic data storage**  
 
-</div>
-✨ Features
-<div align="center">
-🎮 Core Features	🛠️ Technical Features	📊 Monitoring
-Smart Server Hopping	VortexScan System v2	Real-time Stats
-Job ID Joiner	JSON Data Storage	Player Count
-Server History	Smooth Animations	System Info
-Auto Cleanup	Notification System	History Tracking
-</div>
-🚀 Quick Start
-lua
--- Simply paste the script into your executor
--- The UI will automatically initialize
-loadstring(game:HttpGet("https://raw.githubusercontent.com/vortexteamdev/vortex-helper/main/main.lua"))()
-Interface Preview
-<div align="center">
-https://via.placeholder.com/400x250/2d2d3e/ffffff?text=Vortex+UI+Interface
-Clean and intuitive interface with tab navigation
+&nbsp;&nbsp;&nbsp;&nbsp;**Technology Stack:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🛠️ **Roblox Studio API**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📂 **JSON-based data storage**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🌀 **TweenService animations**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🌍 **HttpService integration**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔄 **TeleportService management**  
 
-</div>
-📋 Function Reference
-🎯 Tab 1 - Main Controls
-<div align="center">
-Button	Icon	Function	Description
-KICK	🚪	Security Kick	Safely kicks your player
-HOP	🔄	Smart Server Hop	Finds optimal server
-REJN	🔁	Rejoin Game	Rejoins current game
-REST	🔄	Reset Character	Resets character
-CLEAR	🗑️	Clear History	Clears server history
-</div>
-📊 Tab 2 - System Information
-<div align="center">
-https://via.placeholder.com/300x150/2d2d3e/00ff00?text=System+Information+Display
-Real-time game statistics and monitoring
+⚠️ **DISCLAIMER**  
+&nbsp;&nbsp;&nbsp;&nbsp;**IMPORTANT WARNING:** This software is for educational purposes only. The user is solely responsible for the consequences of using this software.
 
-</div>
-Displays:
+&nbsp;&nbsp;&nbsp;&nbsp;**Roblox ToS Compliance:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This software should be used within the framework of Roblox Terms of Service.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The developer cannot be held responsible for misuse of the software.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Users assume all responsibility for their usage.
 
-🎮 Game name and ID
+&nbsp;&nbsp;&nbsp;&nbsp;**Data Security:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;💻 **Local file system data storage**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔓 **Unencrypted JSON format**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🗂️ **Only stores server IDs and timestamps**  
 
-👥 Player count
+🔒 **SECURITY MEASURES**  
+&nbsp;&nbsp;&nbsp;&nbsp;**Data Collection:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📅 **Only visited server IDs**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⏲️ **Timestamps**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🎮 **Game information (PlaceId, JobId)**  
 
-🆔 Job ID (with copy function)
+&nbsp;&nbsp;&nbsp;&nbsp;**Data Storage:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📁 **Local file system (VortexHelper/ folder)**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🧹 **Automatic cleanup mechanism**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🚫 **No encryption**  
 
-💾 Server history count
+🌐 **SYSTEM REQUIREMENTS**  
+&nbsp;&nbsp;&nbsp;&nbsp;Roblox Studio/Client  
+&nbsp;&nbsp;&nbsp;&nbsp;HttpService access  
+&nbsp;&nbsp;&nbsp;&nbsp;TeleportService access  
+&nbsp;&nbsp;&nbsp;&nbsp;File writing permissions  
+&nbsp;&nbsp;&nbsp;&nbsp;CoreGui access  
 
-📡 Online status
+📊 **LICENSE TERMS SUMMARY**  
+&nbsp;&nbsp;&nbsp;&nbsp;**Permissions:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✅ **Distribution and sharing**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✅ **Private use**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✅ **Code snippet usage**  
 
-🔗 Tab 3 - Job ID Joiner
-lua
--- Manual server joining
-Enter Job ID → Click JOIN → Instant teleport
-🎯 Smart Server Hopping Algorithm
-<div align="center">
+&nbsp;&nbsp;&nbsp;&nbsp;**Requirements:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📝 **Maintain copyright notice**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📝 **Include MIT license text**  
 
+&nbsp;&nbsp;&nbsp;&nbsp;**Prohibitions:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;❌ **Remove disclaimer**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;❌ **Remove developer credits**  
 
+🔧 **SUPPORT POLICY**  
+&nbsp;&nbsp;&nbsp;&nbsp;❗ **No official support provided**  
+&nbsp;&nbsp;&nbsp;&nbsp;🤝 **Community-driven development**  
+&nbsp;&nbsp;&nbsp;&nbsp;🚫 **No issue tracking**  
+&nbsp;&nbsp;&nbsp;&nbsp;🚫 **No update guarantees**  
 
+⚖️ **LEGAL STATUS**  
+&nbsp;&nbsp;&nbsp;&nbsp;**Roblox Relationship:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚙️ **This is third-party software**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🚫 **Not endorsed by Roblox Corporation**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✅ **Uses official Roblox APIs**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🚫 **Contains no injection or hacks**  
 
-
-Intelligent server selection process
-
-</div>
-Algorithm Steps:
-
-🔍 Scan 100 public servers via Roblox API
-
-🚫 Filter out visited servers (24h cooldown)
-
-👥 Select servers with 1-49 players
-
-🎯 Prioritize servers near 25 players
-
-🚀 Automatic teleportation
-
-📁 File Structure
-text
-VortexHelper/
-├── 📄 used_servers.json    # Server history
-├── 🔧 config/              # Configuration
-└── 📊 logs/               # Activity logs
-⚙️ Configuration
-Data Storage
-Format: JSON
-
-Location: workspace/VortexHelper/
-
-Retention: 24 hours auto-cleanup
-
-Privacy: Local storage only
-
-<div align="center">
-https://via.placeholder.com/500x100/2d2d3e/ffffff?text=Secure+Local+JSON+Data+Storage
-
-</div>
-🛡️ Safety & Compliance
-<div align="center">
-Feature	Status	Details
-Roblox ToS	✅ Compliant	Official APIs only
-Data Privacy	🔒 Secure	Local storage
-No Injection	✅ Safe	No exploits
-Educational	✅ Approved	Learning purpose
-</div>
-🔧 Technical Specifications
-lua
--- Required Services
-local Services = {
-    "Players",
-    "TweenService", 
-    "TeleportService",
-    "HttpService",
-    "CoreGui",
-    "MarketplaceService"
-}
-Performance Metrics:
-
-🧠 Memory: < 5MB
-
-⚡ Load Time: < 2s
-
-🔄 Updates: 5s intervals
-
-🗃️ Data Refresh: 24h cycles
-
-🐛 Troubleshooting
-<div align="center">
-Issue	Solution	Status
-UI Not Visible	Check CoreGui access	🔧
-Hop Failed	Verify API connection	🌐
-Data Not Saving	Check file permissions	💾
-</div>
-Common Error Codes
-E001: API Timeout → Retry operation
-
-E002: File Access → Check permissions
-
-E003: Teleport Failed → Manual rejoin
-
-📝 Version History
-<div align="center">
-Version	Features	Date
-v1.8	VortexScan v2, Enhanced UI	2025
-v1.7	Job ID Joiner, System Info	2024
-v1.6	Smart Hopping, History Tracking	2024
-</div>
-📄 License
-text
-MIT License
-Copyright (c) 2025 VortexTeamDev
-Free to use, modify, and distribute
-🤝 Contributing
-We welcome contributions! Please:
-
-🍴 Fork the repository
-
-🌿 Create a feature branch
-
-✅ Test thoroughly
-
-🔄 Submit pull request
-
-🔗 Links
-<div align="center">
-📚 Documentation •
-🐛 Issues •
-💬 Discussions
-
-</div>
-<div align="center">
-🏆 Credits
-Developed with ❤️ by VortexTeamDev
+&nbsp;&nbsp;&nbsp;&nbsp;**User Responsibilities:**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✅ **Compliance with Roblox ToS**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔐 **Account security is user's responsibility**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⚠️ **Ban risks are assumed by user**
