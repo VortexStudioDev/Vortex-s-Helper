@@ -1,124 +1,114 @@
 Vortex Helper UI 🚀
-https://img.shields.io/badge/version-1.8-blue
-https://img.shields.io/badge/Roblox-Lua-blue
-https://img.shields.io/badge/license-MIT-green
-https://img.shields.io/badge/status-active-brightgreen
+<div align="center">
+https://via.placeholder.com/800x200/1a1a2e/ffffff?text=Vortex+Helper+UI+-+Advanced+Roblox+Server+Management
 
-A powerful and intuitive server management UI for Roblox experiences with smart server hopping, real-time system monitoring, and advanced teleportation features.
+A powerful server management interface for Roblox with smart server hopping and real-time monitoring
 
+</div>
 ✨ Features
-🎮 Core Functionality
-Smart Server Hopping - Intelligent algorithm finds optimal servers
-
-Job ID Joiner - Direct server access with Job IDs
-
-Real-time System Info - Live game and server statistics
-
-Server History Tracking - Never revisit the same server twice
-
-Auto Data Storage - JSON-based local data management
-
-🛠️ Technical Features
-VortexScan System v2 - Advanced server scanning technology
-
-Smooth Animations - TweenService powered UI transitions
-
-Notification System - Beautiful alert and status messages
-
-Cross-Server Compatibility - Works across different Roblox games
-
-Lightweight - Optimized performance with minimal resource usage
-
+<div align="center">
+🎮 Core Features	🛠️ Technical Features	📊 Monitoring
+Smart Server Hopping	VortexScan System v2	Real-time Stats
+Job ID Joiner	JSON Data Storage	Player Count
+Server History	Smooth Animations	System Info
+Auto Cleanup	Notification System	History Tracking
+</div>
 🚀 Quick Start
-Installation
 lua
 -- Simply paste the script into your executor
 -- The UI will automatically initialize
-Basic Usage
-Click the V logo to open the interface
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vortexteamdev/vortex-helper/main/main.lua"))()
+Interface Preview
+<div align="center">
+https://via.placeholder.com/400x250/2d2d3e/ffffff?text=Vortex+UI+Interface
+Clean and intuitive interface with tab navigation
 
-Use Tab 1 for main functions (Hop, Rejoin, Reset)
-
-Use Tab 2 for system information and Job ID copying
-
-Use Tab 3 for manual Job ID joining
-
+</div>
 📋 Function Reference
-Main Functions (Tab 1)
-Button	Function	Description
-🚪 KICK	Security Kick	Safely kicks your player
-🔄 HOP	Smart Server Hop	Finds and joins optimal server
-🔁 REJN	Rejoin Game	Rejoins current game instance
-🔄 REST	Reset Character	Resets your character
-🗑️ CLEAR	Clear History	Clears server history
-System Info (Tab 2)
-Real-time game statistics
+🎯 Tab 1 - Main Controls
+<div align="center">
+Button	Icon	Function	Description
+KICK	🚪	Security Kick	Safely kicks your player
+HOP	🔄	Smart Server Hop	Finds optimal server
+REJN	🔁	Rejoin Game	Rejoins current game
+REST	🔄	Reset Character	Resets character
+CLEAR	🗑️	Clear History	Clears server history
+</div>
+📊 Tab 2 - System Information
+<div align="center">
+https://via.placeholder.com/300x150/2d2d3e/00ff00?text=System+Information+Display
+Real-time game statistics and monitoring
 
-Player count monitoring
+</div>
+Displays:
 
-Server Job ID display
+🎮 Game name and ID
 
-History tracking counter
+👥 Player count
 
-Copy Job ID functionality
+🆔 Job ID (with copy function)
 
-Job ID Joiner (Tab 3)
-Manual server joining by Job ID
+💾 Server history count
 
-Input validation
+📡 Online status
 
-Direct teleportation
-
-🎯 Smart Server Hopping Algorithm
+🔗 Tab 3 - Job ID Joiner
 lua
--- Advanced server selection logic
-1. Scans 100 public servers via Roblox API
-2. Filters out visited servers (24h cooldown)
-3. Selects servers with optimal player count (1-49 players)
-4. Prioritizes servers closest to 25 players
-5. Automatically clears history if no new servers found
+-- Manual server joining
+Enter Job ID → Click JOIN → Instant teleport
+🎯 Smart Server Hopping Algorithm
+<div align="center">
+
+
+
+
+
+Intelligent server selection process
+
+</div>
+Algorithm Steps:
+
+🔍 Scan 100 public servers via Roblox API
+
+🚫 Filter out visited servers (24h cooldown)
+
+👥 Select servers with 1-49 players
+
+🎯 Prioritize servers near 25 players
+
+🚀 Automatic teleportation
+
 📁 File Structure
 text
 VortexHelper/
-├── used_servers.json    # Server history data
-└── config/              # Configuration files (future)
+├── 📄 used_servers.json    # Server history
+├── 🔧 config/              # Configuration
+└── 📊 logs/               # Activity logs
 ⚙️ Configuration
 Data Storage
 Format: JSON
 
 Location: workspace/VortexHelper/
 
-Retention: 24 hours automatic cleanup
+Retention: 24 hours auto-cleanup
 
 Privacy: Local storage only
 
-UI Customization
-The interface features:
+<div align="center">
+https://via.placeholder.com/500x100/2d2d3e/ffffff?text=Secure+Local+JSON+Data+Storage
 
-Draggable windows
-
-Smooth animations
-
-Color-coded status indicators
-
-Responsive design
-
+</div>
 🛡️ Safety & Compliance
-Roblox ToS
-✅ Uses official Roblox APIs
-✅ No injection or exploitation
-✅ Educational purposes only
-✅ Transparent functionality
-
-Data Privacy
-🔒 Local storage only
-🔒 No personal data collection
-🔒 No external server communication (except Roblox APIs)
-🔒 Automatic data cleanup
-
-🔧 Technical Details
-Dependencies
+<div align="center">
+Feature	Status	Details
+Roblox ToS	✅ Compliant	Official APIs only
+Data Privacy	🔒 Secure	Local storage
+No Injection	✅ Safe	No exploits
+Educational	✅ Approved	Learning purpose
+</div>
+🔧 Technical Specifications
 lua
+-- Required Services
 local Services = {
     "Players",
     "TweenService", 
@@ -127,106 +117,60 @@ local Services = {
     "CoreGui",
     "MarketplaceService"
 }
-API Integration
-Roblox Games API for server lists
+Performance Metrics:
 
-Official teleportation services
+🧠 Memory: < 5MB
 
-Marketplace service for game info
+⚡ Load Time: < 2s
 
-📊 Performance
-Memory Usage: < 5MB
+🔄 Updates: 5s intervals
 
-Load Time: < 2 seconds
-
-Update Interval: 5 seconds (system info)
-
-Data Refresh: 24 hours (server history)
+🗃️ Data Refresh: 24h cycles
 
 🐛 Troubleshooting
-Common Issues
-UI Not Appearing
+<div align="center">
+Issue	Solution	Status
+UI Not Visible	Check CoreGui access	🔧
+Hop Failed	Verify API connection	🌐
+Data Not Saving	Check file permissions	💾
+</div>
+Common Error Codes
+E001: API Timeout → Retry operation
 
-Check executor permissions
+E002: File Access → Check permissions
 
-Verify CoreGui access
+E003: Teleport Failed → Manual rejoin
 
-Server Hop Failing
-
-Check internet connection
-
-Verify Roblox API availability
-
-Data Not Saving
-
-Check file write permissions
-
-Verify VortexHelper folder exists
-
-Error Codes
-Code	Description	Solution
-E001	API Timeout	Retry operation
-E002	File Access	Check permissions
-E003	Teleport Failed	Manual rejoin
-🤝 Contributing
-We welcome community contributions! Please follow these guidelines:
-
-Fork the repository
-
-Create a feature branch
-
-Test thoroughly
-
-Submit pull request
-
-Development Setup
-bash
-# Clone repository
-git clone https://github.com/vortexteamdev/vortex-helper-ui.git
-
-# Testing environment
-Roblox Studio with executor compatibility
-📝 Changelog
-v1.8 (Current)
-✅ VortexScan System v2
-
-✅ Enhanced UI animations
-
-✅ Improved server selection
-
-✅ Better error handling
-
-v1.7
-✅ Job ID joiner tab
-
-✅ System information display
-
-✅ Copy to clipboard functionality
-
-v1.6
-✅ Smart server hopping
-
-✅ Server history tracking
-
-✅ JSON data storage
-
+📝 Version History
+<div align="center">
+Version	Features	Date
+v1.8	VortexScan v2, Enhanced UI	2025
+v1.7	Job ID Joiner, System Info	2024
+v1.6	Smart Hopping, History Tracking	2024
+</div>
 📄 License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+text
+MIT License
+Copyright (c) 2025 VortexTeamDev
+Free to use, modify, and distribute
+🤝 Contributing
+We welcome contributions! Please:
 
-⭐ Acknowledgments
-Roblox Corporation for their API services
+🍴 Fork the repository
 
-The Roblox developer community
+🌿 Create a feature branch
 
-Beta testers and contributors
+✅ Test thoroughly
+
+🔄 Submit pull request
 
 🔗 Links
-📚 Documentation
-
-🐛 Issue Tracker
-
+<div align="center">
+📚 Documentation •
+🐛 Issues •
 💬 Discussions
 
+</div>
+<div align="center">
 🏆 Credits
-Developed by VortexTeamDev
-"Enhancing the Roblox experience, one script at a time"
+Developed with ❤️ by VortexTeamDev
