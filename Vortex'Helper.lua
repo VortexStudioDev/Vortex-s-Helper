@@ -1,6 +1,6 @@
--- Vortex's Helper - Compact Edition
+-- Vortex's Helper - Ultimate Edition
 -- 3 Sekmeli Sistem: Combat, Movement, Visuals
--- Logo: V | Marka: Vortex's Helper
+-- Chered Hub Desync Sistemi Entegre
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -8,7 +8,19 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
+local StarterGui = game:GetService("StarterGui")
 local LocalPlayer = Players.LocalPlayer
+
+-- NOTIFICATION SISTEMI
+local function notify(title, text, dur)
+    pcall(function()
+        StarterGui:SetCore("SendNotification", {
+            Title = title or "Vortex Helper",
+            Text = text or "",
+            Duration = dur or 3
+        })
+    end)
+end
 
 -- ANA GUI
 local screenGui = Instance.new("ScreenGui")
@@ -40,7 +52,7 @@ glow.Thickness = 2
 glow.Transparency = 0.5
 glow.Parent = toggleButton
 
--- ANA MENU (ESKI BOYUTUN %50'si)
+-- ANA MENU
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0, 180, 0, 220)
 mainFrame.Position = UDim2.new(0.5, -90, 0.5, -110)
@@ -136,17 +148,6 @@ contentLayout.Padding = UDim.new(0, 4)
 contentLayout.FillDirection = Enum.FillDirection.Vertical
 contentLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 contentLayout.Parent = contentFrame
-
--- STATUS LABEL
-local statusLabel = Instance.new("TextLabel")
-statusLabel.Size = UDim2.new(0.9, 0, 0, 18)
-statusLabel.Position = UDim2.new(0.05, 0, 1, -20)
-statusLabel.BackgroundTransparency = 1
-statusLabel.Font = Enum.Font.Gotham
-statusLabel.TextColor3 = Color3.fromRGB(100, 100, 255)
-statusLabel.TextSize = 10
-statusLabel.Text = "Vortex Helper - Ready"
-statusLabel.Parent = mainFrame
 
 -- BUTON OLUŞTURMA
 local function createButton(name, color)
@@ -276,7 +277,7 @@ killButton.MouseButton1Click:Connect(function()
         local humanoid = character:FindFirstChildOfClass("Humanoid")
         if humanoid then
             humanoid.Health = 0
-            statusLabel.Text = "Character killed"
+            notify("Vortex Helper", "Character killed", 2)
         end
     end
 end)
@@ -286,7 +287,7 @@ kickButton.MouseButton1Click:Connect(function()
     LocalPlayer:Kick("Vortex's Helper - Kicked by User")
 end)
 
--- ICE BLOCK
+-- ICE BLOCK (ORIJINAL SISTEM)
 iceButton.MouseButton1Click:Connect(function()
     iceOn = not iceOn
     
@@ -304,26 +305,25 @@ iceButton.MouseButton1Click:Connect(function()
         end
         iceButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
         iceButton.Text = "🧊 Ice [ON]"
-        statusLabel.Text = "Ice Block: ON"
+        notify("Vortex Helper", "Ice Block: ON", 2)
     else
         if iceConn then iceConn:Disconnect() iceConn = nil end
         iceButton.BackgroundColor3 = Color3.fromRGB(60, 150, 255)
         iceButton.Text = "🧊 Ice Block"
-        statusLabel.Text = "Ice Block: OFF"
+        notify("Vortex Helper", "Ice Block: OFF", 2)
     end
 end)
 
 -- VORTEX ANTI-HIT (CHERED HUB DESYNC SISTEMI)
 antiHitButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
-        statusLabel.Text = "Anti-Hit running..."
+        notify("Vortex Helper", "Anti-Hit running...", 2)
         return
     end
     
     antiHitRunning = true
     antiHitButton.BackgroundColor3 = Color3.fromRGB(255, 220, 60)
     antiHitButton.Text = "🛡️ Anti-Hit [ACTIVE]"
-    statusLabel.Text = "Vortex Anti-Hit activating..."
     
     -- CHERED HUB DESYNC SISTEMI
     local function enableMobileDesync()
@@ -376,12 +376,12 @@ antiHitButton.MouseButton1Click:Connect(function()
             antiHitActive = true
             antiHitButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
             antiHitButton.Text = "🛡️ Anti-Hit [ON]"
-            statusLabel.Text = "Vortex Anti-Hit: ON"
+            notify("Vortex Anti-Hit", "Anti-Hit activated! 🛡️", 3)
         else
             antiHitActive = false
             antiHitButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
             antiHitButton.Text = "🛡️ Vortex Anti-Hit"
-            statusLabel.Text = "Anti-Hit failed"
+            notify("Vortex Helper", "Anti-Hit failed", 2)
         end
     end)
 end)
@@ -423,12 +423,12 @@ speedButton.MouseButton1Click:Connect(function()
         end)
         speedButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
         speedButton.Text = "⚡ Speed [ON]"
-        statusLabel.Text = "Speed Boost: ON"
+        notify("Vortex Helper", "Speed Boost: ON", 2)
     else
         stopSpeedControl()
         speedButton.BackgroundColor3 = Color3.fromRGB(60, 200, 100)
         speedButton.Text = "⚡ Speed Boost"
-        statusLabel.Text = "Speed Boost: OFF"
+        notify("Vortex Helper", "Speed Boost: OFF", 2)
     end
 end)
 
@@ -446,7 +446,7 @@ infJumpButton.MouseButton1Click:Connect(function()
         
         infJumpButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
         infJumpButton.Text = "🦘 Inf Jump [ON]"
-        statusLabel.Text = "Inf Jump: ON (+5%)"
+        notify("Vortex Helper", "Inf Jump: ON (+5%)", 2)
     else
         workspace.Gravity = 196.2
         local humanoid = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
@@ -456,7 +456,7 @@ infJumpButton.MouseButton1Click:Connect(function()
         
         infJumpButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
         infJumpButton.Text = "🦘 Inf Jump"
-        statusLabel.Text = "Inf Jump: OFF"
+        notify("Vortex Helper", "Inf Jump: OFF", 2)
     end
 end)
 
@@ -471,7 +471,7 @@ end
 flyButton.MouseButton1Click:Connect(function()
     if flyActive then
         stopFly()
-        statusLabel.Text = "Fly: OFF"
+        notify("Vortex Helper", "Fly: OFF", 2)
         return
     end
 
@@ -493,7 +493,7 @@ flyButton.MouseButton1Click:Connect(function()
 
     local destPart = findMyDeliveryPart()
     if not destPart then
-        statusLabel.Text = "Base not found"
+        notify("Vortex Helper", "Base not found", 2)
         return
     end
 
@@ -504,7 +504,7 @@ flyButton.MouseButton1Click:Connect(function()
     flyActive = true
     flyButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
     flyButton.Text = "🚀 Flying..."
-    statusLabel.Text = "Flying to base..."
+    notify("Vortex Helper", "Flying to base...", 2)
 
     flyConn = RunService.Heartbeat:Connect(function()
         if not flyActive or not hrp or not hrp.Parent then
@@ -520,7 +520,7 @@ flyButton.MouseButton1Click:Connect(function()
         
         if (destPos - currentPos).Magnitude < 10 then
             stopFly()
-            statusLabel.Text = "Reached base!"
+            notify("Vortex Helper", "Reached base!", 2)
         end
     end)
 end)
@@ -546,7 +546,7 @@ end
 floorButton.MouseButton1Click:Connect(function()
     if platform then
         destroyPlatform()
-        statusLabel.Text = "3rd Floor: OFF"
+        notify("Vortex Helper", "3rd Floor: OFF", 2)
         return
     end
     
@@ -580,7 +580,7 @@ floorButton.MouseButton1Click:Connect(function()
     
     floorButton.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
     floorButton.Text = "🏗️ 3rd Floor [ON]"
-    statusLabel.Text = "3rd Floor: ON"
+    notify("Vortex Helper", "3rd Floor: ON", 2)
     
     local humanoid = char:FindFirstChildOfClass("Humanoid")
     if humanoid then
@@ -644,11 +644,11 @@ espBestButton.MouseButton1Click:Connect(function()
     if espConfig.enabledBest then
         espBestButton.BackgroundColor3 = Color3.fromRGB(60, 220, 120)
         espBestButton.Text = "🔥 ESP Best [ON]"
-        statusLabel.Text = "ESP Best: ON"
+        notify("Vortex Helper", "ESP Best: ON", 2)
     else
         espBestButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
         espBestButton.Text = "🔥 ESP Best"
-        statusLabel.Text = "ESP Best: OFF"
+        notify("Vortex Helper", "ESP Best: OFF", 2)
     end
 end)
 
@@ -659,11 +659,11 @@ espBaseButton.MouseButton1Click:Connect(function()
     if espConfig.enabledBase then
         espBaseButton.BackgroundColor3 = Color3.fromRGB(120, 220, 255)
         espBaseButton.Text = "🏠 ESP Base [ON]"
-        statusLabel.Text = "ESP Base: ON"
+        notify("Vortex Helper", "ESP Base: ON", 2)
     else
         espBaseButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
         espBaseButton.Text = "🏠 ESP Base"
-        statusLabel.Text = "ESP Base: OFF"
+        notify("Vortex Helper", "ESP Base: OFF", 2)
     end
 end)
 
@@ -674,12 +674,12 @@ espPlayerButton.MouseButton1Click:Connect(function()
     if espConfig.enabledPlayer then
         espPlayerButton.BackgroundColor3 = Color3.fromRGB(255, 170, 120)
         espPlayerButton.Text = "👥 ESP Player [ON]"
-        statusLabel.Text = "ESP Player: ON"
+        notify("Vortex Helper", "ESP Player: ON", 2)
         updatePlayerESP()
     else
         espPlayerButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
         espPlayerButton.Text = "👥 ESP Player"
-        statusLabel.Text = "ESP Player: OFF"
+        notify("Vortex Helper", "ESP Player: OFF", 2)
         clearPlayerESP()
     end
 end)
@@ -717,10 +717,10 @@ toggleButton.MouseButton1Click:Connect(function()
     
     if uiVisible then
         toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-        statusLabel.Text = "Vortex Helper - Menu Open"
+        notify("Vortex Helper", "Menu opened", 2)
     else
         toggleButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-        statusLabel.Text = "Vortex Helper - Menu Closed"
+        notify("Vortex Helper", "Menu closed", 2)
     end
 end)
 
@@ -756,4 +756,4 @@ LocalPlayer.CharacterAdded:Connect(function()
     end
 end)
 
-statusLabel.Text = "Vortex Helper - Ready"
+notify("Vortex Helper", "Script activated! ✨", 5)
