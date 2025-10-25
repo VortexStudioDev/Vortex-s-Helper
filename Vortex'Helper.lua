@@ -1,18 +1,27 @@
 -- Vortex's Helper - Ultimate Edition
--- Tüm özellikler entegre: Kill, Kick, Ice Block, 3rd Floor, Speed, Desync, ESP, Fly, Inf Jump
--- Logo: V | Marka: Vortex's Helper
+-- Tüm özellikler entegre: Kill, Kick, Ice Block, 3rd Floor, Desync, Fly, Inf Jump, ESP
+-- Logo: V | Marka: Vortex's Helper | Desync süresi: 1 saniye
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
 local LocalPlayer = Players.LocalPlayer
 
 -- CONFIG SISTEMI
 local CONFIG_DIR = 'VortexHelper'
 local CONFIG_FILE = CONFIG_DIR .. '/config.json'
-local defaultConfig = { espBest = false, espSecret = false, espBase = false }
+local defaultConfig = { 
+    espBest = false, 
+    espSecret = false, 
+    espBase = false,
+    speedBoost = false,
+    infJump = false,
+    iceBlock = false,
+    thirdFloor = false
+}
 local currentConfig = {}
 local HttpService = game:GetService('HttpService')
 
@@ -46,12 +55,8 @@ local function loadConfig()
     end
 end
 
-local saveDebounce = false
 local function saveConfig()
     if not writefile then return end
-    if saveDebounce then return end
-    saveDebounce = true
-    task.delay(0.35, function() saveDebounce = false end)
     ensureDir()
     local json = safeEncode(currentConfig)
     pcall(function() writefile(CONFIG_FILE, json) end)
@@ -70,9 +75,9 @@ toggleButton.Position = UDim2.new(0, 20, 0.5, -25)
 toggleButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 toggleButton.BackgroundTransparency = 0.2
 toggleButton.Text = "V"
+toggleButton.TextColor3 = Color3.fromRGB(100, 100, 255)
 toggleButton.Font = Enum.Font.GothamBold
 toggleButton.TextSize = 20
-toggleButton.TextColor3 = Color3.fromRGB(100, 100, 255)
 toggleButton.Active = true
 toggleButton.Draggable = true
 toggleButton.Parent = screenGui
@@ -89,8 +94,8 @@ glow.Parent = toggleButton
 
 -- ANA MENU
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 220, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -110, 0.5, -150)
+mainFrame.Size = UDim2.new(0, 220, 0, 350)
+mainFrame.Position = UDim2.new(0.5, -110, 0.5, -175)
 mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 mainFrame.BackgroundTransparency = 0.05
 mainFrame.BorderSizePixel = 0
@@ -129,19 +134,31 @@ titleLabel.TextSize = 14
 titleLabel.TextColor3 = Color3.fromRGB(100, 100, 255)
 titleLabel.Parent = header
 
--- BUTON CONTAINER
-local buttonContainer = Instance.new("Frame")
-buttonContainer.Size = UDim2.new(1, -10, 1, -40)
-buttonContainer.Position = UDim2.new(0, 5, 0, 35)
-buttonContainer.BackgroundTransparency = 1
-buttonContainer.Parent = mainFrame
+-- SCROLL FRAME
+local scrollFrame = Instance.new("ScrollingFrame")
+scrollFrame.Size = UDim2.new(1, -10, 1, -40)
+scrollFrame.Position = UDim2.new(0, 5, 0, 35)
+scrollFrame.BackgroundTransparency = 1
+scrollFrame.ScrollBarThickness = 6
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+scrollFrame.Parent = mainFrame
 
 local layout = Instance.new("UIListLayout")
 layout.Padding = UDim.new(0, 5)
 layout.FillDirection = Enum.FillDirection.Vertical
 layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-layout.VerticalAlignment = Enum.VerticalAlignment.Top
-layout.Parent = buttonContainer
+layout.Parent = scrollFrame
+
+-- STATUS LABEL
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(0.9, 0, 0, 20)
+statusLabel.Position = UDim2.new(0.05, 0, 1, -25)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.TextColor3 = Color3.fromRGB(100, 100, 255)
+statusLabel.TextSize = 11
+statusLabel.Text = "Vortex Helper - Ready"
+statusLabel.Parent = mainFrame
 
 -- BUTON OLUŞTURMA
 local function createButton(name, color)
@@ -171,38 +188,41 @@ local function createButton(name, color)
         TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = color or Color3.fromRGB(40, 40, 60)}):Play()
     end)
     
-    button.Parent = buttonContainer
+    button.Parent = scrollFrame
     return button
 end
 
--- TEMEL BUTONLAR
+-- BUTONLARI OLUŞTUR
 local killButton = createButton("💀 KILL", Color3.fromRGB(255, 60, 60))
 local kickButton = createButton("🚪 KICK", Color3.fromRGB(255, 100, 60))
 local iceButton = createButton("🧊 ICE BLOCK", Color3.fromRGB(60, 150, 255))
 local floorButton = createButton("🏗️ 3RD FLOOR", Color3.fromRGB(255, 180, 60))
-
--- ESP BUTONLARI
-local espBestButton = createButton("🔥 ESP BEST", Color3.fromRGB(45, 45, 65))
-local espSecretButton = createButton("💎 ESP SECRET", Color3.fromRGB(45, 45, 65))
-local espBaseButton = createButton("🏠 ESP BASE", Color3.fromRGB(45, 45, 65))
-local espPlayerButton = createButton("👥 ESP PLAYER", Color3.fromRGB(45, 45, 65))
-
--- TOOLS BUTONLARI
 local speedButton = createButton("⚡ SPEED BOOST", Color3.fromRGB(60, 200, 100))
 local desyncButton = createButton("🌀 DESYNC BODY", Color3.fromRGB(255, 120, 120))
 local infJumpButton = createButton("🦘 INF JUMP", Color3.fromRGB(120, 255, 120))
 local flyButton = createButton("🚀 FLY TO BASE", Color3.fromRGB(255, 120, 120))
+local espBestButton = createButton("🔥 ESP BEST", Color3.fromRGB(45, 45, 65))
+local espBaseButton = createButton("🏠 ESP BASE", Color3.fromRGB(45, 45, 65))
+local espPlayerButton = createButton("👥 ESP PLAYER", Color3.fromRGB(45, 45, 65))
 
--- STATUS LABEL
-local statusLabel = Instance.new("TextLabel")
-statusLabel.Size = UDim2.new(0.9, 0, 0, 20)
-statusLabel.Position = UDim2.new(0.05, 0, 1, -25)
-statusLabel.BackgroundTransparency = 1
-statusLabel.Font = Enum.Font.Gotham
-statusLabel.TextColor3 = Color3.fromRGB(100, 100, 255)
-statusLabel.TextSize = 11
-statusLabel.Text = "Vortex Helper - Ready"
-statusLabel.Parent = mainFrame
+-- DEĞİŞKENLER
+local iceOn = false
+local iceConn
+local platform, platformConn
+local speedConn
+local speedActive = false
+local desyncActive = false
+local antiHitRunning = false
+local infJumpActive = false
+local infJumpConn
+local flyActive = false
+local flyConn
+local espConfig = {
+    enabledBest = false,
+    enabledBase = false,
+    enabledPlayer = false,
+}
+local espBoxes = {}
 
 -- KILL BUTONU
 killButton.MouseButton1Click:Connect(function()
@@ -221,292 +241,289 @@ kickButton.MouseButton1Click:Connect(function()
     LocalPlayer:Kick("Vortex's Helper - Kicked by User")
 end)
 
--- ICE BLOCK
-do
-    local iceOn = false
-    local iceConn
-
-    iceButton.MouseButton1Click:Connect(function()
-        local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        iceOn = not iceOn
-        
-        if iceOn then
-            iceButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
-            iceButton.Text = "🧊 ICE [ON]"
+-- ICE BLOCK (AÇ/KAPA)
+iceButton.MouseButton1Click:Connect(function()
+    iceOn = not iceOn
+    
+    if iceOn then
+        local char = LocalPlayer.Character
+        if char then
             local hrp = char:FindFirstChild("HumanoidRootPart")
             if hrp then
-                iceConn = RunService.RenderStepped:Connect(function()
+                iceConn = RunService.Heartbeat:Connect(function()
                     if iceOn and hrp then
                         hrp.Velocity = Vector3.new(0, 0, 0)
                     end
                 end)
             end
-            statusLabel.Text = "Ice Block: ON"
-        else
-            if iceConn then iceConn:Disconnect() iceConn = nil end
-            iceButton.BackgroundColor3 = Color3.fromRGB(60, 150, 255)
-            iceButton.Text = "🧊 ICE BLOCK"
-            statusLabel.Text = "Ice Block: OFF"
+        end
+        iceButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+        iceButton.Text = "🧊 ICE [ON]"
+        statusLabel.Text = "Ice Block: ON"
+        currentConfig.iceBlock = true
+    else
+        if iceConn then 
+            iceConn:Disconnect() 
+            iceConn = nil 
+        end
+        iceButton.BackgroundColor3 = Color3.fromRGB(60, 150, 255)
+        iceButton.Text = "🧊 ICE BLOCK"
+        statusLabel.Text = "Ice Block: OFF"
+        currentConfig.iceBlock = false
+    end
+    saveConfig()
+end)
+
+-- 3RD FLOOR (AÇ/KAPA)
+local function destroyPlatform()
+    if platform then 
+        platform:Destroy() 
+        platform = nil 
+    end
+    if platformConn then 
+        platformConn:Disconnect() 
+        platformConn = nil 
+    end
+    floorButton.BackgroundColor3 = Color3.fromRGB(255, 180, 60)
+    floorButton.Text = "🏗️ 3RD FLOOR"
+    currentConfig.thirdFloor = false
+    saveConfig()
+end
+
+local function canRise()
+    if not platform then return false end
+    local origin = platform.Position + Vector3.new(0, platform.Size.Y/2, 0)
+    local direction = Vector3.new(0, 2, 0)
+    local rayParams = RaycastParams.new()
+    rayParams.FilterDescendantsInstances = {platform, LocalPlayer.Character}
+    rayParams.FilterType = Enum.RaycastFilterType.Blacklist
+    return not workspace:Raycast(origin, direction, rayParams)
+end
+
+floorButton.MouseButton1Click:Connect(function()
+    if platform then
+        destroyPlatform()
+        statusLabel.Text = "3rd Floor: OFF"
+        return
+    end
+    
+    local char = LocalPlayer.Character
+    if not char then return end
+    
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+    
+    platform = Instance.new("Part")
+    platform.Size = Vector3.new(6, 0.5, 6)
+    platform.Anchored = true
+    platform.CanCollide = true
+    platform.Transparency = 0.3
+    platform.Material = Enum.Material.Plastic
+    platform.Color = Color3.fromRGB(255, 200, 0)
+    platform.Position = root.Position - Vector3.new(0, root.Size.Y/2 + platform.Size.Y/2, 0)
+    platform.Parent = workspace
+
+    platformConn = RunService.Heartbeat:Connect(function(dt)
+        if platform and root and root.Parent then
+            local cur = platform.Position
+            local newXZ = Vector3.new(root.Position.X, cur.Y, root.Position.Z)
+            if canRise() then
+                platform.Position = newXZ + Vector3.new(0, dt * 15, 0)
+            else
+                platform.Position = newXZ
+            end
         end
     end)
-end
-
--- 3RD FLOOR
-do
-    local platform, connection
-    local active = false
-    local RISE_SPEED = 15
-
-    local function destroyPlatform()
-        if platform then platform:Destroy() platform = nil end
-        active = false
-        if connection then connection:Disconnect() connection = nil end
-        floorButton.BackgroundColor3 = Color3.fromRGB(255, 180, 60)
-        floorButton.Text = "🏗️ 3RD FLOOR"
+    
+    floorButton.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
+    floorButton.Text = "🏗️ 3RD FLOOR [ON]"
+    statusLabel.Text = "3rd Floor: ON"
+    currentConfig.thirdFloor = true
+    saveConfig()
+    
+    -- Character ölünce platformu kaldır
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        humanoid.Died:Connect(destroyPlatform)
     end
+end)
 
-    local function canRise()
-        if not platform then return false end
-        local origin = platform.Position + Vector3.new(0, platform.Size.Y/2, 0)
-        local direction = Vector3.new(0, 2, 0)
-        local rayParams = RaycastParams.new()
-        rayParams.FilterDescendantsInstances = {platform, LocalPlayer.Character}
-        rayParams.FilterType = Enum.RaycastFilterType.Blacklist
-        return not workspace:Raycast(origin, direction, rayParams)
+-- SPEED BOOST (AÇ/KAPA)
+local function stopSpeedControl()
+    if speedConn then 
+        speedConn:Disconnect() 
+        speedConn = nil 
     end
-
-    local function setup3rdFloor(character)
-        local root = character:WaitForChild("HumanoidRootPart")
-        
-        floorButton.MouseButton1Click:Connect(function()
-            active = not active
-            if active then
-                platform = Instance.new("Part")
-                platform.Size = Vector3.new(6, 0.5, 6)
-                platform.Anchored = true
-                platform.CanCollide = true
-                platform.Transparency = 0.3
-                platform.Material = Enum.Material.Plastic
-                platform.Color = Color3.fromRGB(255, 200, 0)
-                platform.Position = root.Position - Vector3.new(0, root.Size.Y/2 + platform.Size.Y/2, 0)
-                platform.Parent = workspace
-
-                connection = RunService.Heartbeat:Connect(function(dt)
-                    if platform and active then
-                        local cur = platform.Position
-                        local newXZ = Vector3.new(root.Position.X, cur.Y, root.Position.Z)
-                        if canRise() then
-                            platform.Position = newXZ + Vector3.new(0, dt * RISE_SPEED, 0)
-                        else
-                            platform.Position = newXZ
-                        end
-                    end
-                end)
-                
-                floorButton.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
-                floorButton.Text = "🏗️ 3RD FLOOR [ON]"
-                statusLabel.Text = "3rd Floor: ON"
-            else
-                destroyPlatform()
-                statusLabel.Text = "3rd Floor: OFF"
-            end
-        end)
-        
-        character:WaitForChild("Humanoid").Died:Connect(destroyPlatform)
-    end
-
-    if LocalPlayer.Character then setup3rdFloor(LocalPlayer.Character) end
-    LocalPlayer.CharacterAdded:Connect(setup3rdFloor)
-end
-
--- SPEED BOOSTER
-do
-    local speedConn
-    local baseSpeed = 27
-    local active = false
-
-    local function GetCharacter()
-        local Char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-        local HRP = Char:WaitForChild("HumanoidRootPart")
-        local Hum = Char:FindFirstChildOfClass("Humanoid")
-        return Char, HRP, Hum
-    end
-
-    local function getMovementInput()
-        local Char, HRP, Hum = GetCharacter()
-        if not Char or not HRP or not Hum then return Vector3.new(0,0,0) end
-        local moveVector = Hum.MoveDirection
-        if moveVector.Magnitude > 0.1 then
-            return Vector3.new(moveVector.X, 0, moveVector.Z).Unit
+    local char = LocalPlayer.Character
+    if char then
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
         end
-        return Vector3.new(0,0,0)
     end
+end
 
-    local function startSpeedControl()
-        if speedConn then return end
+speedButton.MouseButton1Click:Connect(function()
+    speedActive = not speedActive
+    
+    if speedActive then
         speedConn = RunService.Heartbeat:Connect(function()
-            local Char, HRP, Hum = GetCharacter()
-            if not Char or not HRP or not Hum then return end
-            local inputDirection = getMovementInput()
-            if inputDirection.Magnitude > 0 then
-                HRP.AssemblyLinearVelocity = Vector3.new(
-                    inputDirection.X*baseSpeed,
-                    HRP.AssemblyLinearVelocity.Y,
-                    inputDirection.Z*baseSpeed
-                )
-            else
-                HRP.AssemblyLinearVelocity = Vector3.new(0, HRP.AssemblyLinearVelocity.Y, 0)
+            local char = LocalPlayer.Character
+            if char then
+                local hrp = char:FindFirstChild("HumanoidRootPart")
+                local humanoid = char:FindFirstChildOfClass("Humanoid")
+                if hrp and humanoid then
+                    local moveDirection = humanoid.MoveDirection
+                    if moveDirection.Magnitude > 0.1 then
+                        hrp.AssemblyLinearVelocity = Vector3.new(
+                            moveDirection.X * 27,
+                            hrp.AssemblyLinearVelocity.Y,
+                            moveDirection.Z * 27
+                        )
+                    else
+                        hrp.AssemblyLinearVelocity = Vector3.new(0, hrp.AssemblyLinearVelocity.Y, 0)
+                    end
+                end
             end
         end)
+        speedButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        speedButton.Text = "⚡ SPEED [ON]"
+        statusLabel.Text = "Speed Boost: ON"
+        currentConfig.speedBoost = true
+    else
+        stopSpeedControl()
+        speedButton.BackgroundColor3 = Color3.fromRGB(60, 200, 100)
+        speedButton.Text = "⚡ SPEED BOOST"
+        statusLabel.Text = "Speed Boost: OFF"
+        currentConfig.speedBoost = false
     end
+    saveConfig()
+end)
 
-    local function stopSpeedControl()
-        if speedConn then speedConn:Disconnect() speedConn = nil end
-        local Char, HRP = GetCharacter()
-        if HRP then HRP.AssemblyLinearVelocity = Vector3.new(0, HRP.AssemblyLinearVelocity.Y, 0) end
+-- DESYNC BODY (1 SANIYELIK)
+desyncButton.MouseButton1Click:Connect(function()
+    if antiHitRunning then
+        statusLabel.Text = "Desync running..."
+        return
     end
-
-    speedButton.MouseButton1Click:Connect(function()
-        active = not active
-        if active then
-            startSpeedControl()
-            speedButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-            speedButton.Text = "⚡ SPEED [ON]"
-            statusLabel.Text = "Speed Boost: ON"
-        else
-            stopSpeedControl()
-            speedButton.BackgroundColor3 = Color3.fromRGB(60, 200, 100)
-            speedButton.Text = "⚡ SPEED BOOST"
-            statusLabel.Text = "Speed Boost: OFF"
-        end
-    end)
-end
-
--- DESYNC BODY
-do
-    local desyncActive = false
-    local antiHitActive = false
-    local antiHitRunning = false
-
+    
+    antiHitRunning = true
+    desyncButton.BackgroundColor3 = Color3.fromRGB(255, 220, 60)
+    desyncButton.Text = "🌀 DESYNC [ACTIVE]"
+    statusLabel.Text = "Desync activating..."
+    
+    -- 1 SANIYELIK DESYNC
     local function enableMobileDesync()
-        local success, error = pcall(function()
+        local success = pcall(function()
             local backpack = LocalPlayer:WaitForChild("Backpack")
             local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
             local humanoid = character:WaitForChild("Humanoid")
             
             local packages = ReplicatedStorage:WaitForChild("Packages", 5)
-            if not packages then warn("❌ Packages not found") return false end
+            if not packages then return false end
             
             local netFolder = packages:WaitForChild("Net", 5)
-            if not netFolder then warn("❌ Net folder not found") return false end
+            if not netFolder then return false end
             
             local useItemRemote = netFolder:WaitForChild("RE/UseItem", 5)
             local teleportRemote = netFolder:WaitForChild("RE/QuantumCloner/OnTeleport", 5)
-            if not useItemRemote or not teleportRemote then warn("❌ Remotes not found") return false end
+            if not useItemRemote or not teleportRemote then return false end
 
-            local toolNames = {"Quantum Cloner", "Brainrot", "brainrot"}
+            -- Tool bul
             local tool
-            for _, toolName in ipairs(toolNames) do
-                tool = backpack:FindFirstChild(toolName) or character:FindFirstChild(toolName)
-                if tool then break end
-            end
-            if not tool then
-                for _, item in ipairs(backpack:GetChildren()) do
-                    if item:IsA("Tool") then tool=item break end
+            for _, item in ipairs(backpack:GetChildren()) do
+                if item:IsA("Tool") then 
+                    tool = item 
+                    break 
                 end
             end
 
-            if tool and tool.Parent==backpack then
+            if tool and tool.Parent == backpack then
                 humanoid:EquipTool(tool)
-                task.wait(0.5)
+                task.wait(0.2)
             end
 
             if setfflag then setfflag("WorldStepMax", "-9999999999") end
-            task.wait(0.2)
+            task.wait(0.1)
             useItemRemote:FireServer()
-            task.wait(1)
+            task.wait(0.5) -- Süreyi kısalttım
             teleportRemote:FireServer()
-            task.wait(2)
+            task.wait(0.4) -- Toplam ~1 saniye
             if setfflag then setfflag("WorldStepMax", "-1") end
             return true
         end)
         return success
     end
 
-    desyncButton.MouseButton1Click:Connect(function()
-        if antiHitRunning then
-            statusLabel.Text = "Desync running..."
-            return
-        end
+    task.spawn(function()
+        local success = enableMobileDesync()
+        antiHitRunning = false
         
-        if antiHitActive then
-            antiHitActive = false
+        if success then
+            desyncButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+            desyncButton.Text = "🌀 DESYNC [ON]"
+            statusLabel.Text = "Desync: Activated (1s)"
+            
+            -- 2 saniye sonra butonu resetle
+            task.wait(2)
             desyncButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
             desyncButton.Text = "🌀 DESYNC BODY"
-            statusLabel.Text = "Desync: OFF"
         else
-            antiHitRunning = true
-            desyncButton.BackgroundColor3 = Color3.fromRGB(255, 220, 60)
-            desyncButton.Text = "🌀 DESYNC [ACTIVE]"
-            statusLabel.Text = "Desync activating..."
-            
-            local success = enableMobileDesync()
-            if success then
-                antiHitActive = true
-                desyncButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
-                desyncButton.Text = "🌀 DESYNC [ON]"
-                statusLabel.Text = "Desync: ON"
-            else
-                antiHitActive = false
-                desyncButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
-                desyncButton.Text = "🌀 DESYNC BODY"
-                statusLabel.Text = "Desync failed"
-            end
-            antiHitRunning = false
+            desyncButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
+            desyncButton.Text = "🌀 DESYNC BODY"
+            statusLabel.Text = "Desync failed"
         end
     end)
-end
+end)
 
--- INF JUMP
-do
-    local NORMAL_GRAV = 196.2
-    local REDUCED_GRAV = 40
-    local NORMAL_JUMP = 50
-    local BOOST_JUMP = 52.5 -- %5 daha fazla
-    local sourceActive = false
-
-    local function setJumpPower(jump)
-        local h = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-        if h then
-            h.JumpPower = jump
-            h.UseJumpPower = true
+-- INF JUMP (AÇ/KAPA - %5 DAHA FAZLA)
+infJumpButton.MouseButton1Click:Connect(function()
+    infJumpActive = not infJumpActive
+    
+    if infJumpActive then
+        workspace.Gravity = 40
+        local humanoid = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.JumpPower = 52.5 -- %5 daha fazla
+            humanoid.UseJumpPower = true
         end
-    end
-
-    infJumpButton.MouseButton1Click:Connect(function()
-        sourceActive = not sourceActive
         
-        if sourceActive then
-            workspace.Gravity = REDUCED_GRAV
-            setJumpPower(BOOST_JUMP)
-            infJumpButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-            infJumpButton.Text = "🦘 INF JUMP [ON]"
-            statusLabel.Text = "Inf Jump: ON (+5%)"
-        else
-            workspace.Gravity = NORMAL_GRAV
-            setJumpPower(NORMAL_JUMP)
-            infJumpButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
-            infJumpButton.Text = "🦘 INF JUMP"
-            statusLabel.Text = "Inf Jump: OFF"
+        infJumpButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        infJumpButton.Text = "🦘 INF JUMP [ON]"
+        statusLabel.Text = "Inf Jump: ON (+5%)"
+        currentConfig.infJump = true
+    else
+        workspace.Gravity = 196.2
+        local humanoid = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.JumpPower = 50
         end
-    end)
+        
+        infJumpButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+        infJumpButton.Text = "🦘 INF JUMP"
+        statusLabel.Text = "Inf Jump: OFF"
+        currentConfig.infJump = false
+    end
+    saveConfig()
+end)
+
+-- FLY TO BASE (AÇ/KAPA)
+local function stopFly()
+    if flyConn then 
+        flyConn:Disconnect() 
+        flyConn = nil 
+    end
+    flyActive = false
+    flyButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
+    flyButton.Text = "🚀 FLY TO BASE"
 end
 
--- FLY TO BASE
-do
-    local flyActive = false
-    local flyConn
+flyButton.MouseButton1Click:Connect(function()
+    if flyActive then
+        stopFly()
+        statusLabel.Text = "Fly: OFF"
+        return
+    end
 
     local function findMyDeliveryPart()
         local plots = workspace:FindFirstChild("Plots")
@@ -524,75 +541,90 @@ do
         return nil
     end
 
-    flyButton.MouseButton1Click:Connect(function()
-        if flyActive then
-            if flyConn then flyConn:Disconnect() flyConn = nil end
-            flyActive = false
-            flyButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
-            flyButton.Text = "🚀 FLY TO BASE"
-            statusLabel.Text = "Fly: OFF"
+    local destPart = findMyDeliveryPart()
+    if not destPart then
+        statusLabel.Text = "Base not found"
+        return
+    end
+
+    local char = LocalPlayer.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    flyActive = true
+    flyButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+    flyButton.Text = "🚀 FLYING..."
+    statusLabel.Text = "Flying to base..."
+
+    flyConn = RunService.Heartbeat:Connect(function()
+        if not flyActive or not hrp or not hrp.Parent then
+            stopFly()
             return
         end
 
-        local destPart = findMyDeliveryPart()
-        if not destPart then
-            statusLabel.Text = "Base not found"
-            return
+        local destPos = destPart.Position
+        local currentPos = hrp.Position
+        local direction = (destPos - currentPos).Unit
+        
+        hrp.Velocity = direction * 50
+        
+        -- Base'e ulaştıysa dur
+        if (destPos - currentPos).Magnitude < 10 then
+            stopFly()
+            statusLabel.Text = "Reached base!"
         end
-
-        local char = LocalPlayer.Character
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
-
-        flyActive = true
-        flyButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-        flyButton.Text = "🚀 FLYING..."
-        statusLabel.Text = "Flying to base..."
-
-        flyConn = RunService.Heartbeat:Connect(function()
-            if not flyActive or not hrp or not hrp.Parent then
-                if flyConn then flyConn:Disconnect() flyConn = nil end
-                return
-            end
-
-            local destPos = destPart.Position
-            local currentPos = hrp.Position
-            local direction = (destPos - currentPos).Unit
-            
-            hrp.Velocity = direction * 50
-        end)
     end)
-end
+end)
 
 -- ESP SISTEMI
-local espConfig = {
-    enabledBest = false,
-    enabledSecret = false,
-    enabledBase = false,
-    enabledPlayer = false,
-}
-
-local espBoxes = {}
-local plotCache = {}
-
-local function clearAllBestSecret()
-    local plotsFolder = workspace:FindFirstChild("Plots")
-    if not plotsFolder then return end
-    for _, plot in ipairs(plotsFolder:GetChildren()) do
-        for _, inst in ipairs(plot:GetDescendants()) do
-            if inst:IsA("BillboardGui") and (inst.Name == "Best_ESP" or inst.Name == "Secret_ESP") then
-                pcall(function() inst:Destroy() end)
-            end
-        end
-    end
-end
-
 local function clearPlayerESP()
     for plr, objs in pairs(espBoxes) do
         if objs.box then pcall(function() objs.box:Destroy() end) end
         if objs.text then pcall(function() objs.text:Destroy() end) end
     end
     espBoxes = {}
+end
+
+local function updatePlayerESP()
+    if not espConfig.enabledPlayer then return end
+    
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character then
+            local hrp = plr.Character:FindFirstChild("HumanoidRootPart")
+            if hrp and not espBoxes[plr] then
+                -- ESP Kutusu
+                local box = Instance.new("BoxHandleAdornment")
+                box.Size = Vector3.new(4, 6, 4)
+                box.Adornee = hrp
+                box.AlwaysOnTop = true
+                box.ZIndex = 10
+                box.Transparency = 0.5
+                box.Color3 = Color3.fromRGB(255, 0, 60)
+                box.Parent = hrp
+
+                -- İsim etiketi
+                local billboard = Instance.new("BillboardGui")
+                billboard.Adornee = hrp
+                billboard.Size = UDim2.new(0, 200, 0, 30)
+                billboard.StudsOffset = Vector3.new(0, 4, 0)
+                billboard.AlwaysOnTop = true
+                
+                local label = Instance.new("TextLabel")
+                label.Size = UDim2.new(1, 0, 1, 0)
+                label.BackgroundTransparency = 1
+                label.TextColor3 = Color3.fromRGB(255, 0, 60)
+                label.TextStrokeTransparency = 0
+                label.Text = plr.Name
+                label.Font = Enum.Font.GothamBold
+                label.TextSize = 14
+                label.Parent = billboard
+                
+                billboard.Parent = hrp
+                
+                espBoxes[plr] = {box = box, text = billboard}
+            end
+        end
+    end
 end
 
 -- ESP BEST
@@ -609,25 +641,6 @@ espBestButton.MouseButton1Click:Connect(function()
         espBestButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
         espBestButton.Text = "🔥 ESP BEST"
         statusLabel.Text = "ESP Best: OFF"
-        clearAllBestSecret()
-    end
-end)
-
--- ESP SECRET
-espSecretButton.MouseButton1Click:Connect(function()
-    espConfig.enabledSecret = not espConfig.enabledSecret
-    currentConfig.espSecret = espConfig.enabledSecret
-    saveConfig()
-    
-    if espConfig.enabledSecret then
-        espSecretButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
-        espSecretButton.Text = "💎 ESP SECRET [ON]"
-        statusLabel.Text = "ESP Secret: ON"
-    else
-        espSecretButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
-        espSecretButton.Text = "💎 ESP SECRET"
-        statusLabel.Text = "ESP Secret: OFF"
-        clearAllBestSecret()
     end
 end)
 
@@ -648,7 +661,7 @@ espBaseButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- ESP PLAYER
+-- ESP PLAYER (YENI OYUNCULARDA CALISIR)
 espPlayerButton.MouseButton1Click:Connect(function()
     espConfig.enabledPlayer = not espConfig.enabledPlayer
     
@@ -656,11 +669,22 @@ espPlayerButton.MouseButton1Click:Connect(function()
         espPlayerButton.BackgroundColor3 = Color3.fromRGB(255, 170, 120)
         espPlayerButton.Text = "👥 ESP PLAYER [ON]"
         statusLabel.Text = "ESP Player: ON"
+        updatePlayerESP()
     else
         espPlayerButton.BackgroundColor3 = Color3.fromRGB(45, 45, 65)
         espPlayerButton.Text = "👥 ESP PLAYER"
         statusLabel.Text = "ESP Player: OFF"
         clearPlayerESP()
+    end
+end)
+
+-- YENI OYUNCU ESP
+Players.PlayerAdded:Connect(function(plr)
+    if espConfig.enabledPlayer then
+        plr.CharacterAdded:Connect(function()
+            task.wait(1)
+            updatePlayerESP()
+        end)
     end
 end)
 
@@ -679,31 +703,87 @@ toggleButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- AUTO SIZE
+-- AUTO SCROLL SIZE
 layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-    mainFrame.Size = UDim2.new(0, 220, 0, math.max(300, layout.AbsoluteContentSize.Y + 50))
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)
+    mainFrame.Size = UDim2.new(0, 220, 0, math.min(350, layout.AbsoluteContentSize.Y + 60))
 end)
 
--- CONFIG YUKLE
+-- CONFIG YUKLE VE AYARLARI UYGULA
 loadConfig()
-espConfig.enabledBest = currentConfig.espBest
-espConfig.enabledSecret = currentConfig.espSecret
-espConfig.enabledBase = currentConfig.espBase
 
--- BUTON DURUMLARINI GUNCELLE
-if espConfig.enabledBest then
+-- Ice Block
+if currentConfig.iceBlock then
+    iceOn = true
+    iceButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+    iceButton.Text = "🧊 ICE [ON]"
+end
+
+-- 3rd Floor
+if currentConfig.thirdFloor then
+    task.spawn(function()
+        task.wait(1)
+        floorButton:MouseButton1Click()
+    end)
+end
+
+-- Speed Boost
+if currentConfig.speedBoost then
+    speedActive = true
+    speedButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+    speedButton.Text = "⚡ SPEED [ON]"
+    task.spawn(function()
+        task.wait(0.5)
+        speedButton:MouseButton1Click()
+    end)
+end
+
+-- Inf Jump
+if currentConfig.infJump then
+    infJumpActive = true
+    infJumpButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+    infJumpButton.Text = "🦘 INF JUMP [ON]"
+    task.spawn(function()
+        task.wait(0.5)
+        infJumpButton:MouseButton1Click()
+    end)
+end
+
+-- ESP Best
+if currentConfig.espBest then
+    espConfig.enabledBest = true
     espBestButton.BackgroundColor3 = Color3.fromRGB(60, 220, 120)
     espBestButton.Text = "🔥 ESP BEST [ON]"
 end
 
-if espConfig.enabledSecret then
-    espSecretButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
-    espSecretButton.Text = "💎 ESP SECRET [ON]"
-end
-
-if espConfig.enabledBase then
+-- ESP Base
+if currentConfig.espBase then
+    espConfig.enabledBase = true
     espBaseButton.BackgroundColor3 = Color3.fromRGB(120, 220, 255)
     espBaseButton.Text = "🏠 ESP BASE [ON]"
 end
 
 statusLabel.Text = "Vortex Helper - Ready"
+
+-- TEMIZLIK
+LocalPlayer.CharacterAdded:Connect(function()
+    if iceConn then 
+        iceConn:Disconnect() 
+        iceConn = nil 
+    end
+    iceOn = false
+    iceButton.BackgroundColor3 = Color3.fromRGB(60, 150, 255)
+    iceButton.Text = "🧊 ICE BLOCK"
+    
+    stopSpeedControl()
+    speedActive = false
+    speedButton.BackgroundColor3 = Color3.fromRGB(60, 200, 100)
+    speedButton.Text = "⚡ SPEED BOOST"
+    
+    stopFly()
+    
+    if infJumpActive then
+        task.wait(1)
+        infJumpButton:MouseButton1Click()
+    end
+end)
