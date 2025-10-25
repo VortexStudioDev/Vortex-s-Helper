@@ -170,18 +170,15 @@ local function updateStatusDisplay(message, isSuccess)
     if not statusLabel or not statusLabel.Parent then return end
     
     local color = isSuccess and Color3.fromRGB(100, 255, 100) or Color3.fromRGB(255, 100, 100)
-    local bgColor = isSuccess and Color3.fromRGB(0, 50, 0) or Color3.fromRGB(50, 0, 0)
     
     statusLabel.Text = "Status: " .. message .. " | Tab " .. currentTab
     statusLabel.TextColor3 = color
-    statusLabel.BackgroundColor3 = bgColor
     
     spawn(function()
         wait(0.1)
         if statusLabel and statusLabel.Parent then
             statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
             statusLabel.Text = "Status: Ready | Tab " .. currentTab
-            statusLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
         end
     end)
 end
@@ -289,90 +286,8 @@ local function clearServerHistory()
     updateStatusDisplay("History cleared", true)
 end
 
-local function serverHopToMostPlayers()
-    updateStatusDisplay("Finding most populated server...", true)
-    
-    local scanningEffect = showScanningEffect()
-    
-    local gameId = game.PlaceId
-    local currentJobId = game.JobId
-    
-    usedServerIds[currentJobId] = os.time()
-    saveUsedServers()
-    
-    local success, result = pcall(function()
-        local response = game:HttpGet("https://games.roblox.com/v1/games/" .. gameId .. "/servers/Public?sortOrder=Desc&limit=100")
-        return HttpService:JSONDecode(response)
-    end)
-    
-    if not success then
-        if scanningEffect then scanningEffect:Destroy() end
-        showNotification("🌐 API Error - Using fallback", true)
-        wait(1)
-        TeleportService:Teleport(gameId, player)
-        return
-    end
-    
-    if result and result.data then
-        local availableServers = {}
-        
-        for _, server in pairs(result.data) do
-            if server.id ~= currentJobId and not usedServerIds[server.id] then
-                local playerCount = server.playing or 0
-                local maxPlayers = server.maxPlayers or 50
-                
-                if playerCount >= 1 and playerCount <= (maxPlayers - 1) then
-                    table.insert(availableServers, {
-                        id = server.id,
-                        players = playerCount
-                    })
-                end
-            end
-        end
-        
-        if #availableServers > 0 then
-            table.sort(availableServers, function(a, b)
-                return a.players > b.players
-            end)
-            
-            local targetServer = availableServers[1]
-            
-            if scanningEffect then scanningEffect:Destroy() end
-            showNotification("🚀 Joining most populated server (" .. targetServer.players .. " players)", true)
-            
-            usedServerIds[targetServer.id] = os.time()
-            saveUsedServers()
-            
-            wait(1)
-            
-            local teleportSuccess = pcall(function()
-                TeleportService:TeleportToPlaceInstance(gameId, targetServer.id, player)
-            end)
-            
-            if not teleportSuccess then
-                showNotification("❌ Teleport failed - Rejoining", false)
-                wait(1)
-                TeleportService:Teleport(gameId, player)
-            end
-            return
-        else
-            if scanningEffect then scanningEffect:Destroy() end
-            showNotification("🔄 No new servers - Clearing history", true)
-            usedServerIds = {}
-            saveUsedServers()
-            wait(1)
-            TeleportService:Teleport(gameId, player)
-        end
-    else
-        if scanningEffect then scanningEffect:Destroy() end
-        showNotification("🌐 Server list issue - Rejoining", true)
-        wait(1)
-        TeleportService:Teleport(gameId, player)
-    end
-end
-
-local function serverHopToLeastPlayers()
-    updateStatusDisplay("Finding least populated server...", true)
+local function smartServerHop()
+    updateStatusDisplay("Finding new server...", true)
     
     local scanningEffect = showScanningEffect()
     
@@ -403,7 +318,80 @@ local function serverHopToLeastPlayers()
                 local playerCount = server.playing or 0
                 local maxPlayers = server.maxPlayers or 50
                 
-                if playerCount >= 1 and playerCount <= (maxPlayers - 1) then
+                -- SADECE KALABALIK SUNUCULARA GİT (en az 10 oyuncu)
+                if playerCount >= 10 and playerCount <= (maxPlayers - 5) then
+                    table.insert(availableServers, {
+                        id = server.id,
+                        players = playerCount
+                    })
+                end
+            end
+        end
+        
+        if #availableServers > 0 then
+            -- EN KALABALIK SUNUCULARI ÖNE AL
+            table.sort(availableServers, function(a, b)
+                return a.players > b.players
+            end)
+            
+            -- İLK 3 KALABALIK SUNUCUDAN RASTGELE BİRİNİ SEÇ
+            local topServers = {}
+            for i = 1, math.min(3, #availableServers) do
+                table.insert(topServers, availableServers[i])
+            end
+            
+            local targetServer = topServers[math.random(1, #topServers)]
+            
+            if scanningEffect then scanningEffect:Destroy() end
+            showNotification("🚀 Joining server (" .. targetServer.players .. " players)", true)
+            
+            usedServerIds[targetServer.id] = os.time()
+            saveUsedServers()
+            
+            wait(1)
+            
+            local teleportSuccess = pcall(function()
+                TeleportService:TeleportToPlaceInstance(gameId, targetServer.id, player)
+            end)
+            
+            if not teleportSuccess then
+                showNotification("❌ Teleport failed - Trying another server", false)
+                -- BAŞARISIZ OLURSA DİĞER SUNUCULARI DENE
+                for _, server in ipairs(availableServers) do
+                    if server.id ~= targetServer.id then
+                        local retrySuccess = pcall(function()
+                            TeleportService:TeleportToPlaceInstance(gameId, server.id, player)
+                        end)
+                        if retrySuccess then
+                            return
+                        end
+                    end
+                end
+                showNotification("❌ All servers failed - Rejoining", false)
+                wait(1)
+                TeleportService:Teleport(gameId, player)
+            end
+        else
+            if scanningEffect then scanningEffect:Destroy() end
+            showNotification("🔄 No suitable servers found", true)
+            updateStatusDisplay("No servers found", false)
+        end
+    else
+        if scanningEffect then scanningEffect:Destroy() end
+        showNotification("🌐 Server list issue", true)
+        updateStatusDisplay("API Error", false)
+    end
+end
+    
+    if result and result.data then
+        local availableServers = {}
+        
+        for _, server in pairs(result.data) do
+            if server.id ~= currentJobId and not usedServerIds[server.id] then
+                local playerCount = server.playing or 0
+                local maxPlayers = server.maxPlayers or 50
+                
+                if playerCount >= 10 and playerCount <= (maxPlayers - 5) then
                     table.insert(availableServers, {
                         id = server.id,
                         players = playerCount
@@ -414,13 +402,13 @@ local function serverHopToLeastPlayers()
         
         if #availableServers > 0 then
             table.sort(availableServers, function(a, b)
-                return a.players < b.players
+                return a.players > b.players
             end)
             
             local targetServer = availableServers[1]
             
             if scanningEffect then scanningEffect:Destroy() end
-            showNotification("🚀 Joining least populated server (" .. targetServer.players .. " players)", true)
+            showNotification("🚀 Joining server (" .. targetServer.players .. " players)", true)
             
             usedServerIds[targetServer.id] = os.time()
             saveUsedServers()
@@ -503,7 +491,7 @@ end
 local function getSystemInfo()
     local info = {}
     
-    local gameName = "Steal-a-Brainrot"
+    local gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
     table.insert(info, "🎮 " .. gameName)
     table.insert(info, "📍 ID: " .. tostring(game.PlaceId))
     
@@ -518,7 +506,6 @@ local function getSystemInfo()
     
     table.insert(info, "⚡ v1.8")
     table.insert(info, "💾 History: " .. countTable(usedServerIds))
-    table.insert(info, "🔍 VortexScan Systeam v2")
     
     return info
 end
@@ -826,11 +813,10 @@ local buttons = {
         updateStatusDisplay("Kicking...", true)
         player:Kick("Vortex Security")
     end},
-    {text = "👥 LHOP", color = Color3.fromRGB(60, 140, 200), pos = 25, size = 22, width = 0.5, xpos = 0, func = serverHopToLeastPlayers},
-    {text = "👤 BHOP", color = Color3.fromRGB(40, 120, 180), pos = 25, size = 22, width = 0.5, xpos = 0.5, func = serverHopToMostPlayers},
-    {text = "🔁 REJN", color = Color3.fromRGB(80, 160, 80), pos = 50, size = 22, func = rejoinGame},
-    {text = "🔄 REST", color = Color3.fromRGB(160, 120, 60), pos = 75, size = 22, func = resetCharacter},
-    {text = "🗑️ CLEAR", color = Color3.fromRGB(120, 80, 160), pos = 100, size = 22, func = clearServerHistory}
+    {text = "🔄 HOP", color = Color3.fromRGB(60, 140, 200), pos = 25, size = 22, func = smartServerHop},
+    {text = "🔁 REJN", color = Color3.fromRGB(80, 160, 80), pos = 50, size = 22, width = 0.5, xpos = 0, func = rejoinGame},
+    {text = "🔄 REST", color = Color3.fromRGB(160, 120, 60), pos = 50, size = 22, width = 0.5, xpos = 0.5, func = resetCharacter},
+    {text = "🗑️ CLEAR", color = Color3.fromRGB(120, 80, 160), pos = 75, size = 22, func = clearServerHistory}
 }
 
 for _, btnConfig in ipairs(buttons) do
