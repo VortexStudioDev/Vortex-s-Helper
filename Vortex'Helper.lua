@@ -1,616 +1,1421 @@
--- Vortex Steal Tools - Edição Completa
--- Integração: Desync Body, Ice Block, Speed Booster, 3rd Floor, Kill, Kick
--- Data da modificação: 2025
--- Design otimizado e compacto
+local Http = game:GetService("HttpService")
+local TPS = game:GetService("TeleportService")
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local TextService = game:GetService("TextService")
+local Workspace = game:GetService("Workspace")
+local CoreGui = game:GetService("CoreGui")
 
-----------------------------------------------------------------
--- SERVICES
-----------------------------------------------------------------
-local Players = game:GetService('Players')
-local ReplicatedStorage = game:GetService('ReplicatedStorage')
-local UserInputService = game:GetService('UserInputService')
-local Workspace = game:GetService('Workspace')
-local RunService = game:GetService('RunService')
-local TweenService = game:GetService('TweenService')
+while not Players.LocalPlayer do task.wait() end
 local player = Players.LocalPlayer
-local playerGui = player:WaitForChild('PlayerGui')
+local ALLOWED_PLACE_ID = 109983668079237
+local RETRY_DELAY = 0.1
+local SETTINGS_FILE = "ServerHopperSettings.json"
+local GUI_STATE_FILE = "ServerHopperGUIState.json"
+local API_STATE_FILE = "ServerHopperAPIState.json"
 
-----------------------------------------------------------------
--- LIMPA GUI ANTIGA
-----------------------------------------------------------------
-do
-    local old = playerGui:FindFirstChild('VortexStealTools')
-    if old then
-        pcall(function()
-            old:Destroy()
-        end)
+local settings = {
+    minGeneration = 1000000,
+    targetNames = {},
+    blacklistNames = {},
+    targetRarity = "",
+    targetMutation = "",
+    minPlayers = 2,
+    sortOrder = "Desc",
+    autoStart = true,
+    customSoundId = "rbxassetid://9167433166",
+    hopCount = 0,
+    recentVisited = {},
+    notificationDuration = 4
+}
+
+local guiState = {
+    isMinimized = false,
+    position = {
+        XScale = 0.5,
+        XOffset = -125,
+        YScale = 0.6,
+        YOffset = -150
+    }
+}
+
+local apiState = {
+    mainApiUses = 0,
+    cachedServers = {},
+    lastCacheUpdate = 0,
+    useCachedServers = false
+}
+
+local isRunning = false
+local currentConnection = nil
+local foundPodiumsData = {}
+local monitoringConnection = nil
+local autoHopping = false
+
+local folderExists = game.Workspace:FindFirstChild("FolderHopperCheck") ~= nil
+local alreadyHereFolderExists = game.Workspace:FindFirstChild("Sigmahopper") ~= nil
+
+local mutationColors = {
+    Gold = Color3.fromRGB(255, 215, 0),
+    Diamond = Color3.fromRGB(0, 255, 255),
+    Lava = Color3.fromRGB(255, 100, 0),
+    Bloodrot = Color3.fromRGB(255, 0, 0),
+    Candy = Color3.fromRGB(255, 182, 193),
+    Normal = Color3.fromRGB(255, 255, 255),
+    Default = Color3.fromRGB(255, 255, 255)
+}
+
+local cachedPlots = nil
+local cachedPodiums = nil
+local lastPodiumCheck = 0
+local PODIUM_CACHE_DURATION = 1
+
+local function checkAPIAvailability()
+    local mainAPI = "https://games.roblox.com/v1/games/" .. ALLOWED_PLACE_ID .. "/servers/Public?sortOrder=" .. settings.sortOrder .. "&limit=100&excludeFullGames=true"
+    local success, response = pcall(function() return game:HttpGet(mainAPI) end)
+    return success and response ~= ""
+end
+
+local function saveSettings()
+    local success, error = pcall(function()
+        writefile(SETTINGS_FILE, Http:JSONEncode(settings))
+    end)
+    if not success then
+        print("Failed to save settings:", error)
     end
 end
 
-----------------------------------------------------------------
--- CRIAR SCREEN GUI
-----------------------------------------------------------------
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "VortexStealTools"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = playerGui
-
--- Botão flutuante principal
-local toggleButton = Instance.new("TextButton")
-toggleButton.Size = UDim2.new(0, 45, 0, 45)
-toggleButton.Position = UDim2.new(0, 20, 0.5, -22.5)
-toggleButton.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-toggleButton.BackgroundTransparency = 0.1
-toggleButton.Text = "V"
-toggleButton.Font = Enum.Font.GothamBold
-toggleButton.TextSize = 18
-toggleButton.TextColor3 = Color3.fromRGB(100, 200, 255)
-toggleButton.Active = true
-toggleButton.Draggable = true
-toggleButton.Parent = screenGui
-
-local uiCorner = Instance.new("UICorner")
-uiCorner.CornerRadius = UDim.new(1, 0)
-uiCorner.Parent = toggleButton
-
-local buttonGlow = Instance.new("UIStroke")
-buttonGlow.Color = Color3.fromRGB(100, 150, 255)
-buttonGlow.Thickness = 2
-buttonGlow.Transparency = 0.3
-buttonGlow.Parent = toggleButton
-
--- Frame principal (design compacto)
-local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 140, 0, 220)
-mainFrame.Position = UDim2.new(0.5, -70, 0.5, -110)
-mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
-mainFrame.BackgroundTransparency = 0.1
-mainFrame.BorderSizePixel = 0
-mainFrame.Active = true
-mainFrame.Draggable = true
-mainFrame.Visible = false
-mainFrame.Parent = screenGui
-
-local frameCorner = Instance.new("UICorner")
-frameCorner.CornerRadius = UDim.new(0, 12)
-frameCorner.Parent = mainFrame
-
-local frameStroke = Instance.new("UIStroke")
-frameStroke.Color = Color3.fromRGB(80, 120, 255)
-frameStroke.Thickness = 2
-frameStroke.Transparency = 0.2
-frameStroke.Parent = mainFrame
-
--- Header
-local header = Instance.new("Frame")
-header.Size = UDim2.new(1, 0, 0, 28)
-header.BackgroundColor3 = Color3.fromRGB(25, 25, 40)
-header.BorderSizePixel = 0
-header.Parent = mainFrame
-
-local headerCorner = Instance.new("UICorner")
-headerCorner.CornerRadius = UDim.new(0, 12)
-headerCorner.Parent = header
-
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(1, 0, 1, 0)
-titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "VORTEX TOOLS"
-titleLabel.Font = Enum.Font.GothamBold
-titleLabel.TextSize = 14
-titleLabel.TextColor3 = Color3.fromRGB(100, 200, 255)
-titleLabel.Parent = header
-
--- Container de botões
-local buttonContainer = Instance.new("Frame")
-buttonContainer.Size = UDim2.new(1, -10, 1, -35)
-buttonContainer.Position = UDim2.new(0, 5, 0, 32)
-buttonContainer.BackgroundTransparency = 1
-buttonContainer.Parent = mainFrame
-
--- Layout
-local layout = Instance.new("UIListLayout")
-layout.Padding = UDim.new(0, 4)
-layout.FillDirection = Enum.FillDirection.Vertical
-layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-layout.VerticalAlignment = Enum.VerticalAlignment.Top
-layout.SortOrder = Enum.SortOrder.LayoutOrder
-layout.Parent = buttonContainer
-
-layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-    mainFrame.Size = UDim2.new(0, 140, 0, layout.AbsoluteContentSize.Y + 40)
-end)
-
-----------------------------------------------------------------
--- FUNÇÃO PARA CRIAR BOTÕES
-----------------------------------------------------------------
-local function createButton(name)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(1, 0, 0, 26)
-    button.Text = name
-    button.Font = Enum.Font.Gotham
-    button.TextSize = 12
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-    button.AutoButtonColor = false
-    button.ZIndex = 2
-    
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 8)
-    corner.Parent = button
-    
-    local buttonStroke = Instance.new("UIStroke")
-    buttonStroke.Color = Color3.fromRGB(80, 100, 200)
-    buttonStroke.Thickness = 1
-    buttonStroke.Transparency = 0.4
-    buttonStroke.Parent = button
-    
-    -- Efeitos hover
-    button.MouseEnter:Connect(function()
-        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 90)}):Play()
+local function loadSettings()
+    local success, data = pcall(function()
+        return readfile(SETTINGS_FILE)
     end)
-    
-    button.MouseLeave:Connect(function()
-        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(40, 40, 60)}):Play()
-    end)
-    
-    button.Parent = buttonContainer
-    return button
+    if success then
+        local loadedSettings = Http:JSONDecode(data)
+        for key, value in pairs(loadedSettings) do
+            if settings[key] ~= nil then
+                settings[key] = value
+            end
+        end
+    end
 end
 
--- Criar botões
-local iceButton = createButton("🧊 ICE BLOCK")
-local speedButton = createButton("⚡ SPEED BOOSTER") 
-local floorButton = createButton("🏗️ 3RD FLOOR")
-local desyncButton = createButton("🌀 DESYNC")
-local killButton = createButton("💀 KILL")
-local kickButton = createButton("🚪 KICK")
-
-----------------------------------------------------------------
--- TOGGLE UI
-----------------------------------------------------------------
-local uiVisible = false
-toggleButton.MouseButton1Click:Connect(function()
-    uiVisible = not uiVisible
-    mainFrame.Visible = uiVisible
-    
-    if uiVisible then
-        toggleButton.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
-    else
-        toggleButton.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+local function saveGUIState()
+    local success, error = pcall(function()
+        writefile(GUI_STATE_FILE, Http:JSONEncode(guiState))
+    end)
+    if not success then
+        print("Failed to save GUI state:", error)
     end
-end)
+end
 
-----------------------------------------------------------------
--- ICE BLOCK (Antigo Teleguiado)
-----------------------------------------------------------------
-do
-    local RunService = game:GetService("RunService")
-    local iceOn = false
-    local iceConn
+local function loadGUIState()
+    local success, data = pcall(function()
+        return readfile(GUI_STATE_FILE)
+    end)
+    if success then
+        local loadedState = Http:JSONDecode(data)
+        for key, value in pairs(loadedState) do
+            if guiState[key] ~= nil then
+                guiState[key] = value
+            end
+        end
+    end
+end
 
-    iceButton.MouseButton1Click:Connect(function()
-        local char = player.Character or player.CharacterAdded:Wait()
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        iceOn = not iceOn
+local function saveAPIState()
+    local success, error = pcall(function()
+        writefile(API_STATE_FILE, Http:JSONEncode(apiState))
+    end)
+    if not success then
+        print("Failed to save API state:", error)
+    end
+end
+
+local function loadAPIState()
+    local success, data = pcall(function()
+        return readfile(API_STATE_FILE)
+    end)
+    if success then
+        local loadedState = Http:JSONDecode(data)
+        for key, value in pairs(loadedState) do
+            if apiState[key] ~= nil then
+                apiState[key] = value
+            end
+        end
+    end
+end
+
+local function showNotification(title, text)
+    _G.ShowInfoNotification(title, text, settings.notificationDuration or 4)
+end
+
+local function playFoundSound()
+    local sound = Instance.new("Sound")
+    sound.SoundId = settings.customSoundId
+    sound.Volume = 1
+    sound.PlayOnRemove = true
+    sound.Parent = workspace
+    sound:Destroy()
+end
+
+local function extractNumber(str)
+    if not str then return 0 end
+    local numberStr = str:match("%$(.-)/s")
+    if not numberStr then return 0 end
+    numberStr = numberStr:gsub("%s", "")
+    local multiplier = 1
+    if numberStr:lower():find("k") then
+        multiplier = 1000
+        numberStr = numberStr:gsub("[kK]", "")
+    elseif numberStr:lower():find("m") then
+        multiplier = 1000000
+        numberStr = numberStr:gsub("[mM]", "")
+    elseif numberStr:lower():find("b") then
+        multiplier = 1000000000
+        numberStr = numberStr:gsub("[bB]", "")
+    end
+    return (tonumber(numberStr) or 0) * multiplier
+end
+
+local function getMutationTextAndColor(mutation)
+    if not mutation or mutation.Visible == false then
+        return "Normal", Color3.fromRGB(255, 255, 255), false
+    end
+    local name = mutation.Text
+    if name == "" then
+        return "Normal", Color3.fromRGB(255, 255, 255), false
+    end
+    if name == "Rainbow" then
+        return "Rainbow", Color3.new(1, 1, 1), true
+    end
+    local color = mutationColors[name] or Color3.fromRGB(255, 255, 255)
+    return name, color, false
+end
+
+local function isPlayerBase(plot)
+    local sign = plot:FindFirstChild("PlotSign")
+    if sign then
+        local yourBase = sign:FindFirstChild("YourBase")
+        if yourBase and yourBase.Enabled then
+            return true
+        end
+    end
+    return false
+end
+
+local function getAllPodiums()
+    if cachedPodiums and tick() - lastPodiumCheck < PODIUM_CACHE_DURATION then
+        return cachedPodiums
+    end
+    
+    local podiums = {}
+    
+    if not cachedPlots then
+        cachedPlots = Workspace:FindFirstChild("Plots")
+    end
+    
+    if not cachedPlots then 
+        lastPodiumCheck = tick()
+        cachedPodiums = podiums
+        return podiums 
+    end
+    
+    local plotChildren = cachedPlots:GetChildren()
+    
+    for i = 1, #plotChildren do
+        local plot = plotChildren[i]
         
-        if iceOn then
-            iceButton.BackgroundColor3 = Color3.fromRGB(0, 150, 200)
-            iceButton.Text = "🧊 ICE [ON]"
-            local hrp = char:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                iceConn = RunService.RenderStepped:Connect(function()
-                    if iceOn and hrp then
-                        hrp.Velocity = workspace.CurrentCamera.CFrame.LookVector * 25
-                    end
-                end)
-            end
-        else
-            if iceConn then 
-                iceConn:Disconnect() 
-                iceConn = nil 
-            end
-            if hum then 
-                hum:ChangeState(Enum.HumanoidStateType.GettingUp) 
-            end
-            iceButton.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-            iceButton.Text = "🧊 ICE BLOCK"
-        end
-    end)
-end
-
-----------------------------------------------------------------
--- SPEED BOOSTER
-----------------------------------------------------------------
-do
-    local RunService = game:GetService("RunService")
-    local speedConn
-    local baseSpeed = 27
-    local active = false
-
-    local function GetCharacter()
-        local Char = player.Character or player.CharacterAdded:Wait()
-        local HRP = Char:WaitForChild("HumanoidRootPart")
-        local Hum = Char:FindFirstChildOfClass("Humanoid")
-        return Char, HRP, Hum
-    end
-
-    local function getMovementInput()
-        local Char, HRP, Hum = GetCharacter()
-        if not Char or not HRP or not Hum then return Vector3.new(0,0,0) end
-        local moveVector = Hum.MoveDirection
-        if moveVector.Magnitude > 0.1 then
-            return Vector3.new(moveVector.X, 0, moveVector.Z).Unit
-        end
-        return Vector3.new(0,0,0)
-    end
-
-    local function startSpeedControl()
-        if speedConn then return end
-        speedConn = RunService.Heartbeat:Connect(function()
-            local Char, HRP, Hum = GetCharacter()
-            if not Char or not HRP or not Hum then return end
-            local inputDirection = getMovementInput()
-            if inputDirection.Magnitude > 0 then
-                HRP.AssemblyLinearVelocity = Vector3.new(
-                    inputDirection.X * baseSpeed,
-                    HRP.AssemblyLinearVelocity.Y,
-                    inputDirection.Z * baseSpeed
-                )
-            else
-                HRP.AssemblyLinearVelocity = Vector3.new(0, HRP.AssemblyLinearVelocity.Y, 0)
-            end
-        end)
-    end
-
-    local function stopSpeedControl()
-        if speedConn then 
-            speedConn:Disconnect() 
-            speedConn = nil 
-        end
-        local Char, HRP = GetCharacter()
-        if HRP then 
-            HRP.AssemblyLinearVelocity = Vector3.new(0, HRP.AssemblyLinearVelocity.Y, 0) 
-        end
-    end
-
-    speedButton.MouseButton1Click:Connect(function()
-        active = not active
-        if active then
-            startSpeedControl()
-            speedButton.BackgroundColor3 = Color3.fromRGB(0, 180, 80)
-            speedButton.Text = "⚡ SPEED [ON]"
-        else
-            stopSpeedControl()
-            speedButton.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-            speedButton.Text = "⚡ SPEED BOOSTER"
-        end
-    end)
-end
-
-----------------------------------------------------------------
--- 3RD FLOOR
-----------------------------------------------------------------
-do
-    local runService = game:GetService("RunService")
-    local platform, connection
-    local active, isRising = false, false
-    local RISE_SPEED = 15
-
-    local function destroyPlatform()
-        if platform then 
-            platform:Destroy() 
-            platform = nil 
-        end
-        active = false 
-        isRising = false
-        if connection then 
-            connection:Disconnect() 
-            connection = nil 
-        end
-        floorButton.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-        floorButton.Text = "🏗️ 3RD FLOOR"
-    end
-
-    local function canRise()
-        if not platform then return false end
-        local origin = platform.Position + Vector3.new(0, platform.Size.Y/2, 0)
-        local direction = Vector3.new(0, 2, 0)
-        local rayParams = RaycastParams.new()
-        rayParams.FilterDescendantsInstances = {platform, player.Character}
-        rayParams.FilterType = Enum.RaycastFilterType.Blacklist
-        return not workspace:Raycast(origin, direction, rayParams)
-    end
-
-    local function setup3rdFloor(character)
-        local root = character:WaitForChild("HumanoidRootPart")
-        floorButton.MouseButton1Click:Connect(function()
-            active = not active
-            if active then
-                platform = Instance.new("Part")
-                platform.Size = Vector3.new(6, 0.5, 6)
-                platform.Anchored = true
-                platform.CanCollide = true
-                platform.Transparency = 0.3
-                platform.Material = Enum.Material.Neon
-                platform.Color = Color3.fromRGB(255, 200, 0)
-                platform.Position = root.Position - Vector3.new(0, root.Size.Y/2 + platform.Size.Y/2, 0)
-                platform.Parent = workspace
-
-                isRising = true
-                connection = runService.Heartbeat:Connect(function(dt)
-                    if platform and active then
-                        local cur = platform.Position
-                        local newXZ = Vector3.new(root.Position.X, cur.Y, root.Position.Z)
-                        if isRising and canRise() then
-                            platform.Position = newXZ + Vector3.new(0, dt * RISE_SPEED, 0)
-                        else
-                            isRising = false
-                            platform.Position = newXZ
+        if not isPlayerBase(plot) then
+            -- Original search method
+            local animalPods = plot:FindFirstChild("AnimalPodiums")
+            if animalPods then
+                local podChildren = animalPods:GetChildren()
+                for j = 1, #podChildren do
+                    local pod = podChildren[j]
+                    local base = pod:FindFirstChild("Base")
+                    if base then
+                        local spawn = base:FindFirstChild("Spawn")
+                        if spawn then
+                            local attach = spawn:FindFirstChild("Attachment")
+                            if attach then
+                                local animalOverhead = attach:FindFirstChild("AnimalOverhead")
+                                if animalOverhead and (base:IsA("BasePart") or base:IsA("Model")) then
+                                    table.insert(podiums, { 
+                                        overhead = animalOverhead, 
+                                        base = base,
+                                        pod = pod,
+                                        plot = plot
+                                    })
+                                end
+                            end
                         end
                     end
-                end)
-                floorButton.BackgroundColor3 = Color3.fromRGB(200, 150, 0)
-                floorButton.Text = "🏗️ 3RD FLOOR [ON]"
-            else
-                destroyPlatform()
+                end
             end
-        end)
-        character:WaitForChild("Humanoid").Died:Connect(destroyPlatform)
-    end
-
-    if player.Character then 
-        setup3rdFloor(player.Character) 
-    end
-    player.CharacterAdded:Connect(setup3rdFloor)
-end
-
-----------------------------------------------------------------
--- DESYNC BODY (Anti-Hit)
-----------------------------------------------------------------
-local antiHitActive = false
-local clonerActive = false
-local desyncActive = false
-local cloneListenerConn
-local antiHitRunning = false
-
-local function safeDisconnectConn(conn)
-    if conn and typeof(conn) == "RBXScriptConnection" then
-        pcall(function()
-            conn:Disconnect()
-        end)
-    end
-end
-
-local function trySetFlag()
-    pcall(function()
-        if setfflag then
-            setfflag("WorldStepMax", "-99999999999999")
-        end
-    end)
-end
-
-local function resetFlag()
-    pcall(function()
-        if setfflag then
-            setfflag("WorldStepMax", "1")
-        end
-    end)
-end
-
-local function activateDesync()
-    if desyncActive then return end
-    desyncActive = true
-    trySetFlag()
-end
-
-local function deactivateDesync()
-    if not desyncActive then return end
-    desyncActive = false
-    resetFlag()
-end
-
-local function activateClonerDesync(callback)
-    if clonerActive then
-        if callback then callback() end
-        return
-    end
-    clonerActive = true
-
-    local Backpack = player:FindFirstChildOfClass("Backpack")
-    local function equipQuantumCloner()
-        if not Backpack then return end
-        local tool = Backpack:FindFirstChild("Quantum Cloner")
-        if tool then
-            local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-            if humanoid then
-                humanoid:EquipTool(tool)
+            
+            -- Alternative search method
+            if plot:IsA("Model") then
+                for _, model in pairs(plot:GetChildren()) do
+                    if model:IsA("Model") then
+                        for _, obj in pairs(model:GetDescendants()) do
+                            if obj:IsA("Attachment") and obj.Name == "OVERHEAD_ATTACHMENT" then
+                                local overhead = obj:FindFirstChild("AnimalOverhead")
+                                if overhead then
+                                    -- Find a suitable base, perhaps the parent model or something
+                                    local base = model:FindFirstChild("Base") or model
+                                    if base and (base:IsA("BasePart") or base:IsA("Model")) then
+                                        table.insert(podiums, { 
+                                            overhead = overhead, 
+                                            base = base,
+                                            pod = model,
+                                            plot = plot
+                                        })
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
             end
         end
-    end
-    equipQuantumCloner()
-
-    local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
-    if REUseItem then
-        REUseItem:FireServer()
     end
     
-    local REQuantumClonerOnTeleport = ReplicatedStorage.Packages.Net:FindFirstChild("RE/QuantumCloner/OnTeleport")
-    if REQuantumClonerOnTeleport then
-        REQuantumClonerOnTeleport:FireServer()
-    end
-
-    local cloneName = tostring(player.UserId) .. "_Clone"
-    cloneListenerConn = Workspace.ChildAdded:Connect(function(obj)
-        if obj.Name == cloneName and obj:IsA("Model") then
-            if cloneListenerConn then
-                cloneListenerConn:Disconnect()
-            end
-            cloneListenerConn = nil
-
-            task.wait(1.6)
-            if callback then
-                pcall(callback)
-            end
-        end
-    end)
+    lastPodiumCheck = tick()
+    cachedPodiums = podiums
+    return podiums
 end
 
-local function deactivateClonerDesync()
-    if not clonerActive then
-        local existingClone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
-        if existingClone then
-            pcall(function()
-                existingClone:Destroy()
-            end)
-        end
-        clonerActive = false
-        return
+local function getPrimaryPartPosition(obj)
+    if not obj then return nil end
+    if obj:IsA("Model") and obj.PrimaryPart then
+        return obj.PrimaryPart.Position
+    elseif obj:IsA("BasePart") then
+        return obj.Position
     end
-
-    clonerActive = false
-    local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
-    if clone then
-        pcall(function()
-            clone:Destroy()
-        end)
-    end
-
-    if cloneListenerConn then
-        cloneListenerConn:Disconnect()
-        cloneListenerConn = nil
-    end
+    return nil
 end
 
-local function executeAntiHit()
-    if antiHitRunning then return end
-    antiHitRunning = true
-
-    activateDesync()
-    task.wait(0.1)
-    activateClonerDesync(function()
-        deactivateDesync()
-        antiHitRunning = false
-        antiHitActive = true
-        desyncButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
-        desyncButton.Text = "🌀 DESYNC [ON]"
-    end)
-end
-
-local function deactivateAntiHit()
-    if antiHitRunning then
-        if cloneListenerConn then
-            cloneListenerConn:Disconnect()
-            cloneListenerConn = nil
-        end
-        antiHitRunning = false
-    end
-
-    deactivateClonerDesync()
-    deactivateDesync()
-    antiHitActive = false
-
-    local possibleClone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
-    if possibleClone then
-        pcall(function()
-            possibleClone:Destroy()
-        end)
-    end
-
-    desyncButton.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-    desyncButton.Text = "🌀 DESYNC"
-end
-
-desyncButton.MouseButton1Click:Connect(function()
-    if antiHitRunning then return end
+local function getServersFromAPI(baseUrl, isMainAPI)
+    local servers = {}
+    local cursor = ""
+    local maxPages = 3
     
-    if antiHitActive then
-        deactivateAntiHit()
+    if isMainAPI then
+        apiState.mainApiUses = apiState.mainApiUses + 1
+        saveAPIState()
+    end
+    
+    for page = 1, maxPages do
+        local url = baseUrl
+        if cursor ~= "" then url = url .. "&cursor=" .. cursor end
+        
+        local success, response = pcall(function() return game:HttpGet(url) end)
+        if not success then break end
+        
+        local body = Http:JSONDecode(response)
+        if not body.data then break end
+        
+        for _, v in body.data do
+            if v.playing and v.maxPlayers and v.playing >= settings.minPlayers and v.playing < v.maxPlayers and v.id ~= game.JobId and not table.find(settings.recentVisited, v.id) then
+                table.insert(servers, v.id)
+                if not table.find(apiState.cachedServers, v.id) then
+                    table.insert(apiState.cachedServers, v.id)
+                end
+            end
+        end
+        
+        cursor = body.nextPageCursor or ""
+        if cursor == "" then break end
+    end
+    
+    while #apiState.cachedServers > 300 do
+        table.remove(apiState.cachedServers, 1)
+    end
+    
+    apiState.lastCacheUpdate = tick()
+    saveAPIState()
+    return servers
+end
+
+local function getCachedServers()
+    local availableServers = {}
+    local recentCount = math.min(#settings.recentVisited, 5)
+    local recentServers = {}
+    
+    for i = #settings.recentVisited - recentCount + 1, #settings.recentVisited do
+        if settings.recentVisited[i] then
+            table.insert(recentServers, settings.recentVisited[i])
+        end
+    end
+    
+    for _, serverId in ipairs(apiState.cachedServers) do
+        if not table.find(recentServers, serverId) and serverId ~= game.JobId then
+            table.insert(availableServers, serverId)
+        end
+    end
+    
+    return availableServers
+end
+
+local function findClosestModel(podiumBase, models)
+    if not podiumBase then return nil end
+    local podiumPos = getPrimaryPartPosition(podiumBase)
+    if not podiumPos then return nil end
+    
+    local closestModel = nil
+    local minDistance = math.huge
+    
+    for i = 1, #models do
+        local model = models[i]
+        local modelPos = getPrimaryPartPosition(model)
+        if modelPos then
+            local distance = (podiumPos - modelPos).Magnitude
+            if distance < minDistance then
+                minDistance = distance
+                closestModel = model
+            end
+        end
+    end
+    
+    return closestModel
+end
+
+local function isStolenPodium(overhead)
+    if not overhead then return false end
+    local stolenLabel = overhead:FindFirstChild("Stolen")
+    if stolenLabel and stolenLabel:IsA("TextLabel") then
+        return string.upper(stolenLabel.Text) == "FUSING"
+    end
+    return false
+end
+
+local function getAvailableServers()
+    if apiState.mainApiUses >= 3 or apiState.useCachedServers then
+        if not checkAPIAvailability() then
+            apiState.useCachedServers = true
+            saveAPIState()
+            return getCachedServers()
+        else
+            apiState.useCachedServers = false
+            apiState.mainApiUses = 0
+            saveAPIState()
+        end
+    end
+    
+    local mainAPI = "https://games.roblox.com/v1/games/" .. ALLOWED_PLACE_ID .. "/servers/Public?sortOrder=" .. settings.sortOrder .. "&limit=100&excludeFullGames=true"
+    local servers = getServersFromAPI(mainAPI, true)
+    
+    if #servers > 0 then return servers end
+    
+    apiState.useCachedServers = true
+    saveAPIState()
+    return getCachedServers()
+end
+
+local function matchesFilters(labels, overhead)
+    if isStolenPodium(overhead) then
+        return false
+    end
+    
+    local genValue = extractNumber(labels.Generation)
+    local hasTargetName = false
+    
+    if #settings.targetNames > 0 then
+        for i = 1, #settings.targetNames do
+            local name = settings.targetNames[i]
+            if name ~= "" and string.find(string.lower(labels.DisplayName), string.lower(name)) then
+                hasTargetName = true
+                break
+            end
+        end
+        if not hasTargetName then return false end
+    end
+    
+    if settings.targetMutation ~= "" then
+        if string.lower(labels.Mutation) ~= string.lower(settings.targetMutation) then
+            return false
+        end
+        return true
+    end
+    
+    if hasTargetName then
+        return true
+    end
+    
+    if genValue < settings.minGeneration then
+        return false
+    end
+    
+    if #settings.blacklistNames > 0 then
+        for i = 1, #settings.blacklistNames do
+            local name = settings.blacklistNames[i]
+            if name ~= "" and string.find(string.lower(labels.DisplayName), string.lower(name)) then
+                return false
+            end
+        end
+    end
+    
+    if settings.targetRarity ~= "" then
+        if string.lower(labels.Rarity) ~= string.lower(settings.targetRarity) then
+            return false
+        end
+    end
+    
+    return true
+end
+
+local function checkPodiumsForWebhooksAndFilters()
+    if game.PlaceId ~= ALLOWED_PLACE_ID then
+        return false, {}
+    end
+    
+    local podiums = getAllPodiums()
+    local filteredPodiums = {}
+    
+    local workspaceModels = {}
+    for _, child in ipairs(workspace:GetChildren()) do
+        if child:IsA("Model") then
+            table.insert(workspaceModels, child)
+        end
+    end
+    
+    for i = 1, #podiums do
+        local podium = podiums[i]
+        
+        if isStolenPodium(podium.overhead) then
+            continue
+        end
+        
+        local displayNameLabel = podium.overhead:FindFirstChild("DisplayName")
+        local genLabel = podium.overhead:FindFirstChild("Generation")
+        local rarityLabel = podium.overhead:FindFirstChild("Rarity")
+        
+        if displayNameLabel and genLabel and rarityLabel then
+            local mutation = podium.overhead:FindFirstChild("Mutation")
+            local mutText, _, _ = getMutationTextAndColor(mutation)
+            
+            local modelText = string.format("%s Generation: %s Mutation: %s Rarity: %s", 
+                displayNameLabel.Text, 
+                genLabel.Text, 
+                mutText, 
+                rarityLabel.Text)
+            
+            local genValue = extractNumber(genLabel.Text)
+            local displayName = displayNameLabel.Text
+            
+            local labels = {
+                DisplayName = displayNameLabel.Text,
+                Generation = genLabel.Text,
+                Mutation = mutText,
+                Rarity = rarityLabel.Text
+            }
+            
+            if matchesFilters(labels, podium.overhead) then
+                local closestModel = findClosestModel(podium.base, workspaceModels)
+                table.insert(filteredPodiums, { 
+                    base = podium.base, 
+                    labels = labels, 
+                    closestModel = closestModel, 
+                    overhead = podium.overhead,
+                    pod = podium.pod,
+                    plot = podium.plot
+                })
+            end
+        end
+    end
+    
+    return #filteredPodiums > 0, filteredPodiums
+end
+
+local function formatGeneration(genStr)
+    local genValue = extractNumber(genStr)
+    if genValue >= 1000000000 then
+        return string.format("%.1fB", genValue / 1000000000)
+    elseif genValue >= 1000000 then
+        return string.format("%.1fM", genValue / 1000000)
+    elseif genValue >= 1000 then
+        return string.format("%.1fK", genValue / 1000)
     else
-        executeAntiHit()
+        return tostring(genValue)
     end
-end)
+end
 
-player.CharacterAdded:Connect(function()
-    task.delay(0.3, function()
-        local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
-        if clone then
-            pcall(function()
-                clone:Destroy()
-            end)
+local function tryTeleportWithRetries()
+    if not isRunning then
+        return
+    end
+
+    local attempts = 0
+    local maxAttempts = 5
+    while attempts < maxAttempts and isRunning do
+        local servers = getAvailableServers()
+        if #servers == 0 then
+            task.wait(RETRY_DELAY)
+            attempts = attempts + 1
+            continue
+        end
+        local randomServer = servers[math.random(1, #servers)]
+        local success, err = pcall(function()
+            TPS:TeleportToPlaceInstance(ALLOWED_PLACE_ID, randomServer)
+        end)
+        if success then
+            return
+        else
+            if not isRunning then
+                return
+            end
+            task.wait(RETRY_DELAY)
+            attempts = attempts + 1
+        end
+    end
+    if isRunning then
+        isRunning = false
+    end
+end
+
+local function monitorFoundPodiums()
+    if monitoringConnection then
+        monitoringConnection:Disconnect()
+    end
+    
+    monitoringConnection = RunService.Heartbeat:Connect(function()
+        if not isRunning or #foundPodiumsData == 0 then return end
+        
+        local lostAny = false
+        local lostPodiums = {}
+        
+        for i = #foundPodiumsData, 1, -1 do
+            local data = foundPodiumsData[i]
+            if data and data.overhead and data.overhead.Parent then
+                local displayNameLabel = data.overhead:FindFirstChild("DisplayName")
+                if displayNameLabel and displayNameLabel.Text then
+                    local currentLabels = {
+                        DisplayName = displayNameLabel.Text,
+                        Generation = data.labels and data.labels.Generation or "Unknown",
+                        Mutation = data.labels and data.labels.Mutation or "Normal",
+                        Rarity = data.labels and data.labels.Rarity or "None"
+                    }
+                    
+                    if not matchesFilters(currentLabels, data.overhead) then
+                        table.insert(lostPodiums, data.labels.DisplayName)
+                        table.remove(foundPodiumsData, i)
+                        lostAny = true
+                    end
+                else
+                    table.insert(lostPodiums, data.labels.DisplayName)
+                    table.remove(foundPodiumsData, i)
+                    lostAny = true
+                end
+            else
+                if data then
+                    table.insert(lostPodiums, data.labels.DisplayName)
+                    table.remove(foundPodiumsData, i)
+                    lostAny = true
+                end
+            end
+        end
+        
+        if lostAny then
+            local lostText = ""
+            if #lostPodiums > 0 then
+                lostText = "Lost: " .. table.concat(lostPodiums, ", ")
+            else
+                lostText = "Lost podium(s)"
+            end
+            
+            showNotification("Not found", lostText)
         end
     end)
-end)
+end
 
-----------------------------------------------------------------
--- KILL BUTTON
-----------------------------------------------------------------
-killButton.MouseButton1Click:Connect(function()
-    local character = player.Character
-    if character then
-        local humanoid = character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.Health = 0
+
+local function runServerCheck()
+    if not isRunning then return end
+    
+    local foundPets, results = checkPodiumsForWebhooksAndFilters()
+    
+    if foundPets and #results > 0 then
+        foundPodiumsData = results
+        local displayResults = {}
+        for _, entry in ipairs(results) do
+            local genValue = extractNumber(entry.labels.Generation)
+            table.insert(displayResults, {entry = entry, gen = genValue})
+        end
+        table.sort(displayResults, function(a, b) return a.gen > b.gen end)
+        local foundText = ""
+        local numToShow = math.min(3, #displayResults)
+        for i = 1, numToShow do
+            local entry = displayResults[i].entry
+            local genFormatted = formatGeneration(entry.labels.Generation)
+            foundText = foundText .. entry.labels.DisplayName .. " (" .. genFormatted .. ")"
+            if i < numToShow then
+                foundText = foundText .. ", "
+            end
+        end
+        if #displayResults > 3 then
+            local extra = #displayResults - 3
+            foundText = foundText .. " and " .. extra .. " more..."
+        end
+        showNotification("Found", foundText)
+        playFoundSound()
+        monitorFoundPodiums()
+        return
+    end
+    
+    if not isRunning then return end
+    
+    settings.hopCount = settings.hopCount + 1
+    saveSettings()
+    tryTeleportWithRetries()
+end
+
+local function createTagList(parent, list, placeholder, onAdd, onRemove)
+    local container = Instance.new("Frame")
+    container.Size = UDim2.new(1, 0, 0, 22)
+    container.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    container.BorderSizePixel = 0
+    container.Parent = parent
+    
+    local containerCorner = Instance.new("UICorner")
+    containerCorner.CornerRadius = UDim.new(0, 4)
+    containerCorner.Parent = container
+    
+    local containerStroke = Instance.new("UIStroke")
+    containerStroke.Thickness = 1
+    containerStroke.Color = Color3.fromRGB(60, 60, 70)
+    containerStroke.Parent = container
+    
+    local scrollFrame = Instance.new("ScrollingFrame")
+    scrollFrame.Size = UDim2.new(1, -50, 1, 0)
+    scrollFrame.Position = UDim2.new(0, 4, 0, 0)
+    scrollFrame.BackgroundTransparency = 1
+    scrollFrame.BorderSizePixel = 0
+    scrollFrame.ScrollBarThickness = 0
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    scrollFrame.Parent = container
+    
+    local layout = Instance.new("UIListLayout")
+    layout.FillDirection = Enum.FillDirection.Horizontal
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    layout.Padding = UDim.new(0, 3)
+    layout.Parent = scrollFrame
+    
+    local textBox = Instance.new("TextBox")
+    textBox.Size = UDim2.new(0, 45, 1, 0)
+    textBox.Position = UDim2.new(1, -46, 0, 0)
+    textBox.BackgroundTransparency = 1
+    textBox.Text = ""
+    textBox.PlaceholderText = placeholder
+    textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 130)
+    textBox.TextSize = 9
+    textBox.Font = Enum.Font.Gotham
+    textBox.Parent = container
+    
+    local function updateCanvas()
+        local totalWidth = layout.AbsoluteContentSize.X
+        scrollFrame.CanvasSize = UDim2.new(0, totalWidth, 0, 0)
+    end
+    
+    local function createTag(text)
+        local tag = Instance.new("Frame")
+        tag.Size = UDim2.new(0, 0, 0, 16)
+        tag.BackgroundColor3 = Color3.fromRGB(50, 100, 150)
+        tag.BorderSizePixel = 0
+        tag.Parent = scrollFrame
+        
+        local tagCorner = Instance.new("UICorner")
+        tagCorner.CornerRadius = UDim.new(0, 8)
+        tagCorner.Parent = tag
+        
+        local tagLabel = Instance.new("TextLabel")
+        tagLabel.Size = UDim2.new(1, -14, 1, 0)
+        tagLabel.Position = UDim2.new(0, 3, 0, 0)
+        tagLabel.BackgroundTransparency = 1
+        tagLabel.Text = text
+        tagLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        tagLabel.TextSize = 8
+        tagLabel.Font = Enum.Font.Gotham
+        tagLabel.TextXAlignment = Enum.TextXAlignment.Left
+        tagLabel.Parent = tag
+        
+        local removeButton = Instance.new("TextButton")
+        removeButton.Size = UDim2.new(0, 12, 0, 12)
+        removeButton.Position = UDim2.new(1, -13, 0.5, -5)
+        removeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+        removeButton.BorderSizePixel = 0
+        removeButton.Text = "X"
+        removeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        removeButton.TextSize = 6
+        removeButton.Font = Enum.Font.GothamBold
+        removeButton.Parent = tag
+        
+        local removeCorner = Instance.new("UICorner")
+        removeCorner.CornerRadius = UDim.new(0, 6)
+        removeCorner.Parent = removeButton
+        
+        local textSize = TextService:GetTextSize(text, 8, Enum.Font.Gotham, Vector2.new(math.huge, 16))
+        tag.Size = UDim2.new(0, textSize.X + 18, 0, 16)
+        
+        removeButton.MouseButton1Click:Connect(function()
+            onRemove(text)
+            tag:Destroy()
+            updateCanvas()
+        end)
+        
+        updateCanvas()
+        return tag
+    end
+    
+    local function refreshTags()
+        for _, child in ipairs(scrollFrame:GetChildren()) do
+            if child:IsA("Frame") then
+                child:Destroy()
+            end
+        end
+        
+        for _, item in ipairs(list) do
+            createTag(item)
         end
     end
-end)
-
-----------------------------------------------------------------
--- KICK BUTTON  
-----------------------------------------------------------------
-kickButton.MouseButton1Click:Connect(function()
-    player:Kick("Vortex Steal Tools - Kicked by User")
-end)
-
-----------------------------------------------------------------
--- DRAG FUNCTION
-----------------------------------------------------------------
-local function makeDraggable(obj)
-    local dragging = false
-    local dragStart, startPos
     
-    obj.InputBegan:Connect(function(input)
+    textBox.FocusLost:Connect(function()
+        if textBox.Text ~= "" then
+            onAdd(textBox.Text:gsub("^%s*(.-)%s*$", "%1"))
+            textBox.Text = ""
+            refreshTags()
+        end
+    end)
+    
+    textBox.Focused:Connect(function()
+        TweenService:Create(containerStroke, TweenInfo.new(0.2), {Color = Color3.fromRGB(100, 150, 255)}):Play()
+    end)
+    
+    textBox.FocusLost:Connect(function()
+        TweenService:Create(containerStroke, TweenInfo.new(0.2), {Color = Color3.fromRGB(60, 60, 70)}):Play()
+    end)
+    
+    refreshTags()
+    return refreshTags
+end
+
+local function createSettingsGUI()
+    local playerGui = player:WaitForChild("PlayerGui")
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "ServerHopperGUI"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+    
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 250, 0, 300)
+    mainFrame.Position = UDim2.new(guiState.position.XScale, guiState.position.XOffset, guiState.position.YScale, guiState.position.YOffset)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Parent = screenGui
+    
+    local mainCorner = Instance.new("UICorner")
+    mainCorner.CornerRadius = UDim.new(0, 8)
+    mainCorner.Parent = mainFrame
+    
+    local mainStroke = Instance.new("UIStroke")
+    mainStroke.Thickness = 1
+    mainStroke.Color = Color3.fromRGB(50, 50, 60)
+    mainStroke.Parent = mainFrame
+    
+    local titleBar = Instance.new("Frame")
+    titleBar.Size = UDim2.new(1, 0, 0, 30)
+    titleBar.Position = UDim2.new(0, 0, 0, 0)
+    titleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+    titleBar.BorderSizePixel = 0
+    titleBar.Parent = mainFrame
+    
+    local titleCorner = Instance.new("UICorner")
+    titleCorner.CornerRadius = UDim.new(0, 8)
+    titleCorner.Parent = titleBar
+    
+    local titleFix = Instance.new("Frame")
+    titleFix.Size = UDim2.new(1, 0, 0, 15)
+    titleFix.Position = UDim2.new(0, 0, 1, -15)
+    titleFix.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
+    titleFix.BorderSizePixel = 0
+    titleFix.Parent = titleBar
+    
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, -80, 1, 0)
+    titleLabel.Position = UDim2.new(0, 8, 0, 0)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Text = "Server Hopper"
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.TextSize = 12
+    titleLabel.Font = Enum.Font.GothamBold
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    titleLabel.Parent = titleBar
+    
+    local isMinimized = guiState.isMinimized
+    local originalSize = mainFrame.Size
+    
+    local minimizeButton = Instance.new("TextButton")
+    minimizeButton.Size = UDim2.new(0, 22, 0, 22)
+    minimizeButton.Position = UDim2.new(1, -54, 0, 4)
+    minimizeButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    minimizeButton.BorderSizePixel = 0
+    minimizeButton.Text = isMinimized and "+" or "-"
+    minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    minimizeButton.TextSize = 10
+    minimizeButton.Font = Enum.Font.GothamBold
+    minimizeButton.Parent = titleBar
+    
+    local minimizeCorner = Instance.new("UICorner")
+    minimizeCorner.CornerRadius = UDim.new(0, 4)
+    minimizeCorner.Parent = minimizeButton
+    
+    local closeButton = Instance.new("TextButton")
+    closeButton.Size = UDim2.new(0, 22, 0, 22)
+    closeButton.Position = UDim2.new(1, -28, 0, 4)
+    closeButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+    closeButton.BorderSizePixel = 0
+    closeButton.Text = "X"
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeButton.TextSize = 10
+    closeButton.Font = Enum.Font.GothamBold
+    closeButton.Parent = titleBar
+    
+    local closeCorner = Instance.new("UICorner")
+    closeCorner.CornerRadius = UDim.new(0, 4)
+    closeCorner.Parent = closeButton
+    
+    local contentFrame = Instance.new("Frame")
+    contentFrame.Size = UDim2.new(1, 0, 1, -30)
+    contentFrame.Position = UDim2.new(0, 0, 0, 30)
+    contentFrame.BackgroundTransparency = 1
+    contentFrame.Visible = not isMinimized
+    contentFrame.Parent = mainFrame
+    
+    local scrollFrame = Instance.new("ScrollingFrame")
+    scrollFrame.Size = UDim2.new(1, -10, 1, -120)
+    scrollFrame.Position = UDim2.new(0, 5, 0, 5)
+    scrollFrame.BackgroundTransparency = 1
+    scrollFrame.BorderSizePixel = 0
+    scrollFrame.ScrollBarThickness = 4
+    scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(80, 80, 90)
+    scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 350)
+    scrollFrame.Parent = contentFrame
+    
+    local layout = Instance.new("UIListLayout")
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    layout.Padding = UDim.new(0, 4)
+    layout.Parent = scrollFrame
+    
+    if isMinimized then
+        mainFrame.Size = UDim2.new(0, 250, 0, 30)
+    else
+        mainFrame.Size = UDim2.new(0, 250, 0, 300)
+    end
+    
+    minimizeButton.MouseButton1Click:Connect(function()
+        isMinimized = not isMinimized
+        guiState.isMinimized = isMinimized
+        saveGUIState()
+        
+        if isMinimized then
+            mainFrame.Size = UDim2.new(0, 250, 0, 30)
+            minimizeButton.Text = "+"
+            contentFrame.Visible = false
+        else
+            contentFrame.Visible = true
+            mainFrame.Size = originalSize
+            minimizeButton.Text = "-"
+        end
+    end)
+    
+    local function createInputField(name, placeholder, defaultValue, layoutOrder, settingKey, desc)
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, 0, 0, 35)
+        container.BackgroundTransparency = 1
+        container.LayoutOrder = layoutOrder
+        container.Parent = scrollFrame
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 0, 12)
+        label.Position = UDim2.new(0, 0, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = name
+        label.TextColor3 = Color3.fromRGB(200, 200, 210)
+        label.TextSize = 9
+        label.Font = Enum.Font.Gotham
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = container
+        
+        local inputFrame = Instance.new("Frame")
+        inputFrame.Size = UDim2.new(1, -10, 0, 22)
+        inputFrame.Position = UDim2.new(0, 0, 0, 13)
+        inputFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+        inputFrame.BorderSizePixel = 0
+        inputFrame.Parent = container
+        
+        local inputCorner = Instance.new("UICorner")
+        inputCorner.CornerRadius = UDim.new(0, 4)
+        inputCorner.Parent = inputFrame
+    
+        local inputStroke = Instance.new("UIStroke")
+        inputStroke.Thickness = 1
+        inputStroke.Color = Color3.fromRGB(60, 60, 70)
+        inputStroke.Parent = inputFrame
+        
+        local textBox = Instance.new("TextBox")
+        textBox.Size = UDim2.new(1, -8, 1, 0)
+        textBox.Position = UDim2.new(0, 4, 0, 0)
+        textBox.BackgroundTransparency = 1
+        textBox.Text = defaultValue or ""
+        textBox.PlaceholderText = placeholder
+        textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+        textBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 130)
+        textBox.TextSize = 10
+        textBox.Font = Enum.Font.Gotham
+        textBox.Parent = inputFrame
+        
+        textBox.Focused:Connect(function()
+            TweenService:Create(inputStroke, TweenInfo.new(0.2), {Color = Color3.fromRGB(100, 150, 255)}):Play()
+        end)
+        
+        textBox.FocusLost:Connect(function()
+            TweenService:Create(inputStroke, TweenInfo.new(0.2), {Color = Color3.fromRGB(60, 60, 70)}):Play()
+            
+            -- Save setting immediately when field loses focus
+            if settingKey then
+                if settingKey == "minGeneration" or settingKey == "minPlayers" or settingKey == "notificationDuration" then
+                    settings[settingKey] = tonumber(textBox.Text) or settings[settingKey]
+                else
+                    settings[settingKey] = textBox.Text:gsub("^%s*(.-)%s*$", "%1")
+                end
+                saveSettings()
+            end
+        end)
+        
+        return textBox
+    end
+    
+    local function createTagInputField(name, list, placeholder, layoutOrder, descAdd, descRemove)
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, 0, 0, 35)
+        container.BackgroundTransparency = 1
+        container.LayoutOrder = layoutOrder
+        container.Parent = scrollFrame
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 0, 12)
+        label.Position = UDim2.new(0, 0, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = name
+        label.TextColor3 = Color3.fromRGB(200, 200, 210)
+        label.TextSize = 9
+        label.Font = Enum.Font.Gotham
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = container
+        
+        local tagContainer = Instance.new("Frame")
+        tagContainer.Size = UDim2.new(1, -10, 0, 22)
+        tagContainer.Position = UDim2.new(0, 0, 0, 13)
+        tagContainer.BackgroundTransparency = 1
+        tagContainer.Parent = container
+        
+        local refreshTags = createTagList(tagContainer, list, placeholder,
+            function(text)
+                if text and text ~= "" and not table.find(list, text) then
+                    table.insert(list, text)
+                    saveSettings()
+                end
+            end,
+            function(text)
+                local index = table.find(list, text)
+                if index then
+                    table.remove(list, index)
+                    saveSettings()
+                end
+            end
+        )
+        
+        return refreshTags
+    end
+    
+    local function createSortOrderToggle(name, defaultValue, layoutOrder, desc)
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, 0, 0, 35)
+        container.BackgroundTransparency = 1
+        container.LayoutOrder = layoutOrder
+        container.Parent = scrollFrame
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 0, 12)
+        label.Position = UDim2.new(0, 0, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = name
+        label.TextColor3 = Color3.fromRGB(200, 200, 210)
+        label.TextSize = 9
+        label.Font = Enum.Font.Gotham
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = container
+        
+        local toggleButton = Instance.new("TextButton")
+        toggleButton.Size = UDim2.new(1, -10, 0, 22)
+        toggleButton.Position = UDim2.new(0, 0, 0, 13)
+        toggleButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+        toggleButton.BorderSizePixel = 0
+        toggleButton.Text = defaultValue
+        toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        toggleButton.TextSize = 10
+        toggleButton.Font = Enum.Font.Gotham
+        toggleButton.TextXAlignment = Enum.TextXAlignment.Left
+        toggleButton.Parent = container
+        
+        local toggleCorner = Instance.new("UICorner")
+        toggleCorner.CornerRadius = UDim.new(0, 4)
+        toggleCorner.Parent = toggleButton
+    
+        local toggleStroke = Instance.new("UIStroke")
+        toggleStroke.Thickness = 1
+        toggleStroke.Color = Color3.fromRGB(60, 60, 70)
+        toggleStroke.Parent = toggleButton
+        
+        local padding = Instance.new("UIPadding")
+        padding.PaddingLeft = UDim.new(0, 4)
+        padding.Parent = toggleButton
+        
+        local currentValue = defaultValue
+        toggleButton.MouseButton1Click:Connect(function()
+            if currentValue == "Asc" then
+                currentValue = "Desc"
+            else
+                currentValue = "Asc"
+            end
+            toggleButton.Text = currentValue
+            settings.sortOrder = currentValue
+            saveSettings()
+        end)
+        
+        return toggleButton
+    end
+    
+    local function createToggle(name, defaultValue, layoutOrder, settingKey, descOn, descOff)
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, 0, 0, 28)
+        container.BackgroundTransparency = 1
+        container.LayoutOrder = layoutOrder
+        container.Parent = scrollFrame
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, -45, 1, 0)
+        label.Position = UDim2.new(0, 0, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = name
+        label.TextColor3 = Color3.fromRGB(200, 200, 210)
+        label.TextSize = 10
+        label.Font = Enum.Font.Gotham
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = container
+        
+        local toggleFrame = Instance.new("Frame")
+        toggleFrame.Size = UDim2.new(0, 36, 0, 18)
+        toggleFrame.Position = UDim2.new(1, -36, 0.5, -9)
+        toggleFrame.BackgroundColor3 = defaultValue and Color3.fromRGB(50, 150, 50) or Color3.fromRGB(60, 60, 70)
+        toggleFrame.BorderSizePixel = 0
+        toggleFrame.Parent = container
+        
+        local toggleCorner = Instance.new("UICorner")
+        toggleCorner.CornerRadius = UDim.new(0, 9)
+        toggleCorner.Parent = toggleFrame
+        
+        local toggleButton = Instance.new("Frame")
+        toggleButton.Size = UDim2.new(0, 14, 0, 14)
+        toggleButton.Position = defaultValue and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
+        toggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        toggleButton.BorderSizePixel = 0
+        toggleButton.Parent = toggleFrame
+        
+        local buttonCorner = Instance.new("UICorner")
+        buttonCorner.CornerRadius = UDim.new(0, 7)
+        buttonCorner.Parent = toggleButton
+        
+        local isEnabled = defaultValue
+        local clickDetector = Instance.new("TextButton")
+        clickDetector.Size = UDim2.new(1, 0, 1, 0)
+        clickDetector.Position = UDim2.new(0, 0, 0, 0)
+        clickDetector.BackgroundTransparency = 1
+        clickDetector.Text = ""
+        clickDetector.Parent = toggleFrame
+        
+        clickDetector.MouseButton1Click:Connect(function()
+            isEnabled = not isEnabled
+            local frameColor = isEnabled and Color3.fromRGB(50, 150, 50) or Color3.fromRGB(60, 60, 70)
+            local buttonPos = isEnabled and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
+            
+            TweenService:Create(toggleFrame, TweenInfo.new(0.2), {BackgroundColor3 = frameColor}):Play()
+            TweenService:Create(toggleButton, TweenInfo.new(0.2), {Position = buttonPos}):Play()
+            
+            if settingKey and settings[settingKey] ~= nil then
+                settings[settingKey] = isEnabled
+                saveSettings()
+            end
+        end)
+        
+        return function() return isEnabled end
+    end
+    
+    -- Create input fields with proper settings saving
+    local minGenInput = createInputField("Min. Generation", "1000000", tostring(settings.minGeneration), 1, "minGeneration", "Minimum generation for searching pets without specified target.")
+    local refreshTargetTags = createTagInputField("Target (Add)", settings.targetNames, "Name", 2, "Added target for search regardless of generation:", "Removed target:")
+    local refreshBlacklistTags = createTagInputField("Blacklist (Add)", settings.blacklistNames, "Name", 3, "Added to blacklist to ignore:", "Removed from blacklist:")
+    local rarityInput = createInputField("Rarity", "Secret, Mythical", settings.targetRarity, 4, "targetRarity", "Target rarity. Only pets of this rarity will be noticed.")
+    local mutationInput = createInputField("Mutation", "Rainbow, Gold", settings.targetMutation, 5, "targetMutation", "Target mutation. Only pets with this mutation will be noticed.")
+    local minPlayersInput = createInputField("Min. Players", "2", tostring(settings.minPlayers), 6, "minPlayers", "Minimum number of players on server for hopping.")
+    local soundInput = createInputField("Sound ID", "rbxassetid://9167433166", settings.customSoundId, 7, "customSoundId", "Sound ID to play when pet is found.")
+    local notificationDurationInput = createInputField("Notification Duration (sec)", "4", tostring(settings.notificationDuration), 8, "notificationDuration", "Duration of notifications in seconds.")
+    
+    local sortOrderToggle = createSortOrderToggle("Sort Order", settings.sortOrder, 9, "Server sort order: Asc - low to high, Desc - high to low.")
+    local autoStartToggle = createToggle("Auto Start", settings.autoStart, 10, "autoStart", "Auto start script after webhook check enabled.", "Auto start script disabled.")
+    
+    local fixedBottomFrame = Instance.new("Frame")
+    fixedBottomFrame.Name = "FixedBottomFrame"
+    fixedBottomFrame.Size = UDim2.new(1, 0, 0, 110)
+    fixedBottomFrame.Position = UDim2.new(0, 0, 1, -115)
+    fixedBottomFrame.BackgroundTransparency = 1
+    fixedBottomFrame.Parent = contentFrame
+    
+    local buttonContainer = Instance.new("Frame")
+    buttonContainer.Size = UDim2.new(1, -10, 0, 55)
+    buttonContainer.Position = UDim2.new(0, 5, 0, 0)
+    buttonContainer.BackgroundTransparency = 1
+    buttonContainer.Parent = fixedBottomFrame
+    
+    local startButton = Instance.new("TextButton")
+    startButton.Size = UDim2.new(1, -5, 0, 26)
+    startButton.Position = UDim2.new(0, 0, 0, 0)
+    startButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+    startButton.BorderSizePixel = 0
+    startButton.Text = "START"
+    startButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    startButton.TextSize = 11
+    startButton.Font = Enum.Font.GothamBold
+    startButton.Parent = buttonContainer
+    
+    local startCorner = Instance.new("UICorner")
+    startCorner.CornerRadius = UDim.new(0, 5)
+    startCorner.Parent = startButton
+    
+    local stopButton = Instance.new("TextButton")
+    stopButton.Size = UDim2.new(1, -5, 0, 26)
+    stopButton.Position = UDim2.new(0, 0, 0, 29)
+    stopButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
+    stopButton.BorderSizePixel = 0
+    stopButton.Text = "STOP"
+    stopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    stopButton.TextSize = 11
+    stopButton.Font = Enum.Font.GothamBold
+    stopButton.Parent = buttonContainer
+    
+    local stopCorner = Instance.new("UICorner")
+    stopCorner.CornerRadius = UDim.new(0, 5)
+    stopCorner.Parent = stopButton
+    
+    local statusContainer = Instance.new("Frame")
+    statusContainer.Size = UDim2.new(1, -10, 0, 45)
+    statusContainer.Position = UDim2.new(0, 5, 0, 60)
+    statusContainer.BackgroundTransparency = 1
+    statusContainer.Parent = fixedBottomFrame
+    
+    local statusLabel = Instance.new("TextLabel")
+    statusLabel.Size = UDim2.new(1, 0, 0, 24)
+    statusLabel.Position = UDim2.new(0, 0, 0, 0)
+    statusLabel.BackgroundTransparency = 1
+    statusLabel.Text = "Ready to search..."
+    statusLabel.TextColor3 = Color3.fromRGB(150, 150, 160)
+    statusLabel.TextSize = 9
+    statusLabel.Font = Enum.Font.Gotham
+    statusLabel.TextXAlignment = Enum.TextXAlignment.Left
+    statusLabel.TextWrapped = true
+    statusLabel.Parent = statusContainer
+    
+    local apiStatusLabel = Instance.new("TextLabel")
+    apiStatusLabel.Size = UDim2.new(1, 0, 0, 21)
+    apiStatusLabel.Position = UDim2.new(0, 0, 0, 24)
+    apiStatusLabel.BackgroundTransparency = 1
+    apiStatusLabel.Text = string.format("API: %d/3 | Cache: %d", apiState.mainApiUses, #apiState.cachedServers)
+    apiStatusLabel.TextColor3 = Color3.fromRGB(120, 120, 130)
+    apiStatusLabel.TextSize = 8
+    apiStatusLabel.Font = Enum.Font.Gotham
+    apiStatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+    apiStatusLabel.Parent = statusContainer
+    
+    local function updateScrollCanvas()
+        local contentHeight = layout.AbsoluteContentSize.Y + 20
+        scrollFrame.CanvasSize = UDim2.new(0, 0, 0, contentHeight)
+    end
+    
+    updateScrollCanvas()
+    
+    local function addButtonHover(button, hoverColor, originalColor)
+        button.MouseEnter:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = hoverColor}):Play()
+        end)
+        button.MouseLeave:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = originalColor}):Play()
+        end)
+    end
+    
+    addButtonHover(startButton, Color3.fromRGB(60, 180, 60), Color3.fromRGB(50, 150, 50))
+    addButtonHover(stopButton, Color3.fromRGB(180, 60, 60), Color3.fromRGB(150, 50, 50))
+    addButtonHover(closeButton, Color3.fromRGB(255, 80, 80), Color3.fromRGB(220, 60, 60))
+    addButtonHover(minimizeButton, Color3.fromRGB(130, 130, 130), Color3.fromRGB(100, 100, 100))
+    
+    local function updateAPIStatus()
+        apiStatusLabel.Text = string.format("API: %d/3 | Cache: %d | %s",
+            apiState.mainApiUses,
+            #apiState.cachedServers,
+            apiState.useCachedServers and "Cache" or "Live"
+        )
+    end
+    
+    local hopConnection = nil
+    
+    local function startHopping()
+        if isRunning then
+            statusLabel.Text = "Already running!"
+            statusLabel.TextColor3 = Color3.fromRGB(255, 150, 100)
+            return
+        end
+        
+        if not isfile("hopStarted.txt") then
+            showNotification("Search started", "Looking for target pets...")
+            writefile("hopStarted.txt", "true")
+        end
+        
+        isRunning = true
+        statusLabel.Text = "Searching..."
+        statusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
+        
+        hopConnection = task.spawn(function()
+            while isRunning do
+                runServerCheck()
+                if #foundPodiumsData > 0 then
+                    break
+                end
+                task.wait(0.1)
+                updateAPIStatus()
+            end
+        end)
+    end
+    
+    startButton.MouseButton1Click:Connect(startHopping)
+    
+    stopButton.MouseButton1Click:Connect(function()
+        isRunning = false
+        foundPodiumsData = {}
+        autoHopping = false
+        if currentConnection then
+            currentConnection:Disconnect()
+            currentConnection = nil
+        end
+        if monitoringConnection then
+            monitoringConnection:Disconnect()
+            monitoringConnection = nil
+        end
+        if hopConnection then
+            task.cancel(hopConnection)
+            hopConnection = nil
+        end
+        statusLabel.Text = "Search stopped."
+        statusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+    end)
+    
+    closeButton.MouseButton1Click:Connect(function()
+        isRunning = false
+        foundPodiumsData = {}
+        autoHopping = false
+        if currentConnection then
+            currentConnection:Disconnect()
+            currentConnection = nil
+        end
+        if monitoringConnection then
+            monitoringConnection:Disconnect()
+            monitoringConnection = nil
+        end
+        if hopConnection then
+            task.cancel(hopConnection)
+            hopConnection = nil
+        end
+        
+        screenGui:Destroy()
+    end)
+    
+    local dragging = false
+    local dragStart = nil
+    local startPos = nil
+    
+    titleBar.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
             dragStart = input.Position
-            startPos = obj.Position
-            
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
+            startPos = mainFrame.Position
         end
     end)
     
-    obj.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            if dragging then
-                local delta = input.Position - dragStart
-                obj.Position = UDim2.new(
-                    startPos.X.Scale,
-                    startPos.X.Offset + delta.X,
-                    startPos.Y.Scale,
-                    startPos.Y.Offset + delta.Y
-                )
-            end
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            local delta = input.Position - dragStart
+            local newPos = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            mainFrame.Position = newPos
+            
+            guiState.position = {
+                XScale = newPos.X.Scale,
+                XOffset = newPos.X.Offset,
+                YScale = newPos.Y.Scale,
+                YOffset = newPos.Y.Offset
+            }
+            saveGUIState()
         end
     end)
+    
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+        end
+    end)
+    
+    spawn(function()
+        while screenGui.Parent do
+            updateAPIStatus()
+            task.wait(5)
+        end
+    end)
+    
+    _G.CloseHop = function()
+        pcall(function()
+            local playerGui = Players.LocalPlayer:FindFirstChild("PlayerGui")
+            if playerGui then
+                local hopperGui = playerGui:FindFirstChild("ServerHopperGUI")
+                if hopperGui then
+                    hopperGui:Destroy()
+                end
+            end
+        end)
+    end
+    
+    if settings.autoStart then
+        task.wait(0.5)
+        startHopping()
+    end
 end
 
-makeDraggable(mainFrame)
-makeDraggable(toggleButton)
+loadSettings()
+loadGUIState()
+loadAPIState()
 
-----------------------------------------------------------------
--- NOTIFICAÇÃO INICIAL
-----------------------------------------------------------------
-task.spawn(function()
-    task.wait(1)
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Vortex Steal Tools",
-        Text = "Interface carregada com sucesso!",
-        Duration = 5
-    })
-end)
-
-print("Vortex Steal Tools carregado com sucesso!")
+if game.PlaceId == ALLOWED_PLACE_ID then
+    createSettingsGUI()
+else
+    
+end
