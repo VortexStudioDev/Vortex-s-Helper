@@ -1,240 +1,267 @@
---// Rtx Hub GUI (Clean + Compact + Carpet Speedboost + Mobile Desync)
+-- Rtx Hub GUI (Compact + Set Base + Instant Steal + Minimize) -- LocalScript
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 
---// Vars
-local baseSpeed = 30
-local carpetSpeed = 300
-local carpetUpSpeed = 60
-local speedActive = false
-local carpetActive = false
-local desyncActive = false
-local spaceDown = false
-local speedConn, carpetConn
+local savedBaseLocation = nil
 
---// ScreenGui
+-- ScreenGui oluşturma (PlayerGui'ye ekle)
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "RtxHub"
 ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = game.CoreGui
 
---// Main Frame
+-- CoreGui yerine PlayerGui'ye ekle
+if LocalPlayer:FindFirstChild("PlayerGui") then
+    ScreenGui.Parent = LocalPlayer.PlayerGui
+else
+    -- PlayerGui henüz yoksa bekleyelim
+    LocalPlayer.CharacterAdded:Wait()
+    ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+end
+
+-- Main Frame
 local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.Size = UDim2.new(0, 180, 0, 210) -- slightly taller
-MainFrame.Position = UDim2.new(0.5, -90, 0.5, -105)
-MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 13)
-MainFrame.BorderSizePixel = 0
+MainFrame.BackgroundColor3 = Color3.fromRGB(10,10,13)
+MainFrame.Position = UDim2.new(0.5, -110, 0.5, -130)
+MainFrame.Size = UDim2.new(0, 220, 0, 200)
 MainFrame.Active = true
 MainFrame.Draggable = true
+MainFrame.BorderSizePixel = 0
+MainFrame.ClipsDescendants = true -- Bu true olmalı
+MainFrame.ZIndex = 10
 
-local UICorner = Instance.new("UICorner", MainFrame)
-UICorner.CornerRadius = UDim.new(0, 15)
+-- Rounded corners
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0,18)
+UICorner.Parent = MainFrame
 
-local UIStroke = Instance.new("UIStroke", MainFrame)
-UIStroke.Thickness = 2
-UIStroke.Color = Color3.fromRGB(255, 255, 255)
-UIStroke.Transparency = 0.4
+-- White outline
+local UIStroke = Instance.new("UIStroke")
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Thickness = 3
+UIStroke.Color = Color3.fromRGB(255,255,255)
+UIStroke.Parent = MainFrame
 
---// Title
-local Title = Instance.new("TextLabel")
-Title.Parent = MainFrame
-Title.Size = UDim2.new(1, 0, 0, 32)
-Title.BackgroundTransparency = 1
-Title.Text = "RTX HUB"
-Title.Font = Enum.Font.GothamBold
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextScaled = true
+-- Inner frame
+local InnerFrame = Instance.new("Frame")
+InnerFrame.Parent = MainFrame
+InnerFrame.BackgroundColor3 = Color3.fromRGB(16,16,20)
+InnerFrame.Position = UDim2.new(0,4,0,4)
+InnerFrame.Size = UDim2.new(1,-8,1,-8)
+InnerFrame.BorderSizePixel = 0
+InnerFrame.ZIndex = 11
 
---// Create Button Function
-local function createButton(text, yPos)
-	local button = Instance.new("TextButton")
-	button.Parent = MainFrame
-	button.Size = UDim2.new(1, -30, 0, 40)
-	button.Position = UDim2.new(0, 15, 0, yPos)
-	button.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-	button.Text = text
-	button.TextColor3 = Color3.fromRGB(255, 255, 255)
-	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
-	button.BorderSizePixel = 0
-	button.AutoButtonColor = false
+local InnerCorner = Instance.new("UICorner")
+InnerCorner.CornerRadius = UDim.new(0,15)
+InnerCorner.Parent = InnerFrame
 
-	local BtnCorner = Instance.new("UICorner", button)
-	BtnCorner.CornerRadius = UDim.new(0, 12)
+-- Title bar
+local TitleBar = Instance.new("Frame")
+TitleBar.Parent = InnerFrame
+TitleBar.BackgroundTransparency = 1
+TitleBar.Size = UDim2.new(1,0,0,50)
+TitleBar.ZIndex = 12
 
-	local BtnStroke = Instance.new("UIStroke", button)
-	BtnStroke.Thickness = 1.4
-	BtnStroke.Color = Color3.fromRGB(255, 255, 255)
-	BtnStroke.Transparency = 0.6
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Parent = TitleBar
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Position = UDim2.new(0,12,0,10)
+TitleLabel.Size = UDim2.new(1,-100,0,20)
+TitleLabel.Font = Enum.Font.GothamBold
+TitleLabel.Text = "Rtx Hub"
+TitleLabel.TextColor3 = Color3.fromRGB(255,255,255)
+TitleLabel.TextSize = 18
+TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+TitleLabel.ZIndex = 13
 
-	return button
+-- Minimize button
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Parent = TitleBar
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(35,35,42)
+MinimizeButton.Position = UDim2.new(1, -36, 0, 16)
+MinimizeButton.Size = UDim2.new(0,26,0,26)
+MinimizeButton.Font = Enum.Font.GothamBold
+MinimizeButton.Text = "—"
+MinimizeButton.TextColor3 = Color3.fromRGB(255,255,255)
+MinimizeButton.TextSize = 22
+MinimizeButton.ZIndex = 13
+MinimizeButton.AutoButtonColor = false
+MinimizeButton.BorderSizePixel = 0
+
+local MinCorner = Instance.new("UICorner")
+MinCorner.CornerRadius = UDim.new(0,8)
+MinCorner.Parent = MinimizeButton
+
+local MinStroke = Instance.new("UIStroke")
+MinStroke.Color = Color3.fromRGB(255,255,255)
+MinStroke.Thickness = 1
+MinStroke.Transparency = 0.8
+MinStroke.Parent = MinimizeButton
+
+-- Divider
+local Divider = Instance.new("Frame")
+Divider.Parent = InnerFrame
+Divider.BackgroundColor3 = Color3.fromRGB(255,255,255)
+Divider.BackgroundTransparency = 0.9
+Divider.BorderSizePixel = 0
+Divider.Position = UDim2.new(0,18,0,50)
+Divider.Size = UDim2.new(1,-36,0,1)
+Divider.ZIndex = 12
+
+-- Content frame
+local ContentFrame = Instance.new("Frame")
+ContentFrame.Parent = InnerFrame
+ContentFrame.BackgroundTransparency = 1
+ContentFrame.Position = UDim2.new(0,0,0,58)
+ContentFrame.Size = UDim2.new(1,0,1,-58)
+ContentFrame.ZIndex = 12
+
+-- Button creator
+local function createButton(parent, text, emoji, yPos)
+    local button = Instance.new("TextButton")
+    button.Parent = parent
+    button.BackgroundColor3 = Color3.fromRGB(22,22,28)
+    button.Position = UDim2.new(0,18,0,yPos)
+    button.Size = UDim2.new(1,-36,0,48)
+    button.Font = Enum.Font.GothamBold
+    button.Text = ""
+    button.AutoButtonColor = false
+    button.BorderSizePixel = 0
+    button.ZIndex = 13
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0,12)
+    corner.Parent = button
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(255,255,255)
+    stroke.Thickness = 1.5
+    stroke.Transparency = 0.88
+    stroke.Parent = button
+
+    local iconFrame = Instance.new("Frame")
+    iconFrame.Parent = button
+    iconFrame.BackgroundColor3 = Color3.fromRGB(255,255,255)
+    iconFrame.Position = UDim2.new(0,12,0.5,-16)
+    iconFrame.Size = UDim2.new(0,32,0,32)
+    iconFrame.ZIndex = 14
+    
+    local iconCorner = Instance.new("UICorner")
+    iconCorner.CornerRadius = UDim.new(0,9)
+    iconCorner.Parent = iconFrame
+    
+    local iconStroke = Instance.new("UIStroke")
+    iconStroke.Color = Color3.fromRGB(255,255,255)
+    iconStroke.Thickness = 2
+    iconStroke.Transparency = 0.5
+    iconStroke.Parent = iconFrame
+    
+    local iconText = Instance.new("TextLabel")
+    iconText.Parent = iconFrame
+    iconText.BackgroundTransparency = 1
+    iconText.Size = UDim2.new(1,0,1,0)
+    iconText.Font = Enum.Font.GothamBold
+    iconText.Text = emoji
+    iconText.TextSize = 18
+    iconText.TextColor3 = Color3.fromRGB(0,0,0) -- Emoji için siyah renk
+    iconText.ZIndex = 15
+
+    local label = Instance.new("TextLabel")
+    label.Parent = button
+    label.BackgroundTransparency = 1
+    label.Position = UDim2.new(0,54,0,0)
+    label.Size = UDim2.new(1,-64,1,0)
+    label.Font = Enum.Font.GothamBold
+    label.Text = text
+    label.TextColor3 = Color3.fromRGB(255,255,255)
+    label.TextSize = 14
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.ZIndex = 14
+
+    button.MouseEnter:Connect(function()
+        button.BackgroundColor3 = Color3.fromRGB(30,30,38)
+        stroke.Transparency = 0.6
+        iconStroke.Transparency = 0.2
+    end)
+    
+    button.MouseLeave:Connect(function()
+        button.BackgroundColor3 = Color3.fromRGB(22,22,28)
+        stroke.Transparency = 0.88
+        iconStroke.Transparency = 0.5
+    end)
+
+    return button, label
 end
 
---// Buttons
-local SpeedButton = createButton("SPEEDBOOST", 45)
-local CarpetButton = createButton("CARPET SPEEDBOOST", 100)
-local DesyncButton = createButton("MOBILE DESYNC", 155)
-
---// Functions
-local function GetCharacter()
-	local Char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-	local HRP = Char:WaitForChild("HumanoidRootPart")
-	local Hum = Char:FindFirstChildOfClass("Humanoid")
-	return Char, HRP, Hum
-end
-
-local function getMovementInput()
-	local Char, HRP, Hum = GetCharacter()
-	if not Char or not HRP or not Hum then return Vector3.new(0,0,0) end
-	local moveVector = Hum.MoveDirection
-	if moveVector.Magnitude > 0.1 then
-		return Vector3.new(moveVector.X, 0, moveVector.Z).Unit
-	end
-	return Vector3.new(0,0,0)
-end
-
---// Normal Speedboost
-local function startSpeed()
-	if speedConn then return end
-	speedConn = RunService.Heartbeat:Connect(function()
-		local Char, HRP, Hum = GetCharacter()
-		if not Char or not HRP or not Hum then return end
-		local inputDir = getMovementInput()
-		if inputDir.Magnitude > 0 then
-			HRP.AssemblyLinearVelocity = Vector3.new(
-				inputDir.X * baseSpeed,
-				HRP.AssemblyLinearVelocity.Y,
-				inputDir.Z * baseSpeed
-			)
-		end
-	end)
-end
-
-local function stopSpeed()
-	if speedConn then speedConn:Disconnect() speedConn = nil end
-end
-
---// Carpet Speedboost
-local function startCarpet()
-	if carpetConn then return end
-	carpetConn = RunService.Heartbeat:Connect(function()
-		local Char = LocalPlayer.Character
-		if not Char then return end
-		local carpet = Char:FindFirstChildWhichIsA("Part") or workspace:FindFirstChild("FlyingCarpet")
-		if carpet and carpet:IsA("BasePart") then
-			local Hum = Char:FindFirstChildOfClass("Humanoid")
-			if Hum then
-				local moveDir = Hum.MoveDirection
-				local vel = moveDir * carpetSpeed
-				if spaceDown then
-					vel = vel + Vector3.new(0, carpetUpSpeed, 0)
-				end
-				carpet.Velocity = vel
-			end
-		end
-	end)
-end
-
-local function stopCarpet()
-	if carpetConn then carpetConn:Disconnect() carpetConn = nil end
-end
-
---// Mobile Desync
-local function enableMobileDesync()
-	local success, err = pcall(function()
-		local backpack = LocalPlayer:WaitForChild("Backpack")
-		local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-		local humanoid = character:WaitForChild("Humanoid")
-
-		local packages = ReplicatedStorage:WaitForChild("Packages", 5)
-		if not packages then return end
-		local netFolder = packages:WaitForChild("Net", 5)
-		if not netFolder then return end
-		local useItemRemote = netFolder:WaitForChild("RE/UseItem", 5)
-		local teleportRemote = netFolder:WaitForChild("RE/QuantumCloner/OnTeleport", 5)
-		if not useItemRemote or not teleportRemote then return end
-
-		local toolNames = {"Quantum Cloner", "Brainrot", "brainrot"}
-		local tool
-		for _, name in ipairs(toolNames) do
-			tool = backpack:FindFirstChild(name) or character:FindFirstChild(name)
-			if tool then break end
-		end
-		if not tool then
-			for _, item in ipairs(backpack:GetChildren()) do
-				if item:IsA("Tool") then tool=item break end
-			end
-		end
-
-		if tool and tool.Parent==backpack then
-			humanoid:EquipTool(tool)
-			task.wait(0.2)
-		end
-
-		if setfflag then setfflag("WorldStepMax", "-9999999999") end
-		task.wait(0.1)
-		useItemRemote:FireServer()
-		task.wait(1)
-		teleportRemote:FireServer()
-		task.wait(2)
-		if setfflag then setfflag("WorldStepMax", "-1") end
-	end)
-	if not success then warn(err) end
-end
-
-local function disableMobileDesync()
-	pcall(function()
-		if setfflag then setfflag("WorldStepMax", "-1") end
-	end)
-end
-
---// Toggles
-SpeedButton.MouseButton1Click:Connect(function()
-	speedActive = not speedActive
-	if speedActive then
-		startSpeed()
-		SpeedButton.BackgroundColor3 = Color3.fromRGB(60, 180, 80)
-	else
-		stopSpeed()
-		SpeedButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-	end
+-- Set Base Button
+local SetBaseButton, SetBaseLabel = createButton(ContentFrame, "SET BASE", "📍", 8)
+SetBaseButton.MouseButton1Click:Connect(function()
+    local character = LocalPlayer.Character
+    if not character then
+        character = LocalPlayer.CharacterAdded:Wait()
+    end
+    
+    local hrp = character:WaitForChild("HumanoidRootPart")
+    if hrp then
+        savedBaseLocation = hrp.CFrame
+        SetBaseLabel.Text = "✓ BASE SAVED"
+        SetBaseLabel.TextColor3 = Color3.fromRGB(100,255,150)
+        task.wait(1)
+        SetBaseLabel.Text = "SET BASE"
+        SetBaseLabel.TextColor3 = Color3.fromRGB(255,255,255)
+    end
 end)
 
-CarpetButton.MouseButton1Click:Connect(function()
-	carpetActive = not carpetActive
-	if carpetActive then
-		startCarpet()
-		CarpetButton.BackgroundColor3 = Color3.fromRGB(60, 180, 80)
-	else
-		stopCarpet()
-		CarpetButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-	end
+-- Instant Steal Button
+local InstantButton, InstantLabel = createButton(ContentFrame, "INSTANT STEAL", "⚡", 64)
+InstantButton.MouseButton1Click:Connect(function()
+    if not savedBaseLocation then
+        InstantLabel.Text = "⚠ NO BASE"
+        InstantLabel.TextColor3 = Color3.fromRGB(200,80,80)
+        task.wait(1)
+        InstantLabel.Text = "INSTANT STEAL"
+        InstantLabel.TextColor3 = Color3.fromRGB(255,255,255)
+        return
+    end
+
+    local character = LocalPlayer.Character
+    if not character then
+        character = LocalPlayer.CharacterAdded:Wait()
+    end
+    
+    local hrp = character:WaitForChild("HumanoidRootPart")
+    if hrp then
+        -- Teleport outside map first
+        hrp.CFrame = CFrame.new(0,-500,0)
+        task.wait(0.1)
+        -- Then teleport to saved base
+        hrp.CFrame = savedBaseLocation
+        InstantLabel.Text = "✓ TELEPORTED"
+        InstantLabel.TextColor3 = Color3.fromRGB(100,255,150)
+        task.wait(0.9)
+        InstantLabel.Text = "INSTANT STEAL"
+        InstantLabel.TextColor3 = Color3.fromRGB(255,255,255)
+    end
 end)
 
-DesyncButton.MouseButton1Click:Connect(function()
-	desyncActive = not desyncActive
-	if desyncActive then
-		enableMobileDesync()
-		DesyncButton.BackgroundColor3 = Color3.fromRGB(60, 180, 80)
-	else
-		disableMobileDesync()
-		DesyncButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-	end
-end)
+-- Minimize logic
+local minimized = false
+local normalSize = MainFrame.Size
+local minimizedSize = UDim2.new(normalSize.X.Scale, normalSize.X.Offset, 0, 54)
+local tweenInfo = TweenInfo.new(0.32, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
 
---// Spacebar
-UserInputService.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Space then
-		spaceDown = true
-	end
-end)
-
-UserInputService.InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Space then
-		spaceDown = false
-	end
+MinimizeButton.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        TweenService:Create(ContentFrame, tweenInfo, {Size = UDim2.new(1,0,0,0)}):Play()
+        TweenService:Create(MainFrame, tweenInfo, {Size = minimizedSize}):Play()
+        MinimizeButton.Text = "+"
+    else
+        TweenService:Create(ContentFrame, tweenInfo, {Size = UDim2.new(1,0,1,-58)}):Play()
+        TweenService:Create(MainFrame, tweenInfo, {Size = normalSize}):Play()
+        MinimizeButton.Text = "—"
+    end
 end)
