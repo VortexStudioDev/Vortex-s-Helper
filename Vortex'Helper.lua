@@ -1,777 +1,62 @@
---[[
-    Vortex'Helper - Premium Script Hub
-    Tüm Hakları Saklıdır © 2024
-    Discord: https://discord.gg/vortexhelper
-    Version: 2.0 Premium
---]]
+-- Vortex'Helper - ESP Only System
+-- Discord: https://discord.gg/vortexhelper
 
-----------------------------------------------------------------
--- SERVICES & VARIABLES
-----------------------------------------------------------------
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local Lighting = game:GetService("Lighting")
-local HttpService = game:GetService("HttpService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
-local SoundService = game:GetService("SoundService")
-local ProximityPromptService = game:GetService("ProximityPromptService")
-local VirtualInputManager = game:GetService("VirtualInputManager")
-
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
-local camera = Workspace.CurrentCamera
 
-----------------------------------------------------------------
--- CONFIG SYSTEM
-----------------------------------------------------------------
-local CONFIG_DIR = 'VortexHelper'
-local CONFIG_FILE = CONFIG_DIR .. '/config.json'
-local defaultConfig = {
-    espBest = false,
-    espSecret = false, 
-    espBase = false,
-    espPlayer = false,
-    flySpeed = 50,
-    walkSpeed = 16,
-    jumpPower = 50,
-    antiAfk = true,
-    autoFarm = false
-}
-local currentConfig = {}
+-- GUI'yi temizle
+local oldGui = playerGui:FindFirstChild("VortexHelper")
+if oldGui then oldGui:Destroy() end
 
--- Safe file operations
-local function safeDecode(str)
-    local ok, res = pcall(function() return HttpService:JSONDecode(str) end)
-    return ok and res or nil
-end
-
-local function safeEncode(tbl)
-    local ok, res = pcall(function() return HttpService:JSONEncode(tbl) end)
-    return ok and res or '{}'
-end
-
-local function ensureDir()
-    if isfolder and not isfolder(CONFIG_DIR) then
-        pcall(function() makefolder(CONFIG_DIR) end)
-    end
-end
-
-local function loadConfig()
-    for k, v in pairs(defaultConfig) do currentConfig[k] = v end
-    if not (readfile and isfile and isfile(CONFIG_FILE)) then return end
-    local ok, data = pcall(function() return readfile(CONFIG_FILE) end)
-    if ok and data and #data > 0 then
-        local decoded = safeDecode(data)
-        if decoded then
-            for k, v in pairs(defaultConfig) do
-                if decoded[k] ~= nil then currentConfig[k] = decoded[k] end
-            end
-        end
-    end
-end
-
-local saveDebounce = false
-local function saveConfig()
-    if not writefile then return end
-    if saveDebounce then return end
-    saveDebounce = true
-    task.delay(0.5, function() saveDebounce = false end)
-    ensureDir()
-    local json = safeEncode(currentConfig)
-    pcall(function() writefile(CONFIG_FILE, json) end)
-end
-
-----------------------------------------------------------------
--- UTILITY FUNCTIONS
-----------------------------------------------------------------
-local function getHumanoid()
-    local c = player.Character
-    return c and c:FindFirstChildOfClass("Humanoid")
-end
-
-local function getHRP()
-    local c = player.Character
-    return c and c:FindFirstChild("HumanoidRootPart")
-end
-
-local function notify(title, text, duration)
-    pcall(function()
-        StarterGui:SetCore("SendNotification", {
-            Title = title or "Vortex'Helper",
-            Text = text or "",
-            Duration = duration or 3
-        })
-    end)
-end
-
-local function playSound(id, volume)
-    pcall(function()
-        local sound = Instance.new("Sound")
-        sound.SoundId = "rbxassetid://" .. tostring(id):gsub("rbxassetid://", "")
-        sound.Volume = volume or 0.5
-        sound.Parent = SoundService
-        sound:Play()
-        game:GetService("Debris"):AddItem(sound, 5)
-    end)
-end
-
-local function round(num, decimalPlaces)
-    local mult = 10^(decimalPlaces or 0)
-    return math.floor(num * mult + 0.5) / mult
-end
-
-----------------------------------------------------------------
--- CACHE SYSTEM
-----------------------------------------------------------------
-local cache = {
-    plots = {},
-    players = {},
-    pets = {}
-}
-local CACHE_DURATION = 5
-
-local function updateCache(key, data)
-    cache[key] = {
-        data = data,
-        timestamp = tick()
-    }
-end
-
-local function getCached(key)
-    local cached = cache[key]
-    if cached and (tick() - cached.timestamp) < CACHE_DURATION then
-        return cached.data
-    end
-    return nil
-end
-
-----------------------------------------------------------------
--- ESP SYSTEM
-----------------------------------------------------------------
-local ESP = {
-    enabled = false,
-    boxes = {},
-    highlights = {},
-    tracers = {}
-}
-
-local ESP_COLORS = {
-    player = Color3.fromRGB(255, 50, 50),
-    best = Color3.fromRGB(255, 215, 0),
-    secret = Color3.fromRGB(255, 0, 255),
-    base = Color3.fromRGB(0, 255, 255),
-    friend = Color3.fromRGB(0, 255, 0)
-}
-
--- Player ESP
-local function createPlayerESP(targetPlayer)
-    if ESP.boxes[targetPlayer] then return end
-    
-    local character = targetPlayer.Character
-    if not character then return end
-    
-    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-    if not humanoidRootPart then return end
-    
-    -- ESP Box
-    local box = Instance.new("BoxHandleAdornment")
-    box.Name = "VortexESPBox"
-    box.Size = Vector3.new(4, 6, 2)
-    box.Adornee = humanoidRootPart
-    box.AlwaysOnTop = true
-    box.ZIndex = 10
-    box.Color3 = targetPlayer.Team == player.Team and ESP_COLORS.friend or ESP_COLORS.player
-    box.Transparency = 0.3
-    box.Parent = humanoidRootPart
-    
-    -- Name Tag
-    local billboard = Instance.new("BillboardGui")
-    billboard.Name = "VortexESPTag"
-    billboard.Size = UDim2.new(0, 200, 0, 50)
-    billboard.Adornee = humanoidRootPart
-    billboard.StudsOffset = Vector3.new(0, 3.5, 0)
-    billboard.AlwaysOnTop = true
-    billboard.Parent = humanoidRootPart
-    
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 1, 0)
-    label.BackgroundTransparency = 1
-    label.Text = targetPlayer.Name
-    label.TextColor3 = box.Color3
-    label.TextStrokeTransparency = 0
-    label.Font = Enum.Font.GothamBold
-    label.TextSize = 14
-    label.Parent = billboard
-    
-    -- Health Bar
-    local healthBar = Instance.new("Frame")
-    healthBar.Size = UDim2.new(1, 0, 0, 4)
-    healthBar.Position = UDim2.new(0, 0, 1, 2)
-    healthBar.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    healthBar.BorderSizePixel = 0
-    healthBar.Parent = billboard
-    
-    local healthFill = Instance.new("Frame")
-    healthFill.Size = UDim2.new(1, 0, 1, 0)
-    healthFill.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-    healthFill.BorderSizePixel = 0
-    healthFill.Parent = healthBar
-    
-    -- Distance Label
-    local distanceLabel = Instance.new("TextLabel")
-    distanceLabel.Size = UDim2.new(1, 0, 0, 20)
-    distanceLabel.Position = UDim2.new(0, 0, 1, 6)
-    distanceLabel.BackgroundTransparency = 1
-    distanceLabel.TextColor3 = box.Color3
-    distanceLabel.TextStrokeTransparency = 0
-    distanceLabel.Font = Enum.Font.Gotham
-    distanceLabel.TextSize = 12
-    distanceLabel.Parent = billboard
-    
-    ESP.boxes[targetPlayer] = {
-        box = box,
-        tag = billboard,
-        healthBar = healthBar,
-        healthFill = healthFill,
-        distanceLabel = distanceLabel
-    }
-end
-
-local function updatePlayerESP()
-    for targetPlayer, espData in pairs(ESP.boxes) do
-        if targetPlayer.Character and espData.healthFill then
-            local humanoid = targetPlayer.Character:FindFirstChildOfClass("Humanoid")
-            local humanoidRootPart = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-            local localRoot = getHRP()
-            
-            if humanoid and humanoidRootPart and localRoot then
-                -- Update health
-                local healthPercent = humanoid.Health / humanoid.MaxHealth
-                espData.healthFill.Size = UDim2.new(healthPercent, 0, 1, 0)
-                
-                -- Update distance
-                local distance = (humanoidRootPart.Position - localRoot.Position).Magnitude
-                espData.distanceLabel.Text = tostring(round(distance, 1)) .. " studs"
-                
-                -- Update color based on team
-                espData.box.Color3 = targetPlayer.Team == player.Team and ESP_COLORS.friend or ESP_COLORS.player
-                espData.tag.TextLabel.TextColor3 = espData.box.Color3
-                espData.distanceLabel.TextColor3 = espData.box.Color3
-            end
-        end
-    end
-end
-
-local function clearPlayerESP()
-    for targetPlayer, espData in pairs(ESP.boxes) do
-        if espData.box then espData.box:Destroy() end
-        if espData.tag then espData.tag:Destroy() end
-    end
-    ESP.boxes = {}
-end
-
--- Best/Secret Pet ESP
-local function updatePetESP()
-    local plotsFolder = Workspace:FindFirstChild("Plots")
-    if not plotsFolder then return end
-    
-    -- Clear existing pet ESP
-    for _, plot in pairs(plotsFolder:GetChildren()) do
-        for _, descendant in pairs(plot:GetDescendants()) do
-            if descendant.Name == "VortexPetESP" then
-                descendant:Destroy()
-            end
-        end
-    end
-    
-    if not currentConfig.espBest and not currentConfig.espSecret then return end
-    
-    local bestPet = nil
-    local bestMPS = 0
-    
-    for _, plot in pairs(plotsFolder:GetChildren()) do
-        for _, model in pairs(plot:GetDescendants()) do
-            if model:IsA("Model") then
-                local rarityLabel = model:FindFirstChild("Rarity")
-                local displayName = model:FindFirstChild("DisplayName")
-                
-                if rarityLabel and displayName then
-                    local rarity = rarityLabel.Text
-                    local petName = displayName.Text
-                    
-                    -- Secret Pet ESP
-                    if currentConfig.espSecret and rarity == "Secret" then
-                        local primaryPart = model.PrimaryPart or model:FindFirstChild("HumanoidRootPart") or model:FindFirstChildWhichIsA("BasePart")
-                        if primaryPart then
-                            local billboard = Instance.new("BillboardGui")
-                            billboard.Name = "VortexPetESP"
-                            billboard.Size = UDim2.new(0, 200, 0, 60)
-                            billboard.Adornee = primaryPart
-                            billboard.StudsOffset = Vector3.new(0, 4, 0)
-                            billboard.AlwaysOnTop = true
-                            billboard.Parent = primaryPart
-                            
-                            local label = Instance.new("TextLabel")
-                            label.Size = UDim2.new(1, 0, 1, 0)
-                            label.BackgroundTransparency = 1
-                            label.Text = "💎 " .. petName .. " 💎"
-                            label.TextColor3 = ESP_COLORS.secret
-                            label.TextStrokeTransparency = 0
-                            label.Font = Enum.Font.GothamBold
-                            label.TextSize = 16
-                            label.Parent = billboard
-                        end
-                    end
-                    
-                    -- Find Best Pet
-                    if currentConfig.espBest then
-                        local generation = model:FindFirstChild("Generation")
-                        if generation then
-                            local mpsText = generation.Text
-                            local mps = tonumber(mpsText:match("%d+")) or 0
-                            if mps > bestMPS then
-                                bestMPS = mps
-                                bestPet = model
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-    
-    -- Best Pet ESP
-    if currentConfig.espBest and bestPet then
-        local primaryPart = bestPet.PrimaryPart or bestPet:FindFirstChild("HumanoidRootPart") or bestPet:FindFirstChildWhichIsA("BasePart")
-        if primaryPart then
-            local billboard = Instance.new("BillboardGui")
-            billboard.Name = "VortexPetESP"
-            billboard.Size = UDim2.new(0, 250, 0, 80)
-            billboard.Adornee = primaryPart
-            billboard.StudsOffset = Vector3.new(0, 5, 0)
-            billboard.AlwaysOnTop = true
-            billboard.Parent = primaryPart
-            
-            local label = Instance.new("TextLabel")
-            label.Size = UDim2.new(1, 0, 1, 0)
-            label.BackgroundTransparency = 1
-            label.Text = "🔥 BEST PET 🔥\n" .. bestMPS .. " MPS"
-            label.TextColor3 = ESP_COLORS.best
-            label.TextStrokeTransparency = 0
-            label.Font = Enum.Font.GothamBold
-            label.TextSize = 18
-            label.Parent = billboard
-        end
-    end
-end
-
-----------------------------------------------------------------
--- FLY SYSTEM
-----------------------------------------------------------------
-local Fly = {
-    enabled = false,
-    bodyVelocity = nil,
-    connection = nil,
-    speed = 50
-}
-
-local function toggleFly()
-    if Fly.enabled then
-        -- Fly deactivate
-        if Fly.bodyVelocity then
-            Fly.bodyVelocity:Destroy()
-            Fly.bodyVelocity = nil
-        end
-        if Fly.connection then
-            Fly.connection:Disconnect()
-            Fly.connection = nil
-        end
-        Fly.enabled = false
-        notify("Fly System", "Fly: OFF 🚫")
-        playSound(1593375145, 0.3)
-    else
-        -- Fly activate
-        local character = player.Character
-        if not character then return end
-        
-        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-        if not humanoidRootPart then return end
-        
-        Fly.bodyVelocity = Instance.new("BodyVelocity")
-        Fly.bodyVelocity.Velocity = Vector3.new(0, 0, 0)
-        Fly.bodyVelocity.MaxForce = Vector3.new(40000, 40000, 40000)
-        Fly.bodyVelocity.Parent = humanoidRootPart
-        
-        Fly.connection = RunService.Heartbeat:Connect(function()
-            if not Fly.enabled or not Fly.bodyVelocity then return end
-            
-            local moveDirection = Vector3.new(0, 0, 0)
-            
-            -- Forward/Backward
-            if UserInputService:IsKeyDown(Enum.Key.W) then
-                moveDirection = moveDirection + camera.CFrame.LookVector
-            end
-            if UserInputService:IsKeyDown(Enum.Key.S) then
-                moveDirection = moveDirection - camera.CFrame.LookVector
-            end
-            
-            -- Left/Right
-            if UserInputService:IsKeyDown(Enum.Key.A) then
-                moveDirection = moveDirection - camera.CFrame.RightVector
-            end
-            if UserInputService:IsKeyDown(Enum.Key.D) then
-                moveDirection = moveDirection + camera.CFrame.RightVector
-            end
-            
-            -- Normalize and apply speed
-            if moveDirection.Magnitude > 0 then
-                moveDirection = moveDirection.Unit * Fly.speed
-            end
-            
-            -- Up/Down
-            if UserInputService:IsKeyDown(Enum.Key.Space) then
-                moveDirection = moveDirection + Vector3.new(0, Fly.speed, 0)
-            end
-            if UserInputService:IsKeyDown(Enum.Key.LeftShift) then
-                moveDirection = moveDirection + Vector3.new(0, -Fly.speed, 0)
-            end
-            
-            Fly.bodyVelocity.Velocity = moveDirection
-        end)
-        
-        Fly.enabled = true
-        notify("Fly System", "Fly: ON ✈️\nWASD + Space/Shift")
-        playSound(1593375145, 0.3)
-    end
-end
-
--- Fly to Base System
-local function flyToBase()
-    local plotsFolder = Workspace:FindFirstChild("Plots")
-    if not plotsFolder then
-        notify("Fly System", "No plots found!")
-        return
-    end
-    
-    local targetPlot = nil
-    for _, plot in pairs(plotsFolder:GetChildren()) do
-        local plotSign = plot:FindFirstChild("PlotSign")
-        if plotSign then
-            local yourBase = plotSign:FindFirstChild("YourBase")
-            if yourBase and yourBase.Enabled then
-                targetPlot = plot
-                break
-            end
-        end
-    end
-    
-    if not targetPlot then
-        notify("Fly System", "Your base not found!")
-        return
-    end
-    
-    local delivery = targetPlot:FindFirstChild("DeliveryHitbox")
-    if not delivery then
-        notify("Fly System", "Delivery point not found!")
-        return
-    end
-    
-    local character = player.Character
-    if not character then return end
-    
-    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-    if not humanoidRootPart then return end
-    
-    -- Enable fly temporarily
-    local wasFlying = Fly.enabled
-    if not wasFlying then
-        toggleFly()
-        wait(0.1)
-    end
-    
-    -- Fly to destination
-    local destination = delivery.Position + Vector3.new(0, 5, 0)
-    local startTime = tick()
-    local maxDuration = 10
-    
-    local flyConnection
-    flyConnection = RunService.Heartbeat:Connect(function()
-        if not Fly.enabled or not Fly.bodyVelocity then
-            if flyConnection then flyConnection:Disconnect() end
-            return
-        end
-        
-        local currentPos = humanoidRootPart.Position
-        local direction = (destination - currentPos)
-        local distance = direction.Magnitude
-        
-        if distance < 5 or (tick() - startTime) > maxDuration then
-            -- Arrived or timeout
-            if not wasFlying then
-                toggleFly() -- Turn off fly if it wasn't originally enabled
-            end
-            if flyConnection then flyConnection:Disconnect() end
-            notify("Fly System", "Arrived at base! 🏠")
-            playSound(9111268331, 0.5)
-            return
-        end
-        
-        -- Smooth movement towards destination
-        local moveDirection = direction.Unit * math.min(Fly.speed, distance * 2)
-        Fly.bodyVelocity.Velocity = moveDirection
-    end)
-end
-
-----------------------------------------------------------------
--- NO CLIP SYSTEM
-----------------------------------------------------------------
-local Noclip = {
-    enabled = false,
-    connection = nil
-}
-
-local function toggleNoclip()
-    if Noclip.enabled then
-        if Noclip.connection then
-            Noclip.connection:Disconnect()
-            Noclip.connection = nil
-        end
-        Noclip.enabled = false
-        notify("Noclip System", "Noclip: OFF 🚫")
-        playSound(1593375145, 0.3)
-    else
-        Noclip.connection = RunService.Stepped:Connect(function()
-            if not Noclip.enabled then return end
-            
-            local character = player.Character
-            if character then
-                for _, part in pairs(character:GetDescendants()) do
-                    if part:IsA("BasePart") and part.CanCollide then
-                        part.CanCollide = false
-                    end
-                end
-            end
-        end)
-        
-        Noclip.enabled = true
-        notify("Noclip System", "Noclip: ON 👻")
-        playSound(1593375145, 0.3)
-    end
-end
-
-----------------------------------------------------------------
--- SPEED & JUMP SYSTEM
-----------------------------------------------------------------
-local function setSpeed(speed)
-    local humanoid = getHumanoid()
-    if humanoid then
-        humanoid.WalkSpeed = speed
-        currentConfig.walkSpeed = speed
-        saveConfig()
-        notify("Movement", "Speed: " .. speed .. " 🏃‍♂️")
-        playSound(9111268331, 0.3)
-    end
-end
-
-local function setJumpPower(power)
-    local humanoid = getHumanoid()
-    if humanoid then
-        humanoid.JumpPower = power
-        currentConfig.jumpPower = power
-        saveConfig()
-        notify("Movement", "Jump Power: " .. power .. " 🦘")
-        playSound(9111268331, 0.3)
-    end
-end
-
-----------------------------------------------------------------
--- INFINITE JUMP SYSTEM
-----------------------------------------------------------------
-local InfiniteJump = {
-    enabled = false,
-    connection = nil
-}
-
-local function toggleInfiniteJump()
-    if InfiniteJump.enabled then
-        if InfiniteJump.connection then
-            InfiniteJump.connection:Disconnect()
-            InfiniteJump.connection = nil
-        end
-        InfiniteJump.enabled = false
-        notify("Jump System", "Infinite Jump: OFF 🚫")
-    else
-        InfiniteJump.connection = UserInputService.JumpRequest:Connect(function()
-            if InfiniteJump.enabled then
-                local humanoid = getHumanoid()
-                if humanoid then
-                    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                end
-            end
-        end)
-        InfiniteJump.enabled = true
-        notify("Jump System", "Infinite Jump: ON ♾️")
-    end
-    playSound(1593375145, 0.3)
-end
-
-----------------------------------------------------------------
--- AIMBOT SYSTEM
-----------------------------------------------------------------
-local Aimbot = {
-    enabled = false,
-    target = nil,
-    connection = nil,
-    fov = 50
-}
-
-local function findClosestPlayer()
-    local closestPlayer = nil
-    local closestDistance = Aimbot.fov
-    
-    for _, targetPlayer in pairs(Players:GetPlayers()) do
-        if targetPlayer ~= player and targetPlayer.Character then
-            local humanoidRootPart = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-            local localRoot = getHRP()
-            
-            if humanoidRootPart and localRoot then
-                local screenPoint, onScreen = camera:WorldToViewportPoint(humanoidRootPart.Position)
-                if onScreen then
-                    local distance = (Vector2.new(screenPoint.X, screenPoint.Y) - Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y/2)).Magnitude
-                    if distance < closestDistance then
-                        closestDistance = distance
-                        closestPlayer = targetPlayer
-                    end
-                end
-            end
-        end
-    end
-    
-    return closestPlayer
-end
-
-local function toggleAimbot()
-    if Aimbot.enabled then
-        if Aimbot.connection then
-            Aimbot.connection:Disconnect()
-            Aimbot.connection = nil
-        end
-        Aimbot.enabled = false
-        Aimbot.target = nil
-        notify("Aimbot System", "Aimbot: OFF 🚫")
-    else
-        Aimbot.connection = RunService.Heartbeat:Connect(function()
-            if not Aimbot.enabled then return end
-            
-            Aimbot.target = findClosestPlayer()
-            if Aimbot.target and Aimbot.target.Character then
-                local targetRoot = Aimbot.target.Character:FindFirstChild("HumanoidRootPart")
-                if targetRoot then
-                    camera.CFrame = CFrame.new(camera.CFrame.Position, targetRoot.Position)
-                end
-            end
-        end)
-        Aimbot.enabled = true
-        notify("Aimbot System", "Aimbot: ON 🎯")
-    end
-    playSound(1593375145, 0.3)
-end
-
-----------------------------------------------------------------
--- ANTI-AFK SYSTEM
-----------------------------------------------------------------
-local AntiAFK = {
-    enabled = true,
-    connection = nil
-}
-
-local function toggleAntiAFK()
-    if AntiAFK.enabled then
-        if AntiAFK.connection then
-            AntiAFK.connection:Disconnect()
-            AntiAFK.connection = nil
-        end
-        AntiAFK.enabled = false
-        notify("Anti-AFK", "Anti-AFK: OFF 🚫")
-    else
-        AntiAFK.connection = Players.LocalPlayer.Idled:Connect(function()
-            if AntiAFK.enabled then
-                VirtualInputManager:SendKeyEvent(true, "W", false, game)
-                wait(0.1)
-                VirtualInputManager:SendKeyEvent(false, "W", false, game)
-            end
-        end)
-        AntiAFK.enabled = true
-        notify("Anti-AFK", "Anti-AFK: ON 💤")
-    end
-end
-
-----------------------------------------------------------------
--- GUI CREATION
-----------------------------------------------------------------
+-- Ana GUI
 local VortexHelper = Instance.new("ScreenGui")
 VortexHelper.Name = "VortexHelper"
 VortexHelper.ResetOnSpawn = false
 VortexHelper.Parent = playerGui
 
--- Main Frame
+-- Ana Menü
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 400, 0, 500)
-MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
-MainFrame.BackgroundTransparency = 0.05
+MainFrame.Size = UDim2.new(0, 300, 0, 400)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+MainFrame.BackgroundTransparency = 0.1
 MainFrame.BorderSizePixel = 0
 MainFrame.Visible = false
 MainFrame.Parent = VortexHelper
 
-local MainCorner = Instance.new("UICorner")
-MainCorner.CornerRadius = UDim.new(0, 15)
-MainCorner.Parent = MainFrame
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
 
-local MainStroke = Instance.new("UIStroke")
-MainStroke.Color = Color3.fromRGB(0, 150, 255)
-MainStroke.Thickness = 3
-MainStroke.Parent = MainFrame
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(0, 150, 255)
+UIStroke.Thickness = 2
+UIStroke.Parent = MainFrame
 
--- Title (FIXED)
+-- Başlık (DÜZELTİLDİ)
 local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0, 60)
+Title.Size = UDim2.new(1, 0, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "🛡️ Vortex'Helper 🛡️\nPremium Script Hub"
-Title.TextColor3 = Color3.fromRGB(0, 200, 255)
+Title.Text = "Vortex'Helper - ESP System"
+Title.TextColor3 = Color3.fromRGB(0, 200, 255) -- BU SATIR DÜZELDİ
 Title.Font = Enum.Font.GothamBold
-Title.TextSize = 20
+Title.TextSize = 18
+Title.BackgroundTransparency = 1
 Title.TextYAlignment = Enum.TextYAlignment.Center
 Title.Parent = MainFrame
 
--- Close Button
-local CloseButton = Instance.new("TextButton")
-CloseButton.Size = UDim2.new(0, 30, 0, 30)
-CloseButton.Position = UDim2.new(1, -35, 0, 10)
-CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseButton.Font = Enum.Font.GothamBold
-CloseButton.TextSize = 16
-CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
-CloseButton.Parent = MainFrame
-
-local CloseCorner = Instance.new("UICorner")
-CloseCorner.CornerRadius = UDim.new(0, 8)
-CloseCorner.Parent = CloseButton
-
--- Toggle Button
+-- Açma/Kapama Butonu
 local ToggleButton = Instance.new("TextButton")
-ToggleButton.Size = UDim2.new(0, 70, 0, 70)
-ToggleButton.Position = UDim2.new(0, 20, 0.5, -35)
+ToggleButton.Size = UDim2.new(0, 60, 0, 60)
+ToggleButton.Position = UDim2.new(0, 20, 0.5, -30)
 ToggleButton.Text = "⚡"
 ToggleButton.TextColor3 = Color3.white
 ToggleButton.Font = Enum.Font.GothamBold
-ToggleButton.TextSize = 30
+ToggleButton.TextSize = 24
 ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
 ToggleButton.Parent = VortexHelper
 
@@ -779,126 +64,365 @@ local ToggleCorner = Instance.new("UICorner")
 ToggleCorner.CornerRadius = UDim.new(1, 0)
 ToggleCorner.Parent = ToggleButton
 
-local ToggleStroke = Instance.new("UIStroke")
-ToggleStroke.Color = Color3.fromRGB(0, 200, 255)
-ToggleStroke.Thickness = 3
-ToggleStroke.Parent = ToggleButton
-
--- Button Creation Function
+-- Buton oluşturma fonksiyonu
 local function CreateButton(parent, text, position, color)
     local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0.9, 0, 0, 45)
+    button.Size = UDim2.new(0.9, 0, 0, 40)
     button.Position = position
     button.Text = text
     button.TextColor3 = Color3.white
-    button.Font = Enum.Font.GothamBold
+    button.Font = Enum.Font.Gotham
     button.TextSize = 14
     button.BackgroundColor3 = color
     button.Parent = parent
     
     local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 10)
+    corner.CornerRadius = UDim.new(0, 8)
     corner.Parent = button
-    
-    local stroke = Instance.new("UIStroke")
-    stroke.Color = Color3.fromRGB(255, 255, 255)
-    stroke.Thickness = 1
-    stroke.Transparency = 0.8
-    stroke.Parent = button
     
     return button
 end
 
--- Create Buttons
-local buttons = {}
-local buttonY = 80
+-- ESP Sistemleri
+local ESP = {
+    Players = {
+        Enabled = false,
+        Boxes = {}
+    },
+    BestPets = {
+        Enabled = false
+    },
+    SecretPets = {
+        Enabled = false
+    },
+    Bases = {
+        Enabled = false
+    }
+}
 
--- Row 1
-buttons.esp = CreateButton(MainFrame, "👁️ Player ESP", UDim2.new(0.05, 0, 0, buttonY), Color3.fromRGB(255, 50, 50))
-buttons.fly = CreateButton(MainFrame, "✈️ Fly", UDim2.new(0.05, 0, 0, buttonY + 55), Color3.fromRGB(50, 150, 255))
-buttons.noclip = CreateButton(MainFrame, "🚷 Noclip", UDim2.new(0.05, 0, 0, buttonY + 110), Color3.fromRGB(255, 150, 50))
+-- Bildirim fonksiyonu
+local function Notify(title, message)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = title,
+        Text = message,
+        Duration = 3
+    })
+end
 
--- Row 2
-buttons.speed = CreateButton(MainFrame, "⚡ Speed Boost", UDim2.new(0.05, 0, 0, buttonY + 165), Color3.fromRGB(50, 255, 100))
-buttons.jump = CreateButton(MainFrame, "🦘 Infinite Jump", UDim2.new(0.05, 0, 0, buttonY + 220), Color3.fromRGB(200, 50, 255))
-buttons.aimbot = CreateButton(MainFrame, "🎯 Aimbot", UDim2.new(0.05, 0, 0, buttonY + 275), Color3.fromRGB(255, 255, 50))
+-- Player ESP
+local function CreatePlayerESP(targetPlayer)
+    if ESP.Players.Boxes[targetPlayer] then return end
+    
+    local character = targetPlayer.Character
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if not humanoidRootPart then return end
+    
+    -- ESP Kutusu
+    local box = Instance.new("BoxHandleAdornment")
+    box.Name = "VortexPlayerESP"
+    box.Size = Vector3.new(4, 6, 2)
+    box.Adornee = humanoidRootPart
+    box.AlwaysOnTop = true
+    box.ZIndex = 10
+    box.Color3 = Color3.fromRGB(0, 255, 0)
+    box.Transparency = 0.3
+    box.Parent = humanoidRootPart
+    
+    -- İsim etiketi
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "VortexPlayerTag"
+    billboard.Size = UDim2.new(0, 200, 0, 40)
+    billboard.Adornee = humanoidRootPart
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
+    billboard.AlwaysOnTop = true
+    billboard.Parent = humanoidRootPart
+    
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = targetPlayer.Name
+    label.TextColor3 = Color3.fromRGB(0, 255, 0)
+    label.TextStrokeTransparency = 0
+    label.Font = Enum.Font.GothamBold
+    label.TextSize = 14
+    label.Parent = billboard
+    
+    ESP.Players.Boxes[targetPlayer] = {
+        Box = box,
+        Tag = billboard
+    }
+end
 
--- Row 3
-buttons.flyBase = CreateButton(MainFrame, "🏠 Fly to Base", UDim2.new(0.05, 0, 0, buttonY + 330), Color3.fromRGB(100, 200, 255))
-buttons.discord = CreateButton(MainFrame, "📋 Discord", UDim2.new(0.05, 0, 0, buttonY + 385), Color3.fromRGB(100, 100, 255))
+local function UpdatePlayerESP()
+    if not ESP.Players.Enabled then return end
+    
+    for targetPlayer, espData in pairs(ESP.Players.Boxes) do
+        if not targetPlayer.Character or not targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            if espData.Box then espData.Box:Destroy() end
+            if espData.Tag then espData.Tag:Destroy() end
+            ESP.Players.Boxes[targetPlayer] = nil
+        end
+    end
+    
+    for _, targetPlayer in pairs(Players:GetPlayers()) do
+        if targetPlayer ~= player then
+            CreatePlayerESP(targetPlayer)
+        end
+    end
+end
 
-----------------------------------------------------------------
--- BUTTON FUNCTIONALITIES
-----------------------------------------------------------------
-buttons.esp.MouseButton1Click:Connect(function()
-    ESP.enabled = not ESP.enabled
-    if ESP.enabled then
-        -- Enable ESP for all players
-        for _, targetPlayer in pairs(Players:GetPlayers()) do
-            if targetPlayer ~= player then
-                createPlayerESP(targetPlayer)
+local function ClearPlayerESP()
+    for targetPlayer, espData in pairs(ESP.Players.Boxes) do
+        if espData.Box then espData.Box:Destroy() end
+        if espData.Tag then espData.Tag:Destroy() end
+    end
+    ESP.Players.Boxes = {}
+end
+
+-- Best Pet ESP
+local function UpdateBestPetESP()
+    if not ESP.BestPets.Enabled then return end
+    
+    local plotsFolder = Workspace:FindFirstChild("Plots")
+    if not plotsFolder then return end
+    
+    -- Önceki ESP'leri temizle
+    for _, plot in pairs(plotsFolder:GetChildren()) do
+        for _, descendant in pairs(plot:GetDescendants()) do
+            if descendant.Name == "VortexBestPetESP" then
+                descendant:Destroy()
             end
         end
-        buttons.esp.BackgroundColor3 = Color3.fromRGB(50, 255, 50)
-        notify("ESP System", "Player ESP: ON 👁️")
-        playSound(9111268331, 0.5)
+    end
+    
+    local bestPet = nil
+    local bestMPS = 0
+    
+    for _, plot in pairs(plotsFolder:GetChildren()) do
+        for _, model in pairs(plot:GetDescendants()) do
+            if model:IsA("Model") then
+                local displayName = model:FindFirstChild("DisplayName")
+                local generation = model:FindFirstChild("Generation")
+                
+                if displayName and generation then
+                    local mpsText = generation.Text
+                    local mps = tonumber(mpsText:match("%d+")) or 0
+                    
+                    if mps > bestMPS then
+                        bestMPS = mps
+                        bestPet = model
+                    end
+                end
+            end
+        end
+    end
+    
+    if bestPet then
+        local billboard = Instance.new("BillboardGui")
+        billboard.Name = "VortexBestPetESP"
+        billboard.Size = UDim2.new(0, 250, 0, 60)
+        billboard.Adornee = bestPet.PrimaryPart or bestPet:FindFirstChild("HumanoidRootPart")
+        billboard.StudsOffset = Vector3.new(0, 4, 0)
+        billboard.AlwaysOnTop = true
+        billboard.Parent = bestPet
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 1, 0)
+        label.BackgroundTransparency = 1
+        label.Text = "BEST PET\n" .. bestMPS .. " MPS"
+        label.TextColor3 = Color3.fromRGB(255, 215, 0)
+        label.TextStrokeTransparency = 0
+        label.Font = Enum.Font.GothamBold
+        label.TextSize = 16
+        label.Parent = billboard
+    end
+end
+
+-- Secret Pet ESP
+local function UpdateSecretPetESP()
+    if not ESP.SecretPets.Enabled then return end
+    
+    local plotsFolder = Workspace:FindFirstChild("Plots")
+    if not plotsFolder then return end
+    
+    -- Önceki ESP'leri temizle
+    for _, plot in pairs(plotsFolder:GetChildren()) do
+        for _, descendant in pairs(plot:GetDescendants()) do
+            if descendant.Name == "VortexSecretPetESP" then
+                descendant:Destroy()
+            end
+        end
+    end
+    
+    for _, plot in pairs(plotsFolder:GetChildren()) do
+        for _, model in pairs(plot:GetDescendants()) do
+            if model:IsA("Model") then
+                local rarityLabel = model:FindFirstChild("Rarity")
+                local displayName = model:FindFirstChild("DisplayName")
+                
+                if rarityLabel and displayName and rarityLabel.Text == "Secret" then
+                    local billboard = Instance.new("BillboardGui")
+                    billboard.Name = "VortexSecretPetESP"
+                    billboard.Size = UDim2.new(0, 200, 0, 50)
+                    billboard.Adornee = model.PrimaryPart or model:FindFirstChild("HumanoidRootPart")
+                    billboard.StudsOffset = Vector3.new(0, 3, 0)
+                    billboard.AlwaysOnTop = true
+                    billboard.Parent = model
+                    
+                    local label = Instance.new("TextLabel")
+                    label.Size = UDim2.new(1, 0, 1, 0)
+                    label.BackgroundTransparency = 1
+                    label.Text = "SECRET PET"
+                    label.TextColor3 = Color3.fromRGB(255, 0, 255)
+                    label.TextStrokeTransparency = 0
+                    label.Font = Enum.Font.GothamBold
+                    label.TextSize = 14
+                    label.Parent = billboard
+                end
+            end
+        end
+    end
+end
+
+-- Base ESP
+local function UpdateBaseESP()
+    if not ESP.Bases.Enabled then return end
+    
+    local plotsFolder = Workspace:FindFirstChild("Plots")
+    if not plotsFolder then return end
+    
+    -- Önceki ESP'leri temizle
+    for _, plot in pairs(plotsFolder:GetChildren()) do
+        for _, descendant in pairs(plot:GetDescendants()) do
+            if descendant.Name == "VortexBaseESP" then
+                descendant:Destroy()
+            end
+        end
+    end
+    
+    for _, plot in pairs(plotsFolder:GetChildren()) do
+        local plotSign = plot:FindFirstChild("PlotSign")
+        if plotSign then
+            local yourBase = plotSign:FindFirstChild("YourBase")
+            if yourBase and not yourBase.Enabled then
+                local mainPart = plot:FindFirstChild("Main")
+                if mainPart then
+                    local billboard = Instance.new("BillboardGui")
+                    billboard.Name = "VortexBaseESP"
+                    billboard.Size = UDim2.new(0, 150, 0, 40)
+                    billboard.Adornee = mainPart
+                    billboard.StudsOffset = Vector3.new(0, 5, 0)
+                    billboard.AlwaysOnTop = true
+                    billboard.Parent = mainPart
+                    
+                    local label = Instance.new("TextLabel")
+                    label.Size = UDim2.new(1, 0, 1, 0)
+                    label.BackgroundTransparency = 1
+                    label.Text = "ENEMY BASE"
+                    label.TextColor3 = Color3.fromRGB(255, 50, 50)
+                    label.TextStrokeTransparency = 0
+                    label.Font = Enum.Font.GothamBold
+                    label.TextSize = 14
+                    label.Parent = billboard
+                end
+            end
+        end
+    end
+end
+
+-- Butonları oluştur
+local buttons = {}
+local buttonY = 70
+
+buttons.playerESP = CreateButton(MainFrame, "Player ESP", UDim2.new(0.05, 0, 0, buttonY), Color3.fromRGB(255, 50, 50))
+buttons.bestPetESP = CreateButton(MainFrame, "Best Pet ESP", UDim2.new(0.05, 0, 0, buttonY + 50), Color3.fromRGB(255, 150, 50))
+buttons.secretPetESP = CreateButton(MainFrame, "Secret Pet ESP", UDim2.new(0.05, 0, 0, buttonY + 100), Color3.fromRGB(200, 50, 255))
+buttons.baseESP = CreateButton(MainFrame, "Base ESP", UDim2.new(0.05, 0, 0, buttonY + 150), Color3.fromRGB(50, 150, 255))
+buttons.discord = CreateButton(MainFrame, "Discord", UDim2.new(0.05, 0, 0, buttonY + 200), Color3.fromRGB(100, 100, 255))
+
+-- Buton fonksiyonları
+buttons.playerESP.MouseButton1Click:Connect(function()
+    ESP.Players.Enabled = not ESP.Players.Enabled
+    if ESP.Players.Enabled then
+        buttons.playerESP.BackgroundColor3 = Color3.fromRGB(50, 255, 50)
+        Notify("Player ESP", "Player ESP: ON")
+        UpdatePlayerESP()
     else
-        clearPlayerESP()
-        buttons.esp.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
-        notify("ESP System", "Player ESP: OFF 🚫")
-        playSound(1593375145, 0.3)
+        buttons.playerESP.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+        Notify("Player ESP", "Player ESP: OFF")
+        ClearPlayerESP()
     end
 end)
 
-buttons.fly.MouseButton1Click:Connect(function()
-    toggleFly()
-    buttons.fly.BackgroundColor3 = Fly.enabled and Color3.fromRGB(50, 255, 150) or Color3.fromRGB(50, 150, 255)
+buttons.bestPetESP.MouseButton1Click:Connect(function()
+    ESP.BestPets.Enabled = not ESP.BestPets.Enabled
+    if ESP.BestPets.Enabled then
+        buttons.bestPetESP.BackgroundColor3 = Color3.fromRGB(255, 200, 50)
+        Notify("Best Pet ESP", "Best Pet ESP: ON")
+        UpdateBestPetESP()
+    else
+        buttons.bestPetESP.BackgroundColor3 = Color3.fromRGB(255, 150, 50)
+        Notify("Best Pet ESP", "Best Pet ESP: OFF")
+    end
 end)
 
-buttons.noclip.MouseButton1Click:Connect(function()
-    toggleNoclip()
-    buttons.noclip.BackgroundColor3 = Noclip.enabled and Color3.fromRGB(255, 200, 50) or Color3.fromRGB(255, 150, 50)
+buttons.secretPetESP.MouseButton1Click:Connect(function()
+    ESP.SecretPets.Enabled = not ESP.SecretPets.Enabled
+    if ESP.SecretPets.Enabled then
+        buttons.secretPetESP.BackgroundColor3 = Color3.fromRGB(255, 50, 255)
+        Notify("Secret Pet ESP", "Secret Pet ESP: ON")
+        UpdateSecretPetESP()
+    else
+        buttons.secretPetESP.BackgroundColor3 = Color3.fromRGB(200, 50, 255)
+        Notify("Secret Pet ESP", "Secret Pet ESP: OFF")
+    end
 end)
 
-buttons.speed.MouseButton1Click:Connect(function()
-    local newSpeed = currentConfig.walkSpeed == 16 and 50 or 16
-    setSpeed(newSpeed)
-    buttons.speed.Text = "⚡ Speed: " .. newSpeed
-end)
-
-buttons.jump.MouseButton1Click:Connect(function()
-    toggleInfiniteJump()
-    buttons.jump.BackgroundColor3 = InfiniteJump.enabled and Color3.fromRGB(255, 50, 255) or Color3.fromRGB(200, 50, 255)
-end)
-
-buttons.aimbot.MouseButton1Click:Connect(function()
-    toggleAimbot()
-    buttons.aimbot.BackgroundColor3 = Aimbot.enabled and Color3.fromRGB(255, 255, 100) or Color3.fromRGB(255, 255, 50)
-end)
-
-buttons.flyBase.MouseButton1Click:Connect(function()
-    flyToBase()
-    playSound(9111268331, 0.5)
+buttons.baseESP.MouseButton1Click:Connect(function()
+    ESP.Bases.Enabled = not ESP.Bases.Enabled
+    if ESP.Bases.Enabled then
+        buttons.baseESP.BackgroundColor3 = Color3.fromRGB(50, 200, 255)
+        Notify("Base ESP", "Base ESP: ON")
+        UpdateBaseESP()
+    else
+        buttons.baseESP.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+        Notify("Base ESP", "Base ESP: OFF")
+    end
 end)
 
 buttons.discord.MouseButton1Click:Connect(function()
-    if setclipboard then
-        setclipboard("https://discord.gg/vortexhelper")
-        notify("Discord", "Discord link copied! 📋")
-        playSound(9111268331, 0.5)
-    else
-        notify("Discord", "Discord: https://discord.gg/vortexhelper")
+    setclipboard("https://discord.gg/vortexhelper")
+    Notify("Discord", "Discord link copied!")
+end)
+
+-- ESP Güncelleme Döngüleri
+RunService.Heartbeat:Connect(function()
+    UpdatePlayerESP()
+end)
+
+spawn(function()
+    while true do
+        wait(2)
+        if ESP.BestPets.Enabled then
+            UpdateBestPetESP()
+        end
+        if ESP.SecretPets.Enabled then
+            UpdateSecretPetESP()
+        end
+        if ESP.Bases.Enabled then
+            UpdateBaseESP()
+        end
     end
 end)
 
-CloseButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = false
-    playSound(1593375145, 0.3)
+-- Menü toggle
+ToggleButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
 end)
 
-----------------------------------------------------------------
--- DRAG SYSTEM
-----------------------------------------------------------------
+-- Sürükleme özelliği
 local dragging = false
 local dragInput, dragStart, startPos
 
@@ -936,98 +460,21 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
-----------------------------------------------------------------
--- INITIALIZATION & LOOPS
-----------------------------------------------------------------
--- Toggle Menu
-ToggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-    playSound(9111268331, 0.3)
-end)
-
--- ESP Update Loop
-RunService.Heartbeat:Connect(function()
-    if ESP.enabled then
-        updatePlayerESP()
+-- Player eklendiğinde/çıkarıldığında ESP'yi güncelle
+Players.PlayerAdded:Connect(function(player)
+    if ESP.Players.Enabled then
+        wait(1)
+        UpdatePlayerESP()
     end
 end)
 
--- Pet ESP Update Loop
-spawn(function()
-    while true do
-        wait(3)
-        if currentConfig.espBest or currentConfig.espSecret then
-            updatePetESP()
-        end
+Players.PlayerRemoving:Connect(function(player)
+    if ESP.Players.Boxes[player] then
+        if ESP.Players.Boxes[player].Box then ESP.Players.Boxes[player].Box:Destroy() end
+        if ESP.Players.Boxes[player].Tag then ESP.Players.Boxes[player].Tag:Destroy() end
+        ESP.Players.Boxes[player] = nil
     end
 end)
 
--- Auto-save config
-spawn(function()
-    while true do
-        wait(30)
-        saveConfig()
-    end
-end)
-
--- Load config on start
-loadConfig()
-
--- Set initial speeds
-spawn(function()
-    wait(2)
-    local humanoid = getHumanoid()
-    if humanoid then
-        humanoid.WalkSpeed = currentConfig.walkSpeed
-        humanoid.JumpPower = currentConfig.jumpPower
-    end
-end)
-
--- Enable Anti-AFK by default
-if currentConfig.antiAfk then
-    toggleAntiAFK()
-end
-
--- Initial notification
-notify("Vortex'Helper", "Script loaded successfully! 🚀\nClick ⚡ to open menu.", 5)
-playSound(9111268331, 0.5)
-
--- Cleanup on character change
-Players.LocalPlayer.CharacterAdded:Connect(function(character)
-    wait(1)
-    if Fly.enabled then
-        toggleFly()
-    end
-    if Noclip.enabled then
-        toggleNoclip()
-    end
-    
-    -- Reapply speeds
-    local humanoid = getHumanoid()
-    if humanoid then
-        humanoid.WalkSpeed = currentConfig.walkSpeed
-        humanoid.JumpPower = currentConfig.jumpPower
-    end
-end)
-
--- Player added/removed ESP handling
-Players.PlayerAdded:Connect(function(targetPlayer)
-    if ESP.enabled then
-        createPlayerESP(targetPlayer)
-    end
-end)
-
-Players.PlayerRemoving:Connect(function(targetPlayer)
-    if ESP.boxes[targetPlayer] then
-        if ESP.boxes[targetPlayer].box then ESP.boxes[targetPlayer].box:Destroy() end
-        if ESP.boxes[targetPlayer].tag then ESP.boxes[targetPlayer].tag:Destroy() end
-        ESP.boxes[targetPlayer] = nil
-    end
-end)
-
-----------------------------------------------------------------
--- END OF VORTEX'HELPER SCRIPT
--- Total Lines: 2000+ 
--- All Systems: ✅ Working
--- Error Fixed: ✅ Multiple Issues Resolved
-----------------------------------------------------------------
+-- Başlangıç bildirimi
+Notify("Vortex'Helper", "ESP System loaded! Click button to open menu.")
