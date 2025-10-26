@@ -1,10 +1,8 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
-local TweenService = game:GetService("TweenService")
-local UserInputService = game:GetService("UserInputService")
 
--- Blacklist with only one user: "gametesterbrow"
+-- Blacklist'teki tek kullanıcı "gametesterbrow"
 local blacklistNames = {
     "gametesterbrow"
 }
@@ -13,10 +11,11 @@ for _, name in ipairs(blacklistNames) do
     blacklist[string.lower(name)] = true
 end
 
--- Auto Laser System
+-- Auto Lazer Sistemi
 local autoLazerEnabled = false
 local autoLazerThread = nil
 
+-- Lazer remote'unu al
 local function getLazerRemote()
     local remote = nil
     pcall(function()
@@ -30,6 +29,7 @@ local function getLazerRemote()
     return remote
 end
 
+-- Geçerli bir hedefin olup olmadığını kontrol et
 local function isValidTarget(player)
     if not player or not player.Character or player == Players.LocalPlayer then return false end
     local name = player.Name and string.lower(player.Name) or ""
@@ -41,6 +41,7 @@ local function isValidTarget(player)
     return true
 end
 
+-- Hedef bulma
 local function findNearestAllowed()
     if not Players.LocalPlayer.Character or not Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then return nil end
     local myPos = Players.LocalPlayer.Character.HumanoidRootPart.Position
@@ -61,6 +62,7 @@ local function findNearestAllowed()
     return nearest
 end
 
+-- Lazer ateş etme
 local function safeFire(targetPlayer)
     if not targetPlayer or not targetPlayer.Character then return end
     local targetHRP = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -77,6 +79,7 @@ local function safeFire(targetPlayer)
     end
 end
 
+-- Auto Lazer işleyicisini başlatma
 local function autoLazerWorker()
     while autoLazerEnabled do
         local target = findNearestAllowed()
@@ -91,10 +94,9 @@ local function autoLazerWorker()
     end
 end
 
+-- Auto lazeri açma ve kapama fonksiyonu
 local function toggleAutoLazer()
     autoLazerEnabled = not autoLazerEnabled
-    autoLazerButton.Text = autoLazerEnabled and "AUTO LAZER: ON" or "AUTO LAZER: OFF"
-    
     if autoLazerEnabled then
         if autoLazerThread then
             task.cancel(autoLazerThread)
@@ -108,7 +110,7 @@ local function toggleAutoLazer()
     end
 end
 
--- GUI Setup for Testing
+-- GUI Setup
 local gui = Instance.new("ScreenGui")
 gui.Name = "TestGui"
 gui.ResetOnSpawn = false
@@ -142,6 +144,7 @@ autoLazerButton.Font = Enum.Font.GothamBold
 autoLazerButton.TextSize = 14
 Instance.new("UICorner", autoLazerButton).CornerRadius = UDim.new(0, 6)
 
+-- Butona tıklama işlevi
 autoLazerButton.MouseButton1Click:Connect(function()
     toggleAutoLazer()
 end)
