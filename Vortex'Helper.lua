@@ -1,21 +1,26 @@
+local StarterGui = game:GetService("StarterGui")
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
 
--- Blacklist'teki tek kullanıcı "gametesterbrow"
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Auto Laser Settings
+local autoLazerEnabled = false
+local autoLazerThread = nil
 local blacklistNames = {
-    "gametesterbrow"
+    "gametesterbrow",  -- Only blacklisted player
 }
 local blacklist = {}
 for _, name in ipairs(blacklistNames) do
     blacklist[string.lower(name)] = true
 end
 
--- Auto Lazer Sistemi
-local autoLazerEnabled = false
-local autoLazerThread = nil
-
--- Lazer remote'unu al
 local function getLazerRemote()
     local remote = nil
     pcall(function()
@@ -29,7 +34,6 @@ local function getLazerRemote()
     return remote
 end
 
--- Geçerli bir hedefin olup olmadığını kontrol et
 local function isValidTarget(player)
     if not player or not player.Character or player == Players.LocalPlayer then return false end
     local name = player.Name and string.lower(player.Name) or ""
@@ -41,7 +45,6 @@ local function isValidTarget(player)
     return true
 end
 
--- Hedef bulma
 local function findNearestAllowed()
     if not Players.LocalPlayer.Character or not Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then return nil end
     local myPos = Players.LocalPlayer.Character.HumanoidRootPart.Position
@@ -62,7 +65,6 @@ local function findNearestAllowed()
     return nearest
 end
 
--- Lazer ateş etme
 local function safeFire(targetPlayer)
     if not targetPlayer or not targetPlayer.Character then return end
     local targetHRP = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -79,7 +81,6 @@ local function safeFire(targetPlayer)
     end
 end
 
--- Auto Lazer işleyicisini başlatma
 local function autoLazerWorker()
     while autoLazerEnabled do
         local target = findNearestAllowed()
@@ -94,15 +95,19 @@ local function autoLazerWorker()
     end
 end
 
--- Auto lazeri açma ve kapama fonksiyonu
 local function toggleAutoLazer()
     autoLazerEnabled = not autoLazerEnabled
     if autoLazerEnabled then
+        autoLazerButton.Text = "AUTO LAZER: ON"
+        autoLazerButton.BackgroundColor3 = Color3.fromRGB(0, 170, 0) -- Green when on
         if autoLazerThread then
             task.cancel(autoLazerThread)
         end
         autoLazerThread = task.spawn(autoLazerWorker)
     else
+        autoLazerEnabled = false
+        autoLazerButton.Text = "AUTO LAZER: OFF"
+        autoLazerButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Grey when off
         if autoLazerThread then
             task.cancel(autoLazerThread)
             autoLazerThread = nil
@@ -110,15 +115,15 @@ local function toggleAutoLazer()
     end
 end
 
--- GUI Setup
+-- GUI setup
 local gui = Instance.new("ScreenGui")
-gui.Name = "TestGui"
+gui.Name = "EXEWalkGui"
 gui.ResetOnSpawn = false
-gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+gui.Parent = player:WaitForChild("PlayerGui")
 
 local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0, 180, 0, 100)
-frame.Position = UDim2.new(0.5, -90, 0.5, -50)
+frame.Size = UDim2.new(0, 180, 0, 280)
+frame.Position = UDim2.new(0.5, -90, 0.5, -140)
 frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 frame.BorderSizePixel = 0
 frame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -126,25 +131,26 @@ frame.Active = true
 Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
 
 local title = Instance.new("TextLabel", frame)
-title.Text = "TEST AUTO LAZER"
+title.Text = "EXE HUB PREMIUM"
 title.Size = UDim2.new(1, 0, 0, 16)
 title.Position = UDim2.new(0, 0, 0, 0)
 title.BackgroundTransparency = 1
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 12
+title.ZIndex = 2
 
+-- Auto Lazer button
 local autoLazerButton = Instance.new("TextButton", frame)
 autoLazerButton.Text = "AUTO LAZER: OFF"
 autoLazerButton.Size = UDim2.new(0.8, 0, 0, 25)
-autoLazerButton.Position = UDim2.new(0.1, 0, 0.2, 0)
+autoLazerButton.Position = UDim2.new(0.1, 0, 0.56, 0)
 autoLazerButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 autoLazerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 autoLazerButton.Font = Enum.Font.GothamBold
 autoLazerButton.TextSize = 14
+autoLazerButton.ZIndex = 2
 Instance.new("UICorner", autoLazerButton).CornerRadius = UDim.new(0, 6)
 
--- Butona tıklama işlevi
-autoLazerButton.MouseButton1Click:Connect(function()
-    toggleAutoLazer()
-end)
+-- Toggle Auto Lazer
+autoLazerButton.MouseButton1Click:Connect(toggleAutoLazer)
