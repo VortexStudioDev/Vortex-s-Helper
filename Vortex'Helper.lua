@@ -176,7 +176,7 @@ local function deactivateDesync()
     resetFlag()
 end
 
--- ÖNEMLİ: LOCKDOWN SİSTEMİ TAM ÇALIŞSIN
+-- TAM LOCKDOWN SİSTEMİ - KARAKTERİ TAMAMEN GİZLE
 local function performDesyncLockdown(duration, onComplete)
     if lockdownRunning then
         if onComplete then pcall(onComplete) end
@@ -199,6 +199,15 @@ local function performDesyncLockdown(duration, onComplete)
         return
     end
 
+    -- ÖNEMLİ: Karakteri tamamen gizle
+    local originalTransparency = {}
+    for _, part in ipairs(char:GetDescendants()) do
+        if part:IsA("BasePart") then
+            originalTransparency[part] = part.Transparency
+            part.Transparency = 1  -- Tamamen görünmez yap
+        end
+    end
+
     -- Karakteri tamamen kitliyoruz
     local savedWalk = hum.WalkSpeed
     local savedJump = hum.JumpPower
@@ -217,14 +226,11 @@ local function performDesyncLockdown(duration, onComplete)
         lockdownConn = nil
     end
 
-    -- Karakteri sabit tut
-    local lastCFrameTime = 0
-    local CFRAME_UPDATE_INTERVAL = 0.05  -- Daha sık güncelle
+    -- KARAKTERİ TAMAMEN SABİT TUT
     lockdownConn = RunService.Heartbeat:Connect(function()
         if not hrp or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
             return
         end
-        local now = tick()
         pcall(function()
             -- Tüm fizik etkilerini sıfırla
             hrp.Velocity = Vector3.new(0, 0, 0)
@@ -232,10 +238,14 @@ local function performDesyncLockdown(duration, onComplete)
             hrp.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
             hrp.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
             
-            -- Pozisyonu sabit tut
-            if (now - lastCFrameTime) >= CFRAME_UPDATE_INTERVAL then
-                hrp.CFrame = fixedCFrame
-                lastCFrameTime = now
+            -- Pozisyonu kesinlikle sabit tut
+            hrp.CFrame = fixedCFrame
+            
+            -- Görünmezliği koru
+            for part, _ in pairs(originalTransparency) do
+                if part and part.Parent then
+                    part.Transparency = 1
+                end
             end
         end)
     end)
@@ -247,6 +257,13 @@ local function performDesyncLockdown(duration, onComplete)
         if lockdownConn then
             lockdownConn:Disconnect()
             lockdownConn = nil
+        end
+
+        -- Görünürlüğü geri getir
+        for part, transparency in pairs(originalTransparency) do
+            if part and part.Parent then
+                part.Transparency = transparency
+            end
         end
 
         if hum and hum.Parent then
@@ -286,6 +303,7 @@ local function activateClonerDesync(callback)
         local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
         if humanoid then 
             humanoid:EquipTool(tool)
+            task.wait(0.5)  -- Tool'un equip olmasını bekle
         end
     end
     equipQuantumCloner()
@@ -293,10 +311,13 @@ local function activateClonerDesync(callback)
     local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
     if REUseItem then 
         REUseItem:FireServer()
+        showNotification("⚡ Activating Quantum...", false)
     else
         showNotification("❌ RE/UseItem not found", false)
         return
     end
+    
+    task.wait(0.2)
     
     local REQuantumClonerOnTeleport = ReplicatedStorage.Packages.Net:FindFirstChild("RE/QuantumCloner/OnTeleport")
     if REQuantumClonerOnTeleport then 
@@ -307,12 +328,16 @@ local function activateClonerDesync(callback)
     end
 
     local cloneName = tostring(player.UserId) .. "_Clone"
+    
+    -- Clone oluşumunu dinle
     cloneListenerConn = Workspace.ChildAdded:Connect(function(obj)
         if obj.Name == cloneName and obj:IsA("Model") then
+            showNotification("🔮 Clone Created!", true)
+            
             pcall(function() 
                 makeInvulnerable(obj)
-                showNotification("🔮 Clone Created", true)
             end)
+            
             local origChar = player.Character
             if origChar then 
                 pcall(function() 
@@ -325,15 +350,15 @@ local function activateClonerDesync(callback)
                 cloneListenerConn = nil
             end
 
-            -- LOCKDOWN'u başlat - 2 saniye boyunca karakter kitli kalacak
-            performDesyncLockdown(2, function()
+            -- 3 SANİYE BOYUNCA TAM LOCKDOWN
+            performDesyncLockdown(3, function()
                 if callback then pcall(callback) end
             end)
         end
     end)
 
-    -- 5 saniye timeout
-    task.delay(5, function()
+    -- 7 saniye timeout
+    task.delay(7, function()
         if cloneListenerConn then
             cloneListenerConn:Disconnect()
             cloneListenerConn = nil
@@ -487,7 +512,7 @@ end)
 
 -- Character reset
 player.CharacterAdded:Connect(function()
-    task.delay(0.3, function()
+    task.delay(0.5, function()
         antiHitActive = false
         desyncButton.Text = "DESYNC"
         desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
@@ -503,4 +528,4 @@ player.CharacterAdded:Connect(function()
 end)
 
 print("✅ Quantum Desync Loaded!")
-print("🛡️ Lockdown System Active - You will be invisible!")
+print("🎯 Full Invisibility Active!")
