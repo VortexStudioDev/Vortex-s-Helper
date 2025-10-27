@@ -266,7 +266,7 @@ local function performDesyncLockdown(duration, onComplete)
         end
 
         lockdownRunning = false
-        showNotification("✅ Lockdown Complete", true)
+        showNotification("✅ Do not open Brainrot while holding it in your hand.", true)
         if onComplete then pcall(onComplete) end
     end)
 end
@@ -413,7 +413,7 @@ local function executeAdvancedDesync()
         deactivateDesync()
         antiHitRunning = false -- ÖNEMLİ: İşlem bitince sıfırla
         antiHitActive = true
-        showNotification("✅ Desync Active!\n🛡️ You are invisible", true)
+        showNotification("✅ Desync Active!\n", true)
     end)
 end
 
@@ -531,5 +531,4 @@ player.CharacterAdded:Connect(function()
     end)
 end)
 
-print("✅ Quantum Desync Loaded!")
-print("🔧 Fixed: Multiple uses now work properly!")
+print("✅ Vortex's Desync Loaded!")
