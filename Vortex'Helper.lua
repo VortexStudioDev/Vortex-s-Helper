@@ -176,7 +176,7 @@ local function deactivateDesync()
     resetFlag()
 end
 
--- TAM LOCKDOWN SİSTEMİ - KARAKTERİ TAMAMEN GİZLE
+-- TAM LOCKDOWN SİSTEMİ
 local function performDesyncLockdown(duration, onComplete)
     if lockdownRunning then
         if onComplete then pcall(onComplete) end
@@ -199,16 +199,16 @@ local function performDesyncLockdown(duration, onComplete)
         return
     end
 
-    -- ÖNEMLİ: Karakteri tamamen gizle
+    -- Karakteri gizle
     local originalTransparency = {}
     for _, part in ipairs(char:GetDescendants()) do
         if part:IsA("BasePart") then
             originalTransparency[part] = part.Transparency
-            part.Transparency = 1  -- Tamamen görünmez yap
+            part.Transparency = 1
         end
     end
 
-    -- Karakteri tamamen kitliyoruz
+    -- Karakteri kitliyoruz
     local savedWalk = hum.WalkSpeed
     local savedJump = hum.JumpPower
     local savedUseJumpPower = hum.UseJumpPower
@@ -226,27 +226,17 @@ local function performDesyncLockdown(duration, onComplete)
         lockdownConn = nil
     end
 
-    -- KARAKTERİ TAMAMEN SABİT TUT
+    -- Karakteri sabit tut
     lockdownConn = RunService.Heartbeat:Connect(function()
         if not hrp or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
             return
         end
         pcall(function()
-            -- Tüm fizik etkilerini sıfırla
             hrp.Velocity = Vector3.new(0, 0, 0)
             hrp.RotVelocity = Vector3.new(0, 0, 0)
             hrp.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
             hrp.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
-            
-            -- Pozisyonu kesinlikle sabit tut
             hrp.CFrame = fixedCFrame
-            
-            -- Görünmezliği koru
-            for part, _ in pairs(originalTransparency) do
-                if part and part.Parent then
-                    part.Transparency = 1
-                end
-            end
         end)
     end)
 
@@ -283,7 +273,7 @@ end
 
 local function activateClonerDesync(callback)
     if clonerActive then
-        if callback then callback() end
+        showNotification("⚠️ Cloner already active", false)
         return
     end
     clonerActive = true
@@ -292,21 +282,26 @@ local function activateClonerDesync(callback)
     local function equipQuantumCloner()
         if not Backpack then 
             showNotification("❌ No Backpack", false)
+            clonerActive = false -- ÖNEMLİ: Sıfırla
             return 
         end
         local tool = Backpack:FindFirstChild("Quantum Cloner")
         if not tool then 
             showNotification("❌ No Quantum Cloner", false)
+            clonerActive = false -- ÖNEMLİ: Sıfırla
             return 
         end
         
         local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
         if humanoid then 
             humanoid:EquipTool(tool)
-            task.wait(0.5)  -- Tool'un equip olmasını bekle
+            task.wait(0.5)
         end
     end
     equipQuantumCloner()
+
+    -- Eğer clonerActive false ise çık (hata oldu)
+    if not clonerActive then return end
 
     local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
     if REUseItem then 
@@ -314,6 +309,7 @@ local function activateClonerDesync(callback)
         showNotification("⚡ Activating Quantum...", false)
     else
         showNotification("❌ RE/UseItem not found", false)
+        clonerActive = false -- ÖNEMLİ: Sıfırla
         return
     end
     
@@ -324,6 +320,7 @@ local function activateClonerDesync(callback)
         REQuantumClonerOnTeleport:FireServer()
     else
         showNotification("❌ Quantum Cloner remote not found", false)
+        clonerActive = false -- ÖNEMLİ: Sıfırla
         return
     end
 
@@ -350,14 +347,15 @@ local function activateClonerDesync(callback)
                 cloneListenerConn = nil
             end
 
-            -- 3 SANİYE BOYUNCA TAM LOCKDOWN
+            -- 3 SANİYE LOCKDOWN
             performDesyncLockdown(3, function()
+                clonerActive = false -- ÖNEMLİ: İşlem bitince sıfırla
                 if callback then pcall(callback) end
             end)
         end
     end)
 
-    -- 7 saniye timeout
+    -- 7 saniye timeout - ÖNEMLİ FIX
     task.delay(7, function()
         if cloneListenerConn then
             cloneListenerConn:Disconnect()
@@ -366,7 +364,8 @@ local function activateClonerDesync(callback)
         if not antiHitActive then
             showNotification("❌ Desync Failed - Timeout", false)
         end
-        clonerActive = false
+        clonerActive = false -- ÖNEMLİ: Timeout'ta sıfırla
+        antiHitRunning = false -- ÖNEMLİ: Timeout'ta sıfırla
     end)
 end
 
@@ -412,7 +411,7 @@ local function executeAdvancedDesync()
     task.wait(0.1)
     activateClonerDesync(function()
         deactivateDesync()
-        antiHitRunning = false
+        antiHitRunning = false -- ÖNEMLİ: İşlem bitince sıfırla
         antiHitActive = true
         showNotification("✅ Desync Active!\n🛡️ You are invisible", true)
     end)
@@ -424,7 +423,7 @@ local function deactivateAdvancedDesync()
             cloneListenerConn:Disconnect()
             cloneListenerConn = nil
         end
-        antiHitRunning = false
+        antiHitRunning = false -- ÖNEMLİ: Sıfırla
     end
 
     deactivateClonerDesync()
@@ -510,10 +509,15 @@ desyncButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Character reset
+-- Character reset - TÜM DEĞİŞKENLERİ SIFIRLA
 player.CharacterAdded:Connect(function()
     task.delay(0.5, function()
         antiHitActive = false
+        clonerActive = false
+        antiHitRunning = false
+        desyncRunning = false
+        lockdownRunning = false
+        
         desyncButton.Text = "DESYNC"
         desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
         
@@ -528,4 +532,4 @@ player.CharacterAdded:Connect(function()
 end)
 
 print("✅ Quantum Desync Loaded!")
-print("🎯 Full Invisibility Active!")
+print("🔧 Fixed: Multiple uses now work properly!")
