@@ -1,3 +1,4 @@
+-- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -7,7 +8,7 @@ local CoreGui = game:GetService("CoreGui")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Basit Bildirim
+-- Simple Notification
 local function showNotification(message, isSuccess)
     local notificationGui = Instance.new("ScreenGui")
     notificationGui.Name = "DesyncNotify"
@@ -46,7 +47,7 @@ local function showNotification(message, isSuccess)
     end)
 end
 
--- Quantum Cloner Desync Sistemi
+-- Quantum Cloner Desync System
 local antiHitActive = false
 local clonerActive = false
 local desyncRunning = false
@@ -54,8 +55,6 @@ local cloneListenerConn
 local antiHitRunning = false
 local lockdownRunning = false
 local lockdownConn = nil
-local invHealthConns = {}
-local desyncHighlights = {}
 
 local function safeDisconnectConn(conn)
     if conn and typeof(conn) == "RBXScriptConnection" then
@@ -65,91 +64,29 @@ local function safeDisconnectConn(conn)
     end
 end
 
-local function addDesyncHighlight(model)
-    if not model or desyncHighlights[model] then return end
-    local highlight = Instance.new("Highlight")
-    highlight.Name = "DesyncHighlight"
-    highlight.FillColor = Color3.fromRGB(0, 255, 100)
-    highlight.OutlineColor = Color3.fromRGB(255, 50, 50)
-    highlight.FillTransparency = 0.5
-    highlight.OutlineTransparency = 0
-    highlight.Parent = model
-    desyncHighlights[model] = highlight
-end
-
-local function removeDesyncHighlight(model)
-    local hl = desyncHighlights[model]
-    if hl then
-        pcall(function() hl:Destroy() end)
-        desyncHighlights[model] = nil
-    end
-end
-
 local function makeInvulnerable(model)
     if not model or not model.Parent then return end
     
     local hum = model:FindFirstChildOfClass("Humanoid")
     if not hum then return end
 
-    local maxHealth = 1e9
     pcall(function()
-        hum.MaxHealth = maxHealth
-        hum.Health = maxHealth
-    end)
-
-    if invHealthConns[model] then
-        safeDisconnectConn(invHealthConns[model])
-        invHealthConns[model] = nil
-    end
-    
-    invHealthConns[model] = hum.HealthChanged:Connect(function()
-        pcall(function()
-            if hum.Health < hum.MaxHealth then
-                hum.Health = hum.MaxHealth
-            end
-        end)
-    end)
-
-    if not model:FindFirstChildOfClass("ForceField") then
-        local ff = Instance.new("ForceField")
-        ff.Visible = false
-        ff.Parent = model
-    end
-
-    addDesyncHighlight(model)
-
-    pcall(function()
-        hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
-        hum:SetStateEnabled(Enum.HumanoidStateType.Physics, false)
+        if not model:FindFirstChildOfClass("ForceField") then
+            local ff = Instance.new("ForceField")
+            ff.Visible = false
+            ff.Parent = model
+        end
     end)
 end
 
 local function removeInvulnerable(model)
     if not model then return end
     
-    if invHealthConns[model] then
-        safeDisconnectConn(invHealthConns[model])
-        invHealthConns[model] = nil
-    end
-    
     for _, ff in ipairs(model:GetChildren()) do
         if ff:IsA("ForceField") then
             pcall(function() ff:Destroy() end)
         end
     end
-    
-    local hum = model:FindFirstChildOfClass("Humanoid")
-    if hum then
-        pcall(function()
-            hum:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
-            hum:SetStateEnabled(Enum.HumanoidStateType.Physics, true)
-            local safeMax = 100
-            hum.MaxHealth = safeMax
-            if hum.Health > safeMax then hum.Health = safeMax end
-        end)
-    end
-    
-    removeDesyncHighlight(model)
 end
 
 local function trySetFlag()
@@ -176,7 +113,7 @@ local function deactivateDesync()
     resetFlag()
 end
 
--- TAM LOCKDOWN SİSTEMİ
+-- SIMPLIFIED LOCKDOWN SYSTEM
 local function performDesyncLockdown(duration, onComplete)
     if lockdownRunning then
         if onComplete then pcall(onComplete) end
@@ -199,142 +136,131 @@ local function performDesyncLockdown(duration, onComplete)
         return
     end
 
-    -- Karakteri gizle
-    local originalTransparency = {}
-    for _, part in ipairs(char:GetDescendants()) do
-        if part:IsA("BasePart") then
-            originalTransparency[part] = part.Transparency
-            part.Transparency = 1
-        end
-    end
-
-    -- Karakteri kitliyoruz
+    -- Lock character movement
     local savedWalk = hum.WalkSpeed
     local savedJump = hum.JumpPower
-    local savedUseJumpPower = hum.UseJumpPower
 
     hum.WalkSpeed = 0
     hum.JumpPower = 0
-    hum.UseJumpPower = true
     hum.PlatformStand = true
 
     local fixedCFrame = hrp.CFrame
 
-    -- Eski connection'ı temizle
+    -- Clean old connection
     if lockdownConn then
         lockdownConn:Disconnect()
         lockdownConn = nil
     end
 
-    -- Karakteri sabit tut
+    -- Keep character in place
     lockdownConn = RunService.Heartbeat:Connect(function()
-        if not hrp or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
+        if not hrp or not player.Character then
             return
         end
         pcall(function()
             hrp.Velocity = Vector3.new(0, 0, 0)
             hrp.RotVelocity = Vector3.new(0, 0, 0)
-            hrp.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
-            hrp.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
             hrp.CFrame = fixedCFrame
         end)
     end)
 
     showNotification("🛡️ Lockdown Active...", false)
 
-    -- Belirtilen süre sonunda lockdown'u kaldır
+    -- Remove lockdown after duration
     task.delay(duration, function()
         if lockdownConn then
             lockdownConn:Disconnect()
             lockdownConn = nil
         end
 
-        -- Görünürlüğü geri getir
-        for part, transparency in pairs(originalTransparency) do
-            if part and part.Parent then
-                part.Transparency = transparency
-            end
-        end
-
         if hum and hum.Parent then
             pcall(function()
                 hum.WalkSpeed = savedWalk or 16
                 hum.JumpPower = savedJump or 50
-                hum.UseJumpPower = savedUseJumpPower or true
                 hum.PlatformStand = false
             end)
         end
 
         lockdownRunning = false
-        showNotification("✅ Do not open Brainrot while holding it in your hand.", true)
+        showNotification("✅ Desync Complete!", true)
         if onComplete then pcall(onComplete) end
     end)
 end
 
 local function activateClonerDesync(callback)
     if clonerActive then
-        showNotification("⚠️ Cloner already active", false)
+        showNotification("⚠️ Already active", false)
         return
     end
     clonerActive = true
 
+    -- Find Quantum Cloner tool
     local Backpack = player:FindFirstChildOfClass("Backpack")
-    local function equipQuantumCloner()
-        if not Backpack then 
-            showNotification("❌ No Backpack", false)
-            clonerActive = false -- ÖNEMLİ: Sıfırla
-            return 
-        end
-        local tool = Backpack:FindFirstChild("Quantum Cloner")
-        if not tool then 
-            showNotification("❌ No Quantum Cloner", false)
-            clonerActive = false -- ÖNEMLİ: Sıfırla
-            return 
-        end
-        
-        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-        if humanoid then 
-            humanoid:EquipTool(tool)
-            task.wait(0.5)
-        end
+    local character = player.Character
+    
+    if not Backpack then 
+        showNotification("❌ No Backpack", false)
+        clonerActive = false
+        return 
     end
-    equipQuantumCloner()
+    
+    local tool = Backpack:FindFirstChild("Quantum Cloner")
+    if not tool then 
+        showNotification("❌ No Quantum Cloner", false)
+        clonerActive = false
+        return 
+    end
+    
+    -- Equip tool
+    local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+    if humanoid then 
+        humanoid:EquipTool(tool)
+        task.wait(0.5)
+    end
 
-    -- Eğer clonerActive false ise çık (hata oldu)
-    if not clonerActive then return end
-
-    local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
-    if REUseItem then 
-        REUseItem:FireServer()
-        showNotification("⚡ Activating Quantum...", false)
-    else
-        showNotification("❌ RE/UseItem not found", false)
-        clonerActive = false -- ÖNEMLİ: Sıfırla
+    -- Find remotes
+    local packages = ReplicatedStorage:FindFirstChild("Packages")
+    if not packages then
+        showNotification("❌ Packages not found", false)
+        clonerActive = false
         return
     end
     
+    local netFolder = packages:FindFirstChild("Net")
+    if not netFolder then
+        showNotification("❌ Net folder not found", false)
+        clonerActive = false
+        return
+    end
+    
+    local REUseItem = netFolder:FindFirstChild("RE/UseItem")
+    local REQuantumClonerOnTeleport = netFolder:FindFirstChild("RE/QuantumCloner/OnTeleport")
+    
+    if not REUseItem or not REQuantumClonerOnTeleport then
+        showNotification("❌ Remotes not found", false)
+        clonerActive = false
+        return
+    end
+
+    -- Fire remotes
+    REUseItem:FireServer()
+    showNotification("⚡ Activating...", false)
     task.wait(0.2)
-    
-    local REQuantumClonerOnTeleport = ReplicatedStorage.Packages.Net:FindFirstChild("RE/QuantumCloner/OnTeleport")
-    if REQuantumClonerOnTeleport then 
-        REQuantumClonerOnTeleport:FireServer()
-    else
-        showNotification("❌ Quantum Cloner remote not found", false)
-        clonerActive = false -- ÖNEMLİ: Sıfırla
-        return
-    end
+    REQuantumClonerOnTeleport:FireServer()
 
     local cloneName = tostring(player.UserId) .. "_Clone"
     
-    -- Clone oluşumunu dinle
+    -- Listen for clone creation
     cloneListenerConn = Workspace.ChildAdded:Connect(function(obj)
         if obj.Name == cloneName and obj:IsA("Model") then
             showNotification("🔮 Clone Created!", true)
             
+            -- Make clone invulnerable
             pcall(function() 
                 makeInvulnerable(obj)
             end)
             
+            -- Make original character invulnerable
             local origChar = player.Character
             if origChar then 
                 pcall(function() 
@@ -342,47 +268,37 @@ local function activateClonerDesync(callback)
                 end) 
             end
             
+            -- Cleanup listener
             if cloneListenerConn then
                 cloneListenerConn:Disconnect()
                 cloneListenerConn = nil
             end
 
-            -- 3 SANİYE LOCKDOWN
-            performDesyncLockdown(3, function()
-                clonerActive = false -- ÖNEMLİ: İşlem bitince sıfırla
+            -- 2 second lockdown
+            performDesyncLockdown(2, function()
+                clonerActive = false
                 if callback then pcall(callback) end
             end)
         end
     end)
 
-    -- 7 saniye timeout - ÖNEMLİ FIX
-    task.delay(7, function()
+    -- 5 second timeout
+    task.delay(5, function()
         if cloneListenerConn then
             cloneListenerConn:Disconnect()
             cloneListenerConn = nil
         end
         if not antiHitActive then
-            showNotification("❌ Desync Failed - Timeout", false)
+            showNotification("❌ Desync Failed", false)
         end
-        clonerActive = false -- ÖNEMLİ: Timeout'ta sıfırla
-        antiHitRunning = false -- ÖNEMLİ: Timeout'ta sıfırla
+        clonerActive = false
+        antiHitRunning = false
     end)
 end
 
 local function deactivateClonerDesync()
-    if not clonerActive then
-        local existingClone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
-        if existingClone then
-            pcall(function()
-                removeInvulnerable(existingClone)
-                existingClone:Destroy()
-            end)
-        end
-        clonerActive = false
-        return
-    end
-
     clonerActive = false
+    
     local char = player.Character
     if char then removeInvulnerable(char) end
     
@@ -400,35 +316,35 @@ end
 
 local function executeAdvancedDesync()
     if antiHitRunning then 
-        showNotification("⏳ Already running...", false)
+        showNotification("⏳ Please wait...", false)
         return 
     end
     antiHitRunning = true
 
-    showNotification("🚀 Starting Quantum Desync...", false)
+    showNotification("🚀 Starting Desync...", false)
     
     activateDesync()
     task.wait(0.1)
+    
     activateClonerDesync(function()
         deactivateDesync()
-        antiHitRunning = false -- ÖNEMLİ: İşlem bitince sıfırla
+        antiHitRunning = false
         antiHitActive = true
-        showNotification("✅ Desync Active!\n", true)
+        showNotification("✅ Desync Active!", true)
     end)
 end
 
 local function deactivateAdvancedDesync()
-    if antiHitRunning then
-        if cloneListenerConn then
-            cloneListenerConn:Disconnect()
-            cloneListenerConn = nil
-        end
-        antiHitRunning = false -- ÖNEMLİ: Sıfırla
+    antiHitRunning = false
+    antiHitActive = false
+
+    if cloneListenerConn then
+        cloneListenerConn:Disconnect()
+        cloneListenerConn = nil
     end
 
     deactivateClonerDesync()
     deactivateDesync()
-    antiHitActive = false
 
     if player.Character then removeInvulnerable(player.Character) end
 
@@ -439,15 +355,11 @@ local function deactivateAdvancedDesync()
             possibleClone:Destroy()
         end)
     end
-
-    for model, _ in pairs(desyncHighlights) do
-        removeDesyncHighlight(model)
-    end
     
-    showNotification("🔴 Desync No Active", false)
+    showNotification("🔴 Desync Deactivated", false)
 end
 
--- KÜÇÜK BUTON (80x35)
+-- SMALL BUTTON (80x35)
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "QuantumDesyncButton"
 screenGui.ResetOnSpawn = false
@@ -455,7 +367,7 @@ screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 screenGui.Parent = playerGui
 
 local desyncButton = Instance.new("TextButton")
-desyncButton.Name = "Deysnc"
+desyncButton.Name = "DesyncButton"
 desyncButton.Size = UDim2.new(0, 80, 0, 35)
 desyncButton.Position = UDim2.new(0, 10, 0.5, -17)
 desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
@@ -467,7 +379,7 @@ desyncButton.Font = Enum.Font.GothamBold
 desyncButton.Draggable = true
 desyncButton.Parent = screenGui
 
--- Buton stilleri
+-- Button styles
 local buttonCorner = Instance.new("UICorner")
 buttonCorner.CornerRadius = UDim.new(0, 8)
 buttonCorner.Parent = desyncButton
@@ -477,7 +389,7 @@ buttonStroke.Color = Color3.fromRGB(200, 230, 255)
 buttonStroke.Thickness = 1.5
 buttonStroke.Parent = desyncButton
 
--- Buton etkileşimleri
+-- Button interactions
 desyncButton.MouseEnter:Connect(function()
     TweenService:Create(desyncButton, TweenInfo.new(0.2), {
         BackgroundTransparency = 0.1
@@ -490,28 +402,52 @@ desyncButton.MouseLeave:Connect(function()
     }):Play()
 end)
 
--- Buton tıklama
+-- Fixed button click handler
 desyncButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
-        desyncButton.Text = "WORKING"
-        desyncButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        showNotification("⏳ Please wait...", false)
         return
     end
     
     if antiHitActive then
+        -- Deactivate desync
+        antiHitRunning = true
+        desyncButton.Text = "STOPPING"
+        desyncButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+        
         deactivateAdvancedDesync()
+        
+        task.wait(0.3)
+        antiHitRunning = false
         desyncButton.Text = "DESYNC"
         desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
     else
+        -- Activate desync
+        antiHitRunning = true
+        desyncButton.Text = "WORKING"
+        desyncButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        
         executeAdvancedDesync()
-        desyncButton.Text = "ACTIVE"
-        desyncButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        
+        -- Update button if successful
+        task.delay(3, function()
+            if antiHitActive and antiHitRunning then
+                antiHitRunning = false
+                desyncButton.Text = "ACTIVE"
+                desyncButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+            elseif not antiHitActive and antiHitRunning then
+                -- Failed - reset button
+                antiHitRunning = false
+                desyncButton.Text = "DESYNC"
+                desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+            end
+        end)
     end
 end)
 
--- Character reset - TÜM DEĞİŞKENLERİ SIFIRLA
+-- Character reset
 player.CharacterAdded:Connect(function()
-    task.delay(0.5, function()
+    task.delay(1, function()
         antiHitActive = false
         clonerActive = false
         antiHitRunning = false
@@ -531,4 +467,4 @@ player.CharacterAdded:Connect(function()
     end)
 end)
 
-print("✅ Vortex's Desync Loaded!")
+print("✅ Desync System Loaded!")
