@@ -1,3 +1,4 @@
+-- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -7,7 +8,7 @@ local CoreGui = game:GetService("CoreGui")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- PROFESYONEL BİLDİRİM SİSTEMİ
+-- PROFESSIONAL NOTIFICATION SYSTEM
 local function showNotification(message, isSuccess)
     local notificationGui = Instance.new("ScreenGui")
     notificationGui.Name = "QuantumNotify"
@@ -59,7 +60,7 @@ local function showNotification(message, isSuccess)
     notifText.ZIndex = 1001
     notifText.Parent = notification
 
-    -- Animasyon
+    -- Animation
     notification.Position = UDim2.new(0.5, -140, 0.1, 0)
     notification.BackgroundTransparency = 1
     notifText.TextTransparency = 1
@@ -82,7 +83,7 @@ local function showNotification(message, isSuccess)
     textTweenIn:Play()
     iconTweenIn:Play()
 
-    -- Otomatik kapanma
+    -- Auto close
     tweenIn.Completed:Connect(function()
         task.wait(2.5)
         
@@ -109,7 +110,7 @@ local function showNotification(message, isSuccess)
     end)
 end
 
--- Quantum Cloner Desync Sistemi (Aynı)
+-- Quantum Cloner Desync System
 local antiHitActive = false
 local clonerActive = false
 local desyncRunning = false
@@ -439,7 +440,7 @@ end
 
 local function executeAdvancedDesync()
     if antiHitRunning then 
-        showNotification("Already running...", false)
+        showNotification("Please wait... process running", false)
         return 
     end
     antiHitRunning = true
@@ -457,12 +458,11 @@ local function executeAdvancedDesync()
 end
 
 local function deactivateAdvancedDesync()
-    if antiHitRunning then
-        if cloneListenerConn then
-            cloneListenerConn:Disconnect()
-            cloneListenerConn = nil
-        end
-        antiHitRunning = false
+    antiHitRunning = true
+    
+    if cloneListenerConn then
+        cloneListenerConn:Disconnect()
+        cloneListenerConn = nil
     end
 
     deactivateClonerDesync()
@@ -483,10 +483,11 @@ local function deactivateAdvancedDesync()
         removeDesyncHighlight(model)
     end
     
+    antiHitRunning = false
     showNotification("Desync Deactivated", false)
 end
 
--- PROFESYONEL BUTON TASARIMI
+-- PROFESSIONAL BUTTON DESIGN
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "QuantumDesyncButton"
 screenGui.ResetOnSpawn = false
@@ -494,7 +495,7 @@ screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 screenGui.Parent = playerGui
 
 local desyncButton = Instance.new("TextButton")
-desyncButton.Name = "Deysnc"
+desyncButton.Name = "DesyncButton"
 desyncButton.Size = UDim2.new(0, 80, 0, 35)
 desyncButton.Position = UDim2.new(0, 10, 0.5, -17)
 desyncButton.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
@@ -517,7 +518,7 @@ buttonStroke.Thickness = 1.5
 buttonStroke.Transparency = 0
 buttonStroke.Parent = desyncButton
 
--- GRADIENT EFEKTI
+-- GRADIENT EFFECT
 local buttonGradient = Instance.new("UIGradient")
 buttonGradient.Color = ColorSequence.new({
     ColorSequenceKeypoint.new(0, Color3.fromRGB(50, 120, 255)),
@@ -526,7 +527,7 @@ buttonGradient.Color = ColorSequence.new({
 buttonGradient.Rotation = 90
 buttonGradient.Parent = desyncButton
 
--- BUTON ETKILEŞIMLERI
+-- BUTTON INTERACTIONS
 desyncButton.MouseEnter:Connect(function()
     TweenService:Create(desyncButton, TweenInfo.new(0.2), {
         BackgroundTransparency = 0,
@@ -547,20 +548,28 @@ desyncButton.MouseLeave:Connect(function()
     }):Play()
 end)
 
--- BUTON TIKLAMA
+-- BUTTON CLICK FIXED
 desyncButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
-        desyncButton.Text = "WORKING"
-        desyncButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-        buttonGradient.Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 185, 60)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 145, 0))
-        })
+        showNotification("Please wait... process running", false)
         return
     end
     
     if antiHitActive then
+        -- DEACTIVATION
+        antiHitRunning = true
+        desyncButton.Text = "STOPPING"
+        desyncButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+        buttonGradient.Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 120, 120)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(200, 80, 80))
+        })
+        
         deactivateAdvancedDesync()
+        
+        task.wait(0.5)
+        antiHitRunning = false
+        
         desyncButton.Text = "DESYNC"
         desyncButton.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
         buttonGradient.Color = ColorSequence.new({
@@ -568,17 +577,65 @@ desyncButton.MouseButton1Click:Connect(function()
             ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 80, 200))
         })
     else
+        -- ACTIVATION
+        antiHitRunning = true
+        desyncButton.Text = "ACTIVATING"
+        desyncButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        buttonGradient.Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 185, 60)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 145, 0))
+        })
+        
         executeAdvancedDesync()
+        
+        -- Success handler in executeAdvancedDesync will update button
+        -- Timeout for failure
+        task.delay(3, function()
+            if not antiHitActive and antiHitRunning then
+                antiHitRunning = false
+                desyncButton.Text = "DESYNC"
+                desyncButton.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+                buttonGradient.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(50, 120, 255)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 80, 200))
+                })
+                showNotification("Activation failed", false)
+            end
+        end)
+    end
+end)
+
+-- Update executeAdvancedDesync to handle button states
+local originalExecuteAdvancedDesync = executeAdvancedDesync
+executeAdvancedDesync = function()
+    if antiHitRunning then 
+        showNotification("Please wait... process running", false)
+        return 
+    end
+    antiHitRunning = true
+
+    showNotification("Starting Quantum Desync...", false)
+    
+    activateDesync()
+    task.wait(0.1)
+    activateClonerDesync(function()
+        deactivateDesync()
+        antiHitRunning = false
+        antiHitActive = true
+        
+        -- Update button on success
         desyncButton.Text = "ACTIVE"
         desyncButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
         buttonGradient.Color = ColorSequence.new({
             ColorSequenceKeypoint.new(0, Color3.fromRGB(80, 220, 100)),
             ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 180, 80))
         })
-    end
-end)
+        
+        showNotification("Desync Active!", true)
+    end)
+end
 
--- CHARACTER RESET
+-- CHARACTER RESET HANDLER
 player.CharacterAdded:Connect(function()
     task.delay(0.5, function()
         antiHitActive = false
