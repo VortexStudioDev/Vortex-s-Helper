@@ -1,42 +1,12 @@
--- Security check: Only runs on client side
-if not game:GetService("RunService"):IsClient() then
-    return
-end
-
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
-local TeleportService = game:GetService("TeleportService")
-local HttpService = game:GetService("HttpService")
-local CoreGui = game:GetService("CoreGui")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
+local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
-
--- Safely wait for PlayerGui
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Server IDs storage
-local usedServerIds = {}
-
--- STATUS DISPLAY SYSTEM
-local statusLabel = nil
-local currentTab = 1
-
--- MODULE DEĞİŞKENLERİ
-local desyncActive = false
-local autoLazerEnabled = false
-local autoLazerThread = nil
-local advancedDesyncActive = false
-
--- Blacklist for Auto Lazer
-local blacklistNames = {"gametesterbrow"}
-local blacklist = {}
-for _, name in ipairs(blacklistNames) do
-    blacklist[string.lower(name)] = true
-end
-
--- ADVANCED DESYNC SİSTEMİ
+-- Quantum Cloner Desync Sistemi
 local antiHitActive = false
 local clonerActive = false
 local desyncRunning = false
@@ -323,7 +293,6 @@ local function executeAdvancedDesync()
         deactivateDesync()
         antiHitRunning = false
         antiHitActive = true
-        showNotification("🛡️ Advanced Desync Activated!", true)
     end)
 end
 
@@ -353,209 +322,119 @@ local function deactivateAdvancedDesync()
     for model, _ in pairs(desyncHighlights) do
         removeDesyncHighlight(model)
     end
-
-    showNotification("❌ Advanced Desync Deactivated!", false)
 end
 
--- EKRANDA GÖRÜNEN BİLDİRİM SİSTEMİ
-local function showNotification(message, isSuccess)
-    local notificationGui = Instance.new("ScreenGui")
-    notificationGui.Name = "NotificationGUI"
-    notificationGui.ResetOnSpawn = false
-    notificationGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    notificationGui.Parent = CoreGui
-    
-    local notification = Instance.new("Frame")
-    notification.Name = "VortexNotification"
-    notification.Size = UDim2.new(0, 280, 0, 70)
-    notification.Position = UDim2.new(0.5, -140, 0.3, 0)
-    notification.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-    notification.BackgroundTransparency = 0
-    notification.BorderSizePixel = 0
-    notification.ZIndex = 1000
-    notification.ClipsDescendants = true
-    notification.Parent = notificationGui
-    
-    local notifCorner = Instance.new("UICorner")
-    notifCorner.CornerRadius = UDim.new(0, 10)
-    notifCorner.Parent = notification
-    
-    local notifStroke = Instance.new("UIStroke")
-    notifStroke.Color = isSuccess and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
-    notifStroke.Thickness = 3
-    notifStroke.Parent = notification
-    
-    local icon = Instance.new("TextLabel")
-    icon.Size = UDim2.new(0, 50, 1, 0)
-    icon.Position = UDim2.new(0, 0, 0, 0)
-    icon.BackgroundTransparency = 1
-    icon.Text = isSuccess and "✅" or "❌"
-    icon.TextColor3 = Color3.fromRGB(255, 255, 255)
-    icon.TextSize = 24
-    icon.Font = Enum.Font.GothamBold
-    icon.ZIndex = 1001
-    icon.Parent = notification
-    
-    local notifText = Instance.new("TextLabel")
-    notifText.Size = UDim2.new(1, -60, 1, -10)
-    notifText.Position = UDim2.new(0, 55, 0, 5)
-    notifText.BackgroundTransparency = 1
-    notifText.Text = message
-    notifText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    notifText.TextSize = 14
-    notifText.Font = Enum.Font.GothamBold
-    notifText.TextStrokeTransparency = 0.8
-    notifText.TextXAlignment = Enum.TextXAlignment.Left
-    notifText.TextYAlignment = Enum.TextYAlignment.Top
-    notifText.TextWrapped = true
-    notifText.ZIndex = 1001
-    notifText.Parent = notification
-    
-    notification.MouseEnter:Connect(function()
-        notification.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-    end)
-    
-    notification.MouseLeave:Connect(function()
-        notification.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-    end)
-    
-    notification.Position = UDim2.new(0.5, -140, 0.2, 0)
-    local tweenIn = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(0.5, -140, 0.3, 0)
-    })
-    tweenIn:Play()
+-- GUI Oluşturma
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "QuantumDesyncButton"
+screenGui.ResetOnSpawn = false
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.Parent = playerGui
 
-    tweenIn.Completed:Connect(function()
-        wait(1.5)
-        
-        if notification and notification.Parent then
-            local tweenOut = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-                Position = UDim2.new(0.5, -140, 0.2, 0),
-                BackgroundTransparency = 1
-            })
-            
-            for _, child in pairs(notification:GetChildren()) do
-                if child:IsA("TextLabel") then
-                    child.TextTransparency = 1
-                end
-            end
-            
-            tweenOut:Play()
-            
-            tweenOut.Completed:Connect(function()
-                if notificationGui and notificationGui.Parent then
-                    notificationGui:Destroy()
-                end
-            end)
-        end
-    end)
-end
-
--- Kalan kodlar aynı kalacak, sadece Tab 4'e Advanced Desync butonu eklenecek
--- [AUTO LAZER, VORTEX ANA SİSTEM FONKSİYONLARI, GUI OLUŞTURMA kodları buraya gelecek]
-
--- YENİ: Tab 4 - Modüller Butonları (Güncellenmiş)
+-- Ana Buton
 local desyncButton = Instance.new("TextButton")
-desyncButton.Name = "DesyncButton"
-desyncButton.Size = UDim2.new(1, -6, 0, 22)
-desyncButton.Position = UDim2.new(0, 3, 0, 5)
-desyncButton.BackgroundColor3 = Color3.fromRGB(150, 100, 220)
-desyncButton.Text = "DESYNC: OFF"
-desyncButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-desyncButton.TextSize = 9
+desyncButton.Name = "Deysnc"
+desyncButton.Size = UDim2.new(0, 120, 0, 50)
+desyncButton.Position = UDim2.new(0, 10, 0.5, -25)
+desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255) -- Mavi renk
+desyncButton.BackgroundTransparency = 0.4 -- %60 transparan
+desyncButton.Text = "Deysnc"
+desyncButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Siyah yazı
+desyncButton.TextSize = 14
 desyncButton.Font = Enum.Font.GothamBold
-desyncButton.AutoButtonColor = false
-desyncButton.TextYAlignment = Enum.TextYAlignment.Center
-desyncButton.Parent = contentTab4
+desyncButton.TextWrapped = true
+desyncButton.Draggable = true -- Hareket ettirilebilir
+desyncButton.Parent = screenGui
 
-local advancedDesyncButton = Instance.new("TextButton")
-advancedDesyncButton.Name = "AdvancedDesyncButton"
-advancedDesyncButton.Size = UDim2.new(1, -6, 0, 22)
-advancedDesyncButton.Position = UDim2.new(0, 3, 0, 32)
-advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
-advancedDesyncButton.Text = "ADV DESYNC: OFF"
-advancedDesyncButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-advancedDesyncButton.TextSize = 9
-advancedDesyncButton.Font = Enum.Font.GothamBold
-advancedDesyncButton.AutoButtonColor = false
-advancedDesyncButton.TextYAlignment = Enum.TextYAlignment.Center
-advancedDesyncButton.Parent = contentTab4
+-- Buton köşe yuvarlaklığı
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 12)
+buttonCorner.Parent = desyncButton
 
-local autoLazerButton = Instance.new("TextButton")
-autoLazerButton.Name = "AutoLazerButton"
-autoLazerButton.Size = UDim2.new(1, -6, 0, 22)
-autoLazerButton.Position = UDim2.new(0, 3, 0, 59)
-autoLazerButton.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
-autoLazerButton.Text = "AUTO LAZER: OFF"
-autoLazerButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-autoLazerButton.TextSize = 9
-autoLazerButton.Font = Enum.Font.GothamBold
-autoLazerButton.AutoButtonColor = false
-autoLazerButton.TextYAlignment = Enum.TextYAlignment.Center
-autoLazerButton.Parent = contentTab4
+-- Buton kenar çizgisi
+local buttonStroke = Instance.new("UIStroke")
+buttonStroke.Color = Color3.fromRGB(200, 230, 255)
+buttonStroke.Thickness = 2
+buttonStroke.Transparency = 0.3
+buttonStroke.Parent = desyncButton
 
--- Buton stilleri
-local desyncCorner = Instance.new("UICorner")
-desyncCorner.CornerRadius = UDim.new(0, 4)
-desyncCorner.Parent = desyncButton
+-- Buton gölgesi
+local buttonShadow = Instance.new("ImageLabel")
+buttonShadow.Name = "Shadow"
+buttonShadow.Size = UDim2.new(1, 10, 1, 10)
+buttonShadow.Position = UDim2.new(0, -5, 0, -5)
+buttonShadow.BackgroundTransparency = 1
+buttonShadow.Image = "rbxassetid://1316045217"
+buttonShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+buttonShadow.ImageTransparency = 0.8
+buttonShadow.ScaleType = Enum.ScaleType.Slice
+buttonShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+buttonShadow.Parent = desyncButton
 
-local advancedDesyncCorner = Instance.new("UICorner")
-advancedDesyncCorner.CornerRadius = UDim.new(0, 4)
-advancedDesyncCorner.Parent = advancedDesyncButton
+-- Buton hover efekti
+desyncButton.MouseEnter:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.2,
+        TextColor3 = Color3.fromRGB(255, 255, 255)
+    }):Play()
+end)
 
-local lazerCorner = Instance.new("UICorner")
-lazerCorner.CornerRadius = UDim.new(0, 4)
-lazerCorner.Parent = autoLazerButton
+desyncButton.MouseLeave:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.4,
+        TextColor3 = Color3.fromRGB(0, 0, 0)
+    }):Play()
+end)
 
--- YENİ: Advanced Desync Button events
-advancedDesyncButton.MouseButton1Click:Connect(function()
+-- Buton tıklama efekti
+desyncButton.MouseButton1Down:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
+        Size = UDim2.new(0, 115, 0, 48)
+    }):Play()
+end)
+
+desyncButton.MouseButton1Up:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
+        Size = UDim2.new(0, 120, 0, 50)
+    }):Play()
+end)
+
+-- Buton tıklama işlevi
+desyncButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
-        showNotification("⏳ Advanced Desync is running...", false)
+        -- Çalışıyorsa buton rengini turuncu yap
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        }):Play()
+        desyncButton.Text = "Çalışıyor..."
         return
     end
     
     if antiHitActive then
+        -- Kapatma
         deactivateAdvancedDesync()
-        advancedDesyncButton.Text = "ADV DESYNC: OFF"
-        advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        }):Play()
+        desyncButton.Text = "Deysnc"
     else
+        -- Açma
         executeAdvancedDesync()
-        advancedDesyncButton.Text = "ADV DESYNC: ON"
-        advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        }):Play()
+        desyncButton.Text = "Aktif"
     end
 end)
 
-advancedDesyncButton.MouseEnter:Connect(function()
-    if antiHitActive then
-        advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(140, 255, 140)
-    else
-        advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(255, 140, 140)
-    end
-end)
-
-advancedDesyncButton.MouseLeave:Connect(function()
-    if antiHitActive then
-        advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
-    else
-        advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
-    end
-end)
-
--- Character reset handler güncellendi
+-- Karakter değişince resetleme
 player.CharacterAdded:Connect(function()
     task.delay(0.3, function()
-        desyncActive = false
-        if desyncButton then
-            desyncButton.Text = "DESYNC: OFF"
-            desyncButton.BackgroundColor3 = Color3.fromRGB(150, 100, 220)
-        end
-        
-        -- Advanced Desync reset
         antiHitActive = false
-        if advancedDesyncButton then
-            advancedDesyncButton.Text = "ADV DESYNC: OFF"
-            advancedDesyncButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
-        end
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        }):Play()
+        desyncButton.Text = "Deysnc"
         
         local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
         if clone then
@@ -567,27 +446,8 @@ player.CharacterAdded:Connect(function()
     end)
 end)
 
--- Modules info güncellendi
-local modulesInfo = Instance.new("TextLabel")
-modulesInfo.Size = UDim2.new(1, -6, 0, 50)
-modulesInfo.Position = UDim2.new(0, 3, 0, 86)
-modulesInfo.BackgroundTransparency = 1
-modulesInfo.Text = "Desync: Mobile Desync\nAdv Desync: Anti-Hit System\nAuto Lazer: Auto Target"
-modulesInfo.TextColor3 = Color3.fromRGB(220, 220, 220)
-modulesInfo.TextSize = 7
-modulesInfo.Font = Enum.Font.Gotham
-modulesInfo.TextWrapped = true
-modulesInfo.TextYAlignment = Enum.TextYAlignment.Top
-modulesInfo.Parent = contentTab4
+-- Başlangıç durumu
+desyncButton.Text = "Deysnc"
 
-print("✅ Vortex UI Loaded!")
-print("⚙️ Version 2.1 - Advanced Desync Integrated")
-print("📜 © 2025-2030 VortexTeamDev™ License")
-
--- Show initial status
-updateStatusDisplay("System Ready", true)
-
--- Test notification
-delay(1, function()
-    showNotification("🚀 Vortex UI Ready! Modules: Desync + Adv Desync + AutoLazer", true)
-end)
+print("✅ Quantum Desync Butonu Yüklendi!")
+print("🛡️ Anti-Hit Sistemi Hazır")
