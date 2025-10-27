@@ -3,50 +3,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local TweenService = game:GetService("TweenService")
-local CoreGui = game:GetService("CoreGui")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Basit Bildirim Sistemi
-local function showNotification(message, isSuccess)
-    local notificationGui = Instance.new("ScreenGui")
-    notificationGui.Name = "DesyncNotify"
-    notificationGui.ResetOnSpawn = false
-    notificationGui.Parent = CoreGui
-    
-    local notification = Instance.new("Frame")
-    notification.Size = UDim2.new(0, 200, 0, 50)
-    notification.Position = UDim2.new(0.5, -100, 0.2, 0)
-    notification.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-    notification.BorderSizePixel = 0
-    notification.Parent = notificationGui
-    
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 8)
-    corner.Parent = notification
-    
-    local stroke = Instance.new("UIStroke")
-    stroke.Color = isSuccess and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 80, 80)
-    stroke.Thickness = 2
-    stroke.Parent = notification
-
-    local text = Instance.new("TextLabel")
-    text.Size = UDim2.new(1, -10, 1, -10)
-    text.Position = UDim2.new(0, 5, 0, 5)
-    text.BackgroundTransparency = 1
-    text.Text = message
-    text.TextColor3 = Color3.fromRGB(255, 255, 255)
-    text.TextSize = 12
-    text.Font = Enum.Font.GothamBold
-    text.TextWrapped = true
-    text.Parent = notification
-
-    task.delay(2, function()
-        notificationGui:Destroy()
-    end)
-end
-
--- Quantum Cloner Desync Sistemi (Aynen Korundu)
+-- Quantum Cloner Desync Sistemi
 local antiHitActive = false
 local clonerActive = false
 local desyncRunning = false
@@ -260,38 +220,20 @@ local function activateClonerDesync(callback)
 
     local Backpack = player:FindFirstChildOfClass("Backpack")
     local function equipQuantumCloner()
-        if not Backpack then 
-            showNotification("❌ No Backpack", false)
-            return 
-        end
+        if not Backpack then return end
         local tool = Backpack:FindFirstChild("Quantum Cloner")
-        if not tool then 
-            showNotification("❌ No Quantum Cloner", false)
-            return 
-        end
-        
-        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
-        if humanoid then 
-            humanoid:EquipTool(tool)
-            showNotification("🔄 Equipping Cloner...", false)
+        if tool then
+            local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then humanoid:EquipTool(tool) end
         end
     end
     equipQuantumCloner()
 
     local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
-    if REUseItem then 
-        REUseItem:FireServer()
-        showNotification("⚡ Activating Desync...", false)
-    else
-        showNotification("❌ RE/UseItem not found", false)
-    end
+    if REUseItem then REUseItem:FireServer() end
     
     local REQuantumClonerOnTeleport = ReplicatedStorage.Packages.Net:FindFirstChild("RE/QuantumCloner/OnTeleport")
-    if REQuantumClonerOnTeleport then 
-        REQuantumClonerOnTeleport:FireServer()
-    else
-        showNotification("❌ Quantum Cloner remote not found", false)
-    end
+    if REQuantumClonerOnTeleport then REQuantumClonerOnTeleport:FireServer() end
 
     local cloneName = tostring(player.UserId) .. "_Clone"
     cloneListenerConn = Workspace.ChildAdded:Connect(function(obj)
@@ -342,10 +284,7 @@ local function deactivateClonerDesync()
 end
 
 local function executeAdvancedDesync()
-    if antiHitRunning then 
-        showNotification("⏳ Already running...", false)
-        return 
-    end
+    if antiHitRunning then return end
     antiHitRunning = true
 
     activateDesync()
@@ -354,7 +293,6 @@ local function executeAdvancedDesync()
         deactivateDesync()
         antiHitRunning = false
         antiHitActive = true
-        showNotification("✅ Desync Active!", true)
     end)
 end
 
@@ -384,78 +322,119 @@ local function deactivateAdvancedDesync()
     for model, _ in pairs(desyncHighlights) do
         removeDesyncHighlight(model)
     end
-    
-    showNotification("🔴 Desync No Active", false)
 end
 
--- KÜÇÜK BUTON (80x35)
+-- GUI Oluşturma
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "QuantumDesyncButton"
 screenGui.ResetOnSpawn = false
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 screenGui.Parent = playerGui
 
+-- Ana Buton
 local desyncButton = Instance.new("TextButton")
 desyncButton.Name = "Deysnc"
-desyncButton.Size = UDim2.new(0, 80, 0, 35)
-desyncButton.Position = UDim2.new(0, 10, 0.5, -17)
-desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
-desyncButton.BackgroundTransparency = 0.3
-desyncButton.Text = "DESYNC"
-desyncButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-desyncButton.TextSize = 12
+desyncButton.Size = UDim2.new(0, 120, 0, 50)
+desyncButton.Position = UDim2.new(0, 10, 0.5, -25)
+desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255) -- Mavi renk
+desyncButton.BackgroundTransparency = 0.4 -- %60 transparan
+desyncButton.Text = "Deysnc"
+desyncButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Siyah yazı
+desyncButton.TextSize = 14
 desyncButton.Font = Enum.Font.GothamBold
-desyncButton.Draggable = true
+desyncButton.TextWrapped = true
+desyncButton.Draggable = true -- Hareket ettirilebilir
 desyncButton.Parent = screenGui
 
--- Buton stilleri
+-- Buton köşe yuvarlaklığı
 local buttonCorner = Instance.new("UICorner")
-buttonCorner.CornerRadius = UDim.new(0, 8)
+buttonCorner.CornerRadius = UDim.new(0, 12)
 buttonCorner.Parent = desyncButton
 
+-- Buton kenar çizgisi
 local buttonStroke = Instance.new("UIStroke")
 buttonStroke.Color = Color3.fromRGB(200, 230, 255)
-buttonStroke.Thickness = 1.5
+buttonStroke.Thickness = 2
+buttonStroke.Transparency = 0.3
 buttonStroke.Parent = desyncButton
 
--- Buton etkileşimleri
+-- Buton gölgesi
+local buttonShadow = Instance.new("ImageLabel")
+buttonShadow.Name = "Shadow"
+buttonShadow.Size = UDim2.new(1, 10, 1, 10)
+buttonShadow.Position = UDim2.new(0, -5, 0, -5)
+buttonShadow.BackgroundTransparency = 1
+buttonShadow.Image = "rbxassetid://1316045217"
+buttonShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+buttonShadow.ImageTransparency = 0.8
+buttonShadow.ScaleType = Enum.ScaleType.Slice
+buttonShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+buttonShadow.Parent = desyncButton
+
+-- Buton hover efekti
 desyncButton.MouseEnter:Connect(function()
     TweenService:Create(desyncButton, TweenInfo.new(0.2), {
-        BackgroundTransparency = 0.1
+        BackgroundTransparency = 0.2,
+        TextColor3 = Color3.fromRGB(255, 255, 255)
     }):Play()
 end)
 
 desyncButton.MouseLeave:Connect(function()
     TweenService:Create(desyncButton, TweenInfo.new(0.2), {
-        BackgroundTransparency = 0.3
+        BackgroundTransparency = 0.4,
+        TextColor3 = Color3.fromRGB(0, 0, 0)
     }):Play()
 end)
 
--- Buton tıklama
+-- Buton tıklama efekti
+desyncButton.MouseButton1Down:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
+        Size = UDim2.new(0, 115, 0, 48)
+    }):Play()
+end)
+
+desyncButton.MouseButton1Up:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
+        Size = UDim2.new(0, 120, 0, 50)
+    }):Play()
+end)
+
+-- Buton tıklama işlevi
 desyncButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
-        desyncButton.Text = "WORKING"
-        desyncButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        -- Çalışıyorsa buton rengini turuncu yap
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        }):Play()
+        desyncButton.Text = "Working..."
         return
     end
     
     if antiHitActive then
+        -- Kapatma
         deactivateAdvancedDesync()
-        desyncButton.Text = "DESYNC"
-        desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        }):Play()
+        desyncButton.Text = "Deysnc"
     else
+        -- Açma
         executeAdvancedDesync()
-        desyncButton.Text = "ACTIVE"
-        desyncButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        }):Play()
+        desyncButton.Text = "Active"
     end
 end)
 
--- Character reset
+-- Karakter değişince resetleme
 player.CharacterAdded:Connect(function()
     task.delay(0.3, function()
         antiHitActive = false
-        desyncButton.Text = "DESYNC"
-        desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        }):Play()
+        desyncButton.Text = "Deysnc"
         
         local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
         if clone then
@@ -467,4 +446,8 @@ player.CharacterAdded:Connect(function()
     end)
 end)
 
-print("✅ Quantum Desync Loaded!")
+-- Başlangıç durumu
+desyncButton.Text = "Deysnc"
+
+print("✅ Quantum Desync Butonu Yüklendi!")
+print("🛡️ Anti-Hit Sistemi Hazır")
