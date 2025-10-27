@@ -145,19 +145,19 @@ local function removeAllHighlights()
     characterHighlights = {}
 end
 
--- VORTEX GUI
+-- VORTEX GUI (SENİN TASARIMIN GİBİ)
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "VortexDesync"
+screenGui.Name = "ScriptVerseDesyncUnPatchedForever"
 screenGui.ResetOnSpawn = false
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 screenGui.Parent = playerGui
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 300, 0, 160)
+mainFrame.Size = UDim2.new(0, 280, 0, 140)
 mainFrame.Position = UDim2.new(0.5, 0, 0.15, 0)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
 mainFrame.Parent = screenGui
@@ -166,62 +166,38 @@ local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 12)
 mainCorner.Parent = mainFrame
 
--- VORTEX GÖLGE
-local mainShadow = Instance.new("UIStroke")
-mainShadow.Color = Color3.fromRGB(0, 255, 157)
-mainShadow.Thickness = 2
-mainShadow.Transparency = 0.3
-mainShadow.Parent = mainFrame
-
--- BAŞLIK
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Name = "Title"
-titleLabel.Size = UDim2.new(1, -20, 0, 30)
-titleLabel.Position = UDim2.new(0, 10, 0, 10)
+titleLabel.Size = UDim2.new(1, -10, 0, 25)
+titleLabel.Position = UDim2.new(0, 5, 0, 5)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "VORTEX DESYNC"
-titleLabel.Font = Enum.Font.GothamBlack
-titleLabel.TextSize = 16
-titleLabel.TextColor3 = Color3.fromRGB(0, 255, 157)
+titleLabel.Text = "ScriptVerseDesyncUnPatchedForever"
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 12
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 titleLabel.TextXAlignment = Enum.TextXAlignment.Center
-titleLabel.TextScaled = false
+titleLabel.TextScaled = true
 titleLabel.Parent = mainFrame
 
 local desyncActive = false
 
--- VORTEX BUTON
+-- SENİN BUTON TASARIMIN GİBİ
 local stateButton = Instance.new("TextButton")
 stateButton.Name = "StateButton"
-stateButton.Size = UDim2.new(0, 260, 0, 80)
-stateButton.Position = UDim2.new(0.5, 0, 0, 60)
+stateButton.Size = UDim2.new(0, 240, 0, 80)
+stateButton.Position = UDim2.new(0.5, 0, 0, 50)
 stateButton.AnchorPoint = Vector2.new(0.5, 0)
-stateButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+stateButton.BackgroundColor3 = Color3.fromRGB(150, 100, 220)
 stateButton.BorderSizePixel = 0
-stateButton.Font = Enum.Font.GothamBlack
-stateButton.TextSize = 24
+stateButton.Font = Enum.Font.GothamBold
+stateButton.TextSize = 32
 stateButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-stateButton.Text = "DURUM: KAPALI"
+stateButton.Text = "State: OFF"
 stateButton.Parent = mainFrame
 
 local buttonCorner = Instance.new("UICorner")
 buttonCorner.CornerRadius = UDim.new(0, 10)
 buttonCorner.Parent = stateButton
-
--- VORTEX GRADIENT
-local buttonGradient = Instance.new("UIGradient")
-buttonGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 200, 120)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 150, 90))
-})
-buttonGradient.Rotation = 90
-buttonGradient.Parent = stateButton
-
--- VORTEX BUTON ÇERÇEVE
-local buttonStroke = Instance.new("UIStroke")
-buttonStroke.Color = Color3.fromRGB(0, 255, 157)
-buttonStroke.Thickness = 2
-buttonStroke.Transparency = 0.2
-buttonStroke.Parent = stateButton
 
 -- SÜRÜKLEME SİSTEMİ
 local dragging = false
@@ -366,80 +342,51 @@ local function disableVortexDesync()
     end)
 end
 
--- VORTEX BUTON ETKİLEŞİMLERİ
+-- BUTON TIKLAMA (SENİNKİ GİBİ)
 stateButton.MouseButton1Click:Connect(function()
     desyncActive = not desyncActive
     
     if desyncActive then
         local success = enableVortexDesync()
         if success then
-            stateButton.Text = "DURUM: AÇIK"
-            stateButton.BackgroundColor3 = Color3.fromRGB(0, 255, 157)
-            buttonGradient.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 157)),
-                ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 200, 120))
-            })
+            stateButton.Text = "State: ON"
+            stateButton.BackgroundColor3 = Color3.fromRGB(200, 200, 0)
         else
             desyncActive = false
-            stateButton.Text = "DURUM: KAPALI"
-            stateButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-            buttonGradient.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 200, 120)),
-                ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 150, 90))
-            })
+            stateButton.Text = "State: OFF"
+            stateButton.BackgroundColor3 = Color3.fromRGB(150, 100, 220)
         end
     else
         disableVortexDesync()
-        stateButton.Text = "DURUM: KAPALI"
-        stateButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-        buttonGradient.Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 200, 120)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 150, 90))
-        })
+        stateButton.Text = "State: OFF"
+        stateButton.BackgroundColor3 = Color3.fromRGB(150, 100, 220)
     end
 end)
 
--- VORTEX BUTON HOVER EFEKTLERİ
+-- BUTON HOVER EFEKTLERİ (SENİNKİ GİBİ)
 stateButton.MouseEnter:Connect(function()
-    TweenService:Create(stateButton, TweenInfo.new(0.2), {
-        BackgroundTransparency = 0.1
-    }):Play()
-    TweenService:Create(buttonStroke, TweenInfo.new(0.2), {
-        Color = Color3.fromRGB(100, 255, 200)
-    }):Play()
+    stateButton.BackgroundColor3 = stateButton.BackgroundColor3:Lerp(Color3.fromRGB(255, 255, 255), 0.12)
 end)
 
 stateButton.MouseLeave:Connect(function()
-    TweenService:Create(stateButton, TweenInfo.new(0.2), {
-        BackgroundTransparency = 0
-    }):Play()
-    TweenService:Create(buttonStroke, TweenInfo.new(0.2), {
-        Color = Color3.fromRGB(0, 255, 157)
-    }):Play()
+    if desyncActive then
+        stateButton.BackgroundColor3 = Color3.fromRGB(200, 200, 0)
+    else
+        stateButton.BackgroundColor3 = Color3.fromRGB(150, 100, 220)
+    end
 end)
 
 -- KARAKTER DEĞİŞİMİNDE RESET
-LocalPlayer.CharacterAdded:Connect(function(character)
-    task.wait(1)
-    
+LocalPlayer.CharacterAdded:Connect(function()
     desyncActive = false
-    stateButton.Text = "DURUM: KAPALI"
-    stateButton.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-    buttonGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 200, 120)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 150, 90))
-    })
+    stateButton.Text = "State: OFF"
+    stateButton.BackgroundColor3 = Color3.fromRGB(150, 100, 220)
     
-    -- Yeni karaktere highlight ekle (eğer desync aktifse)
-    if desyncActive then
-        task.wait(2)
-        addCharacterHighlight(character)
-    end
-    
-    showNotification("Karakter resetlendi - Sistem hazır", true)
+    -- Tüm highlight'ları temizle
+    removeAllHighlights()
 end)
 
--- VORTEX BAŞLANGIÇ MESAJI
+-- OYUN BAŞLANGICINDA MESAJ
 task.wait(2)
 showNotification("Vortex Desync sistemi yüklendi!", true)
 
