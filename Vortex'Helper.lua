@@ -213,7 +213,7 @@ local function toggleFPSDevourer()
 end
 
 ----------------------------------------------------------------
--- INF JUMP / JUMP BOOST (30 POWER) - Walk Speed KALDIRILDI
+-- INF JUMP / JUMP BOOST (30 POWER) - Walk Speed YOK
 ----------------------------------------------------------------
 local NORMAL_GRAV = 196.2
 local REDUCED_GRAV = 40
@@ -1670,7 +1670,7 @@ player.CharacterAdded:Connect(function()
 end)
 
 ----------------------------------------------------------------
--- V LOGO AND MAIN GUI DESIGN
+-- V LOGO AND MAIN GUI DESIGN - %50 KÜÇÜLTÜLMÜŞ
 ----------------------------------------------------------------
 local playerGui = player:WaitForChild('PlayerGui')
 
@@ -1693,25 +1693,25 @@ logoGui.Parent = playerGui
 
 local logoButton = Instance.new("TextButton")
 logoButton.Name = "VLogo"
-logoButton.Size = UDim2.new(0, 40, 0, 40)
+logoButton.Size = UDim2.new(0, 35, 0, 35)
 logoButton.Position = UDim2.new(0, 10, 0, 10)
 logoButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
 logoButton.BackgroundTransparency = 0.2
 logoButton.Text = "V"
 logoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-logoButton.TextSize = 18
+logoButton.TextSize = 16
 logoButton.Font = Enum.Font.GothamBlack
 logoButton.AutoButtonColor = false
 logoButton.Draggable = true
 logoButton.Parent = logoGui
 
 local logoCorner = Instance.new("UICorner")
-logoCorner.CornerRadius = UDim.new(0.3, 0)
+logoCorner.CornerRadius = UDim.new(1, 0)
 logoCorner.Parent = logoButton
 
 local logoStroke = Instance.new("UIStroke")
 logoStroke.Color = Color3.fromRGB(200, 230, 255)
-logoStroke.Thickness = 2
+logoStroke.Thickness = 1.5
 logoStroke.Parent = logoButton
 
 -- Main GUI
@@ -1721,10 +1721,10 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Main Frame - Geliştirilmiş Tasarım
+-- Main Frame - %50 KÜÇÜLTÜLMÜŞ
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 200, 0, 250)
-mainFrame.Position = UDim2.new(0.5, -100, 0.5, -125)
+mainFrame.Size = UDim2.new(0, 160, 0, 180) -- %50 küçültüldü
+mainFrame.Position = UDim2.new(0.5, -80, 0.5, -90)
 mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
 mainFrame.BackgroundTransparency = 0.1
 mainFrame.BorderSizePixel = 0
@@ -1732,7 +1732,7 @@ mainFrame.Visible = false
 mainFrame.Parent = gui
 
 local mainCorner = Instance.new('UICorner', mainFrame)
-mainCorner.CornerRadius = UDim.new(0, 12)
+mainCorner.CornerRadius = UDim.new(0, 10)
 
 local mainStroke = Instance.new('UIStroke', mainFrame)
 mainStroke.Thickness = 2
@@ -1741,17 +1741,17 @@ mainStroke.Transparency = 0.2
 
 -- Header with Tabs
 local header = Instance.new('Frame')
-header.Size = UDim2.new(1, 0, 0, 35)
+header.Size = UDim2.new(1, 0, 0, 30)
 header.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
 header.BackgroundTransparency = 0.1
 header.BorderSizePixel = 0
 header.Parent = mainFrame
 
 local headerCorner = Instance.new("UICorner")
-headerCorner.CornerRadius = UDim.new(0, 12)
+headerCorner.CornerRadius = UDim.new(0, 10)
 headerCorner.Parent = header
 
--- Tab Buttons
+-- Tab Buttons - UI Corner EKLENDİ
 local tab1Btn = Instance.new('TextButton')
 tab1Btn.Name = 'Tab1'
 tab1Btn.Size = UDim2.new(0.5, -2, 1, 0)
@@ -1759,10 +1759,14 @@ tab1Btn.Position = UDim2.new(0, 0, 0, 0)
 tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
 tab1Btn.Text = "MAIN"
 tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-tab1Btn.TextSize = 12
+tab1Btn.TextSize = 11
 tab1Btn.Font = Enum.Font.GothamBold
 tab1Btn.AutoButtonColor = false
 tab1Btn.Parent = header
+
+local tab1Corner = Instance.new("UICorner")
+tab1Corner.CornerRadius = UDim.new(0, 8)
+tab1Corner.Parent = tab1Btn
 
 local tab2Btn = Instance.new('TextButton')
 tab2Btn.Name = 'Tab2'
@@ -1771,71 +1775,73 @@ tab2Btn.Position = UDim2.new(0.5, 0, 0, 0)
 tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
 tab2Btn.Text = "VISUAL"
 tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab2Btn.TextSize = 12
+tab2Btn.TextSize = 11
 tab2Btn.Font = Enum.Font.GothamBold
 tab2Btn.AutoButtonColor = false
 tab2Btn.Parent = header
 
+local tab2Corner = Instance.new("UICorner")
+tab2Corner.CornerRadius = UDim.new(0, 8)
+tab2Corner.Parent = tab2Btn
+
 -- Content Areas
 local contentTab1 = Instance.new('Frame')
 contentTab1.Name = 'Tab1Content'
-contentTab1.Size = UDim2.new(1, -10, 1, -40)
-contentTab1.Position = UDim2.new(0, 5, 0, 40)
+contentTab1.Size = UDim2.new(1, -8, 1, -35)
+contentTab1.Position = UDim2.new(0, 4, 0, 31)
 contentTab1.BackgroundTransparency = 1
 contentTab1.Visible = true
 contentTab1.Parent = mainFrame
 
 local contentTab2 = Instance.new('Frame')
 contentTab2.Name = 'Tab2Content'
-contentTab2.Size = UDim2.new(1, -10, 1, -40)
-contentTab2.Position = UDim2.new(0, 5, 0, 40)
+contentTab2.Size = UDim2.new(1, -8, 1, -35)
+contentTab2.Position = UDim2.new(0, 4, 0, 31)
 contentTab2.BackgroundTransparency = 1
 contentTab2.Visible = false
 contentTab2.Parent = mainFrame
 
 -- Title
 local title = Instance.new('TextLabel', header)
-title.Size = UDim2.new(1, 0, 0, 20)
+title.Size = UDim2.new(1, 0, 0, 15)
 title.Position = UDim2.new(0, 0, 0, 0)
 title.Text = 'VORTEX HELPER'
 title.TextColor3 = Color3.fromRGB(100, 200, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 14
+title.TextSize = 12
 title.BackgroundTransparency = 1
 title.TextStrokeTransparency = 0.7
 
--- Button Creation Function - Geliştirilmiş Butonlar
+-- Button Creation Function - Optimize Edilmiş
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
-    btn.Size = UDim2.new(0.95, 0, 0, 32)
+    btn.Size = UDim2.new(0.95, 0, 0, 25)
     btn.Position = UDim2.new(0.025, 0, 0, yPos)
     btn.BackgroundColor3 = isActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
     btn.Text = text
     btn.Font = Enum.Font.GothamSemibold
     btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 12
+    btn.TextSize = 10
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
     
     local btnCorner = Instance.new('UICorner', btn)
-    btnCorner.CornerRadius = UDim.new(0, 8)
+    btnCorner.CornerRadius = UDim.new(0, 6)
     
     local btnStroke = Instance.new('UIStroke', btn)
     btnStroke.Color = Color3.fromRGB(255, 255, 255)
-    btnStroke.Thickness = 1.5
+    btnStroke.Thickness = 1
     btnStroke.Transparency = 0.3
     
     btn.MouseEnter:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
-            BackgroundTransparency = 0.1,
-            Size = UDim2.new(0.96, 0, 0, 34)
+            BackgroundTransparency = 0.1
         }):Play()
     end)
     
     btn.MouseLeave:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
-            BackgroundTransparency = 0,
-            Size = UDim2.new(0.95, 0, 0, 32)
+            BackgroundTransparency = 0
         }):Play()
     end)
     
@@ -1854,14 +1860,14 @@ end)
 logoButton.MouseEnter:Connect(function()
     TweenService:Create(logoButton, TweenInfo.new(0.2), {
         BackgroundTransparency = 0.1,
-        Size = UDim2.new(0, 42, 0, 42)
+        Size = UDim2.new(0, 37, 0, 37)
     }):Play()
 end)
 
 logoButton.MouseLeave:Connect(function()
     TweenService:Create(logoButton, TweenInfo.new(0.2), {
         BackgroundTransparency = 0.2,
-        Size = UDim2.new(0, 40, 0, 40)
+        Size = UDim2.new(0, 35, 0, 35)
     }):Play()
 end)
 
@@ -1947,21 +1953,21 @@ if settings.stealFloor ~= nil then
     end
 end
 
--- Create buttons for Tab 1 (Main)
+-- Create buttons for Tab 1 (Main) - Optimize Edilmiş
 local yPos = 5
-createButton(contentTab1, fpsDevourerActive and '✅ FPS Devourer' or '🎯 FPS Devourer', yPos, toggleFPSDevourer, fpsDevourerActive)
-yPos = yPos + 35
-createButton(contentTab1, gravityLow and '✅ Inf Jump' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
-yPos = yPos + 35
-createButton(contentTab1, '🚀 Fly to Base', yPos, startFlyToBase, false)
+createButton(contentTab1, fpsDevourerActive and '✅ FPS' or '🎯 FPS', yPos, toggleFPSDevourer, fpsDevourerActive)
+yPos = yPos + 28
+createButton(contentTab1, gravityLow and '✅ Jump' or '🦘 Jump', yPos, switchGravityJump, gravityLow)
+yPos = yPos + 28
+createButton(contentTab1, '🚀 Fly Base', yPos, startFlyToBase, false)
 
--- Create buttons for Tab 2 (Visual)
+-- Create buttons for Tab 2 (Visual) - Optimize Edilmiş
 yPos = 5
-createButton(contentTab2, espBaseActive and '✅ Base ESP' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
-yPos = yPos + 35
-createButton(contentTab2, espBestActive and '✅ Best ESP' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
-yPos = yPos + 35
-createButton(contentTab2, playerEspActive and '✅ Player ESP' or '👥 Player ESP', yPos, togglePlayerESP, playerEspActive)
+createButton(contentTab2, espBaseActive and '✅ Base' or '🏠 Base', yPos, toggleBaseESP, espBaseActive)
+yPos = yPos + 28
+createButton(contentTab2, espBestActive and '✅ Best' or '🔥 Best', yPos, toggleBestESP, espBestActive)
+yPos = yPos + 28
+createButton(contentTab2, playerEspActive and '✅ Player' or '👥 Player', yPos, togglePlayerESP, playerEspActive)
 
 -- Drag functionality for main frame
 local dragging = false
