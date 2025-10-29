@@ -1387,10 +1387,10 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Main Frame - %50 daha küçük
+-- Main Frame - Optimized design
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 150, 0, 180) -- %50 küçültüldü
-mainFrame.Position = UDim2.new(0.5, -75, 0.5, -90)
+mainFrame.Size = UDim2.new(0, 160, 0, 140) -- Daha kompakt boyut
+mainFrame.Position = UDim2.new(0.5, -80, 0.5, -70)
 mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 mainFrame.BackgroundTransparency = 0.6 -- 0.6 transparency
 mainFrame.BorderSizePixel = 0
@@ -1413,9 +1413,9 @@ stroke.Thickness = 1.5
 stroke.Color = Color3.fromRGB(100, 150, 255)
 stroke.Transparency = 0.2
 
--- Header with Tabs
+-- Header
 local header = Instance.new('Frame')
-header.Size = UDim2.new(1, 0, 0, 20) -- Daha küçük
+header.Size = UDim2.new(1, 0, 0, 25)
 header.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
 header.BackgroundTransparency = 0.1
 header.BorderSizePixel = 0
@@ -1425,88 +1425,34 @@ local headerCorner = Instance.new("UICorner")
 headerCorner.CornerRadius = UDim.new(0, 8)
 headerCorner.Parent = header
 
--- Tab Buttons
-local tab1Btn = Instance.new('TextButton')
-tab1Btn.Name = 'Tab1'
-tab1Btn.Size = UDim2.new(0.33, -2, 1, 0)
-tab1Btn.Position = UDim2.new(0, 0, 0, 0)
-tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-tab1Btn.Text = "Main"
-tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-tab1Btn.TextSize = 8 -- Daha küçük
-tab1Btn.Font = Enum.Font.GothamBold
-tab1Btn.AutoButtonColor = false
-tab1Btn.Parent = header
-
-local tab2Btn = Instance.new('TextButton')
-tab2Btn.Name = 'Tab2'
-tab2Btn.Size = UDim2.new(0.33, -2, 1, 0)
-tab2Btn.Position = UDim2.new(0.33, 0, 0, 0)
-tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-tab2Btn.Text = "Visual"
-tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab2Btn.TextSize = 8
-tab1Btn.Font = Enum.Font.GothamBold
-tab2Btn.AutoButtonColor = false
-tab2Btn.Parent = header
-
-local tab3Btn = Instance.new('TextButton')
-tab3Btn.Name = 'Tab3'
-tab3Btn.Size = UDim2.new(0.34, 0, 1, 0)
-tab3Btn.Position = UDim2.new(0.66, 0, 0, 0)
-tab3Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-tab3Btn.Text = "Misc"
-tab3Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab3Btn.TextSize = 8
-tab1Btn.Font = Enum.Font.GothamBold
-tab3Btn.AutoButtonColor = false
-tab3Btn.Parent = header
-
--- Content Areas
-local contentTab1 = Instance.new('Frame')
-contentTab1.Name = 'Tab1Content'
-contentTab1.Size = UDim2.new(1, -8, 1, -25)
-contentTab1.Position = UDim2.new(0, 4, 0, 21)
-contentTab1.BackgroundTransparency = 1
-contentTab1.Visible = true
-contentTab1.Parent = mainFrame
-
-local contentTab2 = Instance.new('Frame')
-contentTab2.Name = 'Tab2Content'
-contentTab2.Size = UDim2.new(1, -8, 1, -25)
-contentTab2.Position = UDim2.new(0, 4, 0, 21)
-contentTab2.BackgroundTransparency = 1
-contentTab2.Visible = false
-contentTab2.Parent = mainFrame
-
-local contentTab3 = Instance.new('Frame')
-contentTab3.Name = 'Tab3Content'
-contentTab3.Size = UDim2.new(1, -8, 1, -25)
-contentTab3.Position = UDim2.new(0, 4, 0, 21)
-contentTab3.BackgroundTransparency = 1
-contentTab3.Visible = false
-contentTab3.Parent = mainFrame
-
 -- Title
 local title = Instance.new('TextLabel', header)
 title.Size = UDim2.new(1, 0, 1, 0)
 title.Text = 'Vortex Helper'
 title.TextColor3 = Color3.fromRGB(100, 200, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 10 -- Daha küçük
+title.TextSize = 12
 title.BackgroundTransparency = 1
 title.TextStrokeTransparency = 0.7
+
+-- Content Area
+local content = Instance.new('Frame')
+content.Name = 'Content'
+content.Size = UDim2.new(1, -8, 1, -30)
+content.Position = UDim2.new(0, 4, 0, 26)
+content.BackgroundTransparency = 1
+content.Parent = mainFrame
 
 -- Button Creation Function - Renkli butonlar
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
-    btn.Size = UDim2.new(0.9, 0, 0, 22) -- Daha küçük
+    btn.Size = UDim2.new(0.9, 0, 0, 25)
     btn.Position = UDim2.new(0.05, 0, 0, yPos)
     btn.BackgroundColor3 = isActive and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(255, 50, 50) -- Yeşil/Kırmızı
     btn.Text = text
     btn.Font = Enum.Font.GothamSemibold
     btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 9 -- Daha küçük
+    btn.TextSize = 10
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
     
@@ -1556,44 +1502,6 @@ logoButton.MouseLeave:Connect(function()
     }):Play()
 end)
 
--- Tab switching function
-local currentTab = 1
-
-local function switchTab(tabNumber)
-    currentTab = tabNumber
-    
-    contentTab1.Visible = false
-    contentTab2.Visible = false
-    contentTab3.Visible = false
-    
-    tab1Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    tab3Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    
-    tab1Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    tab3Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    
-    if tabNumber == 1 then
-        contentTab1.Visible = true
-        tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-        tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    elseif tabNumber == 2 then
-        contentTab2.Visible = true
-        tab2Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-        tab2Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    else
-        contentTab3.Visible = true
-        tab3Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-        tab3Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    end
-end
-
--- Tab button events
-tab1Btn.MouseButton1Click:Connect(function() switchTab(1) end)
-tab2Btn.MouseButton1Click:Connect(function() switchTab(2) end)
-tab3Btn.MouseButton1Click:Connect(function() switchTab(3) end)
-
 -- Load settings
 local settings = loadSettings()
 
@@ -1634,28 +1542,17 @@ if settings.fpsDevourer ~= nil then
     end
 end
 
--- Create buttons for Tab 1 (Main)
+-- Create buttons - Tüm özellikler tek sayfada
 local yPos = 5
-createButton(contentTab1, fpsDevourerActive and '✅ FPS Devourer' or '🎯 FPS Devourer', yPos, toggleFPSDevourer, fpsDevourerActive)
-yPos = yPos + 25
-createButton(contentTab1, gravityLow and '✅ Inf Jump' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
-yPos = yPos + 25
-createButton(contentTab1, '🚀 Fly to Base', yPos, startFlyToBase, false)
-
--- Create buttons for Tab 2 (Visual)
-yPos = 5
-createButton(contentTab2, espBaseActive and '✅ Base ESP' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
-yPos = yPos + 25
-createButton(contentTab2, espBestActive and '✅ Best ESP' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
-
--- Create buttons for Tab 3 (Misc)
-yPos = 5
-createButton(contentTab3, '🔄 Reset Char', yPos, function()
-    local char = player.Character
-    if char then
-        char:BreakJoints()
-    end
-end, false)
+createButton(content, fpsDevourerActive and '✅ FPS Devourer' or '🎯 FPS Devourer', yPos, toggleFPSDevourer, fpsDevourerActive)
+yPos = yPos + 27
+createButton(content, gravityLow and '✅ Inf Jump' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
+yPos = yPos + 27
+createButton(content, '🚀 Fly to Base', yPos, startFlyToBase, false)
+yPos = yPos + 27
+createButton(content, espBaseActive and '✅ Base ESP' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
+yPos = yPos + 27
+createButton(content, espBestActive and '✅ Best ESP' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
 
 -- Drag functionality
 local dragging = false
