@@ -213,13 +213,12 @@ local function toggleFPSDevourer()
 end
 
 ----------------------------------------------------------------
--- INF JUMP / JUMP BOOST (30 POWER)
+-- INF JUMP / JUMP BOOST (30 POWER) - Walk Speed KALDIRILDI
 ----------------------------------------------------------------
 local NORMAL_GRAV = 196.2
 local REDUCED_GRAV = 40
 local NORMAL_JUMP = 30
 local BOOST_JUMP = 30
-local BOOST_SPEED = 32
 
 local spoofedGravity = NORMAL_GRAV
 pcall(function()
@@ -245,30 +244,6 @@ local function setJumpPower(jump)
     if h then
         h.JumpPower = jump
         h.UseJumpPower = true
-    end
-end
-
-local speedBoostConn
-local function enableSpeedBoostAssembly(state)
-    if speedBoostConn then
-        speedBoostConn:Disconnect()
-        speedBoostConn = nil
-    end
-    if state then
-        speedBoostConn = RunService.Heartbeat:Connect(function()
-            local char = player.Character
-            if char then
-                local root = char:FindFirstChild('HumanoidRootPart')
-                local h = char:FindFirstChildOfClass('Humanoid')
-                if root and h and h.MoveDirection.Magnitude > 0 then
-                    root.Velocity = Vector3.new(
-                        h.MoveDirection.X * BOOST_SPEED,
-                        root.Velocity.Y,
-                        h.MoveDirection.Z * BOOST_SPEED
-                    )
-                end
-            end
-        end)
     end
 end
 
@@ -329,7 +304,6 @@ local function switchGravityJump()
     sourceActive = gravityLow
     Workspace.Gravity = gravityLow and REDUCED_GRAV or NORMAL_GRAV
     setJumpPower(gravityLow and BOOST_JUMP or NORMAL_JUMP)
-    enableSpeedBoostAssembly(gravityLow)
     enableInfiniteJump(gravityLow)
     antiRagdoll()
     toggleForceField()
@@ -424,12 +398,10 @@ local function restoreSourceAndPhysics()
         if gravityLow then
             Workspace.Gravity = REDUCED_GRAV
             setJumpPower(BOOST_JUMP)
-            enableSpeedBoostAssembly(true)
             enableInfiniteJump(true)
         else
             Workspace.Gravity = NORMAL_GRAV
             setJumpPower(NORMAL_JUMP)
-            enableSpeedBoostAssembly(false)
             enableInfiniteJump(false)
         end
         spoofedGravity = NORMAL_GRAV
@@ -476,7 +448,6 @@ local function startFlyToBase()
     flyRestoreOldGravity = Workspace.Gravity
     flyRestoreOldJumpPower = hum.JumpPower
 
-    enableSpeedBoostAssembly(false)
     enableInfiniteJump(false)
 
     Workspace.Gravity = FLY_GRAV
@@ -961,7 +932,7 @@ Players.PlayerRemoving:Connect(function(plr)
 end)
 
 ----------------------------------------------------------------
--- STEAL FLOOR
+-- STEAL FLOOR - Ayrı Buton Olarak
 ----------------------------------------------------------------
 local stealFloorActive = false
 local sfFloatSpeed = 24
@@ -1162,6 +1133,66 @@ sfSafeDisconnect(sfCharAddedConn)
 sfCharAddedConn = player.CharacterAdded:Connect(function(ch)
     task.wait(0.1)
     sfDisable()
+end)
+
+-- Steal Floor Butonu (Sol Alt Köşe)
+local stealFloorGui = Instance.new("ScreenGui")
+stealFloorGui.Name = "StealFloorButton"
+stealFloorGui.ResetOnSpawn = false
+stealFloorGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+stealFloorGui.Parent = CoreGui
+
+local stealFloorButton = Instance.new("TextButton")
+stealFloorButton.Name = "StealFloor"
+stealFloorButton.Size = UDim2.new(0, 120, 0, 50)
+stealFloorButton.Position = UDim2.new(0, 10, 1, -60) -- Sol Alt Köşe
+stealFloorButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
+stealFloorButton.BackgroundTransparency = 0.4
+stealFloorButton.Text = "🏗️ Steal Floor"
+stealFloorButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+stealFloorButton.TextSize = 14
+stealFloorButton.Font = Enum.Font.GothamBold
+stealFloorButton.TextWrapped = true
+stealFloorButton.Draggable = true
+stealFloorButton.Parent = stealFloorGui
+
+local stealFloorCorner = Instance.new("UICorner")
+stealFloorCorner.CornerRadius = UDim.new(0, 12)
+stealFloorCorner.Parent = stealFloorButton
+
+local stealFloorStroke = Instance.new("UIStroke")
+stealFloorStroke.Color = Color3.fromRGB(255, 200, 200)
+stealFloorStroke.Thickness = 2
+stealFloorStroke.Transparency = 0.3
+stealFloorStroke.Parent = stealFloorButton
+
+stealFloorButton.MouseEnter:Connect(function()
+    TweenService:Create(stealFloorButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.2,
+        TextColor3 = Color3.fromRGB(255, 255, 255)
+    }):Play()
+end)
+
+stealFloorButton.MouseLeave:Connect(function()
+    TweenService:Create(stealFloorButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.4,
+        TextColor3 = Color3.fromRGB(0, 0, 0)
+    }):Play()
+end)
+
+stealFloorButton.MouseButton1Click:Connect(function()
+    toggleStealFloor()
+    if stealFloorActive then
+        TweenService:Create(stealFloorButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+        }):Play()
+        stealFloorButton.Text = "✅ Steal Floor"
+    else
+        TweenService:Create(stealFloorButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 120, 120)
+        }):Play()
+        stealFloorButton.Text = "🏗️ Steal Floor"
+    end
 end)
 
 ----------------------------------------------------------------
@@ -1543,7 +1574,7 @@ local function deactivateAdvancedDesync()
     saveSettings()
 end
 
--- Deysnc Button (ORIGINAL DESIGN - Top Right)
+-- Deysnc Button (Sağ Üst Köşe)
 local desyncScreenGui = Instance.new("ScreenGui")
 desyncScreenGui.Name = "QuantumDesyncButton"
 desyncScreenGui.ResetOnSpawn = false
@@ -1553,43 +1584,27 @@ desyncScreenGui.Parent = CoreGui
 local desyncButton = Instance.new("TextButton")
 desyncButton.Name = "Deysnc"
 desyncButton.Size = UDim2.new(0, 120, 0, 50)
-desyncButton.Position = UDim2.new(1, -130, 0, 10) -- Top Right
-desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255) -- Blue color
-desyncButton.BackgroundTransparency = 0.4 -- 60% transparent
+desyncButton.Position = UDim2.new(1, -130, 0, 10) -- Sağ Üst Köşe
+desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+desyncButton.BackgroundTransparency = 0.4
 desyncButton.Text = "Deysnc"
-desyncButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black text
+desyncButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 desyncButton.TextSize = 14
 desyncButton.Font = Enum.Font.GothamBold
 desyncButton.TextWrapped = true
-desyncButton.Draggable = true -- Movable
+desyncButton.Draggable = true
 desyncButton.Parent = desyncScreenGui
 
--- Button corner rounding
-local buttonCorner = Instance.new("UICorner")
-buttonCorner.CornerRadius = UDim.new(0, 12)
-buttonCorner.Parent = desyncButton
+local desyncCorner = Instance.new("UICorner")
+desyncCorner.CornerRadius = UDim.new(0, 12)
+desyncCorner.Parent = desyncButton
 
--- Button border line
-local buttonStroke = Instance.new("UIStroke")
-buttonStroke.Color = Color3.fromRGB(200, 230, 255)
-buttonStroke.Thickness = 2
-buttonStroke.Transparency = 0.3
-buttonStroke.Parent = desyncButton
+local desyncStroke = Instance.new("UIStroke")
+desyncStroke.Color = Color3.fromRGB(200, 230, 255)
+desyncStroke.Thickness = 2
+desyncStroke.Transparency = 0.3
+desyncStroke.Parent = desyncButton
 
--- Button shadow
-local buttonShadow = Instance.new("ImageLabel")
-buttonShadow.Name = "Shadow"
-buttonShadow.Size = UDim2.new(1, 10, 1, 10)
-buttonShadow.Position = UDim2.new(0, -5, 0, -5)
-buttonShadow.BackgroundTransparency = 1
-buttonShadow.Image = "rbxassetid://1316045217"
-buttonShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-buttonShadow.ImageTransparency = 0.8
-buttonShadow.ScaleType = Enum.ScaleType.Slice
-buttonShadow.SliceCenter = Rect.new(10, 10, 118, 118)
-buttonShadow.Parent = desyncButton
-
--- Button hover effect
 desyncButton.MouseEnter:Connect(function()
     TweenService:Create(desyncButton, TweenInfo.new(0.2), {
         BackgroundTransparency = 0.2,
@@ -1604,20 +1619,6 @@ desyncButton.MouseLeave:Connect(function()
     }):Play()
 end)
 
--- Button click effect
-desyncButton.MouseButton1Down:Connect(function()
-    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
-        Size = UDim2.new(0, 115, 0, 48)
-    }):Play()
-end)
-
-desyncButton.MouseButton1Up:Connect(function()
-    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
-        Size = UDim2.new(0, 120, 0, 50)
-    }):Play()
-end)
-
--- Button click function
 desyncButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
@@ -1692,25 +1693,25 @@ logoGui.Parent = playerGui
 
 local logoButton = Instance.new("TextButton")
 logoButton.Name = "VLogo"
-logoButton.Size = UDim2.new(0, 35, 0, 35)
+logoButton.Size = UDim2.new(0, 40, 0, 40)
 logoButton.Position = UDim2.new(0, 10, 0, 10)
 logoButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
 logoButton.BackgroundTransparency = 0.2
 logoButton.Text = "V"
 logoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-logoButton.TextSize = 16
+logoButton.TextSize = 18
 logoButton.Font = Enum.Font.GothamBlack
 logoButton.AutoButtonColor = false
 logoButton.Draggable = true
 logoButton.Parent = logoGui
 
 local logoCorner = Instance.new("UICorner")
-logoCorner.CornerRadius = UDim.new(1, 0)
+logoCorner.CornerRadius = UDim.new(0.3, 0)
 logoCorner.Parent = logoButton
 
 local logoStroke = Instance.new("UIStroke")
 logoStroke.Color = Color3.fromRGB(200, 230, 255)
-logoStroke.Thickness = 1.5
+logoStroke.Thickness = 2
 logoStroke.Parent = logoButton
 
 -- Main GUI
@@ -1720,42 +1721,34 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Main Frame - Optimized design
+-- Main Frame - Geliştirilmiş Tasarım
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 180, 0, 220) -- Boyut optimize edildi
-mainFrame.Position = UDim2.new(0.5, -90, 0.5, -110)
-mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
-mainFrame.BackgroundTransparency = 0.6 -- 0.6 transparency
+mainFrame.Size = UDim2.new(0, 200, 0, 250)
+mainFrame.Position = UDim2.new(0.5, -100, 0.5, -125)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+mainFrame.BackgroundTransparency = 0.1
 mainFrame.BorderSizePixel = 0
 mainFrame.Visible = false
 mainFrame.Parent = gui
 
-local gradient = Instance.new('UIGradient')
-gradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 35)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 10, 20))
-})
-gradient.Rotation = 45
-gradient.Parent = mainFrame
+local mainCorner = Instance.new('UICorner', mainFrame)
+mainCorner.CornerRadius = UDim.new(0, 12)
 
-local corner = Instance.new('UICorner', mainFrame)
-corner.CornerRadius = UDim.new(0, 8)
-
-local stroke = Instance.new('UIStroke', mainFrame)
-stroke.Thickness = 1.5
-stroke.Color = Color3.fromRGB(100, 150, 255)
-stroke.Transparency = 0.2
+local mainStroke = Instance.new('UIStroke', mainFrame)
+mainStroke.Thickness = 2
+mainStroke.Color = Color3.fromRGB(100, 150, 255)
+mainStroke.Transparency = 0.2
 
 -- Header with Tabs
 local header = Instance.new('Frame')
-header.Size = UDim2.new(1, 0, 0, 25)
-header.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+header.Size = UDim2.new(1, 0, 0, 35)
+header.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
 header.BackgroundTransparency = 0.1
 header.BorderSizePixel = 0
 header.Parent = mainFrame
 
 local headerCorner = Instance.new("UICorner")
-headerCorner.CornerRadius = UDim.new(0, 8)
+headerCorner.CornerRadius = UDim.new(0, 12)
 headerCorner.Parent = header
 
 -- Tab Buttons
@@ -1764,9 +1757,9 @@ tab1Btn.Name = 'Tab1'
 tab1Btn.Size = UDim2.new(0.5, -2, 1, 0)
 tab1Btn.Position = UDim2.new(0, 0, 0, 0)
 tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-tab1Btn.Text = "Main"
+tab1Btn.Text = "MAIN"
 tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-tab1Btn.TextSize = 10
+tab1Btn.TextSize = 12
 tab1Btn.Font = Enum.Font.GothamBold
 tab1Btn.AutoButtonColor = false
 tab1Btn.Parent = header
@@ -1775,10 +1768,10 @@ local tab2Btn = Instance.new('TextButton')
 tab2Btn.Name = 'Tab2'
 tab2Btn.Size = UDim2.new(0.5, -2, 1, 0)
 tab2Btn.Position = UDim2.new(0.5, 0, 0, 0)
-tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-tab2Btn.Text = "Visual"
+tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+tab2Btn.Text = "VISUAL"
 tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab2Btn.TextSize = 10
+tab2Btn.TextSize = 12
 tab2Btn.Font = Enum.Font.GothamBold
 tab2Btn.AutoButtonColor = false
 tab2Btn.Parent = header
@@ -1786,60 +1779,63 @@ tab2Btn.Parent = header
 -- Content Areas
 local contentTab1 = Instance.new('Frame')
 contentTab1.Name = 'Tab1Content'
-contentTab1.Size = UDim2.new(1, -8, 1, -30)
-contentTab1.Position = UDim2.new(0, 4, 0, 26)
+contentTab1.Size = UDim2.new(1, -10, 1, -40)
+contentTab1.Position = UDim2.new(0, 5, 0, 40)
 contentTab1.BackgroundTransparency = 1
 contentTab1.Visible = true
 contentTab1.Parent = mainFrame
 
 local contentTab2 = Instance.new('Frame')
 contentTab2.Name = 'Tab2Content'
-contentTab2.Size = UDim2.new(1, -8, 1, -30)
-contentTab2.Position = UDim2.new(0, 4, 0, 26)
+contentTab2.Size = UDim2.new(1, -10, 1, -40)
+contentTab2.Position = UDim2.new(0, 5, 0, 40)
 contentTab2.BackgroundTransparency = 1
 contentTab2.Visible = false
 contentTab2.Parent = mainFrame
 
 -- Title
 local title = Instance.new('TextLabel', header)
-title.Size = UDim2.new(1, 0, 1, 0)
-title.Text = 'Vortex Helper'
+title.Size = UDim2.new(1, 0, 0, 20)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.Text = 'VORTEX HELPER'
 title.TextColor3 = Color3.fromRGB(100, 200, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 12
+title.TextSize = 14
 title.BackgroundTransparency = 1
 title.TextStrokeTransparency = 0.7
 
--- Button Creation Function - Renkli butonlar (Yeşil/Kırmızı)
+-- Button Creation Function - Geliştirilmiş Butonlar
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
-    btn.Size = UDim2.new(0.9, 0, 0, 25)
-    btn.Position = UDim2.new(0.05, 0, 0, yPos)
-    btn.BackgroundColor3 = isActive and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(255, 50, 50) -- Yeşil/Kırmızı
+    btn.Size = UDim2.new(0.95, 0, 0, 32)
+    btn.Position = UDim2.new(0.025, 0, 0, yPos)
+    btn.BackgroundColor3 = isActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
     btn.Text = text
     btn.Font = Enum.Font.GothamSemibold
     btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 10
+    btn.TextSize = 12
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
     
     local btnCorner = Instance.new('UICorner', btn)
-    btnCorner.CornerRadius = UDim.new(0, 6)
+    btnCorner.CornerRadius = UDim.new(0, 8)
     
     local btnStroke = Instance.new('UIStroke', btn)
     btnStroke.Color = Color3.fromRGB(255, 255, 255)
-    btnStroke.Thickness = 1
-    btnStroke.Transparency = 0.5
+    btnStroke.Thickness = 1.5
+    btnStroke.Transparency = 0.3
     
     btn.MouseEnter:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
-            BackgroundTransparency = 0.1
+            BackgroundTransparency = 0.1,
+            Size = UDim2.new(0.96, 0, 0, 34)
         }):Play()
     end)
     
     btn.MouseLeave:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
-            BackgroundTransparency = 0
+            BackgroundTransparency = 0,
+            Size = UDim2.new(0.95, 0, 0, 32)
         }):Play()
     end)
     
@@ -1858,14 +1854,14 @@ end)
 logoButton.MouseEnter:Connect(function()
     TweenService:Create(logoButton, TweenInfo.new(0.2), {
         BackgroundTransparency = 0.1,
-        Size = UDim2.new(0, 37, 0, 37)
+        Size = UDim2.new(0, 42, 0, 42)
     }):Play()
 end)
 
 logoButton.MouseLeave:Connect(function()
     TweenService:Create(logoButton, TweenInfo.new(0.2), {
         BackgroundTransparency = 0.2,
-        Size = UDim2.new(0, 35, 0, 35)
+        Size = UDim2.new(0, 40, 0, 40)
     }):Play()
 end)
 
@@ -1878,8 +1874,8 @@ local function switchTab(tabNumber)
     contentTab1.Visible = false
     contentTab2.Visible = false
     
-    tab1Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    tab1Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+    tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
     
     tab1Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
     tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
@@ -1905,9 +1901,6 @@ local settings = loadSettings()
 -- Apply settings
 if settings.infJump ~= nil then
     gravityLow = settings.infJump
-    if gravityLow then
-        switchGravityJump()
-    end
 end
 
 if settings.espBase ~= nil then
@@ -1949,29 +1942,28 @@ end
 if settings.stealFloor ~= nil then
     stealFloorActive = settings.stealFloor
     if stealFloorActive then
-        toggleStealFloor()
+        stealFloorButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+        stealFloorButton.Text = "✅ Steal Floor"
     end
 end
 
 -- Create buttons for Tab 1 (Main)
 local yPos = 5
 createButton(contentTab1, fpsDevourerActive and '✅ FPS Devourer' or '🎯 FPS Devourer', yPos, toggleFPSDevourer, fpsDevourerActive)
-yPos = yPos + 27
+yPos = yPos + 35
 createButton(contentTab1, gravityLow and '✅ Inf Jump' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
-yPos = yPos + 27
+yPos = yPos + 35
 createButton(contentTab1, '🚀 Fly to Base', yPos, startFlyToBase, false)
-yPos = yPos + 27
-createButton(contentTab1, stealFloorActive and '✅ Steal Floor' or '🏗️ Steal Floor', yPos, toggleStealFloor, stealFloorActive)
 
 -- Create buttons for Tab 2 (Visual)
 yPos = 5
 createButton(contentTab2, espBaseActive and '✅ Base ESP' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
-yPos = yPos + 27
+yPos = yPos + 35
 createButton(contentTab2, espBestActive and '✅ Best ESP' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
-yPos = yPos + 27
+yPos = yPos + 35
 createButton(contentTab2, playerEspActive and '✅ Player ESP' or '👥 Player ESP', yPos, togglePlayerESP, playerEspActive)
 
--- Drag functionality
+-- Drag functionality for main frame
 local dragging = false
 local dragInput, dragStart, startPos
 
@@ -2021,12 +2013,12 @@ startupNotifications = false
 
 print("🎯 Vortex's Helper Loaded!")
 print("✅ FPS Devourer Active")
-print("🦘 Inf Jump Ready (30 Power)")
+print("🦘 Inf Jump Ready (30 Power) - Walk Speed YOK")
 print("🚀 Fly to Base Ready")
 print("🏠 ESP Base Ready")
 print("🔥 ESP Best Ready")
 print("👥 Player ESP Ready")
-print("🏗️ Steal Floor Ready")
-print("🌀 Deysnc System Ready")
+print("🏗️ Steal Floor Ready (Sol Alt Köşe)")
+print("🌀 Deysnc System Ready (Sağ Üst Köşe)")
 print("🔷 V Logo: Click to open/close main menu")
 print("💾 Settings Saving: Vortex'sHelper Folder")
