@@ -177,12 +177,12 @@ local function enableFPSDevourer()
 end
 
 ----------------------------------------------------------------
--- INF JUMP / JUMP BOOST (17 POWER)
+-- INF JUMP / JUMP BOOST (20 POWER)
 ----------------------------------------------------------------
 local NORMAL_GRAV = 196.2
 local REDUCED_GRAV = 40
-local NORMAL_JUMP = 17  -- 17 power olarak değiştirildi
-local BOOST_JUMP = 17   -- 17 power olarak değiştirildi
+local NORMAL_JUMP = 20  -- 20 power olarak değiştirildi
+local BOOST_JUMP = 20   -- 20 power olarak değiştirildi
 local BOOST_SPEED = 32
 
 local spoofedGravity = NORMAL_GRAV
@@ -302,7 +302,7 @@ local function switchGravityJump()
     saveSettings()
     
     if gravityLow then
-        showNotification("Inf Jump Aktif! (17 Power)", true)
+        showNotification("Inf Jump Aktif! (20 Power)", true)
     else
         showNotification("Inf Jump Kapalı", false)
     end
@@ -793,7 +793,7 @@ local function toggleBestESP()
 end
 
 ----------------------------------------------------------------
--- DEYSNC SİSTEMİ
+-- DEYSNC SİSTEMİ (ORİJİNAL TASARIM)
 ----------------------------------------------------------------
 local antiHitActive = false
 local clonerActive = false
@@ -1179,71 +1179,106 @@ local function deactivateAdvancedDesync()
     saveSettings()
 end
 
--- Deysnc Butonu (Sol üst köşe)
+-- Deysnc Butonu (ORİJİNAL TASARIM - Sağ üst köşe)
 local desyncScreenGui = Instance.new("ScreenGui")
-desyncScreenGui.Name = "VortexDeysncButton"
+desyncScreenGui.Name = "QuantumDesyncButton"
 desyncScreenGui.ResetOnSpawn = false
 desyncScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 desyncScreenGui.Parent = CoreGui
 
 local desyncButton = Instance.new("TextButton")
 desyncButton.Name = "Deysnc"
-desyncButton.Size = UDim2.new(0, 100, 0, 40)
-desyncButton.Position = UDim2.new(0, 10, 0, 10) -- Sol üst köşe
-desyncButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50) -- Kapalıyken kırmızı
-desyncButton.BackgroundTransparency = 0.3
+desyncButton.Size = UDim2.new(0, 120, 0, 50)
+desyncButton.Position = UDim2.new(1, -130, 0, 10) -- Sağ üst köşe
+desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255) -- Blue color
+desyncButton.BackgroundTransparency = 0.4 -- 60% transparent
 desyncButton.Text = "Deysnc"
-desyncButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-desyncButton.TextSize = 12
+desyncButton.TextColor3 = Color3.fromRGB(0, 0, 0) -- Black text
+desyncButton.TextSize = 14
 desyncButton.Font = Enum.Font.GothamBold
 desyncButton.TextWrapped = true
-desyncButton.Draggable = true
+desyncButton.Draggable = true -- Movable
 desyncButton.Parent = desyncScreenGui
 
+-- Button corner rounding
 local buttonCorner = Instance.new("UICorner")
-buttonCorner.CornerRadius = UDim.new(0, 8)
+buttonCorner.CornerRadius = UDim.new(0, 12)
 buttonCorner.Parent = desyncButton
 
+-- Button border line
 local buttonStroke = Instance.new("UIStroke")
-buttonStroke.Color = Color3.fromRGB(200, 200, 200)
-buttonStroke.Thickness = 1
+buttonStroke.Color = Color3.fromRGB(200, 230, 255)
+buttonStroke.Thickness = 2
 buttonStroke.Transparency = 0.3
 buttonStroke.Parent = desyncButton
 
+-- Button shadow
+local buttonShadow = Instance.new("ImageLabel")
+buttonShadow.Name = "Shadow"
+buttonShadow.Size = UDim2.new(1, 10, 1, 10)
+buttonShadow.Position = UDim2.new(0, -5, 0, -5)
+buttonShadow.BackgroundTransparency = 1
+buttonShadow.Image = "rbxassetid://1316045217"
+buttonShadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+buttonShadow.ImageTransparency = 0.8
+buttonShadow.ScaleType = Enum.ScaleType.Slice
+buttonShadow.SliceCenter = Rect.new(10, 10, 118, 118)
+buttonShadow.Parent = desyncButton
+
+-- Button hover effect
 desyncButton.MouseEnter:Connect(function()
     TweenService:Create(desyncButton, TweenInfo.new(0.2), {
-        BackgroundTransparency = 0.1
+        BackgroundTransparency = 0.2,
+        TextColor3 = Color3.fromRGB(255, 255, 255)
     }):Play()
 end)
 
 desyncButton.MouseLeave:Connect(function()
     TweenService:Create(desyncButton, TweenInfo.new(0.2), {
-        BackgroundTransparency = 0.3
+        BackgroundTransparency = 0.4,
+        TextColor3 = Color3.fromRGB(0, 0, 0)
     }):Play()
 end)
 
+-- Button click effect
+desyncButton.MouseButton1Down:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
+        Size = UDim2.new(0, 115, 0, 48)
+    }):Play()
+end)
+
+desyncButton.MouseButton1Up:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.1), {
+        Size = UDim2.new(0, 120, 0, 50)
+    }):Play()
+end)
+
+-- Button click function
 desyncButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
+        -- If working, make button orange
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
             BackgroundColor3 = Color3.fromRGB(255, 165, 0)
         }):Play()
-        desyncButton.Text = "Çalışıyor..."
-        showNotification("Lütfen bekleyin...", false)
+        desyncButton.Text = "Working..."
+        showNotification("Please wait...", false)
         return
     end
     
     if antiHitActive then
+        -- Turn off
         deactivateAdvancedDesync()
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
-            BackgroundColor3 = Color3.fromRGB(255, 50, 50) -- Kırmızı
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
         }):Play()
         desyncButton.Text = "Deysnc"
     else
+        -- Turn on
         executeAdvancedDesync()
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
-            BackgroundColor3 = Color3.fromRGB(50, 255, 50) -- Yeşil
+            BackgroundColor3 = Color3.fromRGB(0, 200, 0)
         }):Play()
-        desyncButton.Text = "Aktif"
+        desyncButton.Text = "Active"
     end
 end)
 
@@ -1257,7 +1292,7 @@ player.CharacterAdded:Connect(function()
         lockdownRunning = false
         
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
-            BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
         }):Play()
         desyncButton.Text = "Deysnc"
         
@@ -1274,7 +1309,7 @@ player.CharacterAdded:Connect(function()
 end)
 
 ----------------------------------------------------------------
--- ANA GUI TASARIMI
+-- V LOGOSU ve ANA GUI TASARIMI
 ----------------------------------------------------------------
 local playerGui = player:WaitForChild('PlayerGui')
 
@@ -1288,6 +1323,37 @@ do
     end
 end
 
+-- V Logosu Butonu
+local logoGui = Instance.new("ScreenGui")
+logoGui.Name = "VortexLogo"
+logoGui.ResetOnSpawn = false
+logoGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+logoGui.Parent = playerGui
+
+local logoButton = Instance.new("TextButton")
+logoButton.Name = "VLogo"
+logoButton.Size = UDim2.new(0, 40, 0, 40)
+logoButton.Position = UDim2.new(0, 10, 0, 10) -- Sol üst köşe
+logoButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+logoButton.BackgroundTransparency = 0.2
+logoButton.Text = "V"
+logoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+logoButton.TextSize = 20
+logoButton.Font = Enum.Font.GothamBlack
+logoButton.AutoButtonColor = false
+logoButton.Draggable = true
+logoButton.Parent = logoGui
+
+local logoCorner = Instance.new("UICorner")
+logoCorner.CornerRadius = UDim.new(1, 0)
+logoCorner.Parent = logoButton
+
+local logoStroke = Instance.new("UIStroke")
+logoStroke.Color = Color3.fromRGB(200, 230, 255)
+logoStroke.Thickness = 2
+logoStroke.Parent = logoButton
+
+-- Ana GUI
 local gui = Instance.new('ScreenGui')
 gui.Name = 'VortexHelper'
 gui.ResetOnSpawn = false
@@ -1301,6 +1367,7 @@ mainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
 mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 mainFrame.BackgroundTransparency = 0.05
 mainFrame.BorderSizePixel = 0
+mainFrame.Visible = false -- Başlangıçta gizli
 mainFrame.Parent = gui
 
 local gradient = Instance.new('UIGradient')
@@ -1366,6 +1433,34 @@ local function createButton(parent, text, yPos, callback, isActive)
     return btn
 end
 
+-- V Logosu tıklama olayı
+local mainFrameVisible = false
+logoButton.MouseButton1Click:Connect(function()
+    mainFrameVisible = not mainFrameVisible
+    mainFrame.Visible = mainFrameVisible
+    
+    if mainFrameVisible then
+        showNotification("Vortex's Helper Açıldı", true)
+    else
+        showNotification("Vortex's Helper Kapandı", false)
+    end
+end)
+
+-- Logo hover efekti
+logoButton.MouseEnter:Connect(function()
+    TweenService:Create(logoButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.1,
+        Size = UDim2.new(0, 42, 0, 42)
+    }):Play()
+end)
+
+logoButton.MouseLeave:Connect(function()
+    TweenService:Create(logoButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.2,
+        Size = UDim2.new(0, 40, 0, 40)
+    }):Play()
+end)
+
 -- Butonları oluştur ve ayarları yükle
 local settings = loadSettings()
 
@@ -1394,8 +1489,8 @@ end
 if settings.desync ~= nil then
     antiHitActive = settings.desync
     if antiHitActive then
-        desyncButton.BackgroundColor3 = Color3.fromRGB(50, 255, 50)
-        desyncButton.Text = "Aktif"
+        desyncButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        desyncButton.Text = "Active"
     end
 end
 
@@ -1455,9 +1550,10 @@ showNotification("Vortex's Helper Yüklendi!", true)
 
 print("🎯 Vortex's Helper Yüklendi!")
 print("✅ FPS Devourer Aktif")
-print("🦘 Inf Jump Hazır (17 Power)")
+print("🦘 Inf Jump Hazır (20 Power)")
 print("🚀 Fly to Base Hazır")
 print("🏠 ESP Base Hazır")
 print("🔥 ESP Best Hazır")
 print("🌀 Deysnc Sistemi Hazır")
+print("🔷 V Logosu: Ana menüyü açmak için tıklayın")
 print("💾 Ayarlar Kaydediliyor: Vortex'sHelper Klasörü")
