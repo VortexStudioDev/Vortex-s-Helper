@@ -1,5 +1,5 @@
 -- Vortex's Helper - Premium Version
--- Features: Inf Jump, FLY TO BASE, FPS Devourer, ESP Base, ESP Best, Deysnc
+-- Features: Inf Jump, FLY TO BASE, FPS Devourer, ESP Base, ESP Best, Deysnc, Player ESP, Steal Floor
 
 local Players = game:GetService('Players')
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
@@ -9,6 +9,7 @@ local RunService = game:GetService('RunService')
 local TweenService = game:GetService('TweenService')
 local CoreGui = game:GetService('CoreGui')
 local HttpService = game:GetService('HttpService')
+local ProximityPromptService = game:GetService('ProximityPromptService')
 local player = Players.LocalPlayer
 
 -- Settings folder
@@ -26,7 +27,9 @@ local function saveSettings()
         espBase = espBaseActive,
         espBest = espBestActive,
         desync = antiHitActive,
-        fpsDevourer = fpsDevourerActive
+        fpsDevourer = fpsDevourerActive,
+        playerESP = playerEspActive,
+        stealFloor = stealFloorActive
     }
     
     local success, result = pcall(function()
@@ -832,6 +835,336 @@ local function toggleBestESP()
 end
 
 ----------------------------------------------------------------
+-- PLAYER ESP
+----------------------------------------------------------------
+local playerEspActive = false
+local playerEspBoxes = {}
+
+local function clearPlayerESP()
+    for plr, objs in pairs(playerEspBoxes) do
+        if objs.box then
+            pcall(function()
+                objs.box:Destroy()
+            end)
+        end
+        if objs.text then
+            pcall(function()
+                objs.text:Destroy()
+            end)
+        end
+    end
+    playerEspBoxes = {}
+end
+
+local function updatePlayerESP()
+    if not playerEspActive then return end
+    
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild('HumanoidRootPart') then
+            local hrp = plr.Character.HumanoidRootPart
+            if not playerEspBoxes[plr] then
+                playerEspBoxes[plr] = {}
+                
+                local box = Instance.new('BoxHandleAdornment')
+                box.Size = Vector3.new(4, 6, 4)
+                box.Adornee = hrp
+                box.AlwaysOnTop = true
+                box.ZIndex = 10
+                box.Transparency = 0.5
+                box.Color3 = Color3.fromRGB(250, 0, 60)
+                box.Parent = hrp
+                playerEspBoxes[plr].box = box
+
+                local billboard = Instance.new('BillboardGui')
+                billboard.Adornee = hrp
+                billboard.Size = UDim2.new(0, 200, 0, 30)
+                billboard.StudsOffset = Vector3.new(0, 4, 0)
+                billboard.AlwaysOnTop = true
+                
+                local label = Instance.new('TextLabel', billboard)
+                label.Size = UDim2.new(1, 0, 1, 0)
+                label.BackgroundTransparency = 1
+                label.TextColor3 = Color3.fromRGB(220, 0, 60)
+                label.TextStrokeTransparency = 0
+                label.Text = plr.Name
+                label.Font = Enum.Font.GothamBold
+                label.TextSize = 18
+                
+                playerEspBoxes[plr].text = billboard
+                billboard.Parent = hrp
+            else
+                if playerEspBoxes[plr].box then
+                    playerEspBoxes[plr].box.Adornee = hrp
+                end
+                if playerEspBoxes[plr].text then
+                    playerEspBoxes[plr].text.Adornee = hrp
+                end
+            end
+        else
+            if playerEspBoxes[plr] then
+                if playerEspBoxes[plr].box then
+                    pcall(function()
+                        playerEspBoxes[plr].box:Destroy()
+                    end)
+                end
+                if playerEspBoxes[plr].text then
+                    pcall(function()
+                        playerEspBoxes[plr].text:Destroy()
+                    end)
+                end
+                playerEspBoxes[plr] = nil
+            end
+        end
+    end
+end
+
+local playerEspLoop
+local function togglePlayerESP()
+    playerEspActive = not playerEspActive
+    
+    if playerEspLoop then
+        playerEspLoop:Disconnect()
+        playerEspLoop = nil
+    end
+    
+    if playerEspActive then
+        updatePlayerESP()
+        playerEspLoop = RunService.Heartbeat:Connect(function()
+            if not playerEspActive then
+                playerEspLoop:Disconnect()
+                playerEspLoop = nil
+                return
+            end
+            updatePlayerESP()
+        end)
+    else
+        clearPlayerESP()
+    end
+    saveSettings()
+end
+
+Players.PlayerRemoving:Connect(function(plr)
+    local objs = playerEspBoxes[plr]
+    if objs then
+        if objs.box then
+            pcall(function()
+                objs.box:Destroy()
+            end)
+        end
+        if objs.text then
+            pcall(function()
+                objs.text:Destroy()
+            end)
+        end
+        playerEspBoxes[plr] = nil
+    end
+end)
+
+----------------------------------------------------------------
+-- STEAL FLOOR
+----------------------------------------------------------------
+local stealFloorActive = false
+local sfFloatSpeed = 24
+local sfAttachment, sfAlignPosition, sfAlignOrientation, sfLinearVelocity
+local sfHeartbeatConn, sfPromptConn, sfDiedConn, sfCharAddedConn
+local sfOriginalProps = {}
+
+local function sfSafeDisconnect(conn)
+    if conn and typeof(conn) == "RBXScriptConnection" then
+        pcall(function()
+            conn:Disconnect()
+        end)
+    end
+end
+
+local function sfSetPlotsTransparency(active)
+    local plots = Workspace:FindFirstChild('Plots')
+    if not plots then return end
+
+    if active then
+        sfOriginalProps = {}
+        for _, plot in ipairs(plots:GetChildren()) do
+            local containers = {
+                plot:FindFirstChild('Decorations'),
+                plot:FindFirstChild('AnimalPodiums'),
+            }
+            for _, container in ipairs(containers) do
+                if container then
+                    for _, obj in ipairs(container:GetDescendants()) do
+                        if obj:IsA('BasePart') then
+                            sfOriginalProps[obj] = {
+                                Transparency = obj.Transparency,
+                                Material = obj.Material,
+                            }
+                            obj.Transparency = 0.7
+                        end
+                    end
+                end
+            end
+        end
+    else
+        for part, props in pairs(sfOriginalProps) do
+            if part and part.Parent then
+                part.Transparency = props.Transparency
+                part.Material = props.Material
+            end
+        end
+        sfOriginalProps = {}
+    end
+end
+
+local function sfDestroyBodies()
+    if sfLinearVelocity then
+        pcall(function() sfLinearVelocity:Destroy() end)
+    end
+    if sfAlignPosition then
+        pcall(function() sfAlignPosition:Destroy() end)
+    end
+    if sfAlignOrientation then
+        pcall(function() sfAlignOrientation:Destroy() end)
+    end
+    if sfAttachment then
+        pcall(function() sfAttachment:Destroy() end)
+    end
+    sfLinearVelocity, sfAlignPosition, sfAlignOrientation, sfAttachment = nil, nil, nil, nil
+end
+
+local function sfCreateBodies(rootPart)
+    sfDestroyBodies()
+    if not rootPart then return end
+
+    sfAttachment = Instance.new('Attachment')
+    sfAttachment.Name = 'StealFloor_Attachment'
+    sfAttachment.Parent = rootPart
+
+    sfAlignPosition = Instance.new('AlignPosition')
+    sfAlignPosition.Name = 'StealFloor_AlignPosition'
+    sfAlignPosition.Attachment0 = sfAttachment
+    sfAlignPosition.Mode = Enum.PositionAlignmentMode.OneAttachment
+    sfAlignPosition.Position = rootPart.Position
+    sfAlignPosition.MaxForce = 500000
+    sfAlignPosition.Responsiveness = 200
+    sfAlignPosition.ApplyAtCenterOfMass = true
+    sfAlignPosition.ForceLimitMode = Enum.ForceLimitMode.PerAxis
+    sfAlignPosition.MaxAxesForce = Vector3.new(math.huge, 0, math.huge)
+    sfAlignPosition.Parent = rootPart
+
+    sfAlignOrientation = Instance.new('AlignOrientation')
+    sfAlignOrientation.Name = 'StealFloor_AlignOrientation'
+    sfAlignOrientation.Attachment0 = sfAttachment
+    sfAlignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+    sfAlignOrientation.CFrame = rootPart.CFrame
+    sfAlignOrientation.MaxTorque = 500000
+    sfAlignOrientation.Responsiveness = 200
+    sfAlignOrientation.Parent = rootPart
+
+    sfLinearVelocity = Instance.new('LinearVelocity')
+    sfLinearVelocity.Name = 'StealFloor_LinearVelocity'
+    sfLinearVelocity.Attachment0 = sfAttachment
+    sfLinearVelocity.MaxForce = 500000
+    sfLinearVelocity.ForceLimitMode = Enum.ForceLimitMode.PerAxis
+    sfLinearVelocity.MaxAxesForce = Vector3.new(0, math.huge, 0)
+    sfLinearVelocity.VectorVelocity = Vector3.new(0, 0, 0)
+    sfLinearVelocity.Parent = rootPart
+end
+
+local function sfTeleportToGround()
+    local char = player.Character
+    local rp = char and char:FindFirstChild('HumanoidRootPart')
+    local hum = char and char:FindFirstChildOfClass('Humanoid')
+    if not (rp and hum and hum.Health > 0) then return end
+
+    local rayParams = RaycastParams.new()
+    rayParams.FilterType = Enum.RaycastFilterType.Exclude
+    rayParams.FilterDescendantsInstances = {char}
+
+    local rayResult = Workspace:Raycast(rp.Position, Vector3.new(0, -1500, 0), rayParams)
+    if rayResult then
+        rp.CFrame = CFrame.new(
+            rp.Position.X,
+            rayResult.Position.Y + hum.HipHeight,
+            rp.Position.Z
+        )
+        if stealFloorActive then
+            toggleStealFloor()
+        end
+    end
+end
+
+local function sfEnable()
+    if stealFloorActive then return end
+    local hum = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
+    local root = player.Character and player.Character:FindFirstChild('HumanoidRootPart')
+    if not (hum and hum.Health > 0 and root) then return end
+
+    stealFloorActive = true
+    sfCreateBodies(root)
+    sfSetPlotsTransparency(true)
+
+    sfSafeDisconnect(sfHeartbeatConn)
+    sfHeartbeatConn = RunService.Heartbeat:Connect(function()
+        if not stealFloorActive or not sfLinearVelocity then return end
+        local h = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
+        if not (h and h.Health > 0) then
+            toggleStealFloor()
+            return
+        end
+        sfLinearVelocity.VectorVelocity = Vector3.new(0, sfFloatSpeed, 0)
+    end)
+
+    sfSafeDisconnect(sfPromptConn)
+    sfPromptConn = ProximityPromptService.PromptTriggered:Connect(function(prompt, who)
+        if who == player then
+            local act = (prompt.ActionText or ''):lower()
+            if string.find(act, 'steal') then
+                sfTeleportToGround()
+            end
+        end
+    end)
+
+    sfSafeDisconnect(sfDiedConn)
+    if hum then
+        sfDiedConn = hum.Died:Connect(function()
+            toggleStealFloor()
+        end)
+    end
+end
+
+local function sfDisable()
+    if not stealFloorActive then
+        sfSetPlotsTransparency(false)
+        sfDestroyBodies()
+        sfSafeDisconnect(sfHeartbeatConn)
+        sfSafeDisconnect(sfPromptConn)
+        sfSafeDisconnect(sfDiedConn)
+        sfHeartbeatConn, sfPromptConn, sfDiedConn = nil, nil, nil
+        return
+    end
+    stealFloorActive = false
+    sfSetPlotsTransparency(false)
+    sfDestroyBodies()
+    sfSafeDisconnect(sfHeartbeatConn)
+    sfSafeDisconnect(sfPromptConn)
+    sfSafeDisconnect(sfDiedConn)
+    sfHeartbeatConn, sfPromptConn, sfDiedConn = nil, nil, nil
+end
+
+local function toggleStealFloor()
+    if not stealFloorActive then
+        sfEnable()
+    else
+        sfDisable()
+    end
+    saveSettings()
+end
+
+sfSafeDisconnect(sfCharAddedConn)
+sfCharAddedConn = player.CharacterAdded:Connect(function(ch)
+    task.wait(0.1)
+    sfDisable()
+end)
+
+----------------------------------------------------------------
 -- DEYSNC SYSTEM
 ----------------------------------------------------------------
 local antiHitActive = false
@@ -1389,8 +1722,8 @@ gui.Parent = playerGui
 
 -- Main Frame - Optimized design
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 160, 0, 140) -- Daha kompakt boyut
-mainFrame.Position = UDim2.new(0.5, -80, 0.5, -70)
+mainFrame.Size = UDim2.new(0, 180, 0, 220) -- Boyut optimize edildi
+mainFrame.Position = UDim2.new(0.5, -90, 0.5, -110)
 mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 mainFrame.BackgroundTransparency = 0.6 -- 0.6 transparency
 mainFrame.BorderSizePixel = 0
@@ -1413,7 +1746,7 @@ stroke.Thickness = 1.5
 stroke.Color = Color3.fromRGB(100, 150, 255)
 stroke.Transparency = 0.2
 
--- Header
+-- Header with Tabs
 local header = Instance.new('Frame')
 header.Size = UDim2.new(1, 0, 0, 25)
 header.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
@@ -1425,6 +1758,48 @@ local headerCorner = Instance.new("UICorner")
 headerCorner.CornerRadius = UDim.new(0, 8)
 headerCorner.Parent = header
 
+-- Tab Buttons
+local tab1Btn = Instance.new('TextButton')
+tab1Btn.Name = 'Tab1'
+tab1Btn.Size = UDim2.new(0.5, -2, 1, 0)
+tab1Btn.Position = UDim2.new(0, 0, 0, 0)
+tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+tab1Btn.Text = "Main"
+tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+tab1Btn.TextSize = 10
+tab1Btn.Font = Enum.Font.GothamBold
+tab1Btn.AutoButtonColor = false
+tab1Btn.Parent = header
+
+local tab2Btn = Instance.new('TextButton')
+tab2Btn.Name = 'Tab2'
+tab2Btn.Size = UDim2.new(0.5, -2, 1, 0)
+tab2Btn.Position = UDim2.new(0.5, 0, 0, 0)
+tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+tab2Btn.Text = "Visual"
+tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+tab2Btn.TextSize = 10
+tab2Btn.Font = Enum.Font.GothamBold
+tab2Btn.AutoButtonColor = false
+tab2Btn.Parent = header
+
+-- Content Areas
+local contentTab1 = Instance.new('Frame')
+contentTab1.Name = 'Tab1Content'
+contentTab1.Size = UDim2.new(1, -8, 1, -30)
+contentTab1.Position = UDim2.new(0, 4, 0, 26)
+contentTab1.BackgroundTransparency = 1
+contentTab1.Visible = true
+contentTab1.Parent = mainFrame
+
+local contentTab2 = Instance.new('Frame')
+contentTab2.Name = 'Tab2Content'
+contentTab2.Size = UDim2.new(1, -8, 1, -30)
+contentTab2.Position = UDim2.new(0, 4, 0, 26)
+contentTab2.BackgroundTransparency = 1
+contentTab2.Visible = false
+contentTab2.Parent = mainFrame
+
 -- Title
 local title = Instance.new('TextLabel', header)
 title.Size = UDim2.new(1, 0, 1, 0)
@@ -1435,15 +1810,7 @@ title.TextSize = 12
 title.BackgroundTransparency = 1
 title.TextStrokeTransparency = 0.7
 
--- Content Area
-local content = Instance.new('Frame')
-content.Name = 'Content'
-content.Size = UDim2.new(1, -8, 1, -30)
-content.Position = UDim2.new(0, 4, 0, 26)
-content.BackgroundTransparency = 1
-content.Parent = mainFrame
-
--- Button Creation Function - Renkli butonlar
+-- Button Creation Function - Renkli butonlar (Yeşil/Kırmızı)
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
     btn.Size = UDim2.new(0.9, 0, 0, 25)
@@ -1502,6 +1869,36 @@ logoButton.MouseLeave:Connect(function()
     }):Play()
 end)
 
+-- Tab switching function
+local currentTab = 1
+
+local function switchTab(tabNumber)
+    currentTab = tabNumber
+    
+    contentTab1.Visible = false
+    contentTab2.Visible = false
+    
+    tab1Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    
+    tab1Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    
+    if tabNumber == 1 then
+        contentTab1.Visible = true
+        tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+        tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    else
+        contentTab2.Visible = true
+        tab2Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+        tab2Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end
+
+-- Tab button events
+tab1Btn.MouseButton1Click:Connect(function() switchTab(1) end)
+tab2Btn.MouseButton1Click:Connect(function() switchTab(2) end)
+
 -- Load settings
 local settings = loadSettings()
 
@@ -1542,17 +1939,37 @@ if settings.fpsDevourer ~= nil then
     end
 end
 
--- Create buttons - Tüm özellikler tek sayfada
+if settings.playerESP ~= nil then
+    playerEspActive = settings.playerESP
+    if playerEspActive then
+        togglePlayerESP()
+    end
+end
+
+if settings.stealFloor ~= nil then
+    stealFloorActive = settings.stealFloor
+    if stealFloorActive then
+        toggleStealFloor()
+    end
+end
+
+-- Create buttons for Tab 1 (Main)
 local yPos = 5
-createButton(content, fpsDevourerActive and '✅ FPS Devourer' or '🎯 FPS Devourer', yPos, toggleFPSDevourer, fpsDevourerActive)
+createButton(contentTab1, fpsDevourerActive and '✅ FPS Devourer' or '🎯 FPS Devourer', yPos, toggleFPSDevourer, fpsDevourerActive)
 yPos = yPos + 27
-createButton(content, gravityLow and '✅ Inf Jump' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
+createButton(contentTab1, gravityLow and '✅ Inf Jump' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
 yPos = yPos + 27
-createButton(content, '🚀 Fly to Base', yPos, startFlyToBase, false)
+createButton(contentTab1, '🚀 Fly to Base', yPos, startFlyToBase, false)
 yPos = yPos + 27
-createButton(content, espBaseActive and '✅ Base ESP' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
+createButton(contentTab1, stealFloorActive and '✅ Steal Floor' or '🏗️ Steal Floor', yPos, toggleStealFloor, stealFloorActive)
+
+-- Create buttons for Tab 2 (Visual)
+yPos = 5
+createButton(contentTab2, espBaseActive and '✅ Base ESP' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
 yPos = yPos + 27
-createButton(content, espBestActive and '✅ Best ESP' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
+createButton(contentTab2, espBestActive and '✅ Best ESP' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
+yPos = yPos + 27
+createButton(contentTab2, playerEspActive and '✅ Player ESP' or '👥 Player ESP', yPos, togglePlayerESP, playerEspActive)
 
 -- Drag functionality
 local dragging = false
@@ -1608,6 +2025,8 @@ print("🦘 Inf Jump Ready (30 Power)")
 print("🚀 Fly to Base Ready")
 print("🏠 ESP Base Ready")
 print("🔥 ESP Best Ready")
+print("👥 Player ESP Ready")
+print("🏗️ Steal Floor Ready")
 print("🌀 Deysnc System Ready")
 print("🔷 V Logo: Click to open/close main menu")
 print("💾 Settings Saving: Vortex'sHelper Folder")
