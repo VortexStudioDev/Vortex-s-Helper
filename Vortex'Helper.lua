@@ -25,7 +25,8 @@ local function saveSettings()
         infJump = gravityLow,
         espBase = espBaseActive,
         espBest = espBestActive,
-        desync = antiHitActive
+        desync = antiHitActive,
+        fpsDevourer = fpsDevourerActive
     }
     
     local success, result = pcall(function()
@@ -50,8 +51,11 @@ local function loadSettings()
     return {}
 end
 
--- Notification System
+-- Notification System (Sadece script başlangıcında)
+local startupNotifications = true
 local function showNotification(message, isSuccess)
+    if not startupNotifications then return end
+    
     local notificationGui = Instance.new("ScreenGui")
     notificationGui.Name = "VortexNotify"
     notificationGui.ResetOnSpawn = false
@@ -137,7 +141,11 @@ end
 ----------------------------------------------------------------
 -- FPS DEVOURER
 ----------------------------------------------------------------
+local fpsDevourerActive = false
+
 local function enableFPSDevourer()
+    fpsDevourerActive = true
+    
     pcall(function()
         if setfpscap then
             setfpscap(999)
@@ -172,7 +180,33 @@ local function enableFPSDevourer()
         end
     end)
     
-    showNotification("FPS Devourer Active!", true)
+    saveSettings()
+end
+
+local function disableFPSDevourer()
+    fpsDevourerActive = false
+    
+    pcall(function()
+        if setfpscap then
+            setfpscap(60)
+        end
+    end)
+    
+    local lighting = game:GetService("Lighting")
+    pcall(function()
+        lighting.GlobalShadows = true
+        lighting.Brightness = 1
+    end)
+    
+    saveSettings()
+end
+
+local function toggleFPSDevourer()
+    if fpsDevourerActive then
+        disableFPSDevourer()
+    else
+        enableFPSDevourer()
+    end
 end
 
 ----------------------------------------------------------------
@@ -299,12 +333,6 @@ local function switchGravityJump()
     spoofedGravity = NORMAL_GRAV
     
     saveSettings()
-    
-    if gravityLow then
-        showNotification("Inf Jump Active! (30 Power)", true)
-    else
-        showNotification("Inf Jump Disabled", false)
-    end
 end
 
 ----------------------------------------------------------------
@@ -422,11 +450,6 @@ end
 
 local function finishFly(success)
     cleanupFly()
-    if success then
-        showNotification("Reached Base!", true)
-    else
-        showNotification("Flight Cancelled", false)
-    end
 end
 
 local function startFlyToBase()
@@ -437,7 +460,6 @@ local function startFlyToBase()
 
     local destPart = findMyDeliveryPart()
     if not destPart then
-        showNotification("Base Not Found!", false)
         return
     end
 
@@ -445,7 +467,6 @@ local function startFlyToBase()
     local hum = char and char:FindFirstChildOfClass('Humanoid')
     local hrp = char and char:FindFirstChild('HumanoidRootPart')
     if not (hum and hrp) then
-        showNotification("No Character!", false)
         return
     end
 
@@ -461,7 +482,6 @@ local function startFlyToBase()
     hum.JumpPower = FLY_JUMP
 
     flyActive = true
-    showNotification("Flying to Base...", true)
 
     flyAtt = Instance.new('Attachment')
     flyAtt.Name = 'FlyToBaseAttachment'
@@ -636,7 +656,6 @@ local function toggleBaseESP()
     end
     
     if espBaseActive then
-        showNotification("Base ESP Active!", true)
         updateBaseESP()
         baseEspLoop = RunService.Heartbeat:Connect(function()
             if not espBaseActive then
@@ -648,7 +667,6 @@ local function toggleBaseESP()
             updateBaseESP()
         end)
     else
-        showNotification("Base ESP Disabled", false)
         clearBaseESP()
     end
     saveSettings()
@@ -797,7 +815,6 @@ local function toggleBestESP()
     end
     
     if espBestActive then
-        showNotification("Best ESP Active!", true)
         updateBestESP()
         bestEspLoop = RunService.Heartbeat:Connect(function()
             if not espBestActive then
@@ -809,7 +826,6 @@ local function toggleBestESP()
             updateBestESP()
         end)
     else
-        showNotification("Best ESP Disabled", false)
         clearBestESP()
     end
     saveSettings()
@@ -1083,7 +1099,6 @@ local function activateClonerDesync(callback)
     local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
     if REUseItem then 
         REUseItem:FireServer()
-        showNotification("Activating Quantum Cloner...", false)
     end
     
     local REQuantumClonerOnTeleport = ReplicatedStorage.Packages.Net:FindFirstChild("RE/QuantumCloner/OnTeleport")
@@ -1094,8 +1109,6 @@ local function activateClonerDesync(callback)
     local cloneName = tostring(player.UserId) .. "_Clone"
     cloneListenerConn = Workspace.ChildAdded:Connect(function(obj)
         if obj.Name == cloneName and obj:IsA("Model") then
-            showNotification("Clone Created!", true)
-            
             pcall(function() makeInvulnerable(obj) end)
             local origChar = player.Character
             if origChar then pcall(function() makeInvulnerable(origChar) end) end
@@ -1151,20 +1164,16 @@ end
 
 local function executeAdvancedDesync()
     if antiHitRunning then 
-        showNotification("Already running...", false)
         return 
     end
     antiHitRunning = true
 
-    showNotification("Starting Desync...", false)
-    
     activateDesync()
     task.wait(0.1)
     activateClonerDesync(function()
         deactivateDesync()
         antiHitRunning = false
         antiHitActive = true
-        showNotification("Desync Active!", true)
         saveSettings()
     end)
 end
@@ -1198,7 +1207,6 @@ local function deactivateAdvancedDesync()
     
     removeAllHighlights()
     
-    showNotification("Desync Disabled", false)
     saveSettings()
 end
 
@@ -1279,24 +1287,20 @@ end)
 -- Button click function
 desyncButton.MouseButton1Click:Connect(function()
     if antiHitRunning then
-        -- If working, make button orange
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
             BackgroundColor3 = Color3.fromRGB(255, 165, 0)
         }):Play()
         desyncButton.Text = "Working..."
-        showNotification("Please wait...", false)
         return
     end
     
     if antiHitActive then
-        -- Turn off
         deactivateAdvancedDesync()
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
             BackgroundColor3 = Color3.fromRGB(0, 100, 255)
         }):Play()
         desyncButton.Text = "Deysnc"
     else
-        -- Turn on
         executeAdvancedDesync()
         TweenService:Create(desyncButton, TweenInfo.new(0.3), {
             BackgroundColor3 = Color3.fromRGB(0, 200, 0)
@@ -1383,12 +1387,12 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Main Frame
+-- Main Frame - %50 daha küçük
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 200, 0, 250)
-mainFrame.Position = UDim2.new(0.5, -100, 0.5, -125)
+mainFrame.Size = UDim2.new(0, 150, 0, 180) -- %50 küçültüldü
+mainFrame.Position = UDim2.new(0.5, -75, 0.5, -90)
 mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
-mainFrame.BackgroundTransparency = 0.05
+mainFrame.BackgroundTransparency = 0.6 -- 0.6 transparency
 mainFrame.BorderSizePixel = 0
 mainFrame.Visible = false
 mainFrame.Parent = gui
@@ -1411,7 +1415,7 @@ stroke.Transparency = 0.2
 
 -- Header with Tabs
 local header = Instance.new('Frame')
-header.Size = UDim2.new(1, 0, 0, 25)
+header.Size = UDim2.new(1, 0, 0, 20) -- Daha küçük
 header.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
 header.BackgroundTransparency = 0.1
 header.BorderSizePixel = 0
@@ -1429,7 +1433,7 @@ tab1Btn.Position = UDim2.new(0, 0, 0, 0)
 tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
 tab1Btn.Text = "Main"
 tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-tab1Btn.TextSize = 10
+tab1Btn.TextSize = 8 -- Daha küçük
 tab1Btn.Font = Enum.Font.GothamBold
 tab1Btn.AutoButtonColor = false
 tab1Btn.Parent = header
@@ -1441,8 +1445,8 @@ tab2Btn.Position = UDim2.new(0.33, 0, 0, 0)
 tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
 tab2Btn.Text = "Visual"
 tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab2Btn.TextSize = 10
-tab2Btn.Font = Enum.Font.GothamBold
+tab2Btn.TextSize = 8
+tab1Btn.Font = Enum.Font.GothamBold
 tab2Btn.AutoButtonColor = false
 tab2Btn.Parent = header
 
@@ -1453,32 +1457,32 @@ tab3Btn.Position = UDim2.new(0.66, 0, 0, 0)
 tab3Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
 tab3Btn.Text = "Misc"
 tab3Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab3Btn.TextSize = 10
-tab3Btn.Font = Enum.Font.GothamBold
+tab3Btn.TextSize = 8
+tab1Btn.Font = Enum.Font.GothamBold
 tab3Btn.AutoButtonColor = false
 tab3Btn.Parent = header
 
 -- Content Areas
 local contentTab1 = Instance.new('Frame')
 contentTab1.Name = 'Tab1Content'
-contentTab1.Size = UDim2.new(1, -8, 1, -30)
-contentTab1.Position = UDim2.new(0, 4, 0, 26)
+contentTab1.Size = UDim2.new(1, -8, 1, -25)
+contentTab1.Position = UDim2.new(0, 4, 0, 21)
 contentTab1.BackgroundTransparency = 1
 contentTab1.Visible = true
 contentTab1.Parent = mainFrame
 
 local contentTab2 = Instance.new('Frame')
 contentTab2.Name = 'Tab2Content'
-contentTab2.Size = UDim2.new(1, -8, 1, -30)
-contentTab2.Position = UDim2.new(0, 4, 0, 26)
+contentTab2.Size = UDim2.new(1, -8, 1, -25)
+contentTab2.Position = UDim2.new(0, 4, 0, 21)
 contentTab2.BackgroundTransparency = 1
 contentTab2.Visible = false
 contentTab2.Parent = mainFrame
 
 local contentTab3 = Instance.new('Frame')
 contentTab3.Name = 'Tab3Content'
-contentTab3.Size = UDim2.new(1, -8, 1, -30)
-contentTab3.Position = UDim2.new(0, 4, 0, 26)
+contentTab3.Size = UDim2.new(1, -8, 1, -25)
+contentTab3.Position = UDim2.new(0, 4, 0, 21)
 contentTab3.BackgroundTransparency = 1
 contentTab3.Visible = false
 contentTab3.Parent = mainFrame
@@ -1489,20 +1493,20 @@ title.Size = UDim2.new(1, 0, 1, 0)
 title.Text = 'Vortex Helper'
 title.TextColor3 = Color3.fromRGB(100, 200, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 12
+title.TextSize = 10 -- Daha küçük
 title.BackgroundTransparency = 1
 title.TextStrokeTransparency = 0.7
 
--- Button Creation Function
+-- Button Creation Function - Renkli butonlar
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
-    btn.Size = UDim2.new(0.9, 0, 0, 30)
+    btn.Size = UDim2.new(0.9, 0, 0, 22) -- Daha küçük
     btn.Position = UDim2.new(0.05, 0, 0, yPos)
-    btn.BackgroundColor3 = isActive and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(255, 50, 50)
+    btn.BackgroundColor3 = isActive and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(255, 50, 50) -- Yeşil/Kırmızı
     btn.Text = text
     btn.Font = Enum.Font.GothamSemibold
     btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 11
+    btn.TextSize = 9 -- Daha küçük
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
     
@@ -1535,12 +1539,6 @@ local mainFrameVisible = false
 logoButton.MouseButton1Click:Connect(function()
     mainFrameVisible = not mainFrameVisible
     mainFrame.Visible = mainFrameVisible
-    
-    if mainFrameVisible then
-        showNotification("Vortex Helper Opened", true)
-    else
-        showNotification("Vortex Helper Closed", false)
-    end
 end)
 
 -- Logo hover effect
@@ -1629,19 +1627,26 @@ if settings.desync ~= nil then
     end
 end
 
+if settings.fpsDevourer ~= nil then
+    fpsDevourerActive = settings.fpsDevourer
+    if fpsDevourerActive then
+        enableFPSDevourer()
+    end
+end
+
 -- Create buttons for Tab 1 (Main)
 local yPos = 5
-createButton(contentTab1, '🎯 FPS Devourer', yPos, enableFPSDevourer, false)
-yPos = yPos + 35
-createButton(contentTab1, gravityLow and '✅ Inf Jump ON' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
-yPos = yPos + 35
+createButton(contentTab1, fpsDevourerActive and '✅ FPS Devourer' or '🎯 FPS Devourer', yPos, toggleFPSDevourer, fpsDevourerActive)
+yPos = yPos + 25
+createButton(contentTab1, gravityLow and '✅ Inf Jump' or '🦘 Inf Jump', yPos, switchGravityJump, gravityLow)
+yPos = yPos + 25
 createButton(contentTab1, '🚀 Fly to Base', yPos, startFlyToBase, false)
 
 -- Create buttons for Tab 2 (Visual)
 yPos = 5
-createButton(contentTab2, espBaseActive and '✅ Base ESP ON' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
-yPos = yPos + 35
-createButton(contentTab2, espBestActive and '✅ Best ESP ON' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
+createButton(contentTab2, espBaseActive and '✅ Base ESP' or '🏠 Base ESP', yPos, toggleBaseESP, espBaseActive)
+yPos = yPos + 25
+createButton(contentTab2, espBestActive and '✅ Best ESP' or '🔥 Best ESP', yPos, toggleBestESP, espBestActive)
 
 -- Create buttons for Tab 3 (Misc)
 yPos = 5
@@ -1649,7 +1654,6 @@ createButton(contentTab3, '🔄 Reset Char', yPos, function()
     local char = player.Character
     if char then
         char:BreakJoints()
-        showNotification("Character Reset", true)
     end
 end, false)
 
@@ -1689,11 +1693,17 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Enable FPS Devourer on start
-enableFPSDevourer()
+-- Enable FPS Devourer on start if saved
+if not fpsDevourerActive then
+    enableFPSDevourer()
+end
 
 -- Startup notification
 showNotification("Vortex's Helper Loaded!", true)
+
+-- Disable future notifications after 3 seconds
+wait(3)
+startupNotifications = false
 
 print("🎯 Vortex's Helper Loaded!")
 print("✅ FPS Devourer Active")
