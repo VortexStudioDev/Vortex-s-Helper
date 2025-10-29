@@ -1,5 +1,5 @@
 -- Chered Hub - Sadeleştirilmiş Versiyon
--- Alınan Özellikler: Inf Jump / JumpBoost, FLY TO BASE, FPS Devourer, ESP Base
+-- Alınan Özellikler: Inf Jump / JumpBoost, FLY TO BASE, FPS Devourer, ESP Base, ESP Best
 -- Discord: https://discord.gg/qvVEZt3q88
 
 local Players = game:GetService('Players')
@@ -505,6 +505,153 @@ local function toggleBaseESP()
 end
 
 ----------------------------------------------------------------
+-- ESP BEST
+----------------------------------------------------------------
+local espBestActive = false
+local bestEspObjects = {}
+
+local function clearBestESP()
+    for _, obj in pairs(bestEspObjects) do
+        pcall(function()
+            obj:Destroy()
+        end)
+    end
+    bestEspObjects = {}
+end
+
+local function parseMoneyPerSec(text)
+    if not text then
+        return 0
+    end
+    local mult = 1
+    local numberStr = text:match('[%d%.]+')
+    if not numberStr then
+        return 0
+    end
+    if text:find('K') then
+        mult = 1_000
+    elseif text:find('M') then
+        mult = 1_000_000
+    elseif text:find('B') then
+        mult = 1_000_000_000
+    elseif text:find('T') then
+        mult = 1_000_000_000_000
+    elseif text:find('Q') then
+        mult = 1_000_000_000_000_000
+    end
+    local number = tonumber(numberStr)
+    return number and number * mult or 0
+end
+
+local function updateBestESP()
+    if not espBestActive then return end
+    
+    clearBestESP()
+    
+    local plots = Workspace:FindFirstChild('Plots')
+    if not plots then return end
+
+    local myPlotName
+    for _, plot in ipairs(plots:GetChildren()) do
+        local plotSign = plot:FindFirstChild('PlotSign')
+        if plotSign and plotSign:FindFirstChild('YourBase') and plotSign.YourBase.Enabled then
+            myPlotName = plot.Name
+            break
+        end
+    end
+
+    local bestPetInfo = nil
+
+    for _, plot in ipairs(plots:GetChildren()) do
+        if plot.Name ~= myPlotName then
+            for _, desc in ipairs(plot:GetDescendants()) do
+                if desc:IsA('TextLabel') and desc.Name == 'Rarity' and desc.Parent and desc.Parent:FindFirstChild('DisplayName') then
+                    local parentModel = desc.Parent.Parent
+                    local rarity = desc.Text
+                    local displayName = desc.Parent.DisplayName.Text
+
+                    if espBestActive then
+                        local genLabel = desc.Parent:FindFirstChild('Generation')
+                        if genLabel and genLabel:IsA('TextLabel') then
+                            local mps = parseMoneyPerSec(genLabel.Text)
+                            if not bestPetInfo or mps > bestPetInfo.mps then
+                                bestPetInfo = {
+                                    petName = displayName,
+                                    genText = genLabel.Text,
+                                    mps = mps,
+                                    model = parentModel,
+                                }
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    if espBestActive then
+        for _, plot in ipairs(plots:GetChildren()) do
+            for _, inst in ipairs(plot:GetDescendants()) do
+                if inst:IsA('BillboardGui') and inst.Name == 'Best_ESP' then
+                    pcall(function()
+                        inst:Destroy()
+                    end)
+                end
+            end
+        end
+        
+        if bestPetInfo and bestPetInfo.mps > 0 and bestPetInfo.model then
+            local billboard = Instance.new('BillboardGui')
+            billboard.Name = 'Best_ESP'
+            billboard.Size = UDim2.new(0, 303, 0, 75)
+            billboard.StudsOffset = Vector3.new(0, 4.84, 0)
+            billboard.AlwaysOnTop = true
+            billboard.Parent = bestPetInfo.model
+            
+            local nameLabel = Instance.new('TextLabel')
+            nameLabel.Size = UDim2.new(1, 0, 0, 35)
+            nameLabel.Position = UDim2.new(0, 0, 0, 0)
+            nameLabel.BackgroundTransparency = 1
+            nameLabel.Text = bestPetInfo.petName
+            nameLabel.TextColor3 = Color3.fromRGB(255, 0, 60)
+            nameLabel.Font = Enum.Font.GothamSemibold
+            nameLabel.TextSize = 25
+            nameLabel.TextStrokeTransparency = 0.07
+            nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            nameLabel.Parent = billboard
+            
+            local moneyLabel = Instance.new('TextLabel')
+            moneyLabel.Size = UDim2.new(1, 0, 0, 22)
+            moneyLabel.Position = UDim2.new(0, 0, 0, 35)
+            moneyLabel.BackgroundTransparency = 1
+            moneyLabel.Text = bestPetInfo.genText
+            moneyLabel.TextColor3 = Color3.fromRGB(0, 240, 60)
+            moneyLabel.Font = Enum.Font.GothamSemibold
+            moneyLabel.TextSize = 22
+            moneyLabel.TextStrokeTransparency = 0.17
+            moneyLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            moneyLabel.Parent = billboard
+
+            table.insert(bestEspObjects, billboard)
+        end
+    end
+end
+
+local function toggleBestESP()
+    espBestActive = not espBestActive
+    if espBestActive then
+        updateBestESP()
+        -- Her 2 saniyede bir güncelle
+        while espBestActive do
+            wait(2)
+            updateBestESP()
+        end
+    else
+        clearBestESP()
+    end
+end
+
+----------------------------------------------------------------
 -- GUI OLUŞTURMA
 ----------------------------------------------------------------
 local playerGui = player:WaitForChild('PlayerGui')
@@ -525,8 +672,8 @@ gui.ResetOnSpawn = false
 gui.Parent = playerGui
 
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 300, 0, 400)
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
+mainFrame.Size = UDim2.new(0, 300, 0, 450)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -225)
 mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
 mainFrame.BackgroundTransparency = 0.1
 mainFrame.BorderSizePixel = 0
@@ -575,6 +722,8 @@ yPos = yPos + 50
 createButton(mainFrame, '🚀 FLY TO BASE', yPos, startFlyToBase)
 yPos = yPos + 50
 createButton(mainFrame, espBaseActive and '✅ ESP Base AÇIK' or '🏠 ESP Base AÇ', yPos, toggleBaseESP)
+yPos = yPos + 50
+createButton(mainFrame, espBestActive and '✅ ESP Best AÇIK' or '🔥 ESP Best AÇ', yPos, toggleBestESP)
 
 -- Sürükleme özelliği
 local dragging = false
@@ -620,3 +769,4 @@ print("✅ FPS Devourer Aktif")
 print("🦘 Inf Jump Hazır") 
 print("🚀 Fly to Base Hazır")
 print("🏠 ESP Base Hazır")
+print("🔥 ESP Best Hazır")
