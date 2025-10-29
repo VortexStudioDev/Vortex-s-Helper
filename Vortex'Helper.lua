@@ -1,54 +1,54 @@
--- Vortex Hub - Ultimate Edition
--- Features: Inf Jump, FLY TO BASE, Auto Laser, ESP Base, ESP Best, ESP Player, Steal Floor
--- Tab System: Tab 1 (Movement), Tab 2 (Visual)
+-- Chered Hub - Sadeleştirilmiş Versiyon
+-- Alınan Özellikler: Inf Jump / JumpBoost, FLY TO BASE, FPS Devourer, ESP Base, ESP Best
+-- Discord: https://discord.gg/qvVEZt3q88
 
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
-local Workspace = game:GetService("Workspace")
-local RunService = game:GetService("RunService")
-local ProximityPromptService = game:GetService("ProximityPromptService")
+local Players = game:GetService('Players')
+local ReplicatedStorage = game:GetService('ReplicatedStorage')
+local UserInputService = game:GetService('UserInputService')
+local Workspace = game:GetService('Workspace')
+local RunService = game:GetService('RunService')
+local TweenService = game:GetService('TweenService')
 local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
 
 ----------------------------------------------------------------
--- NOTIFICATION SYSTEM
+-- FPS DEVOURER (Optimizasyon)
 ----------------------------------------------------------------
-local function showNotification(message, isSuccess)
-    local notificationGui = Instance.new("ScreenGui")
-    notificationGui.Name = "VortexNotify"
-    notificationGui.ResetOnSpawn = false
-    notificationGui.Parent = playerGui
+local function enableFPSDevourer()
+    pcall(function()
+        if setfpscap then
+            setfpscap(999)
+        end
+    end)
     
-    local notification = Instance.new("Frame")
-    notification.Size = UDim2.new(0, 200, 0, 40)
-    notification.Position = UDim2.new(0.5, -100, 0.2, 0)
-    notification.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
-    notification.BorderSizePixel = 0
-    notification.Parent = notificationGui
+    -- Görsel kaliteyi düşürerek FPS artışı
+    for _, lighting in pairs(Workspace:GetChildren()) do
+        if lighting:IsA("Part") or lighting:IsA("UnionOperation") or lighting:IsA("MeshPart") then
+            pcall(function()
+                lighting.Material = Enum.Material.Plastic
+                lighting.Reflectance = 0
+            end)
+        end
+    end
     
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 6)
-    corner.Parent = notification
+    -- Lighting ayarları
+    local lighting = game:GetService("Lighting")
+    pcall(function()
+        lighting.GlobalShadows = false
+        lighting.FogEnd = 100000
+        lighting.Brightness = 2
+    end)
     
-    local stroke = Instance.new("UIStroke")
-    stroke.Color = isSuccess and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 80, 80)
-    stroke.Thickness = 1
-    stroke.Parent = notification
-
-    local text = Instance.new("TextLabel")
-    text.Size = UDim2.new(1, -10, 1, -10)
-    text.Position = UDim2.new(0, 5, 0, 5)
-    text.BackgroundTransparency = 1
-    text.Text = message
-    text.TextColor3 = Color3.fromRGB(255, 255, 255)
-    text.TextSize = 12
-    text.Font = Enum.Font.GothamBold
-    text.TextWrapped = true
-    text.Parent = notification
-
-    task.delay(2, function()
-        notificationGui:Destroy()
+    -- Character optimizasyonu
+    player.CharacterAdded:Connect(function(char)
+        wait(0.5)
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                pcall(function()
+                    part.Material = Enum.Material.Plastic
+                    part.Reflectance = 0
+                end)
+            end
+        end
     end)
 end
 
@@ -56,22 +56,40 @@ end
 -- INF JUMP / JUMP BOOST
 ----------------------------------------------------------------
 local NORMAL_GRAV = 196.2
-local REDUCED_GRAV = 60
+local REDUCED_GRAV = 40
 local NORMAL_JUMP = 50
-local BOOST_JUMP = 75
+local BOOST_JUMP = 120
+local BOOST_SPEED = 32
+
+local spoofedGravity = NORMAL_GRAV
+pcall(function()
+    local mt = getrawmetatable(Workspace)
+    if mt then
+        setreadonly(mt, false)
+        local oldIndex = mt.__index
+        mt.__index = function(self, k)
+            if k == 'Gravity' then
+                return spoofedGravity
+            end
+            return oldIndex(self, k)
+        end
+        setreadonly(mt, true)
+    end
+end)
 
 local gravityLow = false
-local speedBoostConn
-local infiniteJumpConn
+local sourceActive = false
 
 local function setJumpPower(jump)
-    local h = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+    local h = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
     if h then
         h.JumpPower = jump
+        h.UseJumpPower = true
     end
 end
 
-local function enableSpeedBoost(state)
+local speedBoostConn
+local function enableSpeedBoostAssembly(state)
     if speedBoostConn then
         speedBoostConn:Disconnect()
         speedBoostConn = nil
@@ -80,13 +98,13 @@ local function enableSpeedBoost(state)
         speedBoostConn = RunService.Heartbeat:Connect(function()
             local char = player.Character
             if char then
-                local root = char:FindFirstChild("HumanoidRootPart")
-                local h = char:FindFirstChildOfClass("Humanoid")
+                local root = char:FindFirstChild('HumanoidRootPart')
+                local h = char:FindFirstChildOfClass('Humanoid')
                 if root and h and h.MoveDirection.Magnitude > 0 then
                     root.Velocity = Vector3.new(
-                        h.MoveDirection.X * 28,
+                        h.MoveDirection.X * BOOST_SPEED,
                         root.Velocity.Y,
-                        h.MoveDirection.Z * 28
+                        h.MoveDirection.Z * BOOST_SPEED
                     )
                 end
             end
@@ -94,6 +112,7 @@ local function enableSpeedBoost(state)
     end
 end
 
+local infiniteJumpConn
 local function enableInfiniteJump(state)
     if infiniteJumpConn then
         infiniteJumpConn:Disconnect()
@@ -101,49 +120,129 @@ local function enableInfiniteJump(state)
     end
     if state then
         infiniteJumpConn = UserInputService.JumpRequest:Connect(function()
-            local h = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+            local h = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
             if h and gravityLow and h:GetState() ~= Enum.HumanoidStateType.Seated then
-                local root = player.Character:FindFirstChild("HumanoidRootPart")
+                local root = player.Character:FindFirstChild('HumanoidRootPart')
                 if root then
-                    root.Velocity = Vector3.new(root.Velocity.X, h.JumpPower, root.Velocity.Z)
+                    root.Velocity = Vector3.new(
+                        root.Velocity.X,
+                        h.JumpPower,
+                        root.Velocity.Z
+                    )
                 end
             end
         end)
     end
 end
 
-local function switchGravityJump()
-    gravityLow = not gravityLow
-    
-    if gravityLow then
-        Workspace.Gravity = REDUCED_GRAV
-        setJumpPower(BOOST_JUMP)
-        enableSpeedBoost(true)
-        enableInfiniteJump(true)
-        showNotification("Inf Jump ON 🦘", true)
-    else
-        Workspace.Gravity = NORMAL_GRAV
-        setJumpPower(NORMAL_JUMP)
-        enableSpeedBoost(false)
-        enableInfiniteJump(false)
-        showNotification("Inf Jump OFF", false)
+local function antiRagdoll()
+    local char = player.Character
+    if char then
+        for _, v in pairs(char:GetDescendants()) do
+            if v:IsA('BodyVelocity') or v:IsA('BodyAngularVelocity') then
+                v:Destroy()
+            end
+        end
     end
 end
 
+local function toggleForceField()
+    local char = player.Character
+    if char then
+        if gravityLow then
+            if not char:FindFirstChildOfClass('ForceField') then
+                local ff = Instance.new('ForceField', char)
+                ff.Visible = false
+            end
+        else
+            for _, ff in ipairs(char:GetChildren()) do
+                if ff:IsA('ForceField') then
+                    ff:Destroy()
+                end
+            end
+        end
+    end
+end
+
+local function switchGravityJump()
+    gravityLow = not gravityLow
+    sourceActive = gravityLow
+    Workspace.Gravity = gravityLow and REDUCED_GRAV or NORMAL_GRAV
+    setJumpPower(gravityLow and BOOST_JUMP or NORMAL_JUMP)
+    enableSpeedBoostAssembly(gravityLow)
+    enableInfiniteJump(gravityLow)
+    antiRagdoll()
+    toggleForceField()
+    spoofedGravity = NORMAL_GRAV
+end
+
 ----------------------------------------------------------------
--- FLY TO BASE (ORIGINAL VERSION)
+-- FLY TO BASE
 ----------------------------------------------------------------
 local flyActive = false
 local flyConn
+local flyAtt, flyLV
+local flyCharRemovingConn
+local destTouchedConn
+local destPartRef
+local flyRestoreOldGravity, flyRestoreOldJumpPower
+
+local FLY_SUCCESS_SOUND_ID = 'rbxassetid://144686873'
+local FLY_SUCCESS_VOLUME = 1
+
+local FLY_GRAV = 20
+local FLY_JUMP = 7
+local FLY_STOPDIST = 7
+local FLY_XZ_SPEED = 22
+local FLY_Y_BASE = -1.0
+local FLY_Y_MAX = -2.2
+local FLY_TIME_STEP = 1.5
+
+local function clearFlyConnections()
+    if flyConn then
+        pcall(function()
+            flyConn:Disconnect()
+        end)
+        flyConn = nil
+    end
+    if flyCharRemovingConn then
+        pcall(function()
+            flyCharRemovingConn:Disconnect()
+        end)
+        flyCharRemovingConn = nil
+    end
+    if destTouchedConn then
+        pcall(function()
+            destTouchedConn:Disconnect()
+        end)
+        destTouchedConn = nil
+    end
+end
+
+local function destroyFlyBodies()
+    if flyLV then
+        pcall(function()
+            flyLV:Destroy()
+        end)
+        flyLV = nil
+    end
+    if flyAtt then
+        pcall(function()
+            flyAtt:Destroy()
+        end)
+        flyAtt = nil
+    end
+    destPartRef = nil
+end
 
 local function findMyDeliveryPart()
-    local plots = Workspace:FindFirstChild("Plots")
+    local plots = Workspace:FindFirstChild('Plots')
     if plots then
         for _, plot in ipairs(plots:GetChildren()) do
-            local sign = plot:FindFirstChild("PlotSign")
-            if sign and sign:FindFirstChild("YourBase") and sign.YourBase.Enabled then
-                local delivery = plot:FindFirstChild("DeliveryHitbox")
-                if delivery and delivery:IsA("BasePart") then
+            local sign = plot:FindFirstChild('PlotSign')
+            if sign and sign:FindFirstChild('YourBase') and sign.YourBase.Enabled then
+                local delivery = plot:FindFirstChild('DeliveryHitbox')
+                if delivery and delivery:IsA('BasePart') then
                     return delivery
                 end
             end
@@ -152,239 +251,205 @@ local function findMyDeliveryPart()
     return nil
 end
 
+local function flyGetDescent(dist)
+    local maxdist = 200
+    dist = math.clamp(dist, 0, maxdist)
+    local t = 1 - (dist / maxdist)
+    return FLY_Y_BASE + (FLY_Y_MAX - FLY_Y_BASE) * t
+end
+
+local function restoreSourceAndPhysics()
+    local char = player.Character
+    local hum = char and char:FindFirstChildOfClass('Humanoid')
+    if hum then
+        if gravityLow then
+            Workspace.Gravity = REDUCED_GRAV
+            setJumpPower(BOOST_JUMP)
+            enableSpeedBoostAssembly(true)
+            enableInfiniteJump(true)
+        else
+            Workspace.Gravity = NORMAL_GRAV
+            setJumpPower(NORMAL_JUMP)
+            enableSpeedBoostAssembly(false)
+            enableInfiniteJump(false)
+        end
+        spoofedGravity = NORMAL_GRAV
+    else
+        Workspace.Gravity = flyRestoreOldGravity or NORMAL_GRAV
+        spoofedGravity = NORMAL_GRAV
+        pcall(function()
+            if hum and flyRestoreOldJumpPower then
+                hum.JumpPower = flyRestoreOldJumpPower
+            end
+        end)
+    end
+end
+
+local function cleanupFly()
+    clearFlyConnections()
+    destroyFlyBodies()
+    restoreSourceAndPhysics()
+    flyActive = false
+end
+
+local function finishFly(success)
+    cleanupFly()
+end
+
 local function startFlyToBase()
     if flyActive then
-        if flyConn then
-            flyConn:Disconnect()
-            flyConn = nil
-        end
-        Workspace.Gravity = gravityLow and REDUCED_GRAV or NORMAL_GRAV
-        flyActive = false
-        showNotification("Fly to Base OFF", false)
+        finishFly(false)
         return
     end
 
     local destPart = findMyDeliveryPart()
     if not destPart then
-        showNotification("Base not found!", false)
         return
     end
 
     local char = player.Character
-    local hum = char and char:FindFirstChildOfClass("Humanoid")
-    local hrp = char and char:FindFirstChild("HumanoidRootPart")
-    if not (hum and hrp) then return end
+    local hum = char and char:FindFirstChildOfClass('Humanoid')
+    local hrp = char and char:FindFirstChild('HumanoidRootPart')
+    if not (hum and hrp) then
+        return
+    end
 
-    local startGravity = Workspace.Gravity
-    Workspace.Gravity = 0
+    flyRestoreOldGravity = Workspace.Gravity
+    flyRestoreOldJumpPower = hum.JumpPower
+
+    enableSpeedBoostAssembly(false)
+    enableInfiniteJump(false)
+
+    Workspace.Gravity = FLY_GRAV
+    spoofedGravity = NORMAL_GRAV
+    hum.UseJumpPower = true
+    hum.JumpPower = FLY_JUMP
+
     flyActive = true
 
-    flyConn = RunService.Heartbeat:Connect(function()
-        if not flyActive or not player.Character then 
-            if flyConn then flyConn:Disconnect() end
-            return 
-        end
-        
-        local hrp = player.Character:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
-        
+    flyAtt = Instance.new('Attachment')
+    flyAtt.Name = 'FlyToBaseAttachment'
+    flyAtt.Parent = hrp
+
+    flyLV = Instance.new('LinearVelocity')
+    flyLV.Attachment0 = flyAtt
+    flyLV.RelativeTo = Enum.ActuatorRelativeTo.World
+    flyLV.MaxForce = math.huge
+    flyLV.Parent = hrp
+
+    destPartRef = destPart
+
+    local reached = false
+    local lastYUpdate = 0
+
+    do
         local pos = hrp.Position
         local destPos = destPart.Position
-        local direction = (destPos - pos).Unit
-        
-        -- Original hız - hızlanma yok
-        hrp.Velocity = direction * 50
-        
-        if (pos - destPos).Magnitude < 8 then
-            Workspace.Gravity = startGravity
-            flyActive = false
-            if flyConn then flyConn:Disconnect() end
-            showNotification("🏠 Base reached!", true)
+        local distXZ = (Vector3.new(destPos.X, pos.Y, destPos.Z) - pos).Magnitude
+        local yVel = flyGetDescent(distXZ)
+        local dirXZ = Vector3.new(destPos.X - pos.X, 0, destPos.Z - pos.Z)
+        if dirXZ.Magnitude > 0 then
+            dirXZ = dirXZ.Unit
+        else
+            dirXZ = Vector3.new()
+        end
+        flyLV.VectorVelocity = Vector3.new(dirXZ.X * FLY_XZ_SPEED, yVel, dirXZ.Z * FLY_XZ_SPEED)
+        lastYUpdate = tick()
+    end
+
+    destTouchedConn = destPart.Touched:Connect(function(hit)
+        if not flyActive then
+            return
+        end
+        local ch = player.Character
+        if ch and hit and hit:IsDescendantOf(ch) then
+            reached = true
+            finishFly(true)
         end
     end)
 
-    showNotification("Fly to Base ON! 🚀", true)
-end
-
-----------------------------------------------------------------
--- AUTO LASER
-----------------------------------------------------------------
-local autoLaserEnabled = false
-local autoLaserThread = nil
-
-local blacklistNames = {"gametesterbrow"}
-local blacklist = {}
-for _, name in ipairs(blacklistNames) do
-    blacklist[string.lower(name)] = true
-end
-
-local function getLaserRemote()
-    local remote = nil
-    pcall(function()
-        if ReplicatedStorage:FindFirstChild("Packages") and ReplicatedStorage.Packages:FindFirstChild("Net") then
-            remote = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem") or ReplicatedStorage.Packages.Net:FindFirstChild("RE"):FindFirstChild("UseItem")
+    if flyConn then
+        flyConn:Disconnect()
+        flyConn = nil
+    end
+    flyConn = RunService.Heartbeat:Connect(function()
+        if not flyActive then
+            cleanupFly()
+            return
         end
-        if not remote then
-            remote = ReplicatedStorage:FindFirstChild("RE/UseItem") or ReplicatedStorage:FindFirstChild("UseItem")
+
+        if not (hrp and hrp.Parent and hum and hum.Parent) then
+            finishFly(false)
+            return
+        end
+
+        local pos = hrp.Position
+        local destPos = destPart.Position
+        local distXZ = (Vector3.new(destPos.X, pos.Y, destPos.Z) - pos).Magnitude
+
+        if distXZ < FLY_STOPDIST and not reached then
+            reached = true
+            finishFly(true)
+            return
+        end
+
+        if tick() - lastYUpdate >= FLY_TIME_STEP then
+            local yVel = flyGetDescent(distXZ)
+            local dirXZ = Vector3.new(destPos.X - pos.X, 0, destPos.Z - pos.Z)
+            if dirXZ.Magnitude > 0 then
+                dirXZ = dirXZ.Unit
+            else
+                dirXZ = Vector3.new()
+            end
+            flyLV.VectorVelocity = Vector3.new(
+                dirXZ.X * FLY_XZ_SPEED,
+                yVel,
+                dirXZ.Z * FLY_XZ_SPEED
+            )
+            lastYUpdate = tick()
         end
     end)
-    return remote
-end
 
-local function isValidTarget(targetPlayer)
-    if not targetPlayer or not targetPlayer.Character or targetPlayer == player then return false end
-    local name = targetPlayer.Name and string.lower(targetPlayer.Name) or ""
-    if blacklist[name] then return false end
-    local hrp = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-    local humanoid = targetPlayer.Character:FindFirstChildOfClass("Humanoid")
-    if not hrp or not humanoid then return false end
-    return humanoid.Health > 0
-end
-
-local function findNearestAllowed()
-    if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return nil end
-    local myPos = player.Character.HumanoidRootPart.Position
-    local nearest = nil
-    local nearestDist = math.huge
-    for _, pl in ipairs(Players:GetPlayers()) do
-        if isValidTarget(pl) then
-            local targetHRP = pl.Character:FindFirstChild("HumanoidRootPart")
-            if targetHRP then
-                local d = (targetHRP.Position - myPos).Magnitude
-                if d < nearestDist then
-                    nearestDist = d
-                    nearest = pl
-                end
-            end
-        end
+    if flyCharRemovingConn then
+        flyCharRemovingConn:Disconnect()
+        flyCharRemovingConn = nil
     end
-    return nearest
-end
-
-local function safeFire(targetPlayer)
-    if not targetPlayer or not targetPlayer.Character then return end
-    local targetHRP = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-    if not targetHRP then return end
-    local remote = getLaserRemote()
-    if remote and remote.FireServer then
-        pcall(function()
-            remote:FireServer(targetHRP.Position, targetHRP)
-        end)
-    end
-end
-
-local function autoLaserWorker()
-    while autoLaserEnabled do
-        local target = findNearestAllowed()
-        if target then
-            safeFire(target)
+    flyCharRemovingConn = player.CharacterRemoving:Connect(function()
+        if flyActive then
+            finishFly(false)
+        else
+            cleanupFly()
         end
-        local t0 = tick()
-        while tick() - t0 < 0.6 do
-            if not autoLaserEnabled then break end
-            RunService.Heartbeat:Wait()
-        end
-    end
-end
-
-local function toggleAutoLaser()
-    autoLaserEnabled = not autoLaserEnabled
-    if autoLaserEnabled then
-        showNotification("Auto Laser ON 🔫", true)
-        if autoLaserThread then
-            task.cancel(autoLaserThread)
-        end
-        autoLaserThread = task.spawn(autoLaserWorker)
-    else
-        showNotification("Auto Laser OFF", false)
-        if autoLaserThread then
-            task.cancel(autoLaserThread)
-            autoLaserThread = nil
-        end
-    end
+    end)
 end
 
 ----------------------------------------------------------------
--- STEAL FLOOR
-----------------------------------------------------------------
-local stealFloorActive = false
-local stealFloorConn
-
-local function teleportToGround()
-    local char = player.Character
-    local hrp = char and char:FindFirstChild("HumanoidRootPart")
-    local hum = char and char:FindFirstChildOfClass("Humanoid")
-    if not (hrp and hum and hum.Health > 0) then
-        return
-    end
-
-    local rayParams = RaycastParams.new()
-    rayParams.FilterType = Enum.RaycastFilterType.Exclude
-    rayParams.FilterDescendantsInstances = { char }
-
-    local rayResult = Workspace:Raycast(hrp.Position, Vector3.new(0, -1500, 0), rayParams)
-    if rayResult then
-        hrp.CFrame = CFrame.new(
-            hrp.Position.X,
-            rayResult.Position.Y + hum.HipHeight,
-            hrp.Position.Z
-        )
-    end
-end
-
-local function toggleStealFloor()
-    stealFloorActive = not stealFloorActive
-    
-    if stealFloorActive then
-        showNotification("Steal Floor ON 🏗️", true)
-        
-        if stealFloorConn then
-            stealFloorConn:Disconnect()
-        end
-        
-        stealFloorConn = ProximityPromptService.PromptTriggered:Connect(function(prompt, who)
-            if who == player then
-                local act = (prompt.ActionText or ""):lower()
-                if string.find(act, "steal") then
-                    teleportToGround()
-                end
-            end
-        end)
-    else
-        showNotification("Steal Floor OFF", false)
-        if stealFloorConn then
-            stealFloorConn:Disconnect()
-            stealFloorConn = nil
-        end
-    end
-end
-
-----------------------------------------------------------------
--- ESP SYSTEMS
+-- ESP BASE
 ----------------------------------------------------------------
 local espBaseActive = false
-local espBestActive = false
-local espPlayerActive = false
-local espObjects = {}
+local baseEspObjects = {}
 
--- ESP Base
-local function updateBaseESP()
-    if not espBaseActive then 
-        for _, obj in pairs(espObjects) do
-            if obj.Name == "Base_ESP" then
-                pcall(function() obj:Destroy() end)
-            end
-        end
-        return 
+local function clearBaseESP()
+    for _, obj in pairs(baseEspObjects) do
+        pcall(function()
+            obj:Destroy()
+        end)
     end
+    baseEspObjects = {}
+end
+
+local function updateBaseESP()
+    if not espBaseActive then return end
     
-    local plots = Workspace:FindFirstChild("Plots")
+    clearBaseESP()
+    
+    local plots = Workspace:FindFirstChild('Plots')
     if not plots then return end
 
     local myPlotName
     for _, plot in pairs(plots:GetChildren()) do
-        local plotSign = plot:FindFirstChild("PlotSign")
-        if plotSign and plotSign:FindFirstChild("YourBase") and plotSign.YourBase.Enabled then
+        local plotSign = plot:FindFirstChild('PlotSign')
+        if plotSign and plotSign:FindFirstChild('YourBase') and plotSign.YourBase.Enabled then
             myPlotName = plot.Name
             break
         end
@@ -394,407 +459,282 @@ local function updateBaseESP()
 
     for _, plot in pairs(plots:GetChildren()) do
         if plot.Name ~= myPlotName then
-            local purchases = plot:FindFirstChild("Purchases")
-            local pb = purchases and purchases:FindFirstChild("PlotBlock")
-            local main = pb and pb:FindFirstChild("Main")
+            local purchases = plot:FindFirstChild('Purchases')
+            local pb = purchases and purchases:FindFirstChild('PlotBlock')
+            local main = pb and pb:FindFirstChild('Main')
+            local gui = main and main:FindFirstChild('BillboardGui')
+            local timeLb = gui and gui:FindFirstChild('RemainingTime')
             
-            if main and not main:FindFirstChild("Base_ESP") then
-                local billboard = Instance.new("BillboardGui")
-                billboard.Name = "Base_ESP"
-                billboard.Size = UDim2.new(0, 160, 0, 40)
-                billboard.StudsOffset = Vector3.new(0, 6, 0)
+            if timeLb and main then
+                local billboard = Instance.new('BillboardGui')
+                billboard.Name = 'Base_ESP'
+                billboard.Size = UDim2.new(0, 140, 0, 36)
+                billboard.StudsOffset = Vector3.new(0, 5, 0)
                 billboard.AlwaysOnTop = true
                 billboard.Parent = main
 
-                local label = Instance.new("TextLabel")
-                label.Text = "🏠 ENEMY BASE"
+                local label = Instance.new('TextLabel')
+                label.Text = timeLb.Text
                 label.Size = UDim2.new(1, 0, 1, 0)
                 label.BackgroundTransparency = 1
                 label.TextScaled = true
-                label.TextColor3 = Color3.fromRGB(255, 50, 50)
-                label.Font = Enum.Font.GothamBold
-                label.TextStrokeTransparency = 0.3
+                label.TextColor3 = Color3.fromRGB(220, 0, 60)
+                label.Font = Enum.Font.Arcade
+                label.TextStrokeTransparency = 0.5
                 label.TextStrokeColor3 = Color3.new(0, 0, 0)
                 label.Parent = billboard
 
-                table.insert(espObjects, billboard)
+                table.insert(baseEspObjects, billboard)
             end
         end
     end
 end
 
--- ESP Best
-local function updateBestESP()
-    if not espBestActive then 
-        for _, obj in pairs(espObjects) do
-            if obj.Name == "Best_ESP" then
-                pcall(function() obj:Destroy() end)
-            end
+local function toggleBaseESP()
+    espBaseActive = not espBaseActive
+    if espBaseActive then
+        updateBaseESP()
+        -- Her 2 saniyede bir güncelle
+        while espBaseActive do
+            wait(2)
+            updateBaseESP()
         end
-        return 
+    else
+        clearBaseESP()
     end
+end
 
-    local plots = Workspace:FindFirstChild("Plots")
+----------------------------------------------------------------
+-- ESP BEST
+----------------------------------------------------------------
+local espBestActive = false
+local bestEspObjects = {}
+
+local function clearBestESP()
+    for _, obj in pairs(bestEspObjects) do
+        pcall(function()
+            obj:Destroy()
+        end)
+    end
+    bestEspObjects = {}
+end
+
+local function parseMoneyPerSec(text)
+    if not text then
+        return 0
+    end
+    local mult = 1
+    local numberStr = text:match('[%d%.]+')
+    if not numberStr then
+        return 0
+    end
+    if text:find('K') then
+        mult = 1_000
+    elseif text:find('M') then
+        mult = 1_000_000
+    elseif text:find('B') then
+        mult = 1_000_000_000
+    elseif text:find('T') then
+        mult = 1_000_000_000_000
+    elseif text:find('Q') then
+        mult = 1_000_000_000_000_000
+    end
+    local number = tonumber(numberStr)
+    return number and number * mult or 0
+end
+
+local function updateBestESP()
+    if not espBestActive then return end
+    
+    clearBestESP()
+    
+    local plots = Workspace:FindFirstChild('Plots')
     if not plots then return end
 
+    local myPlotName
     for _, plot in ipairs(plots:GetChildren()) do
-        for _, pet in ipairs(plot:GetDescendants()) do
-            if pet:IsA("Model") and pet:FindFirstChild("Head") then
-                local displayName = pet:FindFirstChild("DisplayName")
-                if displayName and displayName:IsA("TextLabel") then
-                    if not pet:FindFirstChild("Best_ESP") then
-                        local billboard = Instance.new("BillboardGui")
-                        billboard.Name = "Best_ESP"
-                        billboard.Size = UDim2.new(0, 200, 0, 60)
-                        billboard.StudsOffset = Vector3.new(0, 5, 0)
-                        billboard.AlwaysOnTop = true
-                        billboard.Parent = pet
-                        
-                        local label = Instance.new("TextLabel")
-                        label.Size = UDim2.new(1, 0, 1, 0)
-                        label.BackgroundTransparency = 1
-                        label.Text = "🔥 BEST PET\n💎 HIGH VALUE"
-                        label.TextColor3 = Color3.fromRGB(255, 215, 0)
-                        label.Font = Enum.Font.GothamBold
-                        label.TextSize = 12
-                        label.TextStrokeTransparency = 0
-                        label.Parent = billboard
+        local plotSign = plot:FindFirstChild('PlotSign')
+        if plotSign and plotSign:FindFirstChild('YourBase') and plotSign.YourBase.Enabled then
+            myPlotName = plot.Name
+            break
+        end
+    end
 
-                        table.insert(espObjects, billboard)
+    local bestPetInfo = nil
+
+    for _, plot in ipairs(plots:GetChildren()) do
+        if plot.Name ~= myPlotName then
+            for _, desc in ipairs(plot:GetDescendants()) do
+                if desc:IsA('TextLabel') and desc.Name == 'Rarity' and desc.Parent and desc.Parent:FindFirstChild('DisplayName') then
+                    local parentModel = desc.Parent.Parent
+                    local rarity = desc.Text
+                    local displayName = desc.Parent.DisplayName.Text
+
+                    if espBestActive then
+                        local genLabel = desc.Parent:FindFirstChild('Generation')
+                        if genLabel and genLabel:IsA('TextLabel') then
+                            local mps = parseMoneyPerSec(genLabel.Text)
+                            if not bestPetInfo or mps > bestPetInfo.mps then
+                                bestPetInfo = {
+                                    petName = displayName,
+                                    genText = genLabel.Text,
+                                    mps = mps,
+                                    model = parentModel,
+                                }
+                            end
+                        end
                     end
-                    break
                 end
             end
         end
     end
-end
 
--- ESP Player
-local function updatePlayerESP()
-    if not espPlayerActive then
-        for _, obj in pairs(espObjects) do
-            if obj.Name == "Player_ESP" then
-                pcall(function() obj:Destroy() end)
+    if espBestActive then
+        for _, plot in ipairs(plots:GetChildren()) do
+            for _, inst in ipairs(plot:GetDescendants()) do
+                if inst:IsA('BillboardGui') and inst.Name == 'Best_ESP' then
+                    pcall(function()
+                        inst:Destroy()
+                    end)
+                end
             end
         end
-        return
-    end
-
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-            local hrp = plr.Character.HumanoidRootPart
+        
+        if bestPetInfo and bestPetInfo.mps > 0 and bestPetInfo.model then
+            local billboard = Instance.new('BillboardGui')
+            billboard.Name = 'Best_ESP'
+            billboard.Size = UDim2.new(0, 303, 0, 75)
+            billboard.StudsOffset = Vector3.new(0, 4.84, 0)
+            billboard.AlwaysOnTop = true
+            billboard.Parent = bestPetInfo.model
             
-            if not hrp:FindFirstChild("Player_ESP") then
-                local billboard = Instance.new("BillboardGui")
-                billboard.Name = "Player_ESP"
-                billboard.Adornee = hrp
-                billboard.Size = UDim2.new(0, 200, 0, 40)
-                billboard.StudsOffset = Vector3.new(0, 5, 0)
-                billboard.AlwaysOnTop = true
-                
-                local label = Instance.new("TextLabel", billboard)
-                label.Size = UDim2.new(1, 0, 1, 0)
-                label.BackgroundTransparency = 1
-                label.TextColor3 = Color3.fromRGB(255, 0, 0)
-                label.TextStrokeTransparency = 0.2
-                label.Text = "👤 " .. plr.Name
-                label.Font = Enum.Font.GothamBold
-                label.TextSize = 12
-                billboard.Parent = hrp
+            local nameLabel = Instance.new('TextLabel')
+            nameLabel.Size = UDim2.new(1, 0, 0, 35)
+            nameLabel.Position = UDim2.new(0, 0, 0, 0)
+            nameLabel.BackgroundTransparency = 1
+            nameLabel.Text = bestPetInfo.petName
+            nameLabel.TextColor3 = Color3.fromRGB(255, 0, 60)
+            nameLabel.Font = Enum.Font.GothamSemibold
+            nameLabel.TextSize = 25
+            nameLabel.TextStrokeTransparency = 0.07
+            nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            nameLabel.Parent = billboard
+            
+            local moneyLabel = Instance.new('TextLabel')
+            moneyLabel.Size = UDim2.new(1, 0, 0, 22)
+            moneyLabel.Position = UDim2.new(0, 0, 0, 35)
+            moneyLabel.BackgroundTransparency = 1
+            moneyLabel.Text = bestPetInfo.genText
+            moneyLabel.TextColor3 = Color3.fromRGB(0, 240, 60)
+            moneyLabel.Font = Enum.Font.GothamSemibold
+            moneyLabel.TextSize = 22
+            moneyLabel.TextStrokeTransparency = 0.17
+            moneyLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            moneyLabel.Parent = billboard
 
-                table.insert(espObjects, billboard)
-            end
+            table.insert(bestEspObjects, billboard)
         end
     end
-end
-
--- ESP Toggle Functions
-local function toggleBaseESP()
-    espBaseActive = not espBaseActive
-    showNotification("ESP Base " .. (espBaseActive and "ON 🏠" or "OFF"), espBaseActive)
-    updateBaseESP()
 end
 
 local function toggleBestESP()
     espBestActive = not espBestActive
-    showNotification("ESP Best " .. (espBestActive and "ON 🔥" or "OFF"), espBestActive)
-    updateBestESP()
-end
-
-local function togglePlayerESP()
-    espPlayerActive = not espPlayerActive
-    showNotification("ESP Player " .. (espPlayerActive and "ON 👥" or "OFF"), espPlayerActive)
-    updatePlayerESP()
-end
-
-----------------------------------------------------------------
--- GUI CREATION
-----------------------------------------------------------------
-local gui = Instance.new("ScreenGui")
-gui.Name = "VortexHub"
-gui.ResetOnSpawn = false
-gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-gui.Parent = playerGui
-
--- V Logo (Toggle Button)
-local logoButton = Instance.new("TextButton")
-logoButton.Name = "VortexLogo"
-logoButton.Size = UDim2.new(0, 45, 0, 45)
-logoButton.Position = UDim2.new(0, 15, 0, 15)
-logoButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
-logoButton.Text = "V"
-logoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-logoButton.TextSize = 20
-logoButton.Font = Enum.Font.GothamBlack
-logoButton.AutoButtonColor = false
-logoButton.ZIndex = 1000
-logoButton.Parent = gui
-
-local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(1, 0)
-corner.Parent = logoButton
-
-local stroke = Instance.new("UIStroke")
-stroke.Color = Color3.fromRGB(200, 230, 255)
-stroke.Thickness = 2
-stroke.Parent = logoButton
-
--- Main Frame
-local mainFrame = Instance.new("Frame")
-mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 180, 0, 250)
-mainFrame.Position = UDim2.new(0.5, -90, 0.5, -125)
-mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-mainFrame.BackgroundTransparency = 0.05
-mainFrame.BorderSizePixel = 0
-mainFrame.Active = true
-mainFrame.Draggable = true
-mainFrame.Visible = false
-mainFrame.ZIndex = 999
-mainFrame.Parent = gui
-
-local frameCorner = Instance.new("UICorner")
-frameCorner.CornerRadius = UDim.new(0, 12)
-frameCorner.Parent = mainFrame
-
-local frameStroke = Instance.new("UIStroke")
-frameStroke.Color = Color3.fromRGB(80, 160, 255)
-frameStroke.Thickness = 2
-frameStroke.Parent = mainFrame
-
--- Header with Tabs
-local header = Instance.new("Frame")
-header.Size = UDim2.new(1, 0, 0, 35)
-header.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-header.BackgroundTransparency = 0.1
-header.BorderSizePixel = 0
-header.ZIndex = 1000
-header.Parent = mainFrame
-
-local headerCorner = Instance.new("UICorner")
-headerCorner.CornerRadius = UDim.new(0, 12)
-headerCorner.Parent = header
-
--- Tab Buttons
-local tab1Btn = Instance.new("TextButton")
-tab1Btn.Name = "Tab1"
-tab1Btn.Size = UDim2.new(0.5, -5, 0, 25)
-tab1Btn.Position = UDim2.new(0, 5, 0, 5)
-tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-tab1Btn.Text = "MOVEMENT"
-tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-tab1Btn.TextSize = 11
-tab1Btn.Font = Enum.Font.GothamBold
-tab1Btn.AutoButtonColor = false
-tab1Btn.ZIndex = 1001
-tab1Btn.Parent = header
-
-local tab2Btn = Instance.new("TextButton")
-tab2Btn.Name = "Tab2"
-tab2Btn.Size = UDim2.new(0.5, -5, 0, 25)
-tab2Btn.Position = UDim2.new(0.5, 0, 0, 5)
-tab2Btn.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
-tab2Btn.Text = "VISUAL"
-tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab2Btn.TextSize = 11
-tab2Btn.Font = Enum.Font.GothamBold
-tab2Btn.AutoButtonColor = false
-tab2Btn.ZIndex = 1001
-tab2Btn.Parent = header
-
-local tab1Corner = Instance.new("UICorner")
-tab1Corner.CornerRadius = UDim.new(0, 6)
-tab1Corner.Parent = tab1Btn
-
-local tab2Corner = Instance.new("UICorner")
-tab2Corner.CornerRadius = UDim.new(0, 6)
-tab2Corner.Parent = tab2Btn
-
--- Close button
-local closeBtn = Instance.new("TextButton")
-closeBtn.Size = UDim2.new(0, 25, 0, 25)
-closeBtn.Position = UDim2.new(1, -30, 0, 5)
-closeBtn.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
-closeBtn.Text = "×"
-closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeBtn.TextSize = 16
-closeBtn.Font = Enum.Font.GothamBold
-closeBtn.AutoButtonColor = false
-closeBtn.ZIndex = 1001
-closeBtn.Parent = header
-
-local closeCorner = Instance.new("UICorner")
-closeCorner.CornerRadius = UDim.new(0, 6)
-closeCorner.Parent = closeBtn
-
--- Tab Content Frames
-local contentTab1 = Instance.new("Frame")
-contentTab1.Name = "Tab1Content"
-contentTab1.Size = UDim2.new(1, -10, 1, -45)
-contentTab1.Position = UDim2.new(0, 5, 0, 40)
-contentTab1.BackgroundTransparency = 1
-contentTab1.ZIndex = 1000
-contentTab1.Visible = true
-contentTab1.Parent = mainFrame
-
-local contentTab2 = Instance.new("Frame")
-contentTab2.Name = "Tab2Content"
-contentTab2.Size = UDim2.new(1, -10, 1, -45)
-contentTab2.Position = UDim2.new(0, 5, 0, 40)
-contentTab2.BackgroundTransparency = 1
-contentTab2.ZIndex = 1000
-contentTab2.Visible = false
-contentTab2.Parent = mainFrame
-
--- Button Creation Function
-local function createButton(parent, text, yPos, active, callback)
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, 0, 0, 30)
-    btn.Position = UDim2.new(0, 0, 0, yPos)
-    btn.BackgroundColor3 = active and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(80, 80, 100)
-    btn.Text = text .. (active and " ON" or " OFF")
-    btn.Font = Enum.Font.GothamSemibold
-    btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 12
-    btn.BorderSizePixel = 0
-    btn.AutoButtonColor = false
-    btn.ZIndex = 1001
-    btn.Parent = parent
-    
-    local btnCorner = Instance.new("UICorner")
-    btnCorner.CornerRadius = UDim.new(0, 8)
-    btnCorner.Parent = btn
-    
-    local btnStroke = Instance.new("UIStroke")
-    btnStroke.Color = Color3.fromRGB(255, 255, 255)
-    btnStroke.Transparency = 0.7
-    btnStroke.Thickness = 1
-    btnStroke.Parent = btn
-    
-    btn.MouseEnter:Connect(function()
-        btn.BackgroundColor3 = active and Color3.fromRGB(0, 180, 20) or Color3.fromRGB(100, 100, 120)
-    end)
-    
-    btn.MouseLeave:Connect(function()
-        btn.BackgroundColor3 = active and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(80, 80, 100)
-    end)
-    
-    btn.MouseButton1Click:Connect(function()
-        callback()
-        task.wait(0.1)
-        local newState = not active
-        btn.BackgroundColor3 = newState and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(80, 80, 100)
-        btn.Text = text .. (newState and " ON" or " OFF")
-    end)
-    
-    return btn
-end
-
--- Tab 1 Buttons (Movement)
-local yPos1 = 0
-createButton(contentTab1, "🦘 Inf Jump", yPos1, gravityLow, switchGravityJump)
-yPos1 = yPos1 + 35
-createButton(contentTab1, "🚀 Fly to Base", yPos1, flyActive, startFlyToBase)
-yPos1 = yPos1 + 35
-createButton(contentTab1, "🔫 Auto Laser", yPos1, autoLaserEnabled, toggleAutoLaser)
-yPos1 = yPos1 + 35
-createButton(contentTab1, "🏗️ Steal Floor", yPos1, stealFloorActive, toggleStealFloor)
-
--- Tab 2 Buttons (Visual)
-local yPos2 = 0
-createButton(contentTab2, "🏠 ESP Base", yPos2, espBaseActive, toggleBaseESP)
-yPos2 = yPos2 + 35
-createButton(contentTab2, "🔥 ESP Best", yPos2, espBestActive, toggleBestESP)
-yPos2 = yPos2 + 35
-createButton(contentTab2, "👥 ESP Player", yPos2, espPlayerActive, togglePlayerESP)
-
--- Tab Switching Function
-local currentTab = 1
-
-local function switchTab(tabNumber)
-    currentTab = tabNumber
-    
-    if tabNumber == 1 then
-        contentTab1.Visible = true
-        contentTab2.Visible = false
-        tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-        tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-        tab2Btn.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
-        tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    if espBestActive then
+        updateBestESP()
+        -- Her 2 saniyede bir güncelle
+        while espBestActive do
+            wait(2)
+            updateBestESP()
+        end
     else
-        contentTab1.Visible = false
-        contentTab2.Visible = true
-        tab1Btn.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
-        tab1Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-        tab2Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
-        tab2Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        clearBestESP()
     end
 end
 
--- Tab Button Events
-tab1Btn.MouseButton1Click:Connect(function() switchTab(1) end)
-tab2Btn.MouseButton1Click:Connect(function() switchTab(2) end)
+----------------------------------------------------------------
+-- GUI OLUŞTURMA
+----------------------------------------------------------------
+local playerGui = player:WaitForChild('PlayerGui')
 
--- Logo button hover
-logoButton.MouseEnter:Connect(function()
-    logoButton.BackgroundColor3 = Color3.fromRGB(0, 120, 220)
-end)
+-- Eski GUI'leri temizle
+do
+    local old = playerGui:FindFirstChild('SimpleHub_FULL')
+    if old then
+        pcall(function()
+            old:Destroy()
+        end)
+    end
+end
 
-logoButton.MouseLeave:Connect(function()
-    logoButton.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
-end)
+local gui = Instance.new('ScreenGui')
+gui.Name = 'SimpleHub_FULL'
+gui.ResetOnSpawn = false
+gui.Parent = playerGui
 
--- Close button hover
-closeBtn.MouseEnter:Connect(function()
-    closeBtn.BackgroundColor3 = Color3.fromRGB(220, 80, 80)
-end)
+local mainFrame = Instance.new('Frame')
+mainFrame.Size = UDim2.new(0, 300, 0, 450)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -225)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+mainFrame.BackgroundTransparency = 0.1
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = gui
 
-closeBtn.MouseLeave:Connect(function()
-    closeBtn.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
-end)
+local corner = Instance.new('UICorner', mainFrame)
+corner.CornerRadius = UDim.new(0, 12)
 
--- Frame toggle
-local frameOpen = false
+local stroke = Instance.new('UIStroke', mainFrame)
+stroke.Thickness = 2
+stroke.Color = Color3.fromRGB(100, 150, 255)
+stroke.Transparency = 0.3
 
-logoButton.MouseButton1Click:Connect(function()
-    frameOpen = not frameOpen
-    mainFrame.Visible = frameOpen
-end)
+local title = Instance.new('TextLabel', mainFrame)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.Text = '🚀 SIMPLE HUB 🚀'
+title.TextColor3 = Color3.fromRGB(100, 200, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.BackgroundTransparency = 1
 
-closeBtn.MouseButton1Click:Connect(function()
-    frameOpen = false
-    mainFrame.Visible = false
-end)
+local function createButton(parent, text, yPos, callback)
+    local btn = Instance.new('TextButton', parent)
+    btn.Size = UDim2.new(0.9, 0, 0, 40)
+    btn.Position = UDim2.new(0.05, 0, 0, yPos)
+    btn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+    btn.Text = text
+    btn.Font = Enum.Font.Gotham
+    btn.TextColor3 = Color3.new(1, 1, 1)
+    btn.TextSize = 16
+    btn.BorderSizePixel = 0
+    
+    local btnCorner = Instance.new('UICorner', btn)
+    btnCorner.CornerRadius = UDim.new(0, 8)
+    
+    btn.MouseButton1Click:Connect(callback)
+    return btn
+end
 
--- Make logo draggable
+-- Butonları oluştur
+local yPos = 50
+createButton(mainFrame, '🎯 FPS Devourer AÇ', yPos, enableFPSDevourer)
+yPos = yPos + 50
+createButton(mainFrame, gravityLow and '✅ Inf Jump AÇIK' or '🦘 Inf Jump AÇ', yPos, switchGravityJump)
+yPos = yPos + 50
+createButton(mainFrame, '🚀 FLY TO BASE', yPos, startFlyToBase)
+yPos = yPos + 50
+createButton(mainFrame, espBaseActive and '✅ ESP Base AÇIK' or '🏠 ESP Base AÇ', yPos, toggleBaseESP)
+yPos = yPos + 50
+createButton(mainFrame, espBestActive and '✅ ESP Best AÇIK' or '🔥 ESP Best AÇ', yPos, toggleBestESP)
+
+-- Sürükleme özelliği
 local dragging = false
 local dragInput, dragStart, startPos
 
-logoButton.InputBegan:Connect(function(input)
+mainFrame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
         dragStart = input.Position
-        startPos = logoButton.Position
+        startPos = mainFrame.Position
+        
         input.Changed:Connect(function()
             if input.UserInputState == Enum.UserInputState.End then
                 dragging = false
@@ -803,7 +743,7 @@ logoButton.InputBegan:Connect(function(input)
     end
 end)
 
-logoButton.InputChanged:Connect(function(input)
+mainFrame.InputChanged:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseMovement then
         dragInput = input
     end
@@ -812,7 +752,7 @@ end)
 UserInputService.InputChanged:Connect(function(input)
     if input == dragInput and dragging then
         local delta = input.Position - dragStart
-        logoButton.Position = UDim2.new(
+        mainFrame.Position = UDim2.new(
             startPos.X.Scale,
             startPos.X.Offset + delta.X,
             startPos.Y.Scale,
@@ -821,23 +761,12 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- ESP Update Loop
-task.spawn(function()
-    while true do
-        updateBaseESP()
-        updateBestESP()
-        updatePlayerESP()
-        task.wait(1)
-    end
-end)
+-- Başlangıçta FPS Devourer'ı etkinleştir
+enableFPSDevourer()
 
-showNotification("🚀 Vortex Hub Loaded!", true)
-
-print("✅ Vortex Hub Activated!")
-print("🦘 Inf Jump: Ready")
-print("🚀 Fly to Base: Ready (Original Version)")
-print("🔫 Auto Laser: Ready")
-print("🏗️ Steal Floor: Ready")
-print("🏠 ESP Base: " .. (espBaseActive and "ON" or "OFF"))
-print("🔥 ESP Best: " .. (espBestActive and "ON" or "OFF"))
-print("👥 ESP Player: " .. (espPlayerActive and "ON" or "OFF"))
+print("🎯 Simple Hub Yüklendi!")
+print("✅ FPS Devourer Aktif")
+print("🦘 Inf Jump Hazır") 
+print("🚀 Fly to Base Hazır")
+print("🏠 ESP Base Hazır")
+print("🔥 ESP Best Hazır")
