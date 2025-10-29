@@ -1,4 +1,4 @@
--- Chered Hub - Sadeleştirilmiş Versiyon
+-- Chered Hub - Geliştirilmiş Versiyon
 -- Alınan Özellikler: Inf Jump / JumpBoost, FLY TO BASE, FPS Devourer, ESP Base, ESP Best
 -- Discord: https://discord.gg/qvVEZt3q88
 
@@ -8,7 +8,102 @@ local UserInputService = game:GetService('UserInputService')
 local Workspace = game:GetService('Workspace')
 local RunService = game:GetService('RunService')
 local TweenService = game:GetService('TweenService')
+local CoreGui = game:GetService('CoreGui')
 local player = Players.LocalPlayer
+
+-- Bildirim Sistemi
+local function showNotification(message, isSuccess)
+    local notificationGui = Instance.new("ScreenGui")
+    notificationGui.Name = "CheredNotify"
+    notificationGui.ResetOnSpawn = false
+    notificationGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    notificationGui.Parent = CoreGui
+    
+    local notification = Instance.new("Frame")
+    notification.Name = "CheredNotification"
+    notification.Size = UDim2.new(0, 280, 0, 70)
+    notification.Position = UDim2.new(0.5, -140, 0.3, 0)
+    notification.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+    notification.BackgroundTransparency = 0
+    notification.BorderSizePixel = 0
+    notification.ZIndex = 1000
+    notification.ClipsDescendants = true
+    notification.Parent = notificationGui
+    
+    local notifCorner = Instance.new("UICorner")
+    notifCorner.CornerRadius = UDim.new(0, 10)
+    notifCorner.Parent = notification
+    
+    local notifStroke = Instance.new("UIStroke")
+    notifStroke.Color = isSuccess and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
+    notifStroke.Thickness = 3
+    notifStroke.Parent = notification
+    
+    local icon = Instance.new("TextLabel")
+    icon.Size = UDim2.new(0, 50, 1, 0)
+    icon.Position = UDim2.new(0, 0, 0, 0)
+    icon.BackgroundTransparency = 1
+    icon.Text = isSuccess and "✅" or "❌"
+    icon.TextColor3 = Color3.fromRGB(255, 255, 255)
+    icon.TextSize = 24
+    icon.Font = Enum.Font.GothamBold
+    icon.ZIndex = 1001
+    icon.Parent = notification
+    
+    local notifText = Instance.new("TextLabel")
+    notifText.Size = UDim2.new(1, -60, 1, -10)
+    notifText.Position = UDim2.new(0, 55, 0, 5)
+    notifText.BackgroundTransparency = 1
+    notifText.Text = message
+    notifText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    notifText.TextSize = 14
+    notifText.Font = Enum.Font.GothamBold
+    notifText.TextStrokeTransparency = 0.8
+    notifText.TextXAlignment = Enum.TextXAlignment.Left
+    notifText.TextYAlignment = Enum.TextYAlignment.Top
+    notifText.TextWrapped = true
+    notifText.ZIndex = 1001
+    notifText.Parent = notification
+    
+    notification.MouseEnter:Connect(function()
+        notification.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    end)
+    
+    notification.MouseLeave:Connect(function()
+        notification.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+    end)
+    
+    notification.Position = UDim2.new(0.5, -140, 0.2, 0)
+    local tweenIn = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Position = UDim2.new(0.5, -140, 0.3, 0)
+    })
+    tweenIn:Play()
+
+    tweenIn.Completed:Connect(function()
+        wait(1.5)
+        
+        if notification and notification.Parent then
+            local tweenOut = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+                Position = UDim2.new(0.5, -140, 0.2, 0),
+                BackgroundTransparency = 1
+            })
+            
+            for _, child in pairs(notification:GetChildren()) do
+                if child:IsA("TextLabel") then
+                    child.TextTransparency = 1
+                end
+            end
+            
+            tweenOut:Play()
+            
+            tweenOut.Completed:Connect(function()
+                if notificationGui and notificationGui.Parent then
+                    notificationGui:Destroy()
+                end
+            end)
+        end
+    end)
+end
 
 ----------------------------------------------------------------
 -- FPS DEVOURER (Optimizasyon)
@@ -20,7 +115,6 @@ local function enableFPSDevourer()
         end
     end)
     
-    -- Görsel kaliteyi düşürerek FPS artışı
     for _, lighting in pairs(Workspace:GetChildren()) do
         if lighting:IsA("Part") or lighting:IsA("UnionOperation") or lighting:IsA("MeshPart") then
             pcall(function()
@@ -30,7 +124,6 @@ local function enableFPSDevourer()
         end
     end
     
-    -- Lighting ayarları
     local lighting = game:GetService("Lighting")
     pcall(function()
         lighting.GlobalShadows = false
@@ -38,7 +131,6 @@ local function enableFPSDevourer()
         lighting.Brightness = 2
     end)
     
-    -- Character optimizasyonu
     player.CharacterAdded:Connect(function(char)
         wait(0.5)
         for _, part in pairs(char:GetDescendants()) do
@@ -50,10 +142,12 @@ local function enableFPSDevourer()
             end
         end
     end)
+    
+    showNotification("🎯 FPS Devourer Aktif!", true)
 end
 
 ----------------------------------------------------------------
--- INF JUMP / JUMP BOOST
+-- INF JUMP / JUMP BOOST (DÜZELTİLDİ)
 ----------------------------------------------------------------
 local NORMAL_GRAV = 196.2
 local REDUCED_GRAV = 40
@@ -174,6 +268,12 @@ local function switchGravityJump()
     antiRagdoll()
     toggleForceField()
     spoofedGravity = NORMAL_GRAV
+    
+    if gravityLow then
+        showNotification("🦘 Inf Jump Aktif! (Çift Zıplama)", true)
+    else
+        showNotification("🦘 Inf Jump Kapalı", false)
+    end
 end
 
 ----------------------------------------------------------------
@@ -294,6 +394,11 @@ end
 
 local function finishFly(success)
     cleanupFly()
+    if success then
+        showNotification("🚀 Base'e Ulaşıldı!", true)
+    else
+        showNotification("❌ Uçuş İptal Edildi", false)
+    end
 end
 
 local function startFlyToBase()
@@ -304,6 +409,7 @@ local function startFlyToBase()
 
     local destPart = findMyDeliveryPart()
     if not destPart then
+        showNotification("❌ Base Bulunamadı!", false)
         return
     end
 
@@ -311,6 +417,7 @@ local function startFlyToBase()
     local hum = char and char:FindFirstChildOfClass('Humanoid')
     local hrp = char and char:FindFirstChild('HumanoidRootPart')
     if not (hum and hrp) then
+        showNotification("❌ Karakter Yok!", false)
         return
     end
 
@@ -326,6 +433,7 @@ local function startFlyToBase()
     hum.JumpPower = FLY_JUMP
 
     flyActive = true
+    showNotification("🚀 Base'e Uçuluyor...", true)
 
     flyAtt = Instance.new('Attachment')
     flyAtt.Name = 'FlyToBaseAttachment'
@@ -493,13 +601,14 @@ end
 local function toggleBaseESP()
     espBaseActive = not espBaseActive
     if espBaseActive then
+        showNotification("🏠 Base ESP Aktif!", true)
         updateBaseESP()
-        -- Her 2 saniyede bir güncelle
         while espBaseActive do
             wait(2)
             updateBaseESP()
         end
     else
+        showNotification("🏠 Base ESP Kapalı", false)
         clearBaseESP()
     end
 end
@@ -640,25 +749,26 @@ end
 local function toggleBestESP()
     espBestActive = not espBestActive
     if espBestActive then
+        showNotification("🔥 Best ESP Aktif!", true)
         updateBestESP()
-        -- Her 2 saniyede bir güncelle
         while espBestActive do
             wait(2)
             updateBestESP()
         end
     else
+        showNotification("🔥 Best ESP Kapalı", false)
         clearBestESP()
     end
 end
 
 ----------------------------------------------------------------
--- GUI OLUŞTURMA
+-- GELİŞMİŞ GUI TASARIMI
 ----------------------------------------------------------------
 local playerGui = player:WaitForChild('PlayerGui')
 
 -- Eski GUI'leri temizle
 do
-    local old = playerGui:FindFirstChild('SimpleHub_FULL')
+    local old = playerGui:FindFirstChild('CheredHub_PREMIUM')
     if old then
         pcall(function()
             old:Destroy()
@@ -667,70 +777,147 @@ do
 end
 
 local gui = Instance.new('ScreenGui')
-gui.Name = 'SimpleHub_FULL'
+gui.Name = 'CheredHub_PREMIUM'
 gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
+-- Ana Frame (Geliştirilmiş Tasarım)
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 300, 0, 450)
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -225)
-mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-mainFrame.BackgroundTransparency = 0.1
+mainFrame.Size = UDim2.new(0, 320, 0, 480)
+mainFrame.Position = UDim2.new(0.5, -160, 0.5, -240)
+mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
+mainFrame.BackgroundTransparency = 0.05
 mainFrame.BorderSizePixel = 0
 mainFrame.Parent = gui
 
+-- Gradient Arkaplan
+local gradient = Instance.new('UIGradient')
+gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 35)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 10, 20))
+})
+gradient.Rotation = 45
+gradient.Parent = mainFrame
+
 local corner = Instance.new('UICorner', mainFrame)
-corner.CornerRadius = UDim.new(0, 12)
+corner.CornerRadius = UDim.new(0, 16)
 
 local stroke = Instance.new('UIStroke', mainFrame)
 stroke.Thickness = 2
 stroke.Color = Color3.fromRGB(100, 150, 255)
-stroke.Transparency = 0.3
+stroke.Transparency = 0.2
 
+-- Gölge Efekti
+local shadow = Instance.new('ImageLabel')
+shadow.Name = 'Shadow'
+shadow.Size = UDim2.new(1, 20, 1, 20)
+shadow.Position = UDim2.new(0, -10, 0, -10)
+shadow.BackgroundTransparency = 1
+shadow.Image = 'rbxassetid://1316045217'
+shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+shadow.ImageTransparency = 0.8
+shadow.ScaleType = Enum.ScaleType.Slice
+shadow.SliceCenter = Rect.new(10, 10, 118, 118)
+shadow.Parent = mainFrame
+
+-- Başlık (Geliştirilmiş)
 local title = Instance.new('TextLabel', mainFrame)
-title.Size = UDim2.new(1, 0, 0, 40)
-title.Text = '🚀 SIMPLE HUB 🚀'
+title.Size = UDim2.new(1, 0, 0, 50)
+title.Text = '🚀 CHERED HUB 🚀'
 title.TextColor3 = Color3.fromRGB(100, 200, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 20
+title.TextSize = 22
 title.BackgroundTransparency = 1
+title.TextStrokeTransparency = 0.7
+title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
-local function createButton(parent, text, yPos, callback)
+-- Alt Başlık
+local subtitle = Instance.new('TextLabel', mainFrame)
+subtitle.Size = UDim2.new(1, 0, 0, 20)
+subtitle.Position = UDim2.new(0, 0, 0, 45)
+subtitle.Text = 'PREMIUM VERSION'
+subtitle.TextColor3 = Color3.fromRGB(200, 200, 255)
+subtitle.Font = Enum.Font.Gotham
+subtitle.TextSize = 12
+subtitle.BackgroundTransparency = 1
+subtitle.TextTransparency = 0.3
+
+-- Buton Oluşturma Fonksiyonu (Geliştirilmiş)
+local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
-    btn.Size = UDim2.new(0.9, 0, 0, 40)
+    btn.Size = UDim2.new(0.9, 0, 0, 45)
     btn.Position = UDim2.new(0.05, 0, 0, yPos)
-    btn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+    btn.BackgroundColor3 = isActive and Color3.fromRGB(60, 160, 60) or Color3.fromRGB(40, 40, 60)
     btn.Text = text
-    btn.Font = Enum.Font.Gotham
+    btn.Font = Enum.Font.GothamSemibold
     btn.TextColor3 = Color3.new(1, 1, 1)
     btn.TextSize = 16
     btn.BorderSizePixel = 0
+    btn.AutoButtonColor = false
     
     local btnCorner = Instance.new('UICorner', btn)
-    btnCorner.CornerRadius = UDim.new(0, 8)
+    btnCorner.CornerRadius = UDim.new(0, 10)
+    
+    local btnStroke = Instance.new('UIStroke', btn)
+    btnStroke.Color = Color3.fromRGB(100, 150, 255)
+    btnStroke.Thickness = 1
+    btnStroke.Transparency = 0.5
+    
+    -- Hover Efekti
+    btn.MouseEnter:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {
+            BackgroundColor3 = isActive and Color3.fromRGB(80, 200, 80) or Color3.fromRGB(60, 60, 90)
+        }):Play()
+    end)
+    
+    btn.MouseLeave:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {
+            BackgroundColor3 = isActive and Color3.fromRGB(60, 160, 60) or Color3.fromRGB(40, 40, 60)
+        }):Play()
+    end)
+    
+    -- Tıklama Efekti
+    btn.MouseButton1Down:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.1), {
+            Size = UDim2.new(0.88, 0, 0, 43)
+        }):Play()
+    end)
+    
+    btn.MouseButton1Up:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.1), {
+            Size = UDim2.new(0.9, 0, 0, 45)
+        }):Play()
+    end)
     
     btn.MouseButton1Click:Connect(callback)
     return btn
 end
 
 -- Butonları oluştur
-local yPos = 50
-createButton(mainFrame, '🎯 FPS Devourer AÇ', yPos, enableFPSDevourer)
-yPos = yPos + 50
-createButton(mainFrame, gravityLow and '✅ Inf Jump AÇIK' or '🦘 Inf Jump AÇ', yPos, switchGravityJump)
-yPos = yPos + 50
-createButton(mainFrame, '🚀 FLY TO BASE', yPos, startFlyToBase)
-yPos = yPos + 50
-createButton(mainFrame, espBaseActive and '✅ ESP Base AÇIK' or '🏠 ESP Base AÇ', yPos, toggleBaseESP)
-yPos = yPos + 50
-createButton(mainFrame, espBestActive and '✅ ESP Best AÇIK' or '🔥 ESP Best AÇ', yPos, toggleBestESP)
+local yPos = 80
+createButton(mainFrame, '🎯 FPS Devourer AÇ', yPos, enableFPSDevourer, false)
+yPos = yPos + 55
+createButton(mainFrame, gravityLow and '✅ Inf Jump AÇIK' or '🦘 Inf Jump AÇ', yPos, switchGravityJump, gravityLow)
+yPos = yPos + 55
+createButton(mainFrame, '🚀 FLY TO BASE', yPos, startFlyToBase, false)
+yPos = yPos + 55
+createButton(mainFrame, espBaseActive and '✅ ESP Base AÇIK' or '🏠 ESP Base AÇ', yPos, toggleBaseESP, espBaseActive)
+yPos = yPos + 55
+createButton(mainFrame, espBestActive and '✅ ESP Best AÇIK' or '🔥 ESP Best AÇ', yPos, toggleBestESP, espBestActive)
 
--- Sürükleme özelliği
+-- Sürükleme özelliği (Geliştirilmiş)
 local dragging = false
 local dragInput, dragStart, startPos
 
+local function updateInput(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end
+
 mainFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
         dragging = true
         dragStart = input.Position
         startPos = mainFrame.Position
@@ -744,7 +931,7 @@ mainFrame.InputBegan:Connect(function(input)
 end)
 
 mainFrame.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
         dragInput = input
     end
 end)
@@ -764,9 +951,12 @@ end)
 -- Başlangıçta FPS Devourer'ı etkinleştir
 enableFPSDevourer()
 
-print("🎯 Simple Hub Yüklendi!")
+-- Başlangıç bildirimi
+showNotification("🚀 Chered Hub Yüklendi!", true)
+
+print("🎯 Chered Hub Premium Yüklendi!")
 print("✅ FPS Devourer Aktif")
-print("🦘 Inf Jump Hazır") 
+print("🦘 Inf Jump Hazır (Çift Zıplama Özellikli)") 
 print("🚀 Fly to Base Hazır")
 print("🏠 ESP Base Hazır")
 print("🔥 ESP Best Hazır")
