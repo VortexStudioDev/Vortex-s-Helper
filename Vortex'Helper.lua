@@ -1,6 +1,6 @@
--- Chered Hub - Geliştirilmiş Versiyon
--- Alınan Özellikler: Inf Jump / JumpBoost, FLY TO BASE, FPS Devourer, ESP Base, ESP Best
--- Discord: https://discord.gg/qvVEZt3q88
+-- Vortex's Helper - Premium Versiyon
+-- Özellikler: Inf Jump / JumpBoost, FLY TO BASE, FPS Devourer, ESP Base, ESP Best, Deysnc
+-- Marka: Vortex's Helper
 
 local Players = game:GetService('Players')
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
@@ -9,20 +9,59 @@ local Workspace = game:GetService('Workspace')
 local RunService = game:GetService('RunService')
 local TweenService = game:GetService('TweenService')
 local CoreGui = game:GetService('CoreGui')
+local HttpService = game:GetService('HttpService')
 local player = Players.LocalPlayer
 
--- Bildirim Sistemi
+-- Ayarları kaydetmek için klasör
+local VortexFolder = Workspace:FindFirstChild("Vortex'sHelper")
+if not VortexFolder then
+    VortexFolder = Instance.new("Folder")
+    VortexFolder.Name = "Vortex'sHelper"
+    VortexFolder.Parent = Workspace
+end
+
+-- Ayarları yükleme/kaydetme
+local function saveSettings()
+    local settings = {
+        infJump = gravityLow,
+        espBase = espBaseActive,
+        espBest = espBestActive,
+        desync = antiHitActive
+    }
+    
+    local success, result = pcall(function()
+        local json = HttpService:JSONEncode(settings)
+        VortexFolder:SetAttribute("Settings", json)
+    end)
+    
+    return success
+end
+
+local function loadSettings()
+    local saved = VortexFolder:GetAttribute("Settings")
+    if saved then
+        local success, settings = pcall(function()
+            return HttpService:JSONDecode(saved)
+        end)
+        
+        if success and settings then
+            return settings
+        end
+    end
+    return {}
+end
+
+-- Küçük Bildirim Sistemi
 local function showNotification(message, isSuccess)
     local notificationGui = Instance.new("ScreenGui")
-    notificationGui.Name = "CheredNotify"
+    notificationGui.Name = "VortexNotify"
     notificationGui.ResetOnSpawn = false
     notificationGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     notificationGui.Parent = CoreGui
     
     local notification = Instance.new("Frame")
-    notification.Name = "CheredNotification"
-    notification.Size = UDim2.new(0, 280, 0, 70)
-    notification.Position = UDim2.new(0.5, -140, 0.3, 0)
+    notification.Size = UDim2.new(0, 220, 0, 50)
+    notification.Position = UDim2.new(0.5, -110, 0.15, 0)
     notification.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
     notification.BackgroundTransparency = 0
     notification.BorderSizePixel = 0
@@ -31,60 +70,51 @@ local function showNotification(message, isSuccess)
     notification.Parent = notificationGui
     
     local notifCorner = Instance.new("UICorner")
-    notifCorner.CornerRadius = UDim.new(0, 10)
+    notifCorner.CornerRadius = UDim.new(0, 8)
     notifCorner.Parent = notification
     
     local notifStroke = Instance.new("UIStroke")
     notifStroke.Color = isSuccess and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 50, 50)
-    notifStroke.Thickness = 3
+    notifStroke.Thickness = 2
     notifStroke.Parent = notification
     
     local icon = Instance.new("TextLabel")
-    icon.Size = UDim2.new(0, 50, 1, 0)
+    icon.Size = UDim2.new(0, 40, 1, 0)
     icon.Position = UDim2.new(0, 0, 0, 0)
     icon.BackgroundTransparency = 1
     icon.Text = isSuccess and "✅" or "❌"
     icon.TextColor3 = Color3.fromRGB(255, 255, 255)
-    icon.TextSize = 24
+    icon.TextSize = 18
     icon.Font = Enum.Font.GothamBold
     icon.ZIndex = 1001
     icon.Parent = notification
     
     local notifText = Instance.new("TextLabel")
-    notifText.Size = UDim2.new(1, -60, 1, -10)
-    notifText.Position = UDim2.new(0, 55, 0, 5)
+    notifText.Size = UDim2.new(1, -45, 1, -10)
+    notifText.Position = UDim2.new(0, 40, 0, 5)
     notifText.BackgroundTransparency = 1
     notifText.Text = message
     notifText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    notifText.TextSize = 14
-    notifText.Font = Enum.Font.GothamBold
-    notifText.TextStrokeTransparency = 0.8
+    notifText.TextSize = 12
+    notifText.Font = Enum.Font.Gotham
     notifText.TextXAlignment = Enum.TextXAlignment.Left
     notifText.TextYAlignment = Enum.TextYAlignment.Top
     notifText.TextWrapped = true
     notifText.ZIndex = 1001
     notifText.Parent = notification
     
-    notification.MouseEnter:Connect(function()
-        notification.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-    end)
-    
-    notification.MouseLeave:Connect(function()
-        notification.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-    end)
-    
-    notification.Position = UDim2.new(0.5, -140, 0.2, 0)
-    local tweenIn = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(0.5, -140, 0.3, 0)
+    notification.Position = UDim2.new(0.5, -110, 0.1, 0)
+    local tweenIn = TweenService:Create(notification, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Position = UDim2.new(0.5, -110, 0.15, 0)
     })
     tweenIn:Play()
 
     tweenIn.Completed:Connect(function()
-        wait(1.5)
+        wait(1.2)
         
         if notification and notification.Parent then
-            local tweenOut = TweenService:Create(notification, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-                Position = UDim2.new(0.5, -140, 0.2, 0),
+            local tweenOut = TweenService:Create(notification, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
+                Position = UDim2.new(0.5, -110, 0.1, 0),
                 BackgroundTransparency = 1
             })
             
@@ -143,16 +173,16 @@ local function enableFPSDevourer()
         end
     end)
     
-    showNotification("🎯 FPS Devourer Aktif!", true)
+    showNotification("FPS Devourer Aktif!", true)
 end
 
 ----------------------------------------------------------------
--- INF JUMP / JUMP BOOST (DÜZELTİLDİ)
+-- INF JUMP / JUMP BOOST (17 POWER)
 ----------------------------------------------------------------
 local NORMAL_GRAV = 196.2
 local REDUCED_GRAV = 40
-local NORMAL_JUMP = 50
-local BOOST_JUMP = 120
+local NORMAL_JUMP = 17  -- 17 power olarak değiştirildi
+local BOOST_JUMP = 17   -- 17 power olarak değiştirildi
 local BOOST_SPEED = 32
 
 local spoofedGravity = NORMAL_GRAV
@@ -269,10 +299,12 @@ local function switchGravityJump()
     toggleForceField()
     spoofedGravity = NORMAL_GRAV
     
+    saveSettings()
+    
     if gravityLow then
-        showNotification("🦘 Inf Jump Aktif! (Çift Zıplama)", true)
+        showNotification("Inf Jump Aktif! (17 Power)", true)
     else
-        showNotification("🦘 Inf Jump Kapalı", false)
+        showNotification("Inf Jump Kapalı", false)
     end
 end
 
@@ -286,9 +318,6 @@ local flyCharRemovingConn
 local destTouchedConn
 local destPartRef
 local flyRestoreOldGravity, flyRestoreOldJumpPower
-
-local FLY_SUCCESS_SOUND_ID = 'rbxassetid://144686873'
-local FLY_SUCCESS_VOLUME = 1
 
 local FLY_GRAV = 20
 local FLY_JUMP = 7
@@ -395,9 +424,9 @@ end
 local function finishFly(success)
     cleanupFly()
     if success then
-        showNotification("🚀 Base'e Ulaşıldı!", true)
+        showNotification("Base'e Ulaşıldı!", true)
     else
-        showNotification("❌ Uçuş İptal Edildi", false)
+        showNotification("Uçuş İptal Edildi", false)
     end
 end
 
@@ -409,7 +438,7 @@ local function startFlyToBase()
 
     local destPart = findMyDeliveryPart()
     if not destPart then
-        showNotification("❌ Base Bulunamadı!", false)
+        showNotification("Base Bulunamadı!", false)
         return
     end
 
@@ -417,7 +446,7 @@ local function startFlyToBase()
     local hum = char and char:FindFirstChildOfClass('Humanoid')
     local hrp = char and char:FindFirstChild('HumanoidRootPart')
     if not (hum and hrp) then
-        showNotification("❌ Karakter Yok!", false)
+        showNotification("Karakter Yok!", false)
         return
     end
 
@@ -433,7 +462,7 @@ local function startFlyToBase()
     hum.JumpPower = FLY_JUMP
 
     flyActive = true
-    showNotification("🚀 Base'e Uçuluyor...", true)
+    showNotification("Base'e Uçuluyor...", true)
 
     flyAtt = Instance.new('Attachment')
     flyAtt.Name = 'FlyToBaseAttachment'
@@ -601,16 +630,17 @@ end
 local function toggleBaseESP()
     espBaseActive = not espBaseActive
     if espBaseActive then
-        showNotification("🏠 Base ESP Aktif!", true)
+        showNotification("Base ESP Aktif!", true)
         updateBaseESP()
         while espBaseActive do
             wait(2)
             updateBaseESP()
         end
     else
-        showNotification("🏠 Base ESP Kapalı", false)
+        showNotification("Base ESP Kapalı", false)
         clearBaseESP()
     end
+    saveSettings()
 end
 
 ----------------------------------------------------------------
@@ -749,26 +779,508 @@ end
 local function toggleBestESP()
     espBestActive = not espBestActive
     if espBestActive then
-        showNotification("🔥 Best ESP Aktif!", true)
+        showNotification("Best ESP Aktif!", true)
         updateBestESP()
         while espBestActive do
             wait(2)
             updateBestESP()
         end
     else
-        showNotification("🔥 Best ESP Kapalı", false)
+        showNotification("Best ESP Kapalı", false)
         clearBestESP()
     end
+    saveSettings()
 end
 
 ----------------------------------------------------------------
--- GELİŞMİŞ GUI TASARIMI
+-- DEYSNC SİSTEMİ
+----------------------------------------------------------------
+local antiHitActive = false
+local clonerActive = false
+local desyncRunning = false
+local cloneListenerConn
+local antiHitRunning = false
+local lockdownRunning = false
+local lockdownConn = nil
+local invHealthConns = {}
+local desyncHighlights = {}
+local characterHighlights = {}
+
+local function safeDisconnectConn(conn)
+    if conn and typeof(conn) == "RBXScriptConnection" then
+        pcall(function()
+            conn:Disconnect()
+        end)
+    end
+end
+
+local function addCharacterHighlight(character)
+    if not character or characterHighlights[character] then return end
+    
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "DesyncCharacterHighlight"
+    highlight.FillColor = Color3.fromRGB(0, 255, 100)
+    highlight.OutlineColor = Color3.fromRGB(0, 200, 80)
+    highlight.FillTransparency = 0.3
+    highlight.OutlineTransparency = 0
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.Parent = character
+    
+    characterHighlights[character] = highlight
+end
+
+local function removeCharacterHighlight(character)
+    local highlight = characterHighlights[character]
+    if highlight then
+        pcall(function() 
+            highlight:Destroy() 
+        end)
+        characterHighlights[character] = nil
+    end
+end
+
+local function removeAllHighlights()
+    for character, highlight in pairs(characterHighlights) do
+        pcall(function()
+            highlight:Destroy()
+        end)
+    end
+    characterHighlights = {}
+end
+
+local function addDesyncHighlight(model)
+    if not model or desyncHighlights[model] then return end
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "DesyncHighlight"
+    highlight.FillColor = Color3.fromRGB(0, 255, 100)
+    highlight.OutlineColor = Color3.fromRGB(255, 50, 50)
+    highlight.FillTransparency = 0.5
+    highlight.OutlineTransparency = 0
+    highlight.Parent = model
+    desyncHighlights[model] = highlight
+end
+
+local function removeDesyncHighlight(model)
+    local hl = desyncHighlights[model]
+    if hl then
+        pcall(function() hl:Destroy() end)
+        desyncHighlights[model] = nil
+    end
+end
+
+local function makeInvulnerable(model)
+    if not model or not model.Parent then return end
+    
+    local hum = model:FindFirstChildOfClass("Humanoid")
+    if not hum then return end
+
+    local maxHealth = 1e9
+    pcall(function()
+        hum.MaxHealth = maxHealth
+        hum.Health = maxHealth
+    end)
+
+    if invHealthConns[model] then
+        safeDisconnectConn(invHealthConns[model])
+        invHealthConns[model] = nil
+    end
+    
+    invHealthConns[model] = hum.HealthChanged:Connect(function()
+        pcall(function()
+            if hum.Health < hum.MaxHealth then
+                hum.Health = hum.MaxHealth
+            end
+        end)
+    end)
+
+    if not model:FindFirstChildOfClass("ForceField") then
+        local ff = Instance.new("ForceField")
+        ff.Visible = false
+        ff.Parent = model
+    end
+
+    addDesyncHighlight(model)
+    addCharacterHighlight(model)
+
+    pcall(function()
+        hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+        hum:SetStateEnabled(Enum.HumanoidStateType.Physics, false)
+    end)
+end
+
+local function removeInvulnerable(model)
+    if not model then return end
+    
+    if invHealthConns[model] then
+        safeDisconnectConn(invHealthConns[model])
+        invHealthConns[model] = nil
+    end
+    
+    for _, ff in ipairs(model:GetChildren()) do
+        if ff:IsA("ForceField") then
+            pcall(function() ff:Destroy() end)
+        end
+    end
+    
+    local hum = model:FindFirstChildOfClass("Humanoid")
+    if hum then
+        pcall(function()
+            hum:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Physics, true)
+            local safeMax = 100
+            hum.MaxHealth = safeMax
+            if hum.Health > safeMax then hum.Health = safeMax end
+        end)
+    end
+    
+    removeDesyncHighlight(model)
+    removeCharacterHighlight(model)
+end
+
+local function trySetFlag()
+    pcall(function()
+        if setfflag then setfflag("WorldStepMax", "-99999999999999") end
+    end)
+end
+
+local function resetFlag()
+    pcall(function()
+        if setfflag then setfflag("WorldStepMax", "1") end
+    end)
+end
+
+local function activateDesync()
+    if desyncRunning then return end
+    desyncRunning = true
+    trySetFlag()
+end
+
+local function deactivateDesync()
+    if not desyncRunning then return end
+    desyncRunning = false
+    resetFlag()
+end
+
+local function performDesyncLockdown(duration, onComplete)
+    if lockdownRunning then
+        if onComplete then pcall(onComplete) end
+        return
+    end
+    lockdownRunning = true
+
+    local char = player.Character
+    if not char then
+        lockdownRunning = false
+        if onComplete then pcall(onComplete) end
+        return
+    end
+    
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if not hrp or not hum then
+        lockdownRunning = false
+        if onComplete then pcall(onComplete) end
+        return
+    end
+
+    local savedWalk = hum.WalkSpeed
+    local savedJump = hum.JumpPower
+    local savedUseJumpPower = hum.UseJumpPower
+
+    hum.WalkSpeed = 0
+    hum.JumpPower = 0
+    hum.UseJumpPower = true
+    hum.PlatformStand = true
+
+    local fixedCFrame = hrp.CFrame
+
+    if lockdownConn then
+        lockdownConn:Disconnect()
+        lockdownConn = nil
+    end
+
+    local lastCFrameTime = 0
+    local CFRAME_UPDATE_INTERVAL = 0.15
+    lockdownConn = RunService.Heartbeat:Connect(function()
+        if not hrp or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
+            return
+        end
+        local now = tick()
+        pcall(function()
+            hrp.Velocity = Vector3.new(0, 0, 0)
+            hrp.RotVelocity = Vector3.new(0, 0, 0)
+            if (now - lastCFrameTime) >= CFRAME_UPDATE_INTERVAL then
+                hrp.CFrame = fixedCFrame
+                lastCFrameTime = now
+            end
+        end)
+    end)
+
+    task.delay(duration, function()
+        if lockdownConn then
+            lockdownConn:Disconnect()
+            lockdownConn = nil
+        end
+
+        if hum and hum.Parent then
+            pcall(function()
+                hum.WalkSpeed = savedWalk or 16
+                hum.JumpPower = savedJump or 50
+                hum.UseJumpPower = savedUseJumpPower or true
+                hum.PlatformStand = false
+            end)
+        end
+
+        lockdownRunning = false
+        if onComplete then pcall(onComplete) end
+    end)
+end
+
+local function activateClonerDesync(callback)
+    if clonerActive then
+        if callback then callback() end
+        return
+    end
+    clonerActive = true
+
+    local Backpack = player:FindFirstChildOfClass("Backpack")
+    local function equipQuantumCloner()
+        if not Backpack then return end
+        local tool = Backpack:FindFirstChild("Quantum Cloner")
+        if tool then
+            local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then 
+                humanoid:EquipTool(tool)
+                task.wait(0.5)
+            end
+        end
+    end
+    equipQuantumCloner()
+
+    local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
+    if REUseItem then 
+        REUseItem:FireServer()
+        showNotification("Quantum Cloner Aktifleştiriliyor...", false)
+    end
+    
+    local REQuantumClonerOnTeleport = ReplicatedStorage.Packages.Net:FindFirstChild("RE/QuantumCloner/OnTeleport")
+    if REQuantumClonerOnTeleport then 
+        REQuantumClonerOnTeleport:FireServer()
+    end
+
+    local cloneName = tostring(player.UserId) .. "_Clone"
+    cloneListenerConn = Workspace.ChildAdded:Connect(function(obj)
+        if obj.Name == cloneName and obj:IsA("Model") then
+            showNotification("Klon Oluşturuldu!", true)
+            
+            pcall(function() makeInvulnerable(obj) end)
+            local origChar = player.Character
+            if origChar then pcall(function() makeInvulnerable(origChar) end) end
+            
+            if cloneListenerConn then
+                cloneListenerConn:Disconnect()
+                cloneListenerConn = nil
+            end
+
+            performDesyncLockdown(1.6, function()
+                if callback then pcall(callback) end
+            end)
+        end
+    end)
+
+    task.delay(5, function()
+        if cloneListenerConn then
+            cloneListenerConn:Disconnect()
+            cloneListenerConn = nil
+        end
+        clonerActive = false
+    end)
+end
+
+local function deactivateClonerDesync()
+    if not clonerActive then
+        local existingClone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+        if existingClone then
+            pcall(function()
+                removeInvulnerable(existingClone)
+                existingClone:Destroy()
+            end)
+        end
+        clonerActive = false
+        return
+    end
+
+    clonerActive = false
+    local char = player.Character
+    if char then removeInvulnerable(char) end
+    
+    local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+    if clone then
+        removeInvulnerable(clone)
+        pcall(function() clone:Destroy() end)
+    end
+
+    if cloneListenerConn then
+        cloneListenerConn:Disconnect()
+        cloneListenerConn = nil
+    end
+end
+
+local function executeAdvancedDesync()
+    if antiHitRunning then 
+        showNotification("Zaten çalışıyor...", false)
+        return 
+    end
+    antiHitRunning = true
+
+    showNotification("Deysnc başlatılıyor...", false)
+    
+    activateDesync()
+    task.wait(0.1)
+    activateClonerDesync(function()
+        deactivateDesync()
+        antiHitRunning = false
+        antiHitActive = true
+        showNotification("Deysnc Aktif!", true)
+        saveSettings()
+    end)
+end
+
+local function deactivateAdvancedDesync()
+    if antiHitRunning then
+        if cloneListenerConn then
+            cloneListenerConn:Disconnect()
+            cloneListenerConn = nil
+        end
+        antiHitRunning = false
+    end
+
+    deactivateClonerDesync()
+    deactivateDesync()
+    antiHitActive = false
+
+    if player.Character then removeInvulnerable(player.Character) end
+
+    local possibleClone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+    if possibleClone then
+        pcall(function()
+            removeInvulnerable(possibleClone)
+            possibleClone:Destroy()
+        end)
+    end
+
+    for model, _ in pairs(desyncHighlights) do
+        removeDesyncHighlight(model)
+    end
+    
+    removeAllHighlights()
+    
+    showNotification("Deysnc Kapatıldı", false)
+    saveSettings()
+end
+
+-- Deysnc Butonu (Sol üst köşe)
+local desyncScreenGui = Instance.new("ScreenGui")
+desyncScreenGui.Name = "VortexDeysncButton"
+desyncScreenGui.ResetOnSpawn = false
+desyncScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+desyncScreenGui.Parent = CoreGui
+
+local desyncButton = Instance.new("TextButton")
+desyncButton.Name = "Deysnc"
+desyncButton.Size = UDim2.new(0, 100, 0, 40)
+desyncButton.Position = UDim2.new(0, 10, 0, 10) -- Sol üst köşe
+desyncButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50) -- Kapalıyken kırmızı
+desyncButton.BackgroundTransparency = 0.3
+desyncButton.Text = "Deysnc"
+desyncButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+desyncButton.TextSize = 12
+desyncButton.Font = Enum.Font.GothamBold
+desyncButton.TextWrapped = true
+desyncButton.Draggable = true
+desyncButton.Parent = desyncScreenGui
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(0, 8)
+buttonCorner.Parent = desyncButton
+
+local buttonStroke = Instance.new("UIStroke")
+buttonStroke.Color = Color3.fromRGB(200, 200, 200)
+buttonStroke.Thickness = 1
+buttonStroke.Transparency = 0.3
+buttonStroke.Parent = desyncButton
+
+desyncButton.MouseEnter:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.1
+    }):Play()
+end)
+
+desyncButton.MouseLeave:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.3
+    }):Play()
+end)
+
+desyncButton.MouseButton1Click:Connect(function()
+    if antiHitRunning then
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        }):Play()
+        desyncButton.Text = "Çalışıyor..."
+        showNotification("Lütfen bekleyin...", false)
+        return
+    end
+    
+    if antiHitActive then
+        deactivateAdvancedDesync()
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 50, 50) -- Kırmızı
+        }):Play()
+        desyncButton.Text = "Deysnc"
+    else
+        executeAdvancedDesync()
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(50, 255, 50) -- Yeşil
+        }):Play()
+        desyncButton.Text = "Aktif"
+    end
+end)
+
+-- Deysnc reset
+player.CharacterAdded:Connect(function()
+    task.delay(0.3, function()
+        antiHitActive = false
+        antiHitRunning = false
+        clonerActive = false
+        desyncRunning = false
+        lockdownRunning = false
+        
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+        }):Play()
+        desyncButton.Text = "Deysnc"
+        
+        local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+        if clone then
+            pcall(function()
+                removeInvulnerable(clone)
+                clone:Destroy()
+            end)
+        end
+        
+        removeAllHighlights()
+    end)
+end)
+
+----------------------------------------------------------------
+-- ANA GUI TASARIMI
 ----------------------------------------------------------------
 local playerGui = player:WaitForChild('PlayerGui')
 
 -- Eski GUI'leri temizle
 do
-    local old = playerGui:FindFirstChild('CheredHub_PREMIUM')
+    local old = playerGui:FindFirstChild('VortexHelper')
     if old then
         pcall(function()
             old:Destroy()
@@ -777,21 +1289,20 @@ do
 end
 
 local gui = Instance.new('ScreenGui')
-gui.Name = 'CheredHub_PREMIUM'
+gui.Name = 'VortexHelper'
 gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Ana Frame (Geliştirilmiş Tasarım)
+-- Ana Frame
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 320, 0, 480)
-mainFrame.Position = UDim2.new(0.5, -160, 0.5, -240)
+mainFrame.Size = UDim2.new(0, 300, 0, 400)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -200)
 mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 mainFrame.BackgroundTransparency = 0.05
 mainFrame.BorderSizePixel = 0
 mainFrame.Parent = gui
 
--- Gradient Arkaplan
 local gradient = Instance.new('UIGradient')
 gradient.Color = ColorSequence.new({
     ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 35)),
@@ -801,92 +1312,53 @@ gradient.Rotation = 45
 gradient.Parent = mainFrame
 
 local corner = Instance.new('UICorner', mainFrame)
-corner.CornerRadius = UDim.new(0, 16)
+corner.CornerRadius = UDim.new(0, 12)
 
 local stroke = Instance.new('UIStroke', mainFrame)
 stroke.Thickness = 2
 stroke.Color = Color3.fromRGB(100, 150, 255)
 stroke.Transparency = 0.2
 
--- Gölge Efekti
-local shadow = Instance.new('ImageLabel')
-shadow.Name = 'Shadow'
-shadow.Size = UDim2.new(1, 20, 1, 20)
-shadow.Position = UDim2.new(0, -10, 0, -10)
-shadow.BackgroundTransparency = 1
-shadow.Image = 'rbxassetid://1316045217'
-shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
-shadow.ImageTransparency = 0.8
-shadow.ScaleType = Enum.ScaleType.Slice
-shadow.SliceCenter = Rect.new(10, 10, 118, 118)
-shadow.Parent = mainFrame
-
--- Başlık (Geliştirilmiş)
+-- Başlık
 local title = Instance.new('TextLabel', mainFrame)
 title.Size = UDim2.new(1, 0, 0, 50)
-title.Text = '🚀 CHERED HUB 🚀'
+title.Text = 'Vortex\'s Helper'
 title.TextColor3 = Color3.fromRGB(100, 200, 255)
 title.Font = Enum.Font.GothamBold
-title.TextSize = 22
+title.TextSize = 20
 title.BackgroundTransparency = 1
 title.TextStrokeTransparency = 0.7
-title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
 
--- Alt Başlık
-local subtitle = Instance.new('TextLabel', mainFrame)
-subtitle.Size = UDim2.new(1, 0, 0, 20)
-subtitle.Position = UDim2.new(0, 0, 0, 45)
-subtitle.Text = 'PREMIUM VERSION'
-subtitle.TextColor3 = Color3.fromRGB(200, 200, 255)
-subtitle.Font = Enum.Font.Gotham
-subtitle.TextSize = 12
-subtitle.BackgroundTransparency = 1
-subtitle.TextTransparency = 0.3
-
--- Buton Oluşturma Fonksiyonu (Geliştirilmiş)
+-- Buton Oluşturma Fonksiyonu
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
-    btn.Size = UDim2.new(0.9, 0, 0, 45)
+    btn.Size = UDim2.new(0.9, 0, 0, 40)
     btn.Position = UDim2.new(0.05, 0, 0, yPos)
-    btn.BackgroundColor3 = isActive and Color3.fromRGB(60, 160, 60) or Color3.fromRGB(40, 40, 60)
+    btn.BackgroundColor3 = isActive and Color3.fromRGB(50, 255, 50) or Color3.fromRGB(255, 50, 50) -- Yeşil/Kırmızı
     btn.Text = text
     btn.Font = Enum.Font.GothamSemibold
     btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 16
+    btn.TextSize = 14
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
     
     local btnCorner = Instance.new('UICorner', btn)
-    btnCorner.CornerRadius = UDim.new(0, 10)
+    btnCorner.CornerRadius = UDim.new(0, 8)
     
     local btnStroke = Instance.new('UIStroke', btn)
-    btnStroke.Color = Color3.fromRGB(100, 150, 255)
+    btnStroke.Color = Color3.fromRGB(255, 255, 255)
     btnStroke.Thickness = 1
     btnStroke.Transparency = 0.5
     
-    -- Hover Efekti
     btn.MouseEnter:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
-            BackgroundColor3 = isActive and Color3.fromRGB(80, 200, 80) or Color3.fromRGB(60, 60, 90)
+            BackgroundTransparency = 0.1
         }):Play()
     end)
     
     btn.MouseLeave:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
-            BackgroundColor3 = isActive and Color3.fromRGB(60, 160, 60) or Color3.fromRGB(40, 40, 60)
-        }):Play()
-    end)
-    
-    -- Tıklama Efekti
-    btn.MouseButton1Down:Connect(function()
-        TweenService:Create(btn, TweenInfo.new(0.1), {
-            Size = UDim2.new(0.88, 0, 0, 43)
-        }):Play()
-    end)
-    
-    btn.MouseButton1Up:Connect(function()
-        TweenService:Create(btn, TweenInfo.new(0.1), {
-            Size = UDim2.new(0.9, 0, 0, 45)
+            BackgroundTransparency = 0
         }):Play()
     end)
     
@@ -894,30 +1366,57 @@ local function createButton(parent, text, yPos, callback, isActive)
     return btn
 end
 
--- Butonları oluştur
-local yPos = 80
-createButton(mainFrame, '🎯 FPS Devourer AÇ', yPos, enableFPSDevourer, false)
-yPos = yPos + 55
-createButton(mainFrame, gravityLow and '✅ Inf Jump AÇIK' or '🦘 Inf Jump AÇ', yPos, switchGravityJump, gravityLow)
-yPos = yPos + 55
-createButton(mainFrame, '🚀 FLY TO BASE', yPos, startFlyToBase, false)
-yPos = yPos + 55
-createButton(mainFrame, espBaseActive and '✅ ESP Base AÇIK' or '🏠 ESP Base AÇ', yPos, toggleBaseESP, espBaseActive)
-yPos = yPos + 55
-createButton(mainFrame, espBestActive and '✅ ESP Best AÇIK' or '🔥 ESP Best AÇ', yPos, toggleBestESP, espBestActive)
+-- Butonları oluştur ve ayarları yükle
+local settings = loadSettings()
 
--- Sürükleme özelliği (Geliştirilmiş)
-local dragging = false
-local dragInput, dragStart, startPos
-
-local function updateInput(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-        dragInput = input
+-- Ayarları uygula
+if settings.infJump ~= nil then
+    gravityLow = settings.infJump
+    if gravityLow then
+        switchGravityJump()
     end
 end
 
+if settings.espBase ~= nil then
+    espBaseActive = settings.espBase
+    if espBaseActive then
+        toggleBaseESP()
+    end
+end
+
+if settings.espBest ~= nil then
+    espBestActive = settings.espBest
+    if espBestActive then
+        toggleBestESP()
+    end
+end
+
+if settings.desync ~= nil then
+    antiHitActive = settings.desync
+    if antiHitActive then
+        desyncButton.BackgroundColor3 = Color3.fromRGB(50, 255, 50)
+        desyncButton.Text = "Aktif"
+    end
+end
+
+-- Butonları oluştur
+local yPos = 60
+createButton(mainFrame, '🎯 FPS Devourer AÇ', yPos, enableFPSDevourer, false)
+yPos = yPos + 50
+createButton(mainFrame, gravityLow and '✅ Inf Jump AÇIK' or '🦘 Inf Jump AÇ', yPos, switchGravityJump, gravityLow)
+yPos = yPos + 50
+createButton(mainFrame, '🚀 FLY TO BASE', yPos, startFlyToBase, false)
+yPos = yPos + 50
+createButton(mainFrame, espBaseActive and '✅ ESP Base AÇIK' or '🏠 ESP Base AÇ', yPos, toggleBaseESP, espBaseActive)
+yPos = yPos + 50
+createButton(mainFrame, espBestActive and '✅ ESP Best AÇIK' or '🔥 ESP Best AÇ', yPos, toggleBestESP, espBestActive)
+
+-- Sürükleme özelliği
+local dragging = false
+local dragInput, dragStart, startPos
+
 mainFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
         dragStart = input.Position
         startPos = mainFrame.Position
@@ -931,7 +1430,7 @@ mainFrame.InputBegan:Connect(function(input)
 end)
 
 mainFrame.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
         dragInput = input
     end
 end)
@@ -952,11 +1451,13 @@ end)
 enableFPSDevourer()
 
 -- Başlangıç bildirimi
-showNotification("🚀 Chered Hub Yüklendi!", true)
+showNotification("Vortex's Helper Yüklendi!", true)
 
-print("🎯 Chered Hub Premium Yüklendi!")
+print("🎯 Vortex's Helper Yüklendi!")
 print("✅ FPS Devourer Aktif")
-print("🦘 Inf Jump Hazır (Çift Zıplama Özellikli)") 
+print("🦘 Inf Jump Hazır (17 Power)")
 print("🚀 Fly to Base Hazır")
 print("🏠 ESP Base Hazır")
 print("🔥 ESP Best Hazır")
+print("🌀 Deysnc Sistemi Hazır")
+print("💾 Ayarlar Kaydediliyor: Vortex'sHelper Klasörü")
