@@ -1,4 +1,4 @@
--- Vortex Hub - Clean Edition
+-- Vortex Hub - Fixed Edition
 -- Features: Inf Jump (19 limit), FLY TO BASE, ESP Base, ESP Best, ESP Player, Auto Laser
 
 local Players = game:GetService("Players")
@@ -522,11 +522,12 @@ local function toggleAutoLaser()
 end
 
 ----------------------------------------------------------------
--- GUI CREATION
+-- GUI CREATION (FIXED ZINDEX)
 ----------------------------------------------------------------
 local gui = Instance.new("ScreenGui")
 gui.Name = "VortexHub"
 gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
 -- V Logo (Toggle Button)
@@ -540,7 +541,7 @@ logoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 logoButton.TextSize = 14
 logoButton.Font = Enum.Font.GothamBlack
 logoButton.AutoButtonColor = false
-logoButton.ZIndex = 100
+logoButton.ZIndex = 1000
 logoButton.Draggable = true
 logoButton.Parent = gui
 
@@ -564,7 +565,7 @@ mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
 mainFrame.Draggable = true
 mainFrame.Visible = false
-mainFrame.ZIndex = 50
+mainFrame.ZIndex = 999
 mainFrame.Parent = gui
 
 local frameCorner = Instance.new("UICorner")
@@ -582,6 +583,7 @@ header.Size = UDim2.new(1, 0, 0, 20)
 header.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
 header.BackgroundTransparency = 0.2
 header.BorderSizePixel = 0
+header.ZIndex = 1000
 header.Parent = mainFrame
 
 local headerCorner = Instance.new("UICorner")
@@ -599,6 +601,7 @@ title.TextSize = 10
 title.Font = Enum.Font.GothamBold
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.TextYAlignment = Enum.TextYAlignment.Center
+title.ZIndex = 1001
 title.Parent = header
 
 -- Close button
@@ -611,6 +614,7 @@ closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 closeBtn.TextSize = 12
 closeBtn.Font = Enum.Font.GothamBold
 closeBtn.AutoButtonColor = false
+closeBtn.ZIndex = 1001
 closeBtn.Parent = header
 
 local closeCorner = Instance.new("UICorner")
@@ -623,6 +627,7 @@ contentFrame.Name = "ContentFrame"
 contentFrame.Size = UDim2.new(1, -8, 1, -25)
 contentFrame.Position = UDim2.new(0, 4, 0, 21)
 contentFrame.BackgroundTransparency = 1
+contentFrame.ZIndex = 1000
 contentFrame.Parent = mainFrame
 
 -- Button Creation Function
@@ -637,6 +642,7 @@ local function createButton(parent, text, yPos, active, callback)
     btn.TextSize = 10
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
+    btn.ZIndex = 1001
     btn.Parent = parent
     
     local btnCorner = Instance.new("UICorner")
