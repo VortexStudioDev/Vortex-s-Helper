@@ -142,101 +142,148 @@ local function showNotification(message, isSuccess)
 end
 
 ----------------------------------------------------------------
--- GERÇEK FPS DEVOURER
+-- NÜKLEER FPS OPTİMİZASYONU
 local fpsDevourerActive = false
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
 
 local function enableFPSDevourer()
     fpsDevourerActive = true
     
-    -- FPS limitini kaldır
+    -- FPS limitini tamamen kaldır
     pcall(function()
         if setfpscap then
-            setfpscap(9999)
+            setfpscap(100000)
         end
     end)
     
-    -- Lighting ayarlarını SIFIRLA
+    -- NÜKLEER LIGHTING AYARLARI
     local lighting = game:GetService("Lighting")
     pcall(function()
         lighting.GlobalShadows = false
-        lighting.FogEnd = 1000000
-        lighting.Brightness = 3
+        lighting.FogEnd = 9e9
+        lighting.Brightness = 10
         lighting.EnvironmentDiffuseScale = 0
         lighting.EnvironmentSpecularScale = 0
+        lighting.ShadowSoftness = 0
+        lighting.Ambient = Color3.new(1, 1, 1)
         lighting.OutdoorAmbient = Color3.new(1, 1, 1)
-        lighting.ClockTime = 14
-        lighting.GeographicLatitude = 41
+        lighting.ClockTime = 12
         lighting.ExposureCompensation = 0
+        lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
+        lighting.ColorShift_Top = Color3.new(1, 1, 1)
+        
+        -- Tüm lighting efektlerini kapat
+        for _, child in pairs(lighting:GetChildren()) do
+            if child:IsA("BloomEffect") or child:IsA("BlurEffect") or child:IsA("ColorCorrectionEffect") or 
+               child:IsA("SunRaysEffect") or child:IsA("DepthOfFieldEffect") then
+                child.Enabled = false
+            end
+        end
     end)
     
-    -- TÜM parçaları optimize et
-    for _, obj in pairs(workspace:GetDescendants()) do
-        if obj:IsA("BasePart") then
+    -- WORKSPACE'İ TEMİZLEME
+    local function nukeWorkspace()
+        for _, obj in pairs(workspace:GetDescendants()) do
             pcall(function()
-                obj.Material = Enum.Material.Plastic
-                obj.Reflectance = 0
-                obj.Transparency = obj.Transparency > 0.5 and 1 or 0
+                if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("UnionOperation") then
+                    obj.Material = Enum.Material.Plastic
+                    obj.Reflectance = 0
+                    obj.Transparency = 0
+                    
+                    -- Surface appearance'leri yok et
+                    for _, child in pairs(obj:GetChildren()) do
+                        if child:IsA("SurfaceAppearance") or child:IsA("Decal") or child:IsA("Texture") then
+                            child:Destroy()
+                        end
+                    end
+                    
+                elseif obj:IsA("ParticleEmitter") or obj:IsA("Fire") or obj:IsA("Smoke") or 
+                       obj:IsA("Sparkles") or obj:IsA("Beam") or obj:IsA("Trail") then
+                    obj:Destroy()
+                    
+                elseif obj:IsA("Sound") then
+                    obj:Destroy()
+                    
+                elseif obj:IsA("SpecialMesh") or obj:IsA("BlockMesh") or obj:IsA("CylinderMesh") then
+                    -- Mesh'leri koru ama material'ı değiştir
+                    
+                elseif obj:IsA("SurfaceLight") or obj:IsA("PointLight") or obj:IsA("SpotLight") then
+                    obj.Enabled = false
+                end
             end)
-        elseif obj:IsA("Decal") or obj:IsA("Texture") then
-            pcall(function() obj:Destroy() end)
-        elseif obj:IsA("ParticleEmitter") or obj:IsA("Fire") or obj:IsA("Smoke") then
-            pcall(function() obj:Destroy() end)
-        elseif obj:IsA("Sound") then
-            pcall(function() obj:Destroy() end)
         end
     end
     
-    -- Oyuncu karakterini optimize et
-    if player.Character then
-        for _, part in pairs(player.Character:GetDescendants()) do
-            if part:IsA("BasePart") then
+    -- TÜM OYUNCULARIN KARAKTERLERİNİ OPTİMİZE ET
+    local function optimizePlayer(char)
+        if char then
+            for _, part in pairs(char:GetDescendants()) do
                 pcall(function()
-                    part.Material = Enum.Material.Plastic
-                    part.Reflectance = 0
-                end)
-            elseif part:IsA("ShirtGraphic") or part:IsA("Clothing") then
-                pcall(function() part:Destroy() end)
-            end
-        end
-    end
-    
-    -- Yeni karakterler için
-    player.CharacterAdded:Connect(function(char)
-        wait(0.1)
-        for _, part in pairs(char:GetDescendants()) do
-            if part:IsA("BasePart") then
-                pcall(function()
-                    part.Material = Enum.Material.Plastic
-                    part.Reflectance = 0
-                end)
-            elseif part:IsA("ShirtGraphic") or part:IsA("Clothing") then
-                pcall(function() part:Destroy() end)
-            end
-        end
-    end)
-    
-    -- Diğer oyuncuların karakterlerini de optimize et
-    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-        if otherPlayer ~= player and otherPlayer.Character then
-            for _, part in pairs(otherPlayer.Character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    pcall(function()
+                    if part:IsA("BasePart") then
                         part.Material = Enum.Material.Plastic
                         part.Reflectance = 0
-                    end)
-                elseif part:IsA("ShirtGraphic") or part:IsA("Clothing") then
-                    pcall(function() part:Destroy() end)
-                end
+                        
+                        -- Aksesuarları kaldır
+                        if part:IsA("Accessory") then
+                            part:Destroy()
+                        end
+                        
+                    elseif part:IsA("ShirtGraphic") or part:IsA("Clothing") or 
+                           part:IsA("CharacterAppearance") then
+                        part:Destroy()
+                        
+                    elseif part:IsA("ParticleEmitter") or part:IsA("Fire") or part:IsA("Smoke") then
+                        part:Destroy()
+                    end
+                end)
             end
         end
     end
     
-    -- Render mesafesini ayarla
-    pcall(function()
-        if settings then
-            settings().Rendering.QualityLevel = 1
-        end
+    -- Mevcut oyuncuları optimize et
+    for _, plr in pairs(Players:GetPlayers()) do
+        optimizePlayer(plr.Character)
+    end
+    
+    -- Yeni oyuncular için
+    Players.PlayerAdded:Connect(function(plr)
+        plr.CharacterAdded:Connect(function(char)
+            wait(0.05)
+            optimizePlayer(char)
+        end)
     end)
+    
+    -- Render ayarlarını değiştir
+    pcall(function()
+        settings().Rendering.QualityLevel = 1
+        settings().Rendering.MeshPartDetailLevel = Enum.MeshPartDetailLevel.Level01
+        settings().Rendering.EagerBulkExecution = true
+    end)
+    
+    -- SÜREKLİ OPTİMİZASYON DÖNGÜSÜ
+    local optimizationLoop
+    optimizationLoop = RunService.Heartbeat:Connect(function()
+        if not fpsDevourerActive then
+            optimizationLoop:Disconnect()
+            return
+        end
+        
+        -- Sürekli olarak yeni eklenen efektleri temizle
+        pcall(function()
+            for _, obj in pairs(workspace:GetDescendants()) do
+                if obj:IsA("ParticleEmitter") or obj:IsA("Fire") or obj:IsA("Smoke") then
+                    obj:Destroy()
+                end
+            end
+        end)
+    end)
+    
+    -- İlk temizliği yap
+    nukeWorkspace()
+    
+    -- 3 saniye sonra tekrar temizle (tüm objeler yüklenene kadar bekle)
+    delay(3, nukeWorkspace)
     
     saveSettings()
 end
@@ -269,7 +316,6 @@ local function toggleFPSDevourer()
         enableFPSDevourer()
     end
 end
-
 ----------------------------------------------------------------
 -- FLY TO BASE
 ----------------------------------------------------------------
