@@ -142,44 +142,99 @@ local function showNotification(message, isSuccess)
 end
 
 ----------------------------------------------------------------
--- FPS DEVOURER
-----------------------------------------------------------------
+-- GERÇEK FPS DEVOURER
 local fpsDevourerActive = false
 
 local function enableFPSDevourer()
     fpsDevourerActive = true
     
+    -- FPS limitini kaldır
     pcall(function()
         if setfpscap then
-            setfpscap(999)
+            setfpscap(9999)
         end
     end)
     
-    for _, lighting in pairs(Workspace:GetChildren()) do
-        if lighting:IsA("Part") or lighting:IsA("UnionOperation") or lighting:IsA("MeshPart") then
-            pcall(function()
-                lighting.Material = Enum.Material.Plastic
-                lighting.Reflectance = 0
-            end)
-        end
-    end
-    
+    -- Lighting ayarlarını SIFIRLA
     local lighting = game:GetService("Lighting")
     pcall(function()
         lighting.GlobalShadows = false
-        lighting.FogEnd = 100000
-        lighting.Brightness = 2
+        lighting.FogEnd = 1000000
+        lighting.Brightness = 3
+        lighting.EnvironmentDiffuseScale = 0
+        lighting.EnvironmentSpecularScale = 0
+        lighting.OutdoorAmbient = Color3.new(1, 1, 1)
+        lighting.ClockTime = 14
+        lighting.GeographicLatitude = 41
+        lighting.ExposureCompensation = 0
     end)
     
+    -- TÜM parçaları optimize et
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("BasePart") then
+            pcall(function()
+                obj.Material = Enum.Material.Plastic
+                obj.Reflectance = 0
+                obj.Transparency = obj.Transparency > 0.5 and 1 or 0
+            end)
+        elseif obj:IsA("Decal") or obj:IsA("Texture") then
+            pcall(function() obj:Destroy() end)
+        elseif obj:IsA("ParticleEmitter") or obj:IsA("Fire") or obj:IsA("Smoke") then
+            pcall(function() obj:Destroy() end)
+        elseif obj:IsA("Sound") then
+            pcall(function() obj:Destroy() end)
+        end
+    end
+    
+    -- Oyuncu karakterini optimize et
+    if player.Character then
+        for _, part in pairs(player.Character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                pcall(function()
+                    part.Material = Enum.Material.Plastic
+                    part.Reflectance = 0
+                end)
+            elseif part:IsA("ShirtGraphic") or part:IsA("Clothing") then
+                pcall(function() part:Destroy() end)
+            end
+        end
+    end
+    
+    -- Yeni karakterler için
     player.CharacterAdded:Connect(function(char)
-        wait(0.5)
+        wait(0.1)
         for _, part in pairs(char:GetDescendants()) do
             if part:IsA("BasePart") then
                 pcall(function()
                     part.Material = Enum.Material.Plastic
                     part.Reflectance = 0
                 end)
+            elseif part:IsA("ShirtGraphic") or part:IsA("Clothing") then
+                pcall(function() part:Destroy() end)
             end
+        end
+    end)
+    
+    -- Diğer oyuncuların karakterlerini de optimize et
+    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            for _, part in pairs(otherPlayer.Character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    pcall(function()
+                        part.Material = Enum.Material.Plastic
+                        part.Reflectance = 0
+                    end)
+                elseif part:IsA("ShirtGraphic") or part:IsA("Clothing") then
+                    pcall(function() part:Destroy() end)
+                end
+            end
+        end
+    end
+    
+    -- Render mesafesini ayarla
+    pcall(function()
+        if settings then
+            settings().Rendering.QualityLevel = 1
         end
     end)
     
@@ -195,11 +250,14 @@ local function disableFPSDevourer()
         end
     end)
     
+    -- Lighting'i normale döndür
     local lighting = game:GetService("Lighting")
     pcall(function()
         lighting.GlobalShadows = true
         lighting.Brightness = 1
-    end)
+        lighting.EnvironmentDiffuseScale = 1
+        lighting.EnvironmentSpecularScale = 1
+    })
     
     saveSettings()
 end
@@ -210,106 +268,6 @@ local function toggleFPSDevourer()
     else
         enableFPSDevourer()
     end
-end
-
-----------------------------------------------------------------
--- INF JUMP / JUMP BOOST (30 POWER) - Walk Speed YOK
-----------------------------------------------------------------
-local NORMAL_GRAV = 196.2
-local REDUCED_GRAV = 40
-local NORMAL_JUMP = 30
-local BOOST_JUMP = 30
-
-local spoofedGravity = NORMAL_GRAV
-pcall(function()
-    local mt = getrawmetatable(Workspace)
-    if mt then
-        setreadonly(mt, false)
-        local oldIndex = mt.__index
-        mt.__index = function(self, k)
-            if k == 'Gravity' then
-                return spoofedGravity
-            end
-            return oldIndex(self, k)
-        end
-        setreadonly(mt, true)
-    end
-end)
-
-local gravityLow = false
-local sourceActive = false
-
-local function setJumpPower(jump)
-    local h = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
-    if h then
-        h.JumpPower = jump
-        h.UseJumpPower = true
-    end
-end
-
-local infiniteJumpConn
-local function enableInfiniteJump(state)
-    if infiniteJumpConn then
-        infiniteJumpConn:Disconnect()
-        infiniteJumpConn = nil
-    end
-    if state then
-        infiniteJumpConn = UserInputService.JumpRequest:Connect(function()
-            local h = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
-            if h and gravityLow and h:GetState() ~= Enum.HumanoidStateType.Seated then
-                local root = player.Character:FindFirstChild('HumanoidRootPart')
-                if root then
-                    root.Velocity = Vector3.new(
-                        root.Velocity.X,
-                        h.JumpPower,
-                        root.Velocity.Z
-                    )
-                end
-            end
-        end)
-    end
-end
-
-local function antiRagdoll()
-    local char = player.Character
-    if char then
-        for _, v in pairs(char:GetDescendants()) do
-            if v:IsA('BodyVelocity') or v:IsA('BodyAngularVelocity') then
-                v:Destroy()
-            end
-        end
-    end
-end
-
-local function toggleForceField()
-    local char = player.Character
-    if char then
-        if gravityLow then
-            if not char:FindFirstChildOfClass('ForceField') then
-                local ff = Instance.new('ForceField', char)
-                ff.Visible = false
-            end
-        else
-            for _, ff in ipairs(char:GetChildren()) do
-                if ff:IsA('ForceField') then
-                    ff:Destroy()
-                end
-            end
-        end
-    end
-end
-
-local function switchGravityJump()
-    gravityLow = not gravityLow
-    sourceActive = gravityLow
-    Workspace.Gravity = gravityLow and REDUCED_GRAV or NORMAL_GRAV
-    setJumpPower(gravityLow and BOOST_JUMP or NORMAL_JUMP)
-    enableInfiniteJump(gravityLow)
-    antiRagdoll()
-    toggleForceField()
-    spoofedGravity = NORMAL_GRAV
-    
-    saveSettings()
 end
 
 ----------------------------------------------------------------
