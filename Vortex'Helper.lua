@@ -12,6 +12,15 @@ local HttpService = game:GetService('HttpService')
 local ProximityPromptService = game:GetService('ProximityPromptService')
 local player = Players.LocalPlayer
 
+-- Önce değişkenleri tanımla
+local gravityLow = false
+local fpsDevourerActive = false
+local espBaseActive = false
+local espBestActive = false
+local playerEspActive = false
+local stealFloorActive = false
+local antiHitActive = false
+
 -- Settings folder
 local VortexFolder = Workspace:FindFirstChild("VortexHelper")
 if not VortexFolder then
@@ -144,8 +153,6 @@ end
 ----------------------------------------------------------------
 -- FPS DEVOURER
 ----------------------------------------------------------------
-local fpsDevourerActive = false
-
 local function enableFPSDevourer()
     fpsDevourerActive = true
     
@@ -238,7 +245,6 @@ pcall(function()
     end
 end)
 
-local gravityLow = false
 local sourceActive = false
 
 local function setJumpPower(jump)
@@ -563,7 +569,6 @@ end
 ----------------------------------------------------------------
 -- ESP BASE
 ----------------------------------------------------------------
-local espBaseActive = false
 local baseEspObjects = {}
 
 local function clearBaseESP()
@@ -658,7 +663,6 @@ end
 ----------------------------------------------------------------
 -- ESP BEST
 ----------------------------------------------------------------
-local espBestActive = false
 local bestEspObjects = {}
 
 local function clearBestESP()
@@ -819,7 +823,6 @@ end
 ----------------------------------------------------------------
 -- PLAYER ESP
 ----------------------------------------------------------------
-local playerEspActive = false
 local playerEspBoxes = {}
 
 local function clearPlayerESP()
@@ -947,7 +950,6 @@ end)
 ----------------------------------------------------------------
 -- STEAL FLOOR - Ayrı Buton Olarak
 ----------------------------------------------------------------
-local stealFloorActive = false
 local sfFloatSpeed = 24
 local sfAttachment, sfAlignPosition, sfAlignOrientation, sfLinearVelocity
 local sfHeartbeatConn, sfPromptConn, sfDiedConn, sfCharAddedConn
@@ -1213,7 +1215,6 @@ end)
 ----------------------------------------------------------------
 -- DEYSNC SYSTEM
 ----------------------------------------------------------------
-local antiHitActive = false
 local clonerActive = false
 local desyncRunning = false
 local cloneListenerConn
@@ -1684,7 +1685,7 @@ player.CharacterAdded:Connect(function()
         
         removeAllHighlights()
     end)
-end)
+end
 
 ----------------------------------------------------------------
 -- V LOGO AND MAIN GUI DESIGN - BOYUT KÜÇÜLTÜLDÜ
@@ -1928,46 +1929,26 @@ end
 
 if settings.espBase ~= nil then
     espBaseActive = settings.espBase
-    if espBaseActive then
-        toggleBaseESP()
-    end
 end
 
 if settings.espBest ~= nil then
     espBestActive = settings.espBest
-    if espBestActive then
-        toggleBestESP()
-    end
 end
 
 if settings.desync ~= nil then
     antiHitActive = settings.desync
-    if antiHitActive then
-        desyncButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
-        desyncButton.Text = "Active"
-    end
 end
 
 if settings.fpsDevourer ~= nil then
     fpsDevourerActive = settings.fpsDevourer
-    if fpsDevourerActive then
-        enableFPSDevourer()
-    end
 end
 
 if settings.playerESP ~= nil then
     playerEspActive = settings.playerESP
-    if playerEspActive then
-        togglePlayerESP()
-    end
 end
 
 if settings.stealFloor ~= nil then
     stealFloorActive = settings.stealFloor
-    if stealFloorActive then
-        stealFloorButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
-        stealFloorButton.Text = "✅ Steal Floor"
-    end
 end
 
 -- Create buttons for Tab 1 (Main)
@@ -2002,6 +1983,23 @@ local function updateButtonColors()
     
     playerBtn.BackgroundColor3 = playerEspActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
     playerBtn.Text = playerEspActive and '✅ Player' or '👥 Player'
+    
+    -- Update external buttons
+    if stealFloorActive then
+        stealFloorButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
+        stealFloorButton.Text = "✅ Steal Floor"
+    else
+        stealFloorButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+        stealFloorButton.Text = "🏗️ Steal Floor"
+    end
+    
+    if antiHitActive then
+        desyncButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
+        desyncButton.Text = "Active"
+    else
+        desyncButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+        desyncButton.Text = "Deysnc"
+    end
 end
 
 -- Override toggle functions to update buttons
@@ -2020,4 +2018,82 @@ end
 local originalToggleBase = toggleBaseESP
 toggleBaseESP = function()
     originalToggleBase()
-   
+    updateButtonColors()
+end
+
+local originalToggleBest = toggleBestESP
+toggleBestESP = function()
+    originalToggleBest()
+    updateButtonColors()
+end
+
+local originalTogglePlayer = togglePlayerESP
+togglePlayerESP = function()
+    originalTogglePlayer()
+    updateButtonColors()
+end
+
+local originalToggleSteal = toggleStealFloor
+toggleStealFloor = function()
+    originalToggleSteal()
+    updateButtonColors()
+end
+
+-- Drag functionality for main frame
+local dragging = false
+local dragInput, dragStart, startPos
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+
+-- Enable FPS Devourer on start if saved
+if fpsDevourerActive then
+    enableFPSDevourer()
+end
+
+-- Update button colors on start
+updateButtonColors()
+
+-- Startup notification
+showNotification("Vortex Helper Loaded!", true)
+
+print("🎯 Vortex Helper Loaded!")
+print("✅ FPS Devourer: " .. tostring(fpsDevourerActive))
+print("🦘 Inf Jump: " .. tostring(gravityLow))
+print("🚀 Fly to Base Ready")
+print("🏠 ESP Base: " .. tostring(espBaseActive))
+print("🔥 ESP Best: " .. tostring(espBestActive))
+print("👥 Player ESP: " .. tostring(playerEspActive))
+print("🏗️ Steal Floor: " .. tostring(stealFloorActive))
+print("🌀 Deysnc System: " .. tostring(antiHitActive))
+print("🔷 V Logo: Click to open/close main menu")
+print("💾 Settings Saving: VortexHelper Folder")
