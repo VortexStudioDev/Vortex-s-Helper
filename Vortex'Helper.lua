@@ -1,4 +1,4 @@
--- Premium Version
+-- Vortex Helper - Premium Version
 local Players = game:GetService('Players')
 local UserInputService = game:GetService('UserInputService')
 local Workspace = game:GetService('Workspace')
@@ -8,7 +8,7 @@ local CoreGui = game:GetService('CoreGui')
 local HttpService = game:GetService('HttpService')
 local player = Players.LocalPlayer
 
--- Önce tüm değişkenleri tanımla
+-- Tüm değişkenleri başta tanımla
 local gravityLow = false
 local fpsDevourerActive = false
 local espBaseActive = false
@@ -247,7 +247,6 @@ local function switchGravityJump()
     enableInfiniteJump(gravityLow)
     
     saveSettings()
-    showNotification(gravityLow and "Infinite Jump Enabled" or "Infinite Jump Disabled", gravityLow)
 end
 
 -- FLY TO BASE
@@ -313,7 +312,6 @@ local function startFlyToBase()
         
         hrp.Velocity = direction * 50
         
-        -- Hedefe ulaştıysa dur
         if (currentPos - targetPos).Magnitude < 10 then
             if flyConn then
                 flyConn:Disconnect()
@@ -631,6 +629,17 @@ local function toggleStealFloor()
     saveSettings()
 end
 
+-- DEYSNC SYSTEM
+local function executeAdvancedDesync()
+    antiHitActive = not antiHitActive
+    if antiHitActive then
+        showNotification("Desync activated successfully!", true)
+    else
+        showNotification("Desync deactivated", false)
+    end
+    saveSettings()
+end
+
 -- Steal Floor Butonu
 local stealFloorGui = Instance.new("ScreenGui")
 stealFloorGui.Name = "StealFloorButton"
@@ -672,17 +681,6 @@ stealFloorButton.MouseButton1Click:Connect(function()
         stealFloorButton.Text = "🏗️ Steal Floor"
     end
 end)
-
--- DEYSNC SYSTEM
-local function executeAdvancedDesync()
-    antiHitActive = not antiHitActive
-    if antiHitActive then
-        showNotification("Desync activated successfully!", true)
-    else
-        showNotification("Desync deactivated", false)
-    end
-    saveSettings()
-end
 
 -- Deysnc Button
 local desyncScreenGui = Instance.new("ScreenGui")
@@ -726,7 +724,7 @@ desyncButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- MAIN GUI
+-- MAIN GUI TASARIMI
 local playerGui = player:WaitForChild('PlayerGui')
 
 -- Clean old GUIs
@@ -772,7 +770,7 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Main Frame - BOYUT KÜÇÜLTÜLDÜ
+-- Main Frame - TASARIM GÜNCELLENDİ
 local mainFrame = Instance.new('Frame')
 mainFrame.Size = UDim2.new(0, 150, 0, 160)
 mainFrame.Position = UDim2.new(0.5, -75, 0.5, -80)
@@ -802,7 +800,7 @@ local headerCorner = Instance.new("UICorner")
 headerCorner.CornerRadius = UDim.new(0, 10)
 headerCorner.Parent = header
 
--- Tab Buttons
+-- Tab Buttons - TASARIM GÜNCELLENDİ
 local tab1Btn = Instance.new('TextButton')
 tab1Btn.Name = 'Tab1'
 tab1Btn.Size = UDim2.new(0.5, -2, 1, 0)
@@ -835,7 +833,7 @@ local tab2Corner = Instance.new("UICorner")
 tab2Corner.CornerRadius = UDim.new(0, 8)
 tab2Corner.Parent = tab2Btn
 
--- Content Areas
+-- Content Areas - BOŞLUKLAR KAPATILDI
 local contentTab1 = Instance.new('Frame')
 contentTab1.Name = 'Tab1Content'
 contentTab1.Size = UDim2.new(1, -8, 1, -30)
@@ -852,7 +850,7 @@ contentTab2.BackgroundTransparency = 1
 contentTab2.Visible = false
 contentTab2.Parent = mainFrame
 
--- Button Creation Function
+-- Button Creation Function - RENK SİSTEMİ EKLENDİ
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
     btn.Size = UDim2.new(0.95, 0, 0, 22)
@@ -882,6 +880,21 @@ local mainFrameVisible = false
 logoButton.MouseButton1Click:Connect(function()
     mainFrameVisible = not mainFrameVisible
     mainFrame.Visible = mainFrameVisible
+end)
+
+-- Logo hover effect
+logoButton.MouseEnter:Connect(function()
+    TweenService:Create(logoButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.1,
+        Size = UDim2.new(0, 37, 0, 37)
+    }):Play()
+end)
+
+logoButton.MouseLeave:Connect(function()
+    TweenService:Create(logoButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.2,
+        Size = UDim2.new(0, 35, 0, 35)
+    }):Play()
 end)
 
 -- Tab switching function
@@ -926,34 +939,101 @@ if settings.fpsDevourer ~= nil then fpsDevourerActive = settings.fpsDevourer end
 if settings.playerESP ~= nil then playerEspActive = settings.playerESP end
 if settings.stealFloor ~= nil then stealFloorActive = settings.stealFloor end
 
--- Create buttons for Tab 1 (Main)
+-- Create buttons for Tab 1 (Main) - RENK SİSTEMİ AKTİF
 local yPos = 5
-createButton(contentTab1, fpsDevourerActive and '✅ FPS' or '🎯 FPS', yPos, toggleFPSDevourer, fpsDevourerActive)
+local fpsBtn = createButton(contentTab1, fpsDevourerActive and '✅ FPS' or '🎯 FPS', yPos, toggleFPSDevourer, fpsDevourerActive)
 yPos = yPos + 25
-createButton(contentTab1, gravityLow and '✅ Jump' or '🦘 Jump', yPos, switchGravityJump, gravityLow)
+local jumpBtn = createButton(contentTab1, gravityLow and '✅ Jump' or '🦘 Jump', yPos, switchGravityJump, gravityLow)
 yPos = yPos + 25
 createButton(contentTab1, '🚀 Fly Base', yPos, startFlyToBase, false)
 
--- Create buttons for Tab 2 (Visual)
+-- Create buttons for Tab 2 (Visual) - RENK SİSTEMİ AKTİF
 yPos = 5
-createButton(contentTab2, espBaseActive and '✅ Base' or '🏠 Base', yPos, toggleBaseESP, espBaseActive)
+local baseBtn = createButton(contentTab2, espBaseActive and '✅ Base' or '🏠 Base', yPos, toggleBaseESP, espBaseActive)
 yPos = yPos + 25
-createButton(contentTab2, espBestActive and '✅ Best' or '🔥 Best', yPos, toggleBestESP, espBestActive)
+local bestBtn = createButton(contentTab2, espBestActive and '✅ Best' or '🔥 Best', yPos, toggleBestESP, espBestActive)
 yPos = yPos + 25
-createButton(contentTab2, playerEspActive and '✅ Player' or '👥 Player', yPos, togglePlayerESP, playerEspActive)
+local playerBtn = createButton(contentTab2, playerEspActive and '✅ Player' or '👥 Player', yPos, togglePlayerESP, playerEspActive)
 
--- Update external buttons
-if stealFloorActive then
-    stealFloorButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
-    stealFloorButton.Text = "✅ Steal Floor"
+-- Button update functions
+local function updateButtonColors()
+    fpsBtn.BackgroundColor3 = fpsDevourerActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
+    fpsBtn.Text = fpsDevourerActive and '✅ FPS' or '🎯 FPS'
+    
+    jumpBtn.BackgroundColor3 = gravityLow and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
+    jumpBtn.Text = gravityLow and '✅ Jump' or '🦘 Jump'
+    
+    baseBtn.BackgroundColor3 = espBaseActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
+    baseBtn.Text = espBaseActive and '✅ Base' or '🏠 Base'
+    
+    bestBtn.BackgroundColor3 = espBestActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
+    bestBtn.Text = espBestActive and '✅ Best' or '🔥 Best'
+    
+    playerBtn.BackgroundColor3 = playerEspActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
+    playerBtn.Text = playerEspActive and '✅ Player' or '👥 Player'
+    
+    -- Update external buttons
+    if stealFloorActive then
+        stealFloorButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
+        stealFloorButton.Text = "✅ Steal Floor"
+    else
+        stealFloorButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+        stealFloorButton.Text = "🏗️ Steal Floor"
+    end
+    
+    if antiHitActive then
+        desyncButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
+        desyncButton.Text = "Active"
+    else
+        desyncButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+        desyncButton.Text = "Deysnc"
+    end
 end
 
-if antiHitActive then
-    desyncButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
-    desyncButton.Text = "Active"
+-- Override toggle functions to update buttons
+local originalToggleFPS = toggleFPSDevourer
+toggleFPSDevourer = function()
+    originalToggleFPS()
+    updateButtonColors()
 end
 
--- Drag functionality
+local originalToggleJump = switchGravityJump
+switchGravityJump = function()
+    originalToggleJump()
+    updateButtonColors()
+end
+
+local originalToggleBase = toggleBaseESP
+toggleBaseESP = function()
+    originalToggleBase()
+    updateButtonColors()
+end
+
+local originalToggleBest = toggleBestESP
+toggleBestESP = function()
+    originalToggleBest()
+    updateButtonColors()
+end
+
+local originalTogglePlayer = togglePlayerESP
+togglePlayerESP = function()
+    originalTogglePlayer()
+    updateButtonColors()
+end
+
+local originalToggleSteal = toggleStealFloor
+toggleStealFloor = function()
+    originalToggleSteal()
+    updateButtonColors()
+end
+
+local originalToggleDesync = executeAdvancedDesync
+executeAdvancedDesync = function()
+    originalToggleDesync()
+    updateButtonColors()
+end
+
+-- Drag functionality for main frame
 local dragging = false
 local dragInput, dragStart, startPos
 
@@ -989,13 +1069,20 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Enable FPS Devourer on start if saved
+-- Enable features on start if saved
 if fpsDevourerActive then
     enableFPSDevourer()
 end
+
+if gravityLow then
+    switchGravityJump()
+end
+
+-- Update button colors on start
+updateButtonColors()
 
 -- Startup notification
 showNotification("Script Loaded!", true)
 
 print("🎯 Script Loaded!")
-print("✅ Tüm sistemler hazır!")
+print("✅ Tüm özellikler hazır!")
