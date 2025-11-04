@@ -6,6 +6,7 @@ local RunService = game:GetService('RunService')
 local TweenService = game:GetService('TweenService')
 local CoreGui = game:GetService('CoreGui')
 local HttpService = game:GetService('HttpService')
+local Lighting = game:GetService("Lighting")
 local player = Players.LocalPlayer
 
 -- Tüm değişkenleri başta tanımla
@@ -16,6 +17,7 @@ local espBestActive = false
 local playerEspActive = false
 local stealFloorActive = false
 local antiHitActive = false
+local flyActive = false
 
 -- Settings folder
 local VortexFolder = Workspace:FindFirstChild("VortexHelper")
@@ -156,20 +158,19 @@ local function enableFPSDevourer()
         end
     end)
     
-    for _, lighting in pairs(Workspace:GetChildren()) do
-        if lighting:IsA("Part") or lighting:IsA("UnionOperation") or lighting:IsA("MeshPart") then
+    for _, obj in pairs(Workspace:GetDescendants()) do
+        if obj:IsA("Part") or obj:IsA("UnionOperation") or obj:IsA("MeshPart") then
             pcall(function()
-                lighting.Material = Enum.Material.Plastic
-                lighting.Reflectance = 0
+                obj.Material = Enum.Material.Plastic
+                obj.Reflectance = 0
             end)
         end
     end
     
-    local lighting = game:GetService("Lighting")
     pcall(function()
-        lighting.GlobalShadows = false
-        lighting.FogEnd = 100000
-        lighting.Brightness = 2
+        Lighting.GlobalShadows = false
+        Lighting.FogEnd = 100000
+        Lighting.Brightness = 2
     end)
     
     saveSettings()
@@ -185,10 +186,9 @@ local function disableFPSDevourer()
         end
     end)
     
-    local lighting = game:GetService("Lighting")
     pcall(function()
-        lighting.GlobalShadows = true
-        lighting.Brightness = 1
+        Lighting.GlobalShadows = true
+        Lighting.Brightness = 1
     end)
     
     saveSettings()
@@ -247,10 +247,10 @@ local function switchGravityJump()
     enableInfiniteJump(gravityLow)
     
     saveSettings()
+    showNotification(gravityLow and "Infinite Jump Enabled" or "Infinite Jump Disabled", gravityLow)
 end
 
 -- FLY TO BASE
-local flyActive = false
 local flyConn
 
 local function startFlyToBase()
@@ -326,6 +326,7 @@ end
 
 -- ESP BASE
 local baseEspObjects = {}
+local baseEspLoop
 
 local function clearBaseESP()
     for _, obj in pairs(baseEspObjects) do
@@ -375,7 +376,6 @@ local function updateBaseESP()
     end
 end
 
-local baseEspLoop
 local function toggleBaseESP()
     espBaseActive = not espBaseActive
     
@@ -405,6 +405,7 @@ end
 
 -- ESP BEST
 local bestEspObjects = {}
+local bestEspLoop
 
 local function clearBestESP()
     for _, obj in pairs(bestEspObjects) do
@@ -472,7 +473,6 @@ local function updateBestESP()
     end
 end
 
-local bestEspLoop
 local function toggleBestESP()
     espBestActive = not espBestActive
     
@@ -502,6 +502,7 @@ end
 
 -- PLAYER ESP
 local playerEspBoxes = {}
+local playerEspLoop
 
 local function clearPlayerESP()
     for plr, objs in pairs(playerEspBoxes) do
@@ -574,7 +575,6 @@ local function updatePlayerESP()
     end
 end
 
-local playerEspLoop
 local function togglePlayerESP()
     playerEspActive = not playerEspActive
     
@@ -770,7 +770,7 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Main Frame - TASARIM GÜNCELLENDİ
+-- Main Frame
 local mainFrame = Instance.new('Frame')
 mainFrame.Size = UDim2.new(0, 150, 0, 160)
 mainFrame.Position = UDim2.new(0.5, -75, 0.5, -80)
@@ -800,7 +800,7 @@ local headerCorner = Instance.new("UICorner")
 headerCorner.CornerRadius = UDim.new(0, 10)
 headerCorner.Parent = header
 
--- Tab Buttons - TASARIM GÜNCELLENDİ
+-- Tab Buttons
 local tab1Btn = Instance.new('TextButton')
 tab1Btn.Name = 'Tab1'
 tab1Btn.Size = UDim2.new(0.5, -2, 1, 0)
@@ -833,7 +833,7 @@ local tab2Corner = Instance.new("UICorner")
 tab2Corner.CornerRadius = UDim.new(0, 8)
 tab2Corner.Parent = tab2Btn
 
--- Content Areas - BOŞLUKLAR KAPATILDI
+-- Content Areas
 local contentTab1 = Instance.new('Frame')
 contentTab1.Name = 'Tab1Content'
 contentTab1.Size = UDim2.new(1, -8, 1, -30)
@@ -850,7 +850,7 @@ contentTab2.BackgroundTransparency = 1
 contentTab2.Visible = false
 contentTab2.Parent = mainFrame
 
--- Button Creation Function - RENK SİSTEMİ EKLENDİ
+-- Button Creation Function
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
     btn.Size = UDim2.new(0.95, 0, 0, 22)
@@ -939,7 +939,7 @@ if settings.fpsDevourer ~= nil then fpsDevourerActive = settings.fpsDevourer end
 if settings.playerESP ~= nil then playerEspActive = settings.playerESP end
 if settings.stealFloor ~= nil then stealFloorActive = settings.stealFloor end
 
--- Create buttons for Tab 1 (Main) - RENK SİSTEMİ AKTİF
+-- Create buttons for Tab 1 (Main)
 local yPos = 5
 local fpsBtn = createButton(contentTab1, fpsDevourerActive and '✅ FPS' or '🎯 FPS', yPos, toggleFPSDevourer, fpsDevourerActive)
 yPos = yPos + 25
@@ -947,7 +947,7 @@ local jumpBtn = createButton(contentTab1, gravityLow and '✅ Jump' or '🦘 Jum
 yPos = yPos + 25
 createButton(contentTab1, '🚀 Fly Base', yPos, startFlyToBase, false)
 
--- Create buttons for Tab 2 (Visual) - RENK SİSTEMİ AKTİF
+-- Create buttons for Tab 2 (Visual)
 yPos = 5
 local baseBtn = createButton(contentTab2, espBaseActive and '✅ Base' or '🏠 Base', yPos, toggleBaseESP, espBaseActive)
 yPos = yPos + 25
@@ -1084,5 +1084,12 @@ updateButtonColors()
 -- Startup notification
 showNotification("Script Loaded!", true)
 
-print("🎯 Script Loaded!")
-print("✅ Tüm özellikler hazır!")
+print("🎯 Vortex Helper Loaded!")
+print("✅ Tüm sistemler hazır!")
+print("🦘 Infinite Jump: " .. tostring(gravityLow))
+print("🎯 FPS Devourer: " .. tostring(fpsDevourerActive))
+print("🏠 Base ESP: " .. tostring(espBaseActive))
+print("🔥 Best ESP: " .. tostring(espBestActive))
+print("👥 Player ESP: " .. tostring(playerEspActive))
+print("🏗️ Steal Floor: " .. tostring(stealFloorActive))
+print("🌀 Deysnc: " .. tostring(antiHitActive))
