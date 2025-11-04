@@ -1,29 +1,22 @@
--- Vortex Helper - Premium Version
+-- Vortex's Helper - Premium Version
+-- Features: Inf Jump, FLY TO BASE, FPS Devourer, ESP Base, ESP Best, Deysnc, Player ESP, Steal Floor
+
 local Players = game:GetService('Players')
+local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local UserInputService = game:GetService('UserInputService')
 local Workspace = game:GetService('Workspace')
 local RunService = game:GetService('RunService')
 local TweenService = game:GetService('TweenService')
 local CoreGui = game:GetService('CoreGui')
 local HttpService = game:GetService('HttpService')
-local Lighting = game:GetService("Lighting")
+local ProximityPromptService = game:GetService('ProximityPromptService')
 local player = Players.LocalPlayer
 
--- Tüm değişkenleri başta tanımla
-local gravityLow = false
-local fpsDevourerActive = false
-local espBaseActive = false
-local espBestActive = false
-local playerEspActive = false
-local stealFloorActive = false
-local antiHitActive = false
-local flyActive = false
-
 -- Settings folder
-local VortexFolder = Workspace:FindFirstChild("VortexHelper")
+local VortexFolder = Workspace:FindFirstChild("Vortex'sHelper")
 if not VortexFolder then
     VortexFolder = Instance.new("Folder")
-    VortexFolder.Name = "VortexHelper"
+    VortexFolder.Name = "Vortex'sHelper"
     VortexFolder.Parent = Workspace
 end
 
@@ -61,10 +54,10 @@ local function loadSettings()
     return {}
 end
 
--- Notification System
-local notificationEnabled = true
+-- Notification System (Sadece script başlangıcında)
+local startupNotifications = true
 local function showNotification(message, isSuccess)
-    if not notificationEnabled then return end
+    if not startupNotifications then return end
     
     local notificationGui = Instance.new("ScreenGui")
     notificationGui.Name = "VortexNotify"
@@ -148,7 +141,11 @@ local function showNotification(message, isSuccess)
     end)
 end
 
+----------------------------------------------------------------
 -- FPS DEVOURER
+----------------------------------------------------------------
+local fpsDevourerActive = false
+
 local function enableFPSDevourer()
     fpsDevourerActive = true
     
@@ -158,23 +155,35 @@ local function enableFPSDevourer()
         end
     end)
     
-    for _, obj in pairs(Workspace:GetDescendants()) do
-        if obj:IsA("Part") or obj:IsA("UnionOperation") or obj:IsA("MeshPart") then
+    for _, lighting in pairs(Workspace:GetChildren()) do
+        if lighting:IsA("Part") or lighting:IsA("UnionOperation") or lighting:IsA("MeshPart") then
             pcall(function()
-                obj.Material = Enum.Material.Plastic
-                obj.Reflectance = 0
+                lighting.Material = Enum.Material.Plastic
+                lighting.Reflectance = 0
             end)
         end
     end
     
+    local lighting = game:GetService("Lighting")
     pcall(function()
-        Lighting.GlobalShadows = false
-        Lighting.FogEnd = 100000
-        Lighting.Brightness = 2
+        lighting.GlobalShadows = false
+        lighting.FogEnd = 100000
+        lighting.Brightness = 2
+    end)
+    
+    player.CharacterAdded:Connect(function(char)
+        wait(0.5)
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                pcall(function()
+                    part.Material = Enum.Material.Plastic
+                    part.Reflectance = 0
+                end)
+            end
+        end
     end)
     
     saveSettings()
-    showNotification("FPS Devourer Enabled", true)
 end
 
 local function disableFPSDevourer()
@@ -186,13 +195,13 @@ local function disableFPSDevourer()
         end
     end)
     
+    local lighting = game:GetService("Lighting")
     pcall(function()
-        Lighting.GlobalShadows = true
-        Lighting.Brightness = 1
+        lighting.GlobalShadows = true
+        lighting.Brightness = 1
     end)
     
     saveSettings()
-    showNotification("FPS Devourer Disabled", false)
 end
 
 local function toggleFPSDevourer()
@@ -203,11 +212,32 @@ local function toggleFPSDevourer()
     end
 end
 
--- INF JUMP
+----------------------------------------------------------------
+-- INF JUMP / JUMP BOOST (30 POWER) - Walk Speed YOK
+----------------------------------------------------------------
 local NORMAL_GRAV = 196.2
 local REDUCED_GRAV = 40
 local NORMAL_JUMP = 30
 local BOOST_JUMP = 30
+
+local spoofedGravity = NORMAL_GRAV
+pcall(function()
+    local mt = getrawmetatable(Workspace)
+    if mt then
+        setreadonly(mt, false)
+        local oldIndex = mt.__index
+        mt.__index = function(self, k)
+            if k == 'Gravity' then
+                return spoofedGravity
+            end
+            return oldIndex(self, k)
+        end
+        setreadonly(mt, true)
+    end
+end)
+
+local gravityLow = false
+local sourceActive = false
 
 local function setJumpPower(jump)
     local h = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
@@ -240,49 +270,171 @@ local function enableInfiniteJump(state)
     end
 end
 
-local function switchGravityJump()
-    gravityLow = not gravityLow
-    Workspace.Gravity = gravityLow and REDUCED_GRAV or NORMAL_GRAV
-    setJumpPower(gravityLow and BOOST_JUMP or NORMAL_JUMP)
-    enableInfiniteJump(gravityLow)
-    
-    saveSettings()
-    showNotification(gravityLow and "Infinite Jump Enabled" or "Infinite Jump Disabled", gravityLow)
+local function antiRagdoll()
+    local char = player.Character
+    if char then
+        for _, v in pairs(char:GetDescendants()) do
+            if v:IsA('BodyVelocity') or v:IsA('BodyAngularVelocity') then
+                v:Destroy()
+            end
+        end
+    end
 end
 
--- FLY TO BASE
-local flyConn
-
-local function startFlyToBase()
-    if flyActive then
-        if flyConn then
-            flyConn:Disconnect()
-            flyConn = nil
-        end
-        flyActive = false
-        showNotification("Fly to Base Stopped", false)
-        return
-    end
-
-    local function findMyDeliveryPart()
-        local plots = Workspace:FindFirstChild('Plots')
-        if plots then
-            for _, plot in ipairs(plots:GetChildren()) do
-                local sign = plot:FindFirstChild('PlotSign')
-                if sign and sign:FindFirstChild('YourBase') and sign.YourBase.Enabled then
-                    local delivery = plot:FindFirstChild('DeliveryHitbox')
-                    if delivery and delivery:IsA('BasePart') then
-                        return delivery
-                    end
+local function toggleForceField()
+    local char = player.Character
+    if char then
+        if gravityLow then
+            if not char:FindFirstChildOfClass('ForceField') then
+                local ff = Instance.new('ForceField', char)
+                ff.Visible = false
+            end
+        else
+            for _, ff in ipairs(char:GetChildren()) do
+                if ff:IsA('ForceField') then
+                    ff:Destroy()
                 end
             end
         end
-        return nil
+    end
+end
+
+local function switchGravityJump()
+    gravityLow = not gravityLow
+    sourceActive = gravityLow
+    Workspace.Gravity = gravityLow and REDUCED_GRAV or NORMAL_GRAV
+    setJumpPower(gravityLow and BOOST_JUMP or NORMAL_JUMP)
+    enableInfiniteJump(gravityLow)
+    antiRagdoll()
+    toggleForceField()
+    spoofedGravity = NORMAL_GRAV
+    
+    saveSettings()
+end
+
+----------------------------------------------------------------
+-- FLY TO BASE
+----------------------------------------------------------------
+local flyActive = false
+local flyConn
+local flyAtt, flyLV
+local flyCharRemovingConn
+local destTouchedConn
+local destPartRef
+local flyRestoreOldGravity, flyRestoreOldJumpPower
+
+local FLY_GRAV = 20
+local FLY_JUMP = 7
+local FLY_STOPDIST = 7
+local FLY_XZ_SPEED = 22
+local FLY_Y_BASE = -1.0
+local FLY_Y_MAX = -2.2
+local FLY_TIME_STEP = 1.5
+
+local function clearFlyConnections()
+    if flyConn then
+        pcall(function()
+            flyConn:Disconnect()
+        end)
+        flyConn = nil
+    end
+    if flyCharRemovingConn then
+        pcall(function()
+            flyCharRemovingConn:Disconnect()
+        end)
+        flyCharRemovingConn = nil
+    end
+    if destTouchedConn then
+        pcall(function()
+            destTouchedConn:Disconnect()
+        end)
+        destTouchedConn = nil
+    end
+end
+
+local function destroyFlyBodies()
+    if flyLV then
+        pcall(function()
+            flyLV:Destroy()
+        end)
+        flyLV = nil
+    end
+    if flyAtt then
+        pcall(function()
+            flyAtt:Destroy()
+        end)
+        flyAtt = nil
+    end
+    destPartRef = nil
+end
+
+local function findMyDeliveryPart()
+    local plots = Workspace:FindFirstChild('Plots')
+    if plots then
+        for _, plot in ipairs(plots:GetChildren()) do
+            local sign = plot:FindFirstChild('PlotSign')
+            if sign and sign:FindFirstChild('YourBase') and sign.YourBase.Enabled then
+                local delivery = plot:FindFirstChild('DeliveryHitbox')
+                if delivery and delivery:IsA('BasePart') then
+                    return delivery
+                end
+            end
+        end
+    end
+    return nil
+end
+
+local function flyGetDescent(dist)
+    local maxdist = 200
+    dist = math.clamp(dist, 0, maxdist)
+    local t = 1 - (dist / maxdist)
+    return FLY_Y_BASE + (FLY_Y_MAX - FLY_Y_BASE) * t
+end
+
+local function restoreSourceAndPhysics()
+    local char = player.Character
+    local hum = char and char:FindFirstChildOfClass('Humanoid')
+    if hum then
+        if gravityLow then
+            Workspace.Gravity = REDUCED_GRAV
+            setJumpPower(BOOST_JUMP)
+            enableInfiniteJump(true)
+        else
+            Workspace.Gravity = NORMAL_GRAV
+            setJumpPower(NORMAL_JUMP)
+            enableInfiniteJump(false)
+        end
+        spoofedGravity = NORMAL_GRAV
+    else
+        Workspace.Gravity = flyRestoreOldGravity or NORMAL_GRAV
+        spoofedGravity = NORMAL_GRAV
+        pcall(function()
+            if hum and flyRestoreOldJumpPower then
+                hum.JumpPower = flyRestoreOldJumpPower
+            end
+        end)
+    end
+end
+
+local function cleanupFly()
+    clearFlyConnections()
+    destroyFlyBodies()
+    restoreSourceAndPhysics()
+    flyActive = false
+end
+
+local function finishFly(success)
+    cleanupFly()
+end
+
+local function startFlyToBase()
+    if flyActive then
+        finishFly(false)
+        return
     end
 
     local destPart = findMyDeliveryPart()
     if not destPart then
-        showNotification("No base found!", false)
         return
     end
 
@@ -290,43 +442,122 @@ local function startFlyToBase()
     local hum = char and char:FindFirstChildOfClass('Humanoid')
     local hrp = char and char:FindFirstChild('HumanoidRootPart')
     if not (hum and hrp) then
-        showNotification("Character not found!", false)
         return
     end
 
-    flyActive = true
-    showNotification("Flying to base...", true)
+    flyRestoreOldGravity = Workspace.Gravity
+    flyRestoreOldJumpPower = hum.JumpPower
 
+    enableInfiniteJump(false)
+
+    Workspace.Gravity = FLY_GRAV
+    spoofedGravity = NORMAL_GRAV
+    hum.UseJumpPower = true
+    hum.JumpPower = FLY_JUMP
+
+    flyActive = true
+
+    flyAtt = Instance.new('Attachment')
+    flyAtt.Name = 'FlyToBaseAttachment'
+    flyAtt.Parent = hrp
+
+    flyLV = Instance.new('LinearVelocity')
+    flyLV.Attachment0 = flyAtt
+    flyLV.RelativeTo = Enum.ActuatorRelativeTo.World
+    flyLV.MaxForce = math.huge
+    flyLV.Parent = hrp
+
+    destPartRef = destPart
+
+    local reached = false
+    local lastYUpdate = 0
+
+    do
+        local pos = hrp.Position
+        local destPos = destPart.Position
+        local distXZ = (Vector3.new(destPos.X, pos.Y, destPos.Z) - pos).Magnitude
+        local yVel = flyGetDescent(distXZ)
+        local dirXZ = Vector3.new(destPos.X - pos.X, 0, destPos.Z - pos.Z)
+        if dirXZ.Magnitude > 0 then
+            dirXZ = dirXZ.Unit
+        else
+            dirXZ = Vector3.new()
+        end
+        flyLV.VectorVelocity = Vector3.new(dirXZ.X * FLY_XZ_SPEED, yVel, dirXZ.Z * FLY_XZ_SPEED)
+        lastYUpdate = tick()
+    end
+
+    destTouchedConn = destPart.Touched:Connect(function(hit)
+        if not flyActive then
+            return
+        end
+        local ch = player.Character
+        if ch and hit and hit:IsDescendantOf(ch) then
+            reached = true
+            finishFly(true)
+        end
+    end)
+
+    if flyConn then
+        flyConn:Disconnect()
+        flyConn = nil
+    end
     flyConn = RunService.Heartbeat:Connect(function()
-        if not flyActive or not hrp or not hrp.Parent then
-            if flyConn then
-                flyConn:Disconnect()
-                flyConn = nil
-            end
+        if not flyActive then
+            cleanupFly()
             return
         end
 
-        local currentPos = hrp.Position
-        local targetPos = destPart.Position
-        local direction = (targetPos - currentPos).Unit
-        
-        hrp.Velocity = direction * 50
-        
-        if (currentPos - targetPos).Magnitude < 10 then
-            if flyConn then
-                flyConn:Disconnect()
-                flyConn = nil
+        if not (hrp and hrp.Parent and hum and hum.Parent) then
+            finishFly(false)
+            return
+        end
+
+        local pos = hrp.Position
+        local destPos = destPart.Position
+        local distXZ = (Vector3.new(destPos.X, pos.Y, destPos.Z) - pos).Magnitude
+
+        if distXZ < FLY_STOPDIST and not reached then
+            reached = true
+            finishFly(true)
+            return
+        end
+
+        if tick() - lastYUpdate >= FLY_TIME_STEP then
+            local yVel = flyGetDescent(distXZ)
+            local dirXZ = Vector3.new(destPos.X - pos.X, 0, destPos.Z - pos.Z)
+            if dirXZ.Magnitude > 0 then
+                dirXZ = dirXZ.Unit
+            else
+                dirXZ = Vector3.new()
             end
-            flyActive = false
-            hrp.Velocity = Vector3.new(0, 0, 0)
-            showNotification("Arrived at base!", true)
+            flyLV.VectorVelocity = Vector3.new(
+                dirXZ.X * FLY_XZ_SPEED,
+                yVel,
+                dirXZ.Z * FLY_XZ_SPEED
+            )
+            lastYUpdate = tick()
+        end
+    end)
+
+    if flyCharRemovingConn then
+        flyCharRemovingConn:Disconnect()
+        flyCharRemovingConn = nil
+    end
+    flyCharRemovingConn = player.CharacterRemoving:Connect(function()
+        if flyActive then
+            finishFly(false)
+        else
+            cleanupFly()
         end
     end)
 end
 
+----------------------------------------------------------------
 -- ESP BASE
+----------------------------------------------------------------
+local espBaseActive = false
 local baseEspObjects = {}
-local baseEspLoop
 
 local function clearBaseESP()
     for _, obj in pairs(baseEspObjects) do
@@ -345,37 +576,51 @@ local function updateBaseESP()
     local plots = Workspace:FindFirstChild('Plots')
     if not plots then return end
 
+    local myPlotName
     for _, plot in pairs(plots:GetChildren()) do
-        local purchases = plot:FindFirstChild('Purchases')
-        local pb = purchases and purchases:FindFirstChild('PlotBlock')
-        local main = pb and pb:FindFirstChild('Main')
-        local gui = main and main:FindFirstChild('BillboardGui')
-        local timeLb = gui and gui:FindFirstChild('RemainingTime')
-        
-        if timeLb and main then
-            local billboard = Instance.new('BillboardGui')
-            billboard.Name = 'Base_ESP'
-            billboard.Size = UDim2.new(0, 140, 0, 36)
-            billboard.StudsOffset = Vector3.new(0, 5, 0)
-            billboard.AlwaysOnTop = true
-            billboard.Parent = main
+        local plotSign = plot:FindFirstChild('PlotSign')
+        if plotSign and plotSign:FindFirstChild('YourBase') and plotSign.YourBase.Enabled then
+            myPlotName = plot.Name
+            break
+        end
+    end
 
-            local label = Instance.new('TextLabel')
-            label.Text = timeLb.Text
-            label.Size = UDim2.new(1, 0, 1, 0)
-            label.BackgroundTransparency = 1
-            label.TextScaled = true
-            label.TextColor3 = Color3.fromRGB(220, 0, 60)
-            label.Font = Enum.Font.Arcade
-            label.TextStrokeTransparency = 0.5
-            label.TextStrokeColor3 = Color3.new(0, 0, 0)
-            label.Parent = billboard
+    if not myPlotName then return end
 
-            table.insert(baseEspObjects, billboard)
+    for _, plot in pairs(plots:GetChildren()) do
+        if plot.Name ~= myPlotName then
+            local purchases = plot:FindFirstChild('Purchases')
+            local pb = purchases and purchases:FindFirstChild('PlotBlock')
+            local main = pb and pb:FindFirstChild('Main')
+            local gui = main and main:FindFirstChild('BillboardGui')
+            local timeLb = gui and gui:FindFirstChild('RemainingTime')
+            
+            if timeLb and main then
+                local billboard = Instance.new('BillboardGui')
+                billboard.Name = 'Base_ESP'
+                billboard.Size = UDim2.new(0, 140, 0, 36)
+                billboard.StudsOffset = Vector3.new(0, 5, 0)
+                billboard.AlwaysOnTop = true
+                billboard.Parent = main
+
+                local label = Instance.new('TextLabel')
+                label.Text = timeLb.Text
+                label.Size = UDim2.new(1, 0, 1, 0)
+                label.BackgroundTransparency = 1
+                label.TextScaled = true
+                label.TextColor3 = Color3.fromRGB(220, 0, 60)
+                label.Font = Enum.Font.Arcade
+                label.TextStrokeTransparency = 0.5
+                label.TextStrokeColor3 = Color3.new(0, 0, 0)
+                label.Parent = billboard
+
+                table.insert(baseEspObjects, billboard)
+            end
         end
     end
 end
 
+local baseEspLoop
 local function toggleBaseESP()
     espBaseActive = not espBaseActive
     
@@ -395,17 +640,17 @@ local function toggleBaseESP()
             wait(2)
             updateBaseESP()
         end)
-        showNotification("Base ESP Enabled", true)
     else
         clearBaseESP()
-        showNotification("Base ESP Disabled", false)
     end
     saveSettings()
 end
 
+----------------------------------------------------------------
 -- ESP BEST
+----------------------------------------------------------------
+local espBestActive = false
 local bestEspObjects = {}
-local bestEspLoop
 
 local function clearBestESP()
     for _, obj in pairs(bestEspObjects) do
@@ -416,6 +661,30 @@ local function clearBestESP()
     bestEspObjects = {}
 end
 
+local function parseMoneyPerSec(text)
+    if not text then
+        return 0
+    end
+    local mult = 1
+    local numberStr = text:match('[%d%.]+')
+    if not numberStr then
+        return 0
+    end
+    if text:find('K') then
+        mult = 1_000
+    elseif text:find('M') then
+        mult = 1_000_000
+    elseif text:find('B') then
+        mult = 1_000_000_000
+    elseif text:find('T') then
+        mult = 1_000_000_000_000
+    elseif text:find('Q') then
+        mult = 1_000_000_000_000_000
+    end
+    local number = tonumber(numberStr)
+    return number and number * mult or 0
+end
+
 local function updateBestESP()
     if not espBestActive then return end
     
@@ -424,55 +693,93 @@ local function updateBestESP()
     local plots = Workspace:FindFirstChild('Plots')
     if not plots then return end
 
+    local myPlotName
     for _, plot in ipairs(plots:GetChildren()) do
-        for _, desc in ipairs(plot:GetDescendants()) do
-            if desc:IsA('TextLabel') and desc.Name == 'Rarity' and desc.Parent and desc.Parent:FindFirstChild('DisplayName') then
-                local parentModel = desc.Parent.Parent
-                local rarity = desc.Text
-                local displayName = desc.Parent.DisplayName.Text
+        local plotSign = plot:FindFirstChild('PlotSign')
+        if plotSign and plotSign:FindFirstChild('YourBase') and plotSign.YourBase.Enabled then
+            myPlotName = plot.Name
+            break
+        end
+    end
 
-                if espBestActive then
-                    local genLabel = desc.Parent:FindFirstChild('Generation')
-                    if genLabel and genLabel:IsA('TextLabel') then
-                        local billboard = Instance.new('BillboardGui')
-                        billboard.Name = 'Best_ESP'
-                        billboard.Size = UDim2.new(0, 200, 0, 50)
-                        billboard.StudsOffset = Vector3.new(0, 4, 0)
-                        billboard.AlwaysOnTop = true
-                        billboard.Parent = parentModel
-                        
-                        local nameLabel = Instance.new('TextLabel')
-                        nameLabel.Size = UDim2.new(1, 0, 0.5, 0)
-                        nameLabel.Position = UDim2.new(0, 0, 0, 0)
-                        nameLabel.BackgroundTransparency = 1
-                        nameLabel.Text = displayName
-                        nameLabel.TextColor3 = Color3.fromRGB(255, 0, 60)
-                        nameLabel.Font = Enum.Font.GothamSemibold
-                        nameLabel.TextSize = 16
-                        nameLabel.TextStrokeTransparency = 0.07
-                        nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-                        nameLabel.Parent = billboard
-                        
-                        local moneyLabel = Instance.new('TextLabel')
-                        moneyLabel.Size = UDim2.new(1, 0, 0.5, 0)
-                        moneyLabel.Position = UDim2.new(0, 0, 0.5, 0)
-                        moneyLabel.BackgroundTransparency = 1
-                        moneyLabel.Text = genLabel.Text
-                        moneyLabel.TextColor3 = Color3.fromRGB(0, 240, 60)
-                        moneyLabel.Font = Enum.Font.GothamSemibold
-                        moneyLabel.TextSize = 14
-                        moneyLabel.TextStrokeTransparency = 0.17
-                        moneyLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-                        moneyLabel.Parent = billboard
+    local bestPetInfo = nil
 
-                        table.insert(bestEspObjects, billboard)
+    for _, plot in ipairs(plots:GetChildren()) do
+        if plot.Name ~= myPlotName then
+            for _, desc in ipairs(plot:GetDescendants()) do
+                if desc:IsA('TextLabel') and desc.Name == 'Rarity' and desc.Parent and desc.Parent:FindFirstChild('DisplayName') then
+                    local parentModel = desc.Parent.Parent
+                    local rarity = desc.Text
+                    local displayName = desc.Parent.DisplayName.Text
+
+                    if espBestActive then
+                        local genLabel = desc.Parent:FindFirstChild('Generation')
+                        if genLabel and genLabel:IsA('TextLabel') then
+                            local mps = parseMoneyPerSec(genLabel.Text)
+                            if not bestPetInfo or mps > bestPetInfo.mps then
+                                bestPetInfo = {
+                                    petName = displayName,
+                                    genText = genLabel.Text,
+                                    mps = mps,
+                                    model = parentModel,
+                                }
+                            end
+                        end
                     end
                 end
             end
         end
     end
+
+    if espBestActive then
+        for _, plot in ipairs(plots:GetChildren()) do
+            for _, inst in ipairs(plot:GetDescendants()) do
+                if inst:IsA('BillboardGui') and inst.Name == 'Best_ESP' then
+                    pcall(function()
+                        inst:Destroy()
+                    end)
+                end
+            end
+        end
+        
+        if bestPetInfo and bestPetInfo.mps > 0 and bestPetInfo.model then
+            local billboard = Instance.new('BillboardGui')
+            billboard.Name = 'Best_ESP'
+            billboard.Size = UDim2.new(0, 303, 0, 75)
+            billboard.StudsOffset = Vector3.new(0, 4.84, 0)
+            billboard.AlwaysOnTop = true
+            billboard.Parent = bestPetInfo.model
+            
+            local nameLabel = Instance.new('TextLabel')
+            nameLabel.Size = UDim2.new(1, 0, 0, 35)
+            nameLabel.Position = UDim2.new(0, 0, 0, 0)
+            nameLabel.BackgroundTransparency = 1
+            nameLabel.Text = bestPetInfo.petName
+            nameLabel.TextColor3 = Color3.fromRGB(255, 0, 60)
+            nameLabel.Font = Enum.Font.GothamSemibold
+            nameLabel.TextSize = 25
+            nameLabel.TextStrokeTransparency = 0.07
+            nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            nameLabel.Parent = billboard
+            
+            local moneyLabel = Instance.new('TextLabel')
+            moneyLabel.Size = UDim2.new(1, 0, 0, 22)
+            moneyLabel.Position = UDim2.new(0, 0, 0, 35)
+            moneyLabel.BackgroundTransparency = 1
+            moneyLabel.Text = bestPetInfo.genText
+            moneyLabel.TextColor3 = Color3.fromRGB(0, 240, 60)
+            moneyLabel.Font = Enum.Font.GothamSemibold
+            moneyLabel.TextSize = 22
+            moneyLabel.TextStrokeTransparency = 0.17
+            moneyLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            moneyLabel.Parent = billboard
+
+            table.insert(bestEspObjects, billboard)
+        end
+    end
 end
 
+local bestEspLoop
 local function toggleBestESP()
     espBestActive = not espBestActive
     
@@ -492,17 +799,17 @@ local function toggleBestESP()
             wait(2)
             updateBestESP()
         end)
-        showNotification("Best ESP Enabled", true)
     else
         clearBestESP()
-        showNotification("Best ESP Disabled", false)
     end
     saveSettings()
 end
 
+----------------------------------------------------------------
 -- PLAYER ESP
+----------------------------------------------------------------
+local playerEspActive = false
 local playerEspBoxes = {}
-local playerEspLoop
 
 local function clearPlayerESP()
     for plr, objs in pairs(playerEspBoxes) do
@@ -524,37 +831,44 @@ local function updatePlayerESP()
     if not playerEspActive then return end
     
     for _, plr in ipairs(Players:GetPlayers()) do
-        if plr ~= player and plr.Character then
-            local hrp = plr.Character:FindFirstChild('HumanoidRootPart')
-            if hrp then
-                if not playerEspBoxes[plr] then
-                    playerEspBoxes[plr] = {}
-                    
-                    local highlight = Instance.new('Highlight')
-                    highlight.FillColor = Color3.fromRGB(255, 0, 0)
-                    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-                    highlight.FillTransparency = 0.5
-                    highlight.OutlineTransparency = 0
-                    highlight.Parent = plr.Character
-                    playerEspBoxes[plr].box = highlight
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild('HumanoidRootPart') then
+            local hrp = plr.Character.HumanoidRootPart
+            if not playerEspBoxes[plr] then
+                playerEspBoxes[plr] = {}
+                
+                local box = Instance.new('BoxHandleAdornment')
+                box.Size = Vector3.new(4, 6, 4)
+                box.Adornee = hrp
+                box.AlwaysOnTop = true
+                box.ZIndex = 10
+                box.Transparency = 0.5
+                box.Color3 = Color3.fromRGB(250, 0, 60)
+                box.Parent = hrp
+                playerEspBoxes[plr].box = box
 
-                    local billboard = Instance.new('BillboardGui')
-                    billboard.Adornee = hrp
-                    billboard.Size = UDim2.new(0, 200, 0, 30)
-                    billboard.StudsOffset = Vector3.new(0, 4, 0)
-                    billboard.AlwaysOnTop = true
-                    
-                    local label = Instance.new('TextLabel', billboard)
-                    label.Size = UDim2.new(1, 0, 1, 0)
-                    label.BackgroundTransparency = 1
-                    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    label.TextStrokeTransparency = 0
-                    label.Text = plr.Name
-                    label.Font = Enum.Font.GothamBold
-                    label.TextSize = 14
-                    
-                    playerEspBoxes[plr].text = billboard
-                    billboard.Parent = hrp
+                local billboard = Instance.new('BillboardGui')
+                billboard.Adornee = hrp
+                billboard.Size = UDim2.new(0, 200, 0, 30)
+                billboard.StudsOffset = Vector3.new(0, 4, 0)
+                billboard.AlwaysOnTop = true
+                
+                local label = Instance.new('TextLabel', billboard)
+                label.Size = UDim2.new(1, 0, 1, 0)
+                label.BackgroundTransparency = 1
+                label.TextColor3 = Color3.fromRGB(220, 0, 60)
+                label.TextStrokeTransparency = 0
+                label.Text = plr.Name
+                label.Font = Enum.Font.GothamBold
+                label.TextSize = 18
+                
+                playerEspBoxes[plr].text = billboard
+                billboard.Parent = hrp
+            else
+                if playerEspBoxes[plr].box then
+                    playerEspBoxes[plr].box.Adornee = hrp
+                end
+                if playerEspBoxes[plr].text then
+                    playerEspBoxes[plr].text.Adornee = hrp
                 end
             end
         else
@@ -575,6 +889,7 @@ local function updatePlayerESP()
     end
 end
 
+local playerEspLoop
 local function togglePlayerESP()
     playerEspActive = not playerEspActive
     
@@ -593,10 +908,8 @@ local function togglePlayerESP()
             end
             updatePlayerESP()
         end)
-        showNotification("Player ESP Enabled", true)
     else
         clearPlayerESP()
-        showNotification("Player ESP Disabled", false)
     end
     saveSettings()
 end
@@ -618,29 +931,211 @@ Players.PlayerRemoving:Connect(function(plr)
     end
 end)
 
--- STEAL FLOOR
+----------------------------------------------------------------
+-- STEAL FLOOR - Ayrı Buton Olarak
+----------------------------------------------------------------
+local stealFloorActive = false
+local sfFloatSpeed = 24
+local sfAttachment, sfAlignPosition, sfAlignOrientation, sfLinearVelocity
+local sfHeartbeatConn, sfPromptConn, sfDiedConn, sfCharAddedConn
+local sfOriginalProps = {}
+
+local function sfSafeDisconnect(conn)
+    if conn and typeof(conn) == "RBXScriptConnection" then
+        pcall(function()
+            conn:Disconnect()
+        end)
+    end
+end
+
+local function sfSetPlotsTransparency(active)
+    local plots = Workspace:FindFirstChild('Plots')
+    if not plots then return end
+
+    if active then
+        sfOriginalProps = {}
+        for _, plot in ipairs(plots:GetChildren()) do
+            local containers = {
+                plot:FindFirstChild('Decorations'),
+                plot:FindFirstChild('AnimalPodiums'),
+            }
+            for _, container in ipairs(containers) do
+                if container then
+                    for _, obj in ipairs(container:GetDescendants()) do
+                        if obj:IsA('BasePart') then
+                            sfOriginalProps[obj] = {
+                                Transparency = obj.Transparency,
+                                Material = obj.Material,
+                            }
+                            obj.Transparency = 0.7
+                        end
+                    end
+                end
+            end
+        end
+    else
+        for part, props in pairs(sfOriginalProps) do
+            if part and part.Parent then
+                part.Transparency = props.Transparency
+                part.Material = props.Material
+            end
+        end
+        sfOriginalProps = {}
+    end
+end
+
+local function sfDestroyBodies()
+    if sfLinearVelocity then
+        pcall(function() sfLinearVelocity:Destroy() end)
+    end
+    if sfAlignPosition then
+        pcall(function() sfAlignPosition:Destroy() end)
+    end
+    if sfAlignOrientation then
+        pcall(function() sfAlignOrientation:Destroy() end)
+    end
+    if sfAttachment then
+        pcall(function() sfAttachment:Destroy() end)
+    end
+    sfLinearVelocity, sfAlignPosition, sfAlignOrientation, sfAttachment = nil, nil, nil, nil
+end
+
+local function sfCreateBodies(rootPart)
+    sfDestroyBodies()
+    if not rootPart then return end
+
+    sfAttachment = Instance.new('Attachment')
+    sfAttachment.Name = 'StealFloor_Attachment'
+    sfAttachment.Parent = rootPart
+
+    sfAlignPosition = Instance.new('AlignPosition')
+    sfAlignPosition.Name = 'StealFloor_AlignPosition'
+    sfAlignPosition.Attachment0 = sfAttachment
+    sfAlignPosition.Mode = Enum.PositionAlignmentMode.OneAttachment
+    sfAlignPosition.Position = rootPart.Position
+    sfAlignPosition.MaxForce = 500000
+    sfAlignPosition.Responsiveness = 200
+    sfAlignPosition.ApplyAtCenterOfMass = true
+    sfAlignPosition.ForceLimitMode = Enum.ForceLimitMode.PerAxis
+    sfAlignPosition.MaxAxesForce = Vector3.new(math.huge, 0, math.huge)
+    sfAlignPosition.Parent = rootPart
+
+    sfAlignOrientation = Instance.new('AlignOrientation')
+    sfAlignOrientation.Name = 'StealFloor_AlignOrientation'
+    sfAlignOrientation.Attachment0 = sfAttachment
+    sfAlignOrientation.Mode = Enum.OrientationAlignmentMode.OneAttachment
+    sfAlignOrientation.CFrame = rootPart.CFrame
+    sfAlignOrientation.MaxTorque = 500000
+    sfAlignOrientation.Responsiveness = 200
+    sfAlignOrientation.Parent = rootPart
+
+    sfLinearVelocity = Instance.new('LinearVelocity')
+    sfLinearVelocity.Name = 'StealFloor_LinearVelocity'
+    sfLinearVelocity.Attachment0 = sfAttachment
+    sfLinearVelocity.MaxForce = 500000
+    sfLinearVelocity.ForceLimitMode = Enum.ForceLimitMode.PerAxis
+    sfLinearVelocity.MaxAxesForce = Vector3.new(0, math.huge, 0)
+    sfLinearVelocity.VectorVelocity = Vector3.new(0, 0, 0)
+    sfLinearVelocity.Parent = rootPart
+end
+
+local function sfTeleportToGround()
+    local char = player.Character
+    local rp = char and char:FindFirstChild('HumanoidRootPart')
+    local hum = char and char:FindFirstChildOfClass('Humanoid')
+    if not (rp and hum and hum.Health > 0) then return end
+
+    local rayParams = RaycastParams.new()
+    rayParams.FilterType = Enum.RaycastFilterType.Exclude
+    rayParams.FilterDescendantsInstances = {char}
+
+    local rayResult = Workspace:Raycast(rp.Position, Vector3.new(0, -1500, 0), rayParams)
+    if rayResult then
+        rp.CFrame = CFrame.new(
+            rp.Position.X,
+            rayResult.Position.Y + hum.HipHeight,
+            rp.Position.Z
+        )
+        if stealFloorActive then
+            toggleStealFloor()
+        end
+    end
+end
+
+local function sfEnable()
+    if stealFloorActive then return end
+    local hum = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
+    local root = player.Character and player.Character:FindFirstChild('HumanoidRootPart')
+    if not (hum and hum.Health > 0 and root) then return end
+
+    stealFloorActive = true
+    sfCreateBodies(root)
+    sfSetPlotsTransparency(true)
+
+    sfSafeDisconnect(sfHeartbeatConn)
+    sfHeartbeatConn = RunService.Heartbeat:Connect(function()
+        if not stealFloorActive or not sfLinearVelocity then return end
+        local h = player.Character and player.Character:FindFirstChildOfClass('Humanoid')
+        if not (h and h.Health > 0) then
+            toggleStealFloor()
+            return
+        end
+        sfLinearVelocity.VectorVelocity = Vector3.new(0, sfFloatSpeed, 0)
+    end)
+
+    sfSafeDisconnect(sfPromptConn)
+    sfPromptConn = ProximityPromptService.PromptTriggered:Connect(function(prompt, who)
+        if who == player then
+            local act = (prompt.ActionText or ''):lower()
+            if string.find(act, 'steal') then
+                sfTeleportToGround()
+            end
+        end
+    end)
+
+    sfSafeDisconnect(sfDiedConn)
+    if hum then
+        sfDiedConn = hum.Died:Connect(function()
+            toggleStealFloor()
+        end)
+    end
+end
+
+local function sfDisable()
+    if not stealFloorActive then
+        sfSetPlotsTransparency(false)
+        sfDestroyBodies()
+        sfSafeDisconnect(sfHeartbeatConn)
+        sfSafeDisconnect(sfPromptConn)
+        sfSafeDisconnect(sfDiedConn)
+        sfHeartbeatConn, sfPromptConn, sfDiedConn = nil, nil, nil
+        return
+    end
+    stealFloorActive = false
+    sfSetPlotsTransparency(false)
+    sfDestroyBodies()
+    sfSafeDisconnect(sfHeartbeatConn)
+    sfSafeDisconnect(sfPromptConn)
+    sfSafeDisconnect(sfDiedConn)
+    sfHeartbeatConn, sfPromptConn, sfDiedConn = nil, nil, nil
+end
+
 local function toggleStealFloor()
-    stealFloorActive = not stealFloorActive
-    if stealFloorActive then
-        showNotification("Steal Floor Enabled", true)
+    if not stealFloorActive then
+        sfEnable()
     else
-        showNotification("Steal Floor Disabled", false)
+        sfDisable()
     end
     saveSettings()
 end
 
--- DEYSNC SYSTEM
-local function executeAdvancedDesync()
-    antiHitActive = not antiHitActive
-    if antiHitActive then
-        showNotification("Desync activated successfully!", true)
-    else
-        showNotification("Desync deactivated", false)
-    end
-    saveSettings()
-end
+sfSafeDisconnect(sfCharAddedConn)
+sfCharAddedConn = player.CharacterAdded:Connect(function(ch)
+    task.wait(0.1)
+    sfDisable()
+end)
 
--- Steal Floor Butonu
+-- Steal Floor Butonu (Sol Alt Köşe)
 local stealFloorGui = Instance.new("ScreenGui")
 stealFloorGui.Name = "StealFloorButton"
 stealFloorGui.ResetOnSpawn = false
@@ -650,8 +1145,8 @@ stealFloorGui.Parent = CoreGui
 local stealFloorButton = Instance.new("TextButton")
 stealFloorButton.Name = "StealFloor"
 stealFloorButton.Size = UDim2.new(0, 120, 0, 50)
-stealFloorButton.Position = UDim2.new(0, 10, 1, -60)
-stealFloorButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+stealFloorButton.Position = UDim2.new(0, 10, 1, -60) -- Sol Alt Köşe
+stealFloorButton.BackgroundColor3 = Color3.fromRGB(255, 120, 120)
 stealFloorButton.BackgroundTransparency = 0.4
 stealFloorButton.Text = "🏗️ Steal Floor"
 stealFloorButton.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -671,18 +1166,415 @@ stealFloorStroke.Thickness = 2
 stealFloorStroke.Transparency = 0.3
 stealFloorStroke.Parent = stealFloorButton
 
+stealFloorButton.MouseEnter:Connect(function()
+    TweenService:Create(stealFloorButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.2,
+        TextColor3 = Color3.fromRGB(255, 255, 255)
+    }):Play()
+end)
+
+stealFloorButton.MouseLeave:Connect(function()
+    TweenService:Create(stealFloorButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.4,
+        TextColor3 = Color3.fromRGB(0, 0, 0)
+    }):Play()
+end)
+
 stealFloorButton.MouseButton1Click:Connect(function()
     toggleStealFloor()
     if stealFloorActive then
-        stealFloorButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
+        TweenService:Create(stealFloorButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+        }):Play()
         stealFloorButton.Text = "✅ Steal Floor"
     else
-        stealFloorButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+        TweenService:Create(stealFloorButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 120, 120)
+        }):Play()
         stealFloorButton.Text = "🏗️ Steal Floor"
     end
 end)
 
--- Deysnc Button
+----------------------------------------------------------------
+-- DEYSNC SYSTEM
+----------------------------------------------------------------
+local antiHitActive = false
+local clonerActive = false
+local desyncRunning = false
+local cloneListenerConn
+local antiHitRunning = false
+local lockdownRunning = false
+local lockdownConn = nil
+local invHealthConns = {}
+local desyncHighlights = {}
+local characterHighlights = {}
+
+local function safeDisconnectConn(conn)
+    if conn and typeof(conn) == "RBXScriptConnection" then
+        pcall(function()
+            conn:Disconnect()
+        end)
+    end
+end
+
+local function addCharacterHighlight(character)
+    if not character or characterHighlights[character] then return end
+    
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "DesyncCharacterHighlight"
+    highlight.FillColor = Color3.fromRGB(0, 255, 100)
+    highlight.OutlineColor = Color3.fromRGB(0, 200, 80)
+    highlight.FillTransparency = 0.3
+    highlight.OutlineTransparency = 0
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.Parent = character
+    
+    characterHighlights[character] = highlight
+end
+
+local function removeCharacterHighlight(character)
+    local highlight = characterHighlights[character]
+    if highlight then
+        pcall(function() 
+            highlight:Destroy() 
+        end)
+        characterHighlights[character] = nil
+    end
+end
+
+local function removeAllHighlights()
+    for character, highlight in pairs(characterHighlights) do
+        pcall(function()
+            highlight:Destroy()
+        end)
+    end
+    characterHighlights = {}
+end
+
+local function addDesyncHighlight(model)
+    if not model or desyncHighlights[model] then return end
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "DesyncHighlight"
+    highlight.FillColor = Color3.fromRGB(0, 255, 100)
+    highlight.OutlineColor = Color3.fromRGB(255, 50, 50)
+    highlight.FillTransparency = 0.5
+    highlight.OutlineTransparency = 0
+    highlight.Parent = model
+    desyncHighlights[model] = highlight
+end
+
+local function removeDesyncHighlight(model)
+    local hl = desyncHighlights[model]
+    if hl then
+        pcall(function() hl:Destroy() end)
+        desyncHighlights[model] = nil
+    end
+end
+
+local function makeInvulnerable(model)
+    if not model or not model.Parent then return end
+    
+    local hum = model:FindFirstChildOfClass("Humanoid")
+    if not hum then return end
+
+    local maxHealth = 1e9
+    pcall(function()
+        hum.MaxHealth = maxHealth
+        hum.Health = maxHealth
+    end)
+
+    if invHealthConns[model] then
+        safeDisconnectConn(invHealthConns[model])
+        invHealthConns[model] = nil
+    end
+    
+    invHealthConns[model] = hum.HealthChanged:Connect(function()
+        pcall(function()
+            if hum.Health < hum.MaxHealth then
+                hum.Health = hum.MaxHealth
+            end
+        end)
+    end)
+
+    if not model:FindFirstChildOfClass("ForceField") then
+        local ff = Instance.new("ForceField")
+        ff.Visible = false
+        ff.Parent = model
+    end
+
+    addDesyncHighlight(model)
+    addCharacterHighlight(model)
+
+    pcall(function()
+        hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+        hum:SetStateEnabled(Enum.HumanoidStateType.Physics, false)
+    end)
+end
+
+local function removeInvulnerable(model)
+    if not model then return end
+    
+    if invHealthConns[model] then
+        safeDisconnectConn(invHealthConns[model])
+        invHealthConns[model] = nil
+    end
+    
+    for _, ff in ipairs(model:GetChildren()) do
+        if ff:IsA("ForceField") then
+            pcall(function() ff:Destroy() end)
+        end
+    end
+    
+    local hum = model:FindFirstChildOfClass("Humanoid")
+    if hum then
+        pcall(function()
+            hum:SetStateEnabled(Enum.HumanoidStateType.Dead, true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Physics, true)
+            local safeMax = 100
+            hum.MaxHealth = safeMax
+            if hum.Health > safeMax then hum.Health = safeMax end
+        end)
+    end
+    
+    removeDesyncHighlight(model)
+    removeCharacterHighlight(model)
+end
+
+local function trySetFlag()
+    pcall(function()
+        if setfflag then setfflag("WorldStepMax", "-99999999999999") end
+    end)
+end
+
+local function resetFlag()
+    pcall(function()
+        if setfflag then setfflag("WorldStepMax", "1") end
+    end)
+end
+
+local function activateDesync()
+    if desyncRunning then return end
+    desyncRunning = true
+    trySetFlag()
+end
+
+local function deactivateDesync()
+    if not desyncRunning then return end
+    desyncRunning = false
+    resetFlag()
+end
+
+local function performDesyncLockdown(duration, onComplete)
+    if lockdownRunning then
+        if onComplete then pcall(onComplete) end
+        return
+    end
+    lockdownRunning = true
+
+    local char = player.Character
+    if not char then
+        lockdownRunning = false
+        if onComplete then pcall(onComplete) end
+        return
+    end
+    
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if not hrp or not hum then
+        lockdownRunning = false
+        if onComplete then pcall(onComplete) end
+        return
+    end
+
+    local savedWalk = hum.WalkSpeed
+    local savedJump = hum.JumpPower
+    local savedUseJumpPower = hum.UseJumpPower
+
+    hum.WalkSpeed = 0
+    hum.JumpPower = 0
+    hum.UseJumpPower = true
+    hum.PlatformStand = true
+
+    local fixedCFrame = hrp.CFrame
+
+    if lockdownConn then
+        lockdownConn:Disconnect()
+        lockdownConn = nil
+    end
+
+    local lastCFrameTime = 0
+    local CFRAME_UPDATE_INTERVAL = 0.15
+    lockdownConn = RunService.Heartbeat:Connect(function()
+        if not hrp or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then
+            return
+        end
+        local now = tick()
+        pcall(function()
+            hrp.Velocity = Vector3.new(0, 0, 0)
+            hrp.RotVelocity = Vector3.new(0, 0, 0)
+            if (now - lastCFrameTime) >= CFRAME_UPDATE_INTERVAL then
+                hrp.CFrame = fixedCFrame
+                lastCFrameTime = now
+            end
+        end)
+    end)
+
+    task.delay(duration, function()
+        if lockdownConn then
+            lockdownConn:Disconnect()
+            lockdownConn = nil
+        end
+
+        if hum and hum.Parent then
+            pcall(function()
+                hum.WalkSpeed = savedWalk or 16
+                hum.JumpPower = savedJump or 50
+                hum.UseJumpPower = savedUseJumpPower or true
+                hum.PlatformStand = false
+            end)
+        end
+
+        lockdownRunning = false
+        if onComplete then pcall(onComplete) end
+    end)
+end
+
+local function activateClonerDesync(callback)
+    if clonerActive then
+        if callback then callback() end
+        return
+    end
+    clonerActive = true
+
+    local Backpack = player:FindFirstChildOfClass("Backpack")
+    local function equipQuantumCloner()
+        if not Backpack then return end
+        local tool = Backpack:FindFirstChild("Quantum Cloner")
+        if tool then
+            local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then 
+                humanoid:EquipTool(tool)
+                task.wait(0.5)
+            end
+        end
+    end
+    equipQuantumCloner()
+
+    local REUseItem = ReplicatedStorage.Packages.Net:FindFirstChild("RE/UseItem")
+    if REUseItem then 
+        REUseItem:FireServer()
+    end
+    
+    local REQuantumClonerOnTeleport = ReplicatedStorage.Packages.Net:FindFirstChild("RE/QuantumCloner/OnTeleport")
+    if REQuantumClonerOnTeleport then 
+        REQuantumClonerOnTeleport:FireServer()
+    end
+
+    local cloneName = tostring(player.UserId) .. "_Clone"
+    cloneListenerConn = Workspace.ChildAdded:Connect(function(obj)
+        if obj.Name == cloneName and obj:IsA("Model") then
+            pcall(function() makeInvulnerable(obj) end)
+            local origChar = player.Character
+            if origChar then pcall(function() makeInvulnerable(origChar) end) end
+            
+            if cloneListenerConn then
+                cloneListenerConn:Disconnect()
+                cloneListenerConn = nil
+            end
+
+            performDesyncLockdown(1.6, function()
+                if callback then pcall(callback) end
+            end)
+        end
+    end)
+
+    task.delay(5, function()
+        if cloneListenerConn then
+            cloneListenerConn:Disconnect()
+            cloneListenerConn = nil
+        end
+        clonerActive = false
+    end)
+end
+
+local function deactivateClonerDesync()
+    if not clonerActive then
+        local existingClone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+        if existingClone then
+            pcall(function()
+                removeInvulnerable(existingClone)
+                existingClone:Destroy()
+            end)
+        end
+        clonerActive = false
+        return
+    end
+
+    clonerActive = false
+    local char = player.Character
+    if char then removeInvulnerable(char) end
+    
+    local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+    if clone then
+        removeInvulnerable(clone)
+        pcall(function() clone:Destroy() end)
+    end
+
+    if cloneListenerConn then
+        cloneListenerConn:Disconnect()
+        cloneListenerConn = nil
+    end
+end
+
+local function executeAdvancedDesync()
+    if antiHitRunning then 
+        return 
+    end
+    antiHitRunning = true
+
+    activateDesync()
+    task.wait(0.1)
+    activateClonerDesync(function()
+        deactivateDesync()
+        antiHitRunning = false
+        antiHitActive = true
+        saveSettings()
+    end)
+end
+
+local function deactivateAdvancedDesync()
+    if antiHitRunning then
+        if cloneListenerConn then
+            cloneListenerConn:Disconnect()
+            cloneListenerConn = nil
+        end
+        antiHitRunning = false
+    end
+
+    deactivateClonerDesync()
+    deactivateDesync()
+    antiHitActive = false
+
+    if player.Character then removeInvulnerable(player.Character) end
+
+    local possibleClone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+    if possibleClone then
+        pcall(function()
+            removeInvulnerable(possibleClone)
+            possibleClone:Destroy()
+        end)
+    end
+
+    for model, _ in pairs(desyncHighlights) do
+        removeDesyncHighlight(model)
+    end
+    
+    removeAllHighlights()
+    
+    saveSettings()
+end
+
+-- Deysnc Button (Sağ Üst Köşe)
 local desyncScreenGui = Instance.new("ScreenGui")
 desyncScreenGui.Name = "QuantumDesyncButton"
 desyncScreenGui.ResetOnSpawn = false
@@ -692,8 +1584,8 @@ desyncScreenGui.Parent = CoreGui
 local desyncButton = Instance.new("TextButton")
 desyncButton.Name = "Deysnc"
 desyncButton.Size = UDim2.new(0, 120, 0, 50)
-desyncButton.Position = UDim2.new(1, -130, 0, 10)
-desyncButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+desyncButton.Position = UDim2.new(1, -130, 0, 10) -- Sağ Üst Köşe
+desyncButton.BackgroundColor3 = Color3.fromRGB(0, 100, 255)
 desyncButton.BackgroundTransparency = 0.4
 desyncButton.Text = "Deysnc"
 desyncButton.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -708,29 +1600,88 @@ desyncCorner.CornerRadius = UDim.new(0, 12)
 desyncCorner.Parent = desyncButton
 
 local desyncStroke = Instance.new("UIStroke")
-desyncStroke.Color = Color3.fromRGB(255, 200, 200)
+desyncStroke.Color = Color3.fromRGB(200, 230, 255)
 desyncStroke.Thickness = 2
 desyncStroke.Transparency = 0.3
 desyncStroke.Parent = desyncButton
 
+desyncButton.MouseEnter:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.2,
+        TextColor3 = Color3.fromRGB(255, 255, 255)
+    }):Play()
+end)
+
+desyncButton.MouseLeave:Connect(function()
+    TweenService:Create(desyncButton, TweenInfo.new(0.2), {
+        BackgroundTransparency = 0.4,
+        TextColor3 = Color3.fromRGB(0, 0, 0)
+    }):Play()
+end)
+
 desyncButton.MouseButton1Click:Connect(function()
-    executeAdvancedDesync()
+    if antiHitRunning then
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+        }):Play()
+        desyncButton.Text = "Working..."
+        return
+    end
+    
     if antiHitActive then
-        desyncButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
-        desyncButton.Text = "Active"
-    else
-        desyncButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
+        deactivateAdvancedDesync()
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        }):Play()
         desyncButton.Text = "Deysnc"
+    else
+        executeAdvancedDesync()
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        }):Play()
+        desyncButton.Text = "Active"
     end
 end)
 
--- MAIN GUI TASARIMI
+-- Deysnc reset
+player.CharacterAdded:Connect(function()
+    task.delay(0.3, function()
+        antiHitActive = false
+        antiHitRunning = false
+        clonerActive = false
+        desyncRunning = false
+        lockdownRunning = false
+        
+        TweenService:Create(desyncButton, TweenInfo.new(0.3), {
+            BackgroundColor3 = Color3.fromRGB(0, 100, 255)
+        }):Play()
+        desyncButton.Text = "Deysnc"
+        
+        local clone = Workspace:FindFirstChild(tostring(player.UserId) .. "_Clone")
+        if clone then
+            pcall(function()
+                removeInvulnerable(clone)
+                clone:Destroy()
+            end)
+        end
+        
+        removeAllHighlights()
+    end)
+end)
+
+----------------------------------------------------------------
+-- V LOGO AND MAIN GUI DESIGN - %50 KÜÇÜLTÜLMÜŞ
+----------------------------------------------------------------
 local playerGui = player:WaitForChild('PlayerGui')
 
 -- Clean old GUIs
-local old = playerGui:FindFirstChild('VortexHelper')
-if old then
-    old:Destroy()
+do
+    local old = playerGui:FindFirstChild('VortexHelper')
+    if old then
+        pcall(function()
+            old:Destroy()
+        end)
+    end
 end
 
 -- V Logo Button
@@ -770,10 +1721,10 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- Main Frame
+-- Main Frame - %50 KÜÇÜLTÜLMÜŞ
 local mainFrame = Instance.new('Frame')
-mainFrame.Size = UDim2.new(0, 150, 0, 160)
-mainFrame.Position = UDim2.new(0.5, -75, 0.5, -80)
+mainFrame.Size = UDim2.new(0, 160, 0, 180) -- %50 küçültüldü
+mainFrame.Position = UDim2.new(0.5, -80, 0.5, -90)
 mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
 mainFrame.BackgroundTransparency = 0.1
 mainFrame.BorderSizePixel = 0
@@ -790,7 +1741,7 @@ mainStroke.Transparency = 0.2
 
 -- Header with Tabs
 local header = Instance.new('Frame')
-header.Size = UDim2.new(1, 0, 0, 25)
+header.Size = UDim2.new(1, 0, 0, 30)
 header.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
 header.BackgroundTransparency = 0.1
 header.BorderSizePixel = 0
@@ -800,7 +1751,7 @@ local headerCorner = Instance.new("UICorner")
 headerCorner.CornerRadius = UDim.new(0, 10)
 headerCorner.Parent = header
 
--- Tab Buttons
+-- Tab Buttons - UI Corner EKLENDİ
 local tab1Btn = Instance.new('TextButton')
 tab1Btn.Name = 'Tab1'
 tab1Btn.Size = UDim2.new(0.5, -2, 1, 0)
@@ -808,7 +1759,7 @@ tab1Btn.Position = UDim2.new(0, 0, 0, 0)
 tab1Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
 tab1Btn.Text = "MAIN"
 tab1Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
-tab1Btn.TextSize = 10
+tab1Btn.TextSize = 11
 tab1Btn.Font = Enum.Font.GothamBold
 tab1Btn.AutoButtonColor = false
 tab1Btn.Parent = header
@@ -824,7 +1775,7 @@ tab2Btn.Position = UDim2.new(0.5, 0, 0, 0)
 tab2Btn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
 tab2Btn.Text = "VISUAL"
 tab2Btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-tab2Btn.TextSize = 10
+tab2Btn.TextSize = 11
 tab2Btn.Font = Enum.Font.GothamBold
 tab2Btn.AutoButtonColor = false
 tab2Btn.Parent = header
@@ -836,30 +1787,41 @@ tab2Corner.Parent = tab2Btn
 -- Content Areas
 local contentTab1 = Instance.new('Frame')
 contentTab1.Name = 'Tab1Content'
-contentTab1.Size = UDim2.new(1, -8, 1, -30)
-contentTab1.Position = UDim2.new(0, 4, 0, 26)
+contentTab1.Size = UDim2.new(1, -8, 1, -35)
+contentTab1.Position = UDim2.new(0, 4, 0, 31)
 contentTab1.BackgroundTransparency = 1
 contentTab1.Visible = true
 contentTab1.Parent = mainFrame
 
 local contentTab2 = Instance.new('Frame')
 contentTab2.Name = 'Tab2Content'
-contentTab2.Size = UDim2.new(1, -8, 1, -30)
-contentTab2.Position = UDim2.new(0, 4, 0, 26)
+contentTab2.Size = UDim2.new(1, -8, 1, -35)
+contentTab2.Position = UDim2.new(0, 4, 0, 31)
 contentTab2.BackgroundTransparency = 1
 contentTab2.Visible = false
 contentTab2.Parent = mainFrame
 
--- Button Creation Function
+-- Title
+local title = Instance.new('TextLabel', header)
+title.Size = UDim2.new(1, 0, 0, 15)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.Text = 'VORTEX HELPER'
+title.TextColor3 = Color3.fromRGB(100, 200, 255)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 12
+title.BackgroundTransparency = 1
+title.TextStrokeTransparency = 0.7
+
+-- Button Creation Function - Optimize Edilmiş
 local function createButton(parent, text, yPos, callback, isActive)
     local btn = Instance.new('TextButton', parent)
-    btn.Size = UDim2.new(0.95, 0, 0, 22)
+    btn.Size = UDim2.new(0.95, 0, 0, 25)
     btn.Position = UDim2.new(0.025, 0, 0, yPos)
     btn.BackgroundColor3 = isActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
     btn.Text = text
     btn.Font = Enum.Font.GothamSemibold
     btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 9
+    btn.TextSize = 10
     btn.BorderSizePixel = 0
     btn.AutoButtonColor = false
     
@@ -870,6 +1832,18 @@ local function createButton(parent, text, yPos, callback, isActive)
     btnStroke.Color = Color3.fromRGB(255, 255, 255)
     btnStroke.Thickness = 1
     btnStroke.Transparency = 0.3
+    
+    btn.MouseEnter:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {
+            BackgroundTransparency = 0.1
+        }):Play()
+    end)
+    
+    btn.MouseLeave:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {
+            BackgroundTransparency = 0
+        }):Play()
+    end)
     
     btn.MouseButton1Click:Connect(callback)
     return btn
@@ -931,107 +1905,69 @@ tab2Btn.MouseButton1Click:Connect(function() switchTab(2) end)
 local settings = loadSettings()
 
 -- Apply settings
-if settings.infJump ~= nil then gravityLow = settings.infJump end
-if settings.espBase ~= nil then espBaseActive = settings.espBase end
-if settings.espBest ~= nil then espBestActive = settings.espBest end
-if settings.desync ~= nil then antiHitActive = settings.desync end
-if settings.fpsDevourer ~= nil then fpsDevourerActive = settings.fpsDevourer end
-if settings.playerESP ~= nil then playerEspActive = settings.playerESP end
-if settings.stealFloor ~= nil then stealFloorActive = settings.stealFloor end
+if settings.infJump ~= nil then
+    gravityLow = settings.infJump
+end
 
--- Create buttons for Tab 1 (Main)
+if settings.espBase ~= nil then
+    espBaseActive = settings.espBase
+    if espBaseActive then
+        toggleBaseESP()
+    end
+end
+
+if settings.espBest ~= nil then
+    espBestActive = settings.espBest
+    if espBestActive then
+        toggleBestESP()
+    end
+end
+
+if settings.desync ~= nil then
+    antiHitActive = settings.desync
+    if antiHitActive then
+        desyncButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        desyncButton.Text = "Active"
+    end
+end
+
+if settings.fpsDevourer ~= nil then
+    fpsDevourerActive = settings.fpsDevourer
+    if fpsDevourerActive then
+        enableFPSDevourer()
+    end
+end
+
+if settings.playerESP ~= nil then
+    playerEspActive = settings.playerESP
+    if playerEspActive then
+        togglePlayerESP()
+    end
+end
+
+if settings.stealFloor ~= nil then
+    stealFloorActive = settings.stealFloor
+    if stealFloorActive then
+        stealFloorButton.BackgroundColor3 = Color3.fromRGB(120, 255, 120)
+        stealFloorButton.Text = "✅ Steal Floor"
+    end
+end
+
+-- Create buttons for Tab 1 (Main) - Optimize Edilmiş
 local yPos = 5
-local fpsBtn = createButton(contentTab1, fpsDevourerActive and '✅ FPS' or '🎯 FPS', yPos, toggleFPSDevourer, fpsDevourerActive)
-yPos = yPos + 25
-local jumpBtn = createButton(contentTab1, gravityLow and '✅ Jump' or '🦘 Jump', yPos, switchGravityJump, gravityLow)
-yPos = yPos + 25
+createButton(contentTab1, fpsDevourerActive and '✅ FPS' or '🎯 FPS', yPos, toggleFPSDevourer, fpsDevourerActive)
+yPos = yPos + 28
+createButton(contentTab1, gravityLow and '✅ Jump' or '🦘 Jump', yPos, switchGravityJump, gravityLow)
+yPos = yPos + 28
 createButton(contentTab1, '🚀 Fly Base', yPos, startFlyToBase, false)
 
--- Create buttons for Tab 2 (Visual)
+-- Create buttons for Tab 2 (Visual) - Optimize Edilmiş
 yPos = 5
-local baseBtn = createButton(contentTab2, espBaseActive and '✅ Base' or '🏠 Base', yPos, toggleBaseESP, espBaseActive)
-yPos = yPos + 25
-local bestBtn = createButton(contentTab2, espBestActive and '✅ Best' or '🔥 Best', yPos, toggleBestESP, espBestActive)
-yPos = yPos + 25
-local playerBtn = createButton(contentTab2, playerEspActive and '✅ Player' or '👥 Player', yPos, togglePlayerESP, playerEspActive)
-
--- Button update functions
-local function updateButtonColors()
-    fpsBtn.BackgroundColor3 = fpsDevourerActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
-    fpsBtn.Text = fpsDevourerActive and '✅ FPS' or '🎯 FPS'
-    
-    jumpBtn.BackgroundColor3 = gravityLow and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
-    jumpBtn.Text = gravityLow and '✅ Jump' or '🦘 Jump'
-    
-    baseBtn.BackgroundColor3 = espBaseActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
-    baseBtn.Text = espBaseActive and '✅ Base' or '🏠 Base'
-    
-    bestBtn.BackgroundColor3 = espBestActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
-    bestBtn.Text = espBestActive and '✅ Best' or '🔥 Best'
-    
-    playerBtn.BackgroundColor3 = playerEspActive and Color3.fromRGB(60, 220, 100) or Color3.fromRGB(220, 60, 60)
-    playerBtn.Text = playerEspActive and '✅ Player' or '👥 Player'
-    
-    -- Update external buttons
-    if stealFloorActive then
-        stealFloorButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
-        stealFloorButton.Text = "✅ Steal Floor"
-    else
-        stealFloorButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
-        stealFloorButton.Text = "🏗️ Steal Floor"
-    end
-    
-    if antiHitActive then
-        desyncButton.BackgroundColor3 = Color3.fromRGB(60, 220, 100)
-        desyncButton.Text = "Active"
-    else
-        desyncButton.BackgroundColor3 = Color3.fromRGB(220, 60, 60)
-        desyncButton.Text = "Deysnc"
-    end
-end
-
--- Override toggle functions to update buttons
-local originalToggleFPS = toggleFPSDevourer
-toggleFPSDevourer = function()
-    originalToggleFPS()
-    updateButtonColors()
-end
-
-local originalToggleJump = switchGravityJump
-switchGravityJump = function()
-    originalToggleJump()
-    updateButtonColors()
-end
-
-local originalToggleBase = toggleBaseESP
-toggleBaseESP = function()
-    originalToggleBase()
-    updateButtonColors()
-end
-
-local originalToggleBest = toggleBestESP
-toggleBestESP = function()
-    originalToggleBest()
-    updateButtonColors()
-end
-
-local originalTogglePlayer = togglePlayerESP
-togglePlayerESP = function()
-    originalTogglePlayer()
-    updateButtonColors()
-end
-
-local originalToggleSteal = toggleStealFloor
-toggleStealFloor = function()
-    originalToggleSteal()
-    updateButtonColors()
-end
-
-local originalToggleDesync = executeAdvancedDesync
-executeAdvancedDesync = function()
-    originalToggleDesync()
-    updateButtonColors()
-end
+createButton(contentTab2, espBaseActive and '✅ Base' or '🏠 Base', yPos, toggleBaseESP, espBaseActive)
+yPos = yPos + 28
+createButton(contentTab2, espBestActive and '✅ Best' or '🔥 Best', yPos, toggleBestESP, espBestActive)
+yPos = yPos + 28
+createButton(contentTab2, playerEspActive and '✅ Player' or '👥 Player', yPos, togglePlayerESP, playerEspActive)
 
 -- Drag functionality for main frame
 local dragging = false
@@ -1069,27 +2005,26 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Enable features on start if saved
-if fpsDevourerActive then
+-- Enable FPS Devourer on start if saved
+if not fpsDevourerActive then
     enableFPSDevourer()
 end
 
-if gravityLow then
-    switchGravityJump()
-end
-
--- Update button colors on start
-updateButtonColors()
-
 -- Startup notification
-showNotification("Script Loaded!", true)
+showNotification("Vortex's Helper Loaded!", true)
 
-print("🎯 Vortex Helper Loaded!")
-print("✅ Tüm sistemler hazır!")
-print("🦘 Infinite Jump: " .. tostring(gravityLow))
-print("🎯 FPS Devourer: " .. tostring(fpsDevourerActive))
-print("🏠 Base ESP: " .. tostring(espBaseActive))
-print("🔥 Best ESP: " .. tostring(espBestActive))
-print("👥 Player ESP: " .. tostring(playerEspActive))
-print("🏗️ Steal Floor: " .. tostring(stealFloorActive))
-print("🌀 Deysnc: " .. tostring(antiHitActive))
+-- Disable future notifications after 3 seconds
+wait(3)
+startupNotifications = false
+
+print("🎯 Vortex's Helper Loaded!")
+print("✅ FPS Devourer Active")
+print("🦘 Inf Jump Ready (30 Power) - Walk Speed YOK")
+print("🚀 Fly to Base Ready")
+print("🏠 ESP Base Ready")
+print("🔥 ESP Best Ready")
+print("👥 Player ESP Ready")
+print("🏗️ Steal Floor Ready (Sol Alt Köşe)")
+print("🌀 Deysnc System Ready (Sağ Üst Köşe)")
+print("🔷 V Logo: Click to open/close main menu")
+print("💾 Settings Saving: Vortex'sHelper Folder")
