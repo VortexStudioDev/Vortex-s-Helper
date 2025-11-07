@@ -15,8 +15,8 @@ local uiScale = 0.75
 -- UI Creation Function
 local function createKurdHubUI()
     local buttonLabels = {
-        "120 FPS No Lag 🚀",
-        "Infinite Jump 🦘", 
+        "FPS Devourer 🚀",
+        "Inf Jump 🦘", 
         "Auto Laser Steal 🎯",
         "Base ESP 🏠"
     }
@@ -41,18 +41,26 @@ local function createKurdHubUI()
     local mainFrame = Instance.new("Frame", screenGui)
     mainFrame.Size = UDim2.new(0, totalWidth, 0, totalHeight)
     mainFrame.Position = UDim2.new(0.5, -totalWidth // 2, 0.5, -totalHeight // 2)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
     mainFrame.BorderSizePixel = 0
     mainFrame.Active = true
     
     local mainCorner = Instance.new("UICorner", mainFrame)
     mainCorner.CornerRadius = UDim.new(0, math.floor(16 * uiScale))
     
+    local mainStroke = Instance.new("UIStroke", mainFrame)
+    mainStroke.Color = Color3.fromRGB(100, 150, 255)
+    mainStroke.Thickness = 2
+    
     -- Header Frame
     local headerFrame = Instance.new("Frame", mainFrame)
     headerFrame.Size = UDim2.new(1, 0, 0, headerHeight)
     headerFrame.Position = UDim2.new(0, 0, 0, 0)
-    headerFrame.BackgroundTransparency = 1
+    headerFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+    headerFrame.BorderSizePixel = 0
+    
+    local headerCorner = Instance.new("UICorner", headerFrame)
+    headerCorner.CornerRadius = UDim.new(0, math.floor(16 * uiScale))
     
     -- Title
     local title = Instance.new("TextLabel", headerFrame)
@@ -61,7 +69,7 @@ local function createKurdHubUI()
     title.Text = "Kurd Hub Mini"
     title.Font = Enum.Font.GothamBold
     title.TextSize = 36 * uiScale
-    title.TextColor3 = Color3.fromRGB(22, 22, 22)
+    title.TextColor3 = Color3.fromRGB(100, 200, 255)
     title.TextXAlignment = Enum.TextXAlignment.Center
     
     -- Create Buttons
@@ -76,7 +84,7 @@ local function createKurdHubUI()
         local buttonContainer = Instance.new("Frame", mainFrame)
         buttonContainer.Size = UDim2.new(0, buttonWidth, 0, buttonHeight)
         buttonContainer.Position = UDim2.new(0, xPos, 0, yPos)
-        buttonContainer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        buttonContainer.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
         buttonContainer.BorderSizePixel = 0
         
         local containerCorner = Instance.new("UICorner", buttonContainer)
@@ -85,27 +93,35 @@ local function createKurdHubUI()
         local button = Instance.new("TextButton", buttonContainer)
         button.Size = UDim2.new(1, -math.floor(4 * uiScale), 1, -math.floor(4 * uiScale))
         button.Position = UDim2.new(0, math.floor(2 * uiScale), 0, math.floor(2 * uiScale))
-        button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        button.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
         button.Text = label
         button.Font = Enum.Font.GothamBlack
         button.TextSize = 20 * uiScale
-        button.TextColor3 = Color3.fromRGB(26, 26, 26)
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
         button.BorderSizePixel = 0
-        button.AutoButtonColor = true
+        button.AutoButtonColor = false
         button.TextWrapped = true
         
         local buttonCorner = Instance.new("UICorner", button)
         buttonCorner.CornerRadius = UDim.new(0, math.floor(12 * uiScale))
         
+        local buttonStroke = Instance.new("UIStroke", button)
+        buttonStroke.Color = Color3.fromRGB(100, 150, 255)
+        buttonStroke.Thickness = 1
+        
         button.MouseEnter:Connect(function()
-            if button.BackgroundColor3 ~= Color3.fromRGB(0, 255, 0) then
-                button.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+            if button.BackgroundColor3 ~= Color3.fromRGB(0, 255, 100) then
+                TweenService:Create(button, TweenInfo.new(0.2), {
+                    BackgroundColor3 = Color3.fromRGB(80, 80, 100)
+                }):Play()
             end
         end)
         
         button.MouseLeave:Connect(function()
-            if button.BackgroundColor3 ~= Color3.fromRGB(0, 255, 0) then
-                button.BackgroundColor3 = Color3.new(1, 1, 1)
+            if button.BackgroundColor3 ~= Color3.fromRGB(0, 255, 100) then
+                TweenService:Create(button, TweenInfo.new(0.2), {
+                    BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+                }):Play()
             end
         end)
         
@@ -154,139 +170,230 @@ end
 local Buttons = createKurdHubUI()
 
 -- ===========================
--- FEATURE 1: 120 FPS NO LAG
+-- FEATURE 1: FPS DEVOURER
 -- ===========================
-local fpsEnabled = false
+local fpsDevourerActive = false
 
-Buttons[1].MouseButton1Click:Connect(function()
-    fpsEnabled = not fpsEnabled
+local function enableFPSDevourer()
+    fpsDevourerActive = true
     
-    if fpsEnabled then
-        -- FPS optimize edici ayarlar
-        settings().Rendering.QualityLevel = 1
-        settings().Rendering.MeshPartDetailLevel = Enum.MeshPartDetailLevel.Level04
-        
-        -- Görsel efektleri kapat
-        for _, effect in pairs(Workspace:GetDescendants()) do
-            if effect:IsA("ParticleEmitter") or effect:IsA("Fire") or effect:IsA("Smoke") or effect:IsA("Sparkles") then
-                effect.Enabled = false
-            end
+    -- FPS cap artırma
+    pcall(function()
+        if setfpscap then
+            setfpscap(999)
         end
-        
-        -- Grafikleri basitleştir
-        for _, part in pairs(Workspace:GetDescendants()) do
-            if part:IsA("Part") then
-                part.Material = Enum.Material.Plastic
-                if part:FindFirstChildOfClass("Decal") then
-                    part:FindFirstChildOfClass("Decal"):Destroy()
-                end
-            end
+    end)
+    
+    -- Grafik optimizasyonları
+    for _, obj in pairs(Workspace:GetChildren()) do
+        if obj:IsA("Part") or obj:IsA("UnionOperation") or obj:IsA("MeshPart") then
+            pcall(function()
+                obj.Material = Enum.Material.Plastic
+                obj.Reflectance = 0
+            end)
         end
-        
-        -- Lighting ayarları
-        local lighting = game:GetService("Lighting")
+    end
+    
+    -- Lighting optimizasyonları
+    local lighting = game:GetService("Lighting")
+    pcall(function()
         lighting.GlobalShadows = false
         lighting.FogEnd = 100000
         lighting.Brightness = 2
-        
-        Buttons[1].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        Buttons[1].Text = "✅ 120 FPS Active"
-        
-        StarterGui:SetCore("SendNotification", {
-            Title = "Kurd Hub",
-            Text = "120 FPS Mode Activated",
-            Duration = 3
-        })
+    end)
+    
+    -- Görsel efektleri kapat
+    for _, effect in pairs(Workspace:GetDescendants()) do
+        if effect:IsA("ParticleEmitter") or effect:IsA("Fire") or effect:IsA("Smoke") or effect:IsA("Sparkles") then
+            effect.Enabled = false
+        end
+    end
+    
+    -- Karakter için optimizasyon
+    LocalPlayer.CharacterAdded:Connect(function(char)
+        wait(0.5)
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                pcall(function()
+                    part.Material = Enum.Material.Plastic
+                    part.Reflectance = 0
+                end)
+            end
+        end
+    end)
+    
+    Buttons[1].BackgroundColor3 = Color3.fromRGB(0, 255, 100)
+    Buttons[1].Text = "✅ FPS Devourer"
+    
+    StarterGui:SetCore("SendNotification", {
+        Title = "Kurd Hub",
+        Text = "FPS Devourer Activated",
+        Duration = 3
+    })
+end
+
+local function disableFPSDevourer()
+    fpsDevourerActive = false
+    
+    -- FPS cap sıfırlama
+    pcall(function()
+        if setfpscap then
+            setfpscap(60)
+        end
+    end)
+    
+    -- Lighting sıfırlama
+    local lighting = game:GetService("Lighting")
+    pcall(function()
+        lighting.GlobalShadows = true
+        lighting.Brightness = 1
+    end)
+    
+    Buttons[1].BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+    Buttons[1].Text = "FPS Devourer 🚀"
+    
+    StarterGui:SetCore("SendNotification", {
+        Title = "Kurd Hub",
+        Text = "FPS Devourer Deactivated",
+        Duration = 3
+    })
+end
+
+Buttons[1].MouseButton1Click:Connect(function()
+    if fpsDevourerActive then
+        disableFPSDevourer()
     else
-        Buttons[1].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Buttons[1].Text = "120 FPS No Lag 🚀"
-        
-        StarterGui:SetCore("SendNotification", {
-            Title = "Kurd Hub",
-            Text = "120 FPS Mode Deactivated",
-            Duration = 3
-        })
+        enableFPSDevourer()
     end
 end)
 
--- ===========================
--- FEATURE 2: INFINITE JUMP
--- ===========================
-local infiniteJumpEnabled = true
-local jumpRequestConnection
+-- Başlangıçta FPS Devourer aktif
+enableFPSDevourer()
 
-local function doJump()
+-- ===========================
+-- FEATURE 2: INF JUMP
+-- ===========================
+local NORMAL_GRAV = 196.2
+local REDUCED_GRAV = 40
+local NORMAL_JUMP = 30
+local BOOST_JUMP = 50
+
+local gravityLow = false
+local infiniteJumpConn
+
+local function setJumpPower(jump)
     local character = LocalPlayer.Character
-    if not character then return end
-    
-    local humanoid = character:FindFirstChildOfClass("Humanoid")
-    local rootPart = character:FindFirstChild("HumanoidRootPart")
-    
-    if humanoid and humanoid.Health > 0 and rootPart then
-        rootPart.Velocity = Vector3.new(rootPart.Velocity.X, 50, rootPart.Velocity.Z)
+    if character then
+        local humanoid = character:FindFirstChildOfClass('Humanoid')
+        if humanoid then
+            humanoid.JumpPower = jump
+            humanoid.UseJumpPower = true
+        end
     end
 end
 
-local function setupJumpRequest()
-    if jumpRequestConnection then
-        jumpRequestConnection:Disconnect()
-        jumpRequestConnection = nil
+local function enableInfiniteJump(state)
+    if infiniteJumpConn then
+        infiniteJumpConn:Disconnect()
+        infiniteJumpConn = nil
     end
     
-    jumpRequestConnection = UserInputService.JumpRequest:Connect(function()
-        if infiniteJumpEnabled then
-            doJump()
-        end
-    end)
+    if state then
+        infiniteJumpConn = UserInputService.JumpRequest:Connect(function()
+            local character = LocalPlayer.Character
+            if character and gravityLow then
+                local humanoid = character:FindFirstChildOfClass('Humanoid')
+                local rootPart = character:FindFirstChild('HumanoidRootPart')
+                
+                if humanoid and rootPart and humanoid:GetState() ~= Enum.HumanoidStateType.Seated then
+                    rootPart.Velocity = Vector3.new(
+                        rootPart.Velocity.X,
+                        humanoid.JumpPower,
+                        rootPart.Velocity.Z
+                    )
+                end
+            end
+        end)
+    end
 end
 
-local function initializeJumpForCharacter(character)
-    local humanoid = character:WaitForChild("Humanoid")
-    setupJumpRequest()
-    
-    character.ChildAdded:Connect(function(child)
-        if child:IsA("Humanoid") then
-            setupJumpRequest()
+local function antiRagdoll()
+    local character = LocalPlayer.Character
+    if character then
+        for _, v in pairs(character:GetDescendants()) do
+            if v:IsA('BodyVelocity') or v:IsA('BodyAngularVelocity') then
+                v:Destroy()
+            end
         end
-    end)
+    end
+end
+
+local function toggleForceField()
+    local character = LocalPlayer.Character
+    if character then
+        if gravityLow then
+            if not character:FindFirstChildOfClass('ForceField') then
+                local forceField = Instance.new('ForceField', character)
+                forceField.Visible = false
+            end
+        else
+            for _, ff in ipairs(character:GetChildren()) do
+                if ff:IsA('ForceField') then
+                    ff:Destroy()
+                end
+            end
+        end
+    end
+end
+
+local function switchGravityJump()
+    gravityLow = not gravityLow
+    
+    -- Yerçekimi ve zıplama ayarları
+    Workspace.Gravity = gravityLow and REDUCED_GRAV or NORMAL_GRAV
+    setJumpPower(gravityLow and BOOST_JUMP or NORMAL_JUMP)
+    enableInfiniteJump(gravityLow)
+    antiRagdoll()
+    toggleForceField()
+    
+    -- Buton görünümünü güncelle
+    if gravityLow then
+        Buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 100)
+        Buttons[2].Text = "✅ Inf Jump"
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Inf Jump Activated",
+            Duration = 3
+        })
+    else
+        Buttons[2].BackgroundColor3 = Color3.fromRGB(60, 60, 80)
+        Buttons[2].Text = "Inf Jump 🦘"
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Inf Jump Deactivated",
+            Duration = 3
+        })
+    end
 end
 
 Buttons[2].MouseButton1Click:Connect(function()
-    infiniteJumpEnabled = not infiniteJumpEnabled
-    
-    if infiniteJumpEnabled then
-        Buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        Buttons[2].Text = "✅ Infinite Jump"
-        setupJumpRequest()
-        
-        StarterGui:SetCore("SendNotification", {
-            Title = "Kurd Hub",
-            Text = "Infinite Jump Activated",
-            Duration = 3
-        })
-    else
-        Buttons[2].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Buttons[2].Text = "Infinite Jump 🦘"
-        
-        StarterGui:SetCore("SendNotification", {
-            Title = "Kurd Hub",
-            Text = "Infinite Jump Deactivated",
-            Duration = 3
-        })
+    switchGravityJump()
+end)
+
+-- Başlangıçta Inf Jump aktif
+switchGravityJump()
+
+-- Karakter değişikliklerini dinle
+LocalPlayer.CharacterAdded:Connect(function(character)
+    wait(0.5)
+    if gravityLow then
+        Workspace.Gravity = REDUCED_GRAV
+        setJumpPower(BOOST_JUMP)
+        enableInfiniteJump(true)
+        antiRagdoll()
+        toggleForceField()
     end
 end)
-
--- Başlangıçta aktif
-setupJumpRequest()
-Buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-
-LocalPlayer.CharacterAdded:Connect(function(character)
-    initializeJumpForCharacter(character)
-end)
-
-if LocalPlayer.Character then
-    initializeJumpForCharacter(LocalPlayer.Character)
-end
 
 -- ===========================
 -- FEATURE 3: AUTO LASER STEAL - TAM ÇALIŞIR
@@ -456,7 +563,7 @@ Buttons[3].MouseButton1Click:Connect(function()
     autoStealEnabled = not autoStealEnabled
     
     if autoStealEnabled then
-        Buttons[3].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        Buttons[3].BackgroundColor3 = Color3.fromRGB(0, 255, 100)
         Buttons[3].Text = "✅ Auto Steal Active"
         enableAutoSteal()
         
@@ -466,7 +573,7 @@ Buttons[3].MouseButton1Click:Connect(function()
             Duration = 3
         })
     else
-        Buttons[3].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Buttons[3].BackgroundColor3 = Color3.fromRGB(60, 60, 80)
         Buttons[3].Text = "Auto Laser Steal 🎯"
         disableAutoSteal()
         
@@ -565,7 +672,7 @@ local function createBaseESP()
             local highlight = Instance.new("Highlight")
             highlight.Name = espName
             highlight.Adornee = mainPart
-            highlight.FillColor = Color3.fromRGB(0, 255, 0)
+            highlight.FillColor = Color3.fromRGB(0, 255, 100)
             highlight.OutlineColor = Color3.fromRGB(255, 255, 0)
             highlight.FillTransparency = 0.7
             highlight.OutlineTransparency = 0
@@ -615,7 +722,7 @@ Buttons[4].MouseButton1Click:Connect(function()
     baseESPEnabled = not baseESPEnabled
     
     if baseESPEnabled then
-        Buttons[4].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        Buttons[4].BackgroundColor3 = Color3.fromRGB(0, 255, 100)
         Buttons[4].Text = "✅ Base ESP Active"
         
         -- Hemen ESP oluştur
@@ -641,7 +748,7 @@ Buttons[4].MouseButton1Click:Connect(function()
             Duration = 5
         })
     else
-        Buttons[4].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Buttons[4].BackgroundColor3 = Color3.fromRGB(60, 60, 80)
         Buttons[4].Text = "Base ESP 🏠"
         removeBaseESP()
         
@@ -654,3 +761,7 @@ Buttons[4].MouseButton1Click:Connect(function()
 end)
 
 warn("🎯 Kurd Hub Mini Yüklendi! Tüm özellikler TAM ÇALIŞIYOR.")
+warn("✅ FPS Devourer Active")
+warn("🦘 Inf Jump Ready")
+warn("🎯 Auto Laser Steal Ready") 
+warn("🏠 Base ESP Ready")
