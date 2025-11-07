@@ -17,7 +17,7 @@ pcall(function()
     -- Main script execution
     if _G.jrtofrt then 
         game.StarterGui:SetCore("SendNotification", {
-            Title = "Tiktok: jack 827",
+            Title = "vortexdev",
             Text = "You already executed Kurd Hub",
             Duration = 5
         })
