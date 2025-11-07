@@ -5,7 +5,6 @@ local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ProximityPromptService = game:GetService("ProximityPromptService")
-local TweenService = game:GetService("TweenService")
 
 local LocalPlayer = Players.LocalPlayer
 
@@ -15,7 +14,7 @@ screenGui.Name = "KurdHubMini"
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 local mainFrame = Instance.new("Frame", screenGui)
-mainFrame.Size = UDim2.new(0, 220, 0, 250)
+mainFrame.Size = UDim2.new(0, 250, 0, 220)
 mainFrame.Position = UDim2.new(0, 10, 0, 10)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
@@ -59,9 +58,8 @@ end
 -- Özellik butonları
 createButton(1, "🚀 120 FPS No Lag", 0)
 createButton(2, "🦘 Infinite Jump", 1)
-createButton(3, "🎯 Auto Laser Best Steal", 2)
+createButton(3, "🎯 Auto Laser Steal", 2)
 createButton(4, "🏠 Base ESP", 3)
-createButton(5, "👀 Player ESP", 4)
 
 -- ===========================
 -- 1. 120 FPS NO LAG ÖZELLİĞİ
@@ -87,9 +85,6 @@ buttons[1].MouseButton1Click:Connect(function()
         for _, part in pairs(Workspace:GetDescendants()) do
             if part:IsA("Part") then
                 part.Material = Enum.Material.Plastic
-                if part:FindFirstChildOfClass("Decal") then
-                    part:FindFirstChildOfClass("Decal"):Destroy()
-                end
             end
         end
         
@@ -107,25 +102,19 @@ end)
 local infiniteJumpEnabled = true
 local jumpConnection
 
-local function doInfiniteJump()
-    if LocalPlayer.Character then
-        local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-        local rootPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-        
-        if humanoid and rootPart then
-            rootPart.Velocity = Vector3.new(rootPart.Velocity.X, 50, rootPart.Velocity.Z)
-        end
-    end
-end
-
 local function setupInfiniteJump()
     if jumpConnection then
         jumpConnection:Disconnect()
     end
     
     jumpConnection = UserInputService.JumpRequest:Connect(function()
-        if infiniteJumpEnabled then
-            doInfiniteJump()
+        if infiniteJumpEnabled and LocalPlayer.Character then
+            local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+            local rootPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            
+            if humanoid and rootPart then
+                rootPart.Velocity = Vector3.new(rootPart.Velocity.X, 50, rootPart.Velocity.Z)
+            end
         end
     end)
 end
@@ -148,41 +137,81 @@ setupInfiniteJump()
 buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 
 -- ===========================
--- 3. AUTO LASER BEST STEAL
+-- 3. AUTO LASER STEAL MODE
 -- ===========================
 local autoStealEnabled = false
 local stealConnection
-local promptConnections = {}
-
-local function disconnectAllPrompts()
-    for _, connection in ipairs(promptConnections) do
-        connection:Disconnect()
-    end
-    promptConnections = {}
-end
-
-local function onPromptShown(prompt)
-    if autoStealEnabled and prompt and string.find(prompt.ActionText:lower(), "steal") then
-        fireproximityprompt(prompt)
-    end
-end
 
 local function enableAutoSteal()
-    disconnectAllPrompts()
-    
-    -- Mevcut promptları kontrol et
-    for _, prompt in pairs(Workspace:GetDescendants()) do
-        if prompt:IsA("ProximityPrompt") and string.find(prompt.ActionText:lower(), "steal") then
-            fireproximityprompt(prompt)
-        end
+    if stealConnection then
+        stealConnection:Disconnect()
     end
     
-    -- Yeni promptları dinle
-    table.insert(promptConnections, ProximityPromptService.PromptShown:Connect(onPromptShown))
+    stealConnection = RunService.Heartbeat:Connect(function()
+        if not autoStealEnabled then return end
+        
+        -- Tüm steal promptlarını otomatik etkinleştir
+        for _, prompt in pairs(Workspace:GetDescendants()) do
+            if prompt:IsA("ProximityPrompt") then
+                local actionText = string.lower(prompt.ActionText)
+                if string.find(actionText, "steal") or string.find(actionText, "brain") then
+                    fireproximityprompt(prompt)
+                end
+            end
+        end
+        
+        -- Laser tool kontrolü
+        local character = LocalPlayer.Character
+        if character then
+            local laserTool = character:FindFirstChild("Laser Cape") or LocalPlayer.Backpack:FindFirstChild("Laser Cape")
+            if laserTool then
+                -- En yakın oyuncuyu bul
+                local nearestPlayer = nil
+                local nearestDistance = math.huge
+                local localRoot = character:FindFirstChild("HumanoidRootPart")
+                
+                if localRoot then
+                    for _, player in pairs(Players:GetPlayers()) do
+                        if player ~= LocalPlayer and player.Character then
+                            local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
+                            if targetRoot then
+                                local distance = (localRoot.Position - targetRoot.Position).Magnitude
+                                if distance < nearestDistance and distance < 50 then
+                                    nearestDistance = distance
+                                    nearestPlayer = player
+                                end
+                            end
+                        end
+                    end
+                    
+                    -- Laser kullan
+                    if nearestPlayer and nearestPlayer.Character then
+                        local targetPart = nearestPlayer.Character:FindFirstChild("UpperTorso") or 
+                                         nearestPlayer.Character:FindFirstChild("HumanoidRootPart")
+                        if targetPart then
+                            -- Laser tool'u kullan
+                            laserTool.Parent = character
+                            wait(0.1)
+                            -- Laser ateşleme kodu (oyuna özel)
+                            pcall(function()
+                                local remote = ReplicatedStorage:FindFirstChild("UseLaser")
+                                if remote then
+                                    remote:FireServer(targetPart.Position)
+                                end
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
 end
 
 local function disableAutoSteal()
-    disconnectAllPrompts()
+    if stealConnection then
+        stealConnection:Disconnect()
+        stealConnection = nil
+    end
 end
 
 buttons[3].MouseButton1Click:Connect(function()
@@ -194,7 +223,7 @@ buttons[3].MouseButton1Click:Connect(function()
         enableAutoSteal()
     else
         buttons[3].BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        buttons[3].Text = "🎯 Auto Laser Best Steal"
+        buttons[3].Text = "🎯 Auto Laser Steal"
         disableAutoSteal()
     end
 end)
@@ -207,43 +236,80 @@ local baseESPFolder = Instance.new("Folder")
 baseESPFolder.Name = "BaseESP"
 baseESPFolder.Parent = game.CoreGui
 
+local function findPlots()
+    local plots = {}
+    
+    -- Farklı plot türlerini ara
+    for _, obj in pairs(Workspace:GetDescendants()) do
+        if obj.Name:find("Plot") or obj.Name:find("Base") then
+            table.insert(plots, obj)
+        end
+        
+        -- Purchases olan objeleri kontrol et
+        if obj:FindFirstChild("Purchases") then
+            table.insert(plots, obj)
+        end
+    end
+    
+    return plots
+end
+
 local function createBaseESP()
-    -- Plotları bul ve işaretle
-    for _, plot in pairs(Workspace:GetChildren()) do
-        if plot.Name:find("Plot") or plot:FindFirstChild("Purchases") then
-            local mainPart = plot:FindFirstChild("Main") or plot:FindFirstChild("Base") or plot:FindFirstChild("Plot")
-            
-            if mainPart and not baseESPFolder:FindFirstChild(plot.Name .. "_ESP") then
-                -- Highlight ekle
-                local highlight = Instance.new("Highlight")
-                highlight.Name = plot.Name .. "_ESP"
-                highlight.Adornee = mainPart
-                highlight.FillColor = Color3.fromRGB(0, 255, 0)
-                highlight.OutlineColor = Color3.fromRGB(255, 255, 0)
-                highlight.FillTransparency = 0.7
-                highlight.OutlineTransparency = 0
-                highlight.Parent = baseESPFolder
-                
-                -- Billboard ekle
-                local billboard = Instance.new("BillboardGui")
-                billboard.Name = "BaseLabel"
-                billboard.Adornee = mainPart
-                billboard.Size = UDim2.new(0, 200, 0, 50)
-                billboard.StudsOffset = Vector3.new(0, 5, 0)
-                billboard.AlwaysOnTop = true
-                billboard.Parent = baseESPFolder
-                
-                local label = Instance.new("TextLabel")
-                label.Size = UDim2.new(1, 0, 1, 0)
-                label.BackgroundTransparency = 1
-                label.Text = "🏠 " .. plot.Name
-                label.TextColor3 = Color3.fromRGB(255, 255, 0)
-                label.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-                label.TextStrokeTransparency = 0
-                label.Font = Enum.Font.GothamBold
-                label.TextSize = 14
-                label.Parent = billboard
+    -- Önceki ESP'leri temizle
+    for _, child in pairs(baseESPFolder:GetChildren()) do
+        child:Destroy()
+    end
+    
+    local plots = findPlots()
+    
+    for _, plot in pairs(plots) do
+        local mainPart = nil
+        
+        -- Ana parçayı bul
+        if plot:IsA("Model") then
+            mainPart = plot:FindFirstChild("Main") or plot:FindFirstChild("Base") or plot:FindFirstChild("HumanoidRootPart")
+            if not mainPart then
+                for _, part in pairs(plot:GetChildren()) do
+                    if part:IsA("Part") then
+                        mainPart = part
+                        break
+                    end
+                end
             end
+        elseif plot:IsA("Part") then
+            mainPart = plot
+        end
+        
+        if mainPart and not baseESPFolder:FindFirstChild(plot.Name .. "_ESP") then
+            -- Highlight ekle
+            local highlight = Instance.new("Highlight")
+            highlight.Name = plot.Name .. "_ESP"
+            highlight.Adornee = mainPart
+            highlight.FillColor = Color3.fromRGB(0, 255, 0)
+            highlight.OutlineColor = Color3.fromRGB(255, 255, 0)
+            highlight.FillTransparency = 0.7
+            highlight.OutlineTransparency = 0
+            highlight.Parent = baseESPFolder
+            
+            -- Billboard ekle
+            local billboard = Instance.new("BillboardGui")
+            billboard.Name = "BaseLabel"
+            billboard.Adornee = mainPart
+            billboard.Size = UDim2.new(0, 200, 0, 50)
+            billboard.StudsOffset = Vector3.new(0, 5, 0)
+            billboard.AlwaysOnTop = true
+            billboard.Parent = baseESPFolder
+            
+            local label = Instance.new("TextLabel")
+            label.Size = UDim2.new(1, 0, 1, 0)
+            label.BackgroundTransparency = 1
+            label.Text = "🏠 " .. plot.Name
+            label.TextColor3 = Color3.fromRGB(255, 255, 0)
+            label.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+            label.TextStrokeTransparency = 0
+            label.Font = Enum.Font.GothamBold
+            label.TextSize = 14
+            label.Parent = billboard
         end
     end
 end
@@ -262,11 +328,13 @@ buttons[4].MouseButton1Click:Connect(function()
         buttons[4].Text = "✅ Base ESP Active"
         createBaseESP()
         
-        -- Sürekli kontrol et
-        while baseESPEnabled do
-            createBaseESP()
-            wait(5)
-        end
+        -- Sürekli güncelle
+        coroutine.wrap(function()
+            while baseESPEnabled do
+                createBaseESP()
+                wait(3)
+            end
+        end)()
     else
         buttons[4].BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         buttons[4].Text = "🏠 Base ESP"
@@ -274,133 +342,46 @@ buttons[4].MouseButton1Click:Connect(function()
     end
 end)
 
--- ===========================
--- 5. PLAYER ESP ÖZELLİĞİ
--- ===========================
-local playerESPEnabled = false
-local playerESPFolder = Instance.new("Folder")
-playerESPFolder.Name = "PlayerESP"
-playerESPFolder.Parent = game.CoreGui
-
-local espConnections = {}
-
-local function createPlayerESP(player)
-    if player == LocalPlayer then return end
-    
-    local character = player.Character
-    if not character then return end
-    
-    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-    if not humanoidRootPart then return end
-    
-    -- Mevcut ESP'yi temizle
-    local existingESP = playerESPFolder:FindFirstChild(player.Name)
-    if existingESP then
-        existingESP:Destroy()
-    end
-    
-    -- Yeni ESP oluştur
-    local highlight = Instance.new("Highlight")
-    highlight.Name = player.Name
-    highlight.Adornee = character
-    highlight.FillColor = Color3.fromRGB(255, 0, 0)
-    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-    highlight.FillTransparency = 0.5
-    highlight.OutlineTransparency = 0
-    highlight.Parent = playerESPFolder
-    
-    -- İsim etiketi
-    local billboard = Instance.new("BillboardGui")
-    billboard.Name = "PlayerLabel"
-    billboard.Adornee = humanoidRootPart
-    billboard.Size = UDim2.new(0, 200, 0, 50)
-    billboard.StudsOffset = Vector3.new(0, 3, 0)
-    billboard.AlwaysOnTop = true
-    billboard.Parent = playerESPFolder
-    
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 1, 0)
-    label.BackgroundTransparency = 1
-    label.Text = "👤 " .. player.Name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-    label.TextStrokeTransparency = 0
-    label.Font = Enum.Font.GothamBold
-    label.TextSize = 12
-    label.Parent = billboard
-end
-
-local function removePlayerESP(player)
-    local esp = playerESPFolder:FindFirstChild(player.Name)
-    if esp then
-        esp:Destroy()
-    end
-end
-
-local function enablePlayerESP()
-    -- Mevcut oyuncular
-    for _, player in pairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            if player.Character then
-                createPlayerESP(player)
-            end
-            
-            espConnections[player] = player.CharacterAdded:Connect(function(character)
-                wait(1)
-                createPlayerESP(player)
-            end)
-        end
-    end
-    
-    -- Yeni oyuncular
-    espConnections.playerAdded = Players.PlayerAdded:Connect(function(player)
-        espConnections[player] = player.CharacterAdded:Connect(function(character)
-            wait(1)
-            createPlayerESP(player)
-        end)
-    end)
-    
-    -- Ayrılan oyuncular
-    espConnections.playerRemoving = Players.PlayerRemoving:Connect(function(player)
-        removePlayerESP(player)
-        if espConnections[player] then
-            espConnections[player]:Disconnect()
-            espConnections[player] = nil
-        end
-    end)
-end
-
-local function disablePlayerESP()
-    for _, esp in pairs(playerESPFolder:GetChildren()) do
-        esp:Destroy()
-    end
-    
-    for key, connection in pairs(espConnections) do
-        if typeof(connection) == "RBXScriptConnection" then
-            connection:Disconnect()
-        end
-        espConnections[key] = nil
-    end
-end
-
-buttons[5].MouseButton1Click:Connect(function()
-    playerESPEnabled = not playerESPEnabled
-    
-    if playerESPEnabled then
-        buttons[5].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        buttons[5].Text = "✅ Player ESP Active"
-        enablePlayerESP()
-    else
-        buttons[5].BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        buttons[5].Text = "👀 Player ESP"
-        disablePlayerESP()
-    end
-end)
-
 -- Karakter değişikliklerini dinle
 LocalPlayer.CharacterAdded:Connect(function(character)
     if infiniteJumpEnabled then
         setupInfiniteJump()
+    end
+end)
+
+-- UI'ı sürükleme özelliği
+local dragging = false
+local dragInput, dragStart, startPos
+
+title.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+title.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
     end
 end)
 
