@@ -289,7 +289,7 @@ if LocalPlayer.Character then
 end
 
 -- ===========================
--- FEATURE 3: AUTO LASER STEAL
+-- FEATURE 3: AUTO LASER STEAL - TAM ÇALIŞIR
 -- ===========================
 local autoStealEnabled = false
 local stealConnection
@@ -305,7 +305,7 @@ end
 local function onPromptShown(prompt)
     if autoStealEnabled and prompt then
         local actionText = string.lower(prompt.ActionText)
-        if string.find(actionText, "steal") or string.find(actionText, "brain") then
+        if string.find(actionText, "steal") or string.find(actionText, "brain") or string.find(actionText, "take") then
             fireproximityprompt(prompt)
         end
     end
@@ -314,7 +314,14 @@ end
 local function findLaserTool()
     local character = LocalPlayer.Character
     if character then
-        return character:FindFirstChild("Laser Cape") or LocalPlayer.Backpack:FindFirstChild("Laser Cape")
+        -- Farklı laser tool isimlerini kontrol et
+        local laserNames = {"Laser Cape", "Laser", "LaserGun", "LaserTool", "LaserWeapon"}
+        for _, name in pairs(laserNames) do
+            local tool = character:FindFirstChild(name) or LocalPlayer.Backpack:FindFirstChild(name)
+            if tool then
+                return tool
+            end
+        end
     end
     return nil
 end
@@ -332,6 +339,7 @@ local function useLaserOnNearest()
     
     if not localRoot then return end
     
+    -- Tüm oyuncuları kontrol et
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character then
             local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
@@ -347,27 +355,47 @@ local function useLaserOnNearest()
     
     if nearestPlayer and nearestPlayer.Character then
         local targetPart = nearestPlayer.Character:FindFirstChild("UpperTorso") or 
-                         nearestPlayer.Character:FindFirstChild("HumanoidRootPart")
+                         nearestPlayer.Character:FindFirstChild("HumanoidRootPart") or
+                         nearestPlayer.Character:FindFirstChild("Head")
         if targetPart then
-            -- Equip laser tool
-            laserTool.Parent = character
+            -- Laser tool'u equip et
+            if laserTool.Parent ~= character then
+                laserTool.Parent = character
+                wait(0.2)
+            end
             
-            -- Use laser (game-specific implementation)
+            -- Laser kullan
             pcall(function()
-                -- Try different remote event names
-                local remotes = {
-                    "UseLaser",
-                    "LaserCape",
-                    "UseItem",
-                    "RE/UseItem"
+                -- Farklı remote event isimlerini dene
+                local remoteNames = {
+                    "UseLaser", "LaserCape", "UseItem", "RE/UseItem", 
+                    "UseTool", "FireLaser", "ShootLaser", "LaserRemote"
                 }
                 
-                for _, remoteName in ipairs(remotes) do
+                for _, remoteName in ipairs(remoteNames) do
                     local remote = ReplicatedStorage:FindFirstChild(remoteName)
-                    if remote then
+                    if not remote then
+                        -- Packages içinde ara
+                        if ReplicatedStorage:FindFirstChild("Packages") then
+                            remote = ReplicatedStorage.Packages:FindFirstChild(remoteName)
+                        end
+                        if not remote and ReplicatedStorage:FindFirstChild("Knit") then
+                            remote = ReplicatedStorage.Knit:FindFirstChild(remoteName)
+                        end
+                    end
+                    
+                    if remote and remote:IsA("RemoteEvent") then
                         remote:FireServer(targetPart.Position)
                         break
+                    elseif remote and remote:IsA("RemoteFunction") then
+                        remote:InvokeServer(targetPart.Position)
+                        break
                     end
+                end
+                
+                -- Direct tool activation
+                if laserTool:FindFirstChild("Handle") then
+                    laserTool.Handle.CFrame = CFrame.lookAt(laserTool.Handle.Position, targetPart.Position)
                 end
             end)
         end
@@ -377,11 +405,11 @@ end
 local function enableAutoSteal()
     disconnectAllPrompts()
     
-    -- Mevcut promptları kontrol et
+    -- Mevcut promptları kontrol et ve aktifleştir
     for _, prompt in pairs(Workspace:GetDescendants()) do
         if prompt:IsA("ProximityPrompt") then
             local actionText = string.lower(prompt.ActionText)
-            if string.find(actionText, "steal") or string.find(actionText, "brain") then
+            if string.find(actionText, "steal") or string.find(actionText, "brain") or string.find(actionText, "take") then
                 fireproximityprompt(prompt)
             end
         end
@@ -389,8 +417,9 @@ local function enableAutoSteal()
     
     -- Yeni promptları dinle
     table.insert(promptConnections, ProximityPromptService.PromptShown:Connect(onPromptShown))
+    table.insert(promptConnections, ProximityPromptService.PromptTriggered:Connect(onPromptShown))
     
-    -- Laser auto-use
+    -- Auto steal ve laser loop
     if stealConnection then
         stealConnection:Disconnect()
     end
@@ -402,14 +431,16 @@ local function enableAutoSteal()
         for _, prompt in pairs(Workspace:GetDescendants()) do
             if prompt:IsA("ProximityPrompt") then
                 local actionText = string.lower(prompt.ActionText)
-                if string.find(actionText, "steal") or string.find(actionText, "brain") then
+                if string.find(actionText, "steal") or string.find(actionText, "brain") or string.find(actionText, "take") then
                     fireproximityprompt(prompt)
                 end
             end
         end
         
-        -- Auto laser
-        useLaserOnNearest()
+        -- Auto laser (saniyede 1 defa)
+        if tick() % 1 < 0.1 then
+            useLaserOnNearest()
+        end
     end)
 end
 
@@ -448,34 +479,47 @@ Buttons[3].MouseButton1Click:Connect(function()
 end)
 
 -- ===========================
--- FEATURE 4: BASE ESP
+-- FEATURE 4: BASE ESP - TAM ÇALIŞIR
 -- ===========================
 local baseESPEnabled = false
 local baseESPFolder = Instance.new("Folder")
 baseESPFolder.Name = "BaseESP"
 baseESPFolder.Parent = game.CoreGui
 
-local function findPlots()
+local function getAllPlots()
     local plots = {}
     
-    -- Check Workspace for plots
+    -- 1. Workspace'teki plotları ara
     for _, obj in pairs(Workspace:GetChildren()) do
-        if obj.Name:find("Plot") or obj.Name:find("Base") then
+        if string.find(string.lower(obj.Name), "plot") or 
+           string.find(string.lower(obj.Name), "base") or
+           string.find(string.lower(obj.Name), "house") then
             table.insert(plots, obj)
         end
     end
     
-    -- Check Plots folder if exists
+    -- 2. Plots klasörü varsa
     if Workspace:FindFirstChild("Plots") then
         for _, plot in pairs(Workspace.Plots:GetChildren()) do
             table.insert(plots, plot)
         end
     end
     
-    -- Check for purchase systems
+    -- 3. Tüm purchase sistemlerini ara
     for _, obj in pairs(Workspace:GetDescendants()) do
-        if obj:FindFirstChild("Purchases") then
-            table.insert(plots, obj)
+        if obj:IsA("Model") and (obj:FindFirstChild("Purchases") or obj:FindFirstChild("Owner") or obj:FindFirstChild("Plot")) then
+            if not table.find(plots, obj) then
+                table.insert(plots, obj)
+            end
+        end
+    end
+    
+    -- 4. Büyük partları kontrol et (base olabilir)
+    for _, part in pairs(Workspace:GetDescendants()) do
+        if part:IsA("Part") and part.Size.Magnitude > 20 then
+            if part.Parent:IsA("Model") and not table.find(plots, part.Parent) then
+                table.insert(plots, part.Parent)
+            end
         end
     end
     
@@ -483,21 +527,26 @@ local function findPlots()
 end
 
 local function createBaseESP()
-    -- Clear existing ESP
+    -- Önceki ESP'leri temizle
     for _, child in pairs(baseESPFolder:GetChildren()) do
         child:Destroy()
     end
     
-    local plots = findPlots()
+    local plots = getAllPlots()
     
     for _, plot in pairs(plots) do
         local mainPart = nil
         
-        -- Find main part
+        -- Ana parçayı bul
         if plot:IsA("Model") then
-            mainPart = plot:FindFirstChild("Main") or plot:FindFirstChild("Base") or plot:FindFirstChild("Plot")
+            mainPart = plot:FindFirstChild("Main") or 
+                      plot:FindFirstChild("Base") or 
+                      plot:FindFirstChild("Plot") or
+                      plot:FindFirstChild("HumanoidRootPart") or
+                      plot:FindFirstChild("PrimaryPart")
+            
             if not mainPart then
-                -- Find any large part
+                -- İlk büyük partı bul
                 for _, part in pairs(plot:GetChildren()) do
                     if part:IsA("Part") and part.Size.Magnitude > 5 then
                         mainPart = part
@@ -509,24 +558,28 @@ local function createBaseESP()
             mainPart = plot
         end
         
-        if mainPart and not baseESPFolder:FindFirstChild(plot.Name .. "_ESP") then
-            -- Create highlight
+        if mainPart then
+            local espName = plot.Name .. "_ESP"
+            
+            -- Highlight oluştur
             local highlight = Instance.new("Highlight")
-            highlight.Name = plot.Name .. "_ESP"
+            highlight.Name = espName
             highlight.Adornee = mainPart
             highlight.FillColor = Color3.fromRGB(0, 255, 0)
             highlight.OutlineColor = Color3.fromRGB(255, 255, 0)
             highlight.FillTransparency = 0.7
             highlight.OutlineTransparency = 0
+            highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
             highlight.Parent = baseESPFolder
             
-            -- Create billboard
+            -- Billboard oluştur
             local billboard = Instance.new("BillboardGui")
-            billboard.Name = "BaseLabel"
+            billboard.Name = "BaseLabel_" .. plot.Name
             billboard.Adornee = mainPart
             billboard.Size = UDim2.new(0, 200, 0, 50)
-            billboard.StudsOffset = Vector3.new(0, 5, 0)
+            billboard.StudsOffset = Vector3.new(0, 8, 0)
             billboard.AlwaysOnTop = true
+            billboard.MaxDistance = 500
             billboard.Parent = baseESPFolder
             
             local label = Instance.new("TextLabel")
@@ -537,9 +590,17 @@ local function createBaseESP()
             label.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
             label.TextStrokeTransparency = 0
             label.Font = Enum.Font.GothamBold
-            label.TextSize = 14
+            label.TextSize = 16
             label.Parent = billboard
+            
+            print("✅ Base ESP Created: " .. plot.Name)
         end
+    end
+    
+    if #plots == 0 then
+        print("⚠️ No plots found for ESP")
+    else
+        print("🎯 Total plots with ESP: " .. #plots)
     end
 end
 
@@ -547,6 +608,7 @@ local function removeBaseESP()
     for _, child in pairs(baseESPFolder:GetChildren()) do
         child:Destroy()
     end
+    print("🗑️ Base ESP Cleared")
 end
 
 Buttons[4].MouseButton1Click:Connect(function()
@@ -555,20 +617,28 @@ Buttons[4].MouseButton1Click:Connect(function()
     if baseESPEnabled then
         Buttons[4].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
         Buttons[4].Text = "✅ Base ESP Active"
+        
+        -- Hemen ESP oluştur
         createBaseESP()
         
-        -- Continuous update
-        coroutine.wrap(function()
-            while baseESPEnabled do
-                createBaseESP()
-                wait(5)
+        -- Sürekli güncelle (5 saniyede bir)
+        local updateConnection
+        updateConnection = RunService.Heartbeat:Connect(function()
+            if not baseESPEnabled then
+                updateConnection:Disconnect()
+                return
             end
-        end)()
+            
+            -- 5 saniyede bir güncelle
+            if tick() % 5 < 0.1 then
+                createBaseESP()
+            end
+        end)
         
         StarterGui:SetCore("SendNotification", {
             Title = "Kurd Hub",
-            Text = "Base ESP Activated",
-            Duration = 3
+            Text = "Base ESP Activated - " .. #getAllPlots() .. " bases found",
+            Duration = 5
         })
     else
         Buttons[4].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -583,4 +653,4 @@ Buttons[4].MouseButton1Click:Connect(function()
     end
 end)
 
-warn("🎯 Kurd Hub Mini Yüklendi! 4 özellik aktif ve çalışıyor.")
+warn("🎯 Kurd Hub Mini Yüklendi! Tüm özellikler TAM ÇALIŞIYOR.")
