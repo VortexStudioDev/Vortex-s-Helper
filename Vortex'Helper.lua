@@ -1,72 +1,164 @@
--- Kurd Hub Mini - Tüm Özellikler Çalışır Halde
+_G.jrtofrt = true
+
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ProximityPromptService = game:GetService("ProximityPromptService")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
 
 local LocalPlayer = Players.LocalPlayer
+local uiScale = 0.75
 
--- UI Oluşturma
-local screenGui = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
-screenGui.Name = "KurdHubMini"
-screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-local mainFrame = Instance.new("Frame", screenGui)
-mainFrame.Size = UDim2.new(0, 250, 0, 220)
-mainFrame.Position = UDim2.new(0, 10, 0, 10)
-mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-mainFrame.BorderSizePixel = 0
-
-local corner = Instance.new("UICorner", mainFrame)
-corner.CornerRadius = UDim.new(0, 10)
-
-local title = Instance.new("TextLabel", mainFrame)
-title.Size = UDim2.new(1, 0, 0, 35)
-title.Position = UDim2.new(0, 0, 0, 0)
-title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-title.Text = "🏴 Kurd Hub Mini"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.Font = Enum.Font.GothamBold
-title.TextSize = 16
-
-local titleCorner = Instance.new("UICorner", title)
-titleCorner.CornerRadius = UDim.new(0, 10)
-
--- Butonlar
-local buttons = {}
-
-local function createButton(index, text, yPosition)
-    local button = Instance.new("TextButton", mainFrame)
-    button.Size = UDim2.new(0.9, 0, 0, 35)
-    button.Position = UDim2.new(0.05, 0, 0, 40 + (index * 40))
-    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    button.Text = text
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Font = Enum.Font.Gotham
-    button.TextSize = 12
-    button.BorderSizePixel = 0
+-- UI Creation Function
+local function createKurdHubUI()
+    local buttonLabels = {
+        "120 FPS No Lag 🚀",
+        "Infinite Jump 🦘", 
+        "Auto Laser Steal 🎯",
+        "Base ESP 🏠"
+    }
     
-    local buttonCorner = Instance.new("UICorner", button)
-    buttonCorner.CornerRadius = UDim.new(0, 6)
+    local buttonCount = #buttonLabels
+    local buttonHeight = math.floor(50 * uiScale)
+    local padding = math.floor(10 * uiScale)
+    local headerHeight = math.floor(50 * uiScale)
+    local cornerRadius = math.floor(18 * uiScale)
+    local columns = 2
+    local rows = math.ceil(buttonCount / columns)
+    local buttonWidth = math.floor(180 * uiScale)
+    local totalWidth = buttonWidth * columns + padding * (columns + 1)
+    local totalHeight = headerHeight + rows * buttonHeight + (rows - 1) * padding + cornerRadius
     
-    buttons[index] = button
-    return button
+    -- Create ScreenGui
+    local screenGui = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
+    screenGui.Name = "KurdHubMini"
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    
+    -- Main Frame
+    local mainFrame = Instance.new("Frame", screenGui)
+    mainFrame.Size = UDim2.new(0, totalWidth, 0, totalHeight)
+    mainFrame.Position = UDim2.new(0.5, -totalWidth // 2, 0.5, -totalHeight // 2)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Active = true
+    
+    local mainCorner = Instance.new("UICorner", mainFrame)
+    mainCorner.CornerRadius = UDim.new(0, math.floor(16 * uiScale))
+    
+    -- Header Frame
+    local headerFrame = Instance.new("Frame", mainFrame)
+    headerFrame.Size = UDim2.new(1, 0, 0, headerHeight)
+    headerFrame.Position = UDim2.new(0, 0, 0, 0)
+    headerFrame.BackgroundTransparency = 1
+    
+    -- Title
+    local title = Instance.new("TextLabel", headerFrame)
+    title.Size = UDim2.new(1, 0, 1, 0)
+    title.BackgroundTransparency = 1
+    title.Text = "Kurd Hub Mini"
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 36 * uiScale
+    title.TextColor3 = Color3.fromRGB(22, 22, 22)
+    title.TextXAlignment = Enum.TextXAlignment.Center
+    
+    -- Create Buttons
+    local buttons = {}
+    
+    for index, label in ipairs(buttonLabels) do
+        local row = math.ceil(index / columns) - 1
+        local col = (index - 1) % columns
+        local xPos = padding + col * (buttonWidth + padding)
+        local yPos = headerHeight + padding + row * (buttonHeight + padding)
+        
+        local buttonContainer = Instance.new("Frame", mainFrame)
+        buttonContainer.Size = UDim2.new(0, buttonWidth, 0, buttonHeight)
+        buttonContainer.Position = UDim2.new(0, xPos, 0, yPos)
+        buttonContainer.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        buttonContainer.BorderSizePixel = 0
+        
+        local containerCorner = Instance.new("UICorner", buttonContainer)
+        containerCorner.CornerRadius = UDim.new(0, math.floor(16 * uiScale))
+        
+        local button = Instance.new("TextButton", buttonContainer)
+        button.Size = UDim2.new(1, -math.floor(4 * uiScale), 1, -math.floor(4 * uiScale))
+        button.Position = UDim2.new(0, math.floor(2 * uiScale), 0, math.floor(2 * uiScale))
+        button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        button.Text = label
+        button.Font = Enum.Font.GothamBlack
+        button.TextSize = 20 * uiScale
+        button.TextColor3 = Color3.fromRGB(26, 26, 26)
+        button.BorderSizePixel = 0
+        button.AutoButtonColor = true
+        button.TextWrapped = true
+        
+        local buttonCorner = Instance.new("UICorner", button)
+        buttonCorner.CornerRadius = UDim.new(0, math.floor(12 * uiScale))
+        
+        button.MouseEnter:Connect(function()
+            if button.BackgroundColor3 ~= Color3.fromRGB(0, 255, 0) then
+                button.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+            end
+        end)
+        
+        button.MouseLeave:Connect(function()
+            if button.BackgroundColor3 ~= Color3.fromRGB(0, 255, 0) then
+                button.BackgroundColor3 = Color3.new(1, 1, 1)
+            end
+        end)
+        
+        buttons[index] = button
+    end
+    
+    -- Dragging functionality
+    local dragging, dragInput, dragStart, startPos
+    
+    headerFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = mainFrame.Position
+            
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+    
+    headerFrame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            mainFrame.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y
+            )
+        end
+    end)
+    
+    return buttons
 end
 
--- Özellik butonları
-createButton(1, "🚀 120 FPS No Lag", 0)
-createButton(2, "🦘 Infinite Jump", 1)
-createButton(3, "🎯 Auto Laser Steal", 2)
-createButton(4, "🏠 Base ESP", 3)
+-- Create UI
+local Buttons = createKurdHubUI()
 
 -- ===========================
--- 1. 120 FPS NO LAG ÖZELLİĞİ
+-- FEATURE 1: 120 FPS NO LAG
 -- ===========================
 local fpsEnabled = false
 
-buttons[1].MouseButton1Click:Connect(function()
+Buttons[1].MouseButton1Click:Connect(function()
     fpsEnabled = not fpsEnabled
     
     if fpsEnabled then
@@ -76,7 +168,7 @@ buttons[1].MouseButton1Click:Connect(function()
         
         -- Görsel efektleri kapat
         for _, effect in pairs(Workspace:GetDescendants()) do
-            if effect:IsA("ParticleEmitter") or effect:IsA("Fire") or effect:IsA("Smoke") then
+            if effect:IsA("ParticleEmitter") or effect:IsA("Fire") or effect:IsA("Smoke") or effect:IsA("Sparkles") then
                 effect.Enabled = false
             end
         end
@@ -85,64 +177,220 @@ buttons[1].MouseButton1Click:Connect(function()
         for _, part in pairs(Workspace:GetDescendants()) do
             if part:IsA("Part") then
                 part.Material = Enum.Material.Plastic
+                if part:FindFirstChildOfClass("Decal") then
+                    part:FindFirstChildOfClass("Decal"):Destroy()
+                end
             end
         end
         
-        buttons[1].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        buttons[1].Text = "✅ 120 FPS Active"
+        -- Lighting ayarları
+        local lighting = game:GetService("Lighting")
+        lighting.GlobalShadows = false
+        lighting.FogEnd = 100000
+        lighting.Brightness = 2
+        
+        Buttons[1].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        Buttons[1].Text = "✅ 120 FPS Active"
+        
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "120 FPS Mode Activated",
+            Duration = 3
+        })
     else
-        buttons[1].BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        buttons[1].Text = "🚀 120 FPS No Lag"
+        Buttons[1].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Buttons[1].Text = "120 FPS No Lag 🚀"
+        
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "120 FPS Mode Deactivated",
+            Duration = 3
+        })
     end
 end)
 
 -- ===========================
--- 2. INFINITE JUMP ÖZELLİĞİ
+-- FEATURE 2: INFINITE JUMP
 -- ===========================
 local infiniteJumpEnabled = true
-local jumpConnection
+local jumpRequestConnection
 
-local function setupInfiniteJump()
-    if jumpConnection then
-        jumpConnection:Disconnect()
+local function doJump()
+    local character = LocalPlayer.Character
+    if not character then return end
+    
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    local rootPart = character:FindFirstChild("HumanoidRootPart")
+    
+    if humanoid and humanoid.Health > 0 and rootPart then
+        rootPart.Velocity = Vector3.new(rootPart.Velocity.X, 50, rootPart.Velocity.Z)
+    end
+end
+
+local function setupJumpRequest()
+    if jumpRequestConnection then
+        jumpRequestConnection:Disconnect()
+        jumpRequestConnection = nil
     end
     
-    jumpConnection = UserInputService.JumpRequest:Connect(function()
-        if infiniteJumpEnabled and LocalPlayer.Character then
-            local humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-            local rootPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-            
-            if humanoid and rootPart then
-                rootPart.Velocity = Vector3.new(rootPart.Velocity.X, 50, rootPart.Velocity.Z)
-            end
+    jumpRequestConnection = UserInputService.JumpRequest:Connect(function()
+        if infiniteJumpEnabled then
+            doJump()
         end
     end)
 end
 
-buttons[2].MouseButton1Click:Connect(function()
+local function initializeJumpForCharacter(character)
+    local humanoid = character:WaitForChild("Humanoid")
+    setupJumpRequest()
+    
+    character.ChildAdded:Connect(function(child)
+        if child:IsA("Humanoid") then
+            setupJumpRequest()
+        end
+    end)
+end
+
+Buttons[2].MouseButton1Click:Connect(function()
     infiniteJumpEnabled = not infiniteJumpEnabled
     
     if infiniteJumpEnabled then
-        buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        buttons[2].Text = "✅ Infinite Jump"
-        setupInfiniteJump()
+        Buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        Buttons[2].Text = "✅ Infinite Jump"
+        setupJumpRequest()
+        
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Infinite Jump Activated",
+            Duration = 3
+        })
     else
-        buttons[2].BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        buttons[2].Text = "🦘 Infinite Jump"
+        Buttons[2].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Buttons[2].Text = "Infinite Jump 🦘"
+        
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Infinite Jump Deactivated",
+            Duration = 3
+        })
     end
 end)
 
 -- Başlangıçta aktif
-setupInfiniteJump()
-buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+setupJumpRequest()
+Buttons[2].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+
+LocalPlayer.CharacterAdded:Connect(function(character)
+    initializeJumpForCharacter(character)
+end)
+
+if LocalPlayer.Character then
+    initializeJumpForCharacter(LocalPlayer.Character)
+end
 
 -- ===========================
--- 3. AUTO LASER STEAL MODE
+-- FEATURE 3: AUTO LASER STEAL
 -- ===========================
 local autoStealEnabled = false
 local stealConnection
+local promptConnections = {}
+
+local function disconnectAllPrompts()
+    for _, connection in ipairs(promptConnections) do
+        connection:Disconnect()
+    end
+    promptConnections = {}
+end
+
+local function onPromptShown(prompt)
+    if autoStealEnabled and prompt then
+        local actionText = string.lower(prompt.ActionText)
+        if string.find(actionText, "steal") or string.find(actionText, "brain") then
+            fireproximityprompt(prompt)
+        end
+    end
+end
+
+local function findLaserTool()
+    local character = LocalPlayer.Character
+    if character then
+        return character:FindFirstChild("Laser Cape") or LocalPlayer.Backpack:FindFirstChild("Laser Cape")
+    end
+    return nil
+end
+
+local function useLaserOnNearest()
+    local character = LocalPlayer.Character
+    if not character then return end
+    
+    local laserTool = findLaserTool()
+    if not laserTool then return end
+    
+    local nearestPlayer = nil
+    local nearestDistance = math.huge
+    local localRoot = character:FindFirstChild("HumanoidRootPart")
+    
+    if not localRoot then return end
+    
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character then
+            local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
+            if targetRoot then
+                local distance = (localRoot.Position - targetRoot.Position).Magnitude
+                if distance < nearestDistance and distance < 100 then
+                    nearestDistance = distance
+                    nearestPlayer = player
+                end
+            end
+        end
+    end
+    
+    if nearestPlayer and nearestPlayer.Character then
+        local targetPart = nearestPlayer.Character:FindFirstChild("UpperTorso") or 
+                         nearestPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if targetPart then
+            -- Equip laser tool
+            laserTool.Parent = character
+            
+            -- Use laser (game-specific implementation)
+            pcall(function()
+                -- Try different remote event names
+                local remotes = {
+                    "UseLaser",
+                    "LaserCape",
+                    "UseItem",
+                    "RE/UseItem"
+                }
+                
+                for _, remoteName in ipairs(remotes) do
+                    local remote = ReplicatedStorage:FindFirstChild(remoteName)
+                    if remote then
+                        remote:FireServer(targetPart.Position)
+                        break
+                    end
+                end
+            end)
+        end
+    end
+end
 
 local function enableAutoSteal()
+    disconnectAllPrompts()
+    
+    -- Mevcut promptları kontrol et
+    for _, prompt in pairs(Workspace:GetDescendants()) do
+        if prompt:IsA("ProximityPrompt") then
+            local actionText = string.lower(prompt.ActionText)
+            if string.find(actionText, "steal") or string.find(actionText, "brain") then
+                fireproximityprompt(prompt)
+            end
+        end
+    end
+    
+    -- Yeni promptları dinle
+    table.insert(promptConnections, ProximityPromptService.PromptShown:Connect(onPromptShown))
+    
+    -- Laser auto-use
     if stealConnection then
         stealConnection:Disconnect()
     end
@@ -150,7 +398,7 @@ local function enableAutoSteal()
     stealConnection = RunService.Heartbeat:Connect(function()
         if not autoStealEnabled then return end
         
-        -- Tüm steal promptlarını otomatik etkinleştir
+        -- Auto steal prompts
         for _, prompt in pairs(Workspace:GetDescendants()) do
             if prompt:IsA("ProximityPrompt") then
                 local actionText = string.lower(prompt.ActionText)
@@ -160,76 +408,47 @@ local function enableAutoSteal()
             end
         end
         
-        -- Laser tool kontrolü
-        local character = LocalPlayer.Character
-        if character then
-            local laserTool = character:FindFirstChild("Laser Cape") or LocalPlayer.Backpack:FindFirstChild("Laser Cape")
-            if laserTool then
-                -- En yakın oyuncuyu bul
-                local nearestPlayer = nil
-                local nearestDistance = math.huge
-                local localRoot = character:FindFirstChild("HumanoidRootPart")
-                
-                if localRoot then
-                    for _, player in pairs(Players:GetPlayers()) do
-                        if player ~= LocalPlayer and player.Character then
-                            local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
-                            if targetRoot then
-                                local distance = (localRoot.Position - targetRoot.Position).Magnitude
-                                if distance < nearestDistance and distance < 50 then
-                                    nearestDistance = distance
-                                    nearestPlayer = player
-                                end
-                            end
-                        end
-                    end
-                    
-                    -- Laser kullan
-                    if nearestPlayer and nearestPlayer.Character then
-                        local targetPart = nearestPlayer.Character:FindFirstChild("UpperTorso") or 
-                                         nearestPlayer.Character:FindFirstChild("HumanoidRootPart")
-                        if targetPart then
-                            -- Laser tool'u kullan
-                            laserTool.Parent = character
-                            wait(0.1)
-                            -- Laser ateşleme kodu (oyuna özel)
-                            pcall(function()
-                                local remote = ReplicatedStorage:FindFirstChild("UseLaser")
-                                if remote then
-                                    remote:FireServer(targetPart.Position)
-                                end
-                            end)
-                        end
-                    end
-                end
-            end
-        end
+        -- Auto laser
+        useLaserOnNearest()
     end)
 end
 
 local function disableAutoSteal()
+    disconnectAllPrompts()
     if stealConnection then
         stealConnection:Disconnect()
         stealConnection = nil
     end
 end
 
-buttons[3].MouseButton1Click:Connect(function()
+Buttons[3].MouseButton1Click:Connect(function()
     autoStealEnabled = not autoStealEnabled
     
     if autoStealEnabled then
-        buttons[3].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        buttons[3].Text = "✅ Auto Steal Active"
+        Buttons[3].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        Buttons[3].Text = "✅ Auto Steal Active"
         enableAutoSteal()
+        
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Auto Laser Steal Activated",
+            Duration = 3
+        })
     else
-        buttons[3].BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        buttons[3].Text = "🎯 Auto Laser Steal"
+        Buttons[3].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Buttons[3].Text = "Auto Laser Steal 🎯"
         disableAutoSteal()
+        
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Auto Laser Steal Deactivated",
+            Duration = 3
+        })
     end
 end)
 
 -- ===========================
--- 4. BASE ESP ÖZELLİĞİ
+-- FEATURE 4: BASE ESP
 -- ===========================
 local baseESPEnabled = false
 local baseESPFolder = Instance.new("Folder")
@@ -239,13 +458,22 @@ baseESPFolder.Parent = game.CoreGui
 local function findPlots()
     local plots = {}
     
-    -- Farklı plot türlerini ara
-    for _, obj in pairs(Workspace:GetDescendants()) do
+    -- Check Workspace for plots
+    for _, obj in pairs(Workspace:GetChildren()) do
         if obj.Name:find("Plot") or obj.Name:find("Base") then
             table.insert(plots, obj)
         end
-        
-        -- Purchases olan objeleri kontrol et
+    end
+    
+    -- Check Plots folder if exists
+    if Workspace:FindFirstChild("Plots") then
+        for _, plot in pairs(Workspace.Plots:GetChildren()) do
+            table.insert(plots, plot)
+        end
+    end
+    
+    -- Check for purchase systems
+    for _, obj in pairs(Workspace:GetDescendants()) do
         if obj:FindFirstChild("Purchases") then
             table.insert(plots, obj)
         end
@@ -255,7 +483,7 @@ local function findPlots()
 end
 
 local function createBaseESP()
-    -- Önceki ESP'leri temizle
+    -- Clear existing ESP
     for _, child in pairs(baseESPFolder:GetChildren()) do
         child:Destroy()
     end
@@ -265,12 +493,13 @@ local function createBaseESP()
     for _, plot in pairs(plots) do
         local mainPart = nil
         
-        -- Ana parçayı bul
+        -- Find main part
         if plot:IsA("Model") then
-            mainPart = plot:FindFirstChild("Main") or plot:FindFirstChild("Base") or plot:FindFirstChild("HumanoidRootPart")
+            mainPart = plot:FindFirstChild("Main") or plot:FindFirstChild("Base") or plot:FindFirstChild("Plot")
             if not mainPart then
+                -- Find any large part
                 for _, part in pairs(plot:GetChildren()) do
-                    if part:IsA("Part") then
+                    if part:IsA("Part") and part.Size.Magnitude > 5 then
                         mainPart = part
                         break
                     end
@@ -281,7 +510,7 @@ local function createBaseESP()
         end
         
         if mainPart and not baseESPFolder:FindFirstChild(plot.Name .. "_ESP") then
-            -- Highlight ekle
+            -- Create highlight
             local highlight = Instance.new("Highlight")
             highlight.Name = plot.Name .. "_ESP"
             highlight.Adornee = mainPart
@@ -291,7 +520,7 @@ local function createBaseESP()
             highlight.OutlineTransparency = 0
             highlight.Parent = baseESPFolder
             
-            -- Billboard ekle
+            -- Create billboard
             local billboard = Instance.new("BillboardGui")
             billboard.Name = "BaseLabel"
             billboard.Adornee = mainPart
@@ -320,69 +549,38 @@ local function removeBaseESP()
     end
 end
 
-buttons[4].MouseButton1Click:Connect(function()
+Buttons[4].MouseButton1Click:Connect(function()
     baseESPEnabled = not baseESPEnabled
     
     if baseESPEnabled then
-        buttons[4].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-        buttons[4].Text = "✅ Base ESP Active"
+        Buttons[4].BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        Buttons[4].Text = "✅ Base ESP Active"
         createBaseESP()
         
-        -- Sürekli güncelle
+        -- Continuous update
         coroutine.wrap(function()
             while baseESPEnabled do
                 createBaseESP()
-                wait(3)
+                wait(5)
             end
         end)()
-    else
-        buttons[4].BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        buttons[4].Text = "🏠 Base ESP"
-        removeBaseESP()
-    end
-end)
-
--- Karakter değişikliklerini dinle
-LocalPlayer.CharacterAdded:Connect(function(character)
-    if infiniteJumpEnabled then
-        setupInfiniteJump()
-    end
-end)
-
--- UI'ı sürükleme özelliği
-local dragging = false
-local dragInput, dragStart, startPos
-
-title.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = mainFrame.Position
         
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Base ESP Activated",
+            Duration = 3
+        })
+    else
+        Buttons[4].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Buttons[4].Text = "Base ESP 🏠"
+        removeBaseESP()
+        
+        StarterGui:SetCore("SendNotification", {
+            Title = "Kurd Hub",
+            Text = "Base ESP Deactivated",
+            Duration = 3
+        })
     end
 end)
 
-title.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement then
-        dragInput = input
-    end
-end)
-
-UserInputService.InputChanged:Connect(function(input)
-    if input == dragInput and dragging then
-        local delta = input.Position - dragStart
-        mainFrame.Position = UDim2.new(
-            startPos.X.Scale,
-            startPos.X.Offset + delta.X,
-            startPos.Y.Scale,
-            startPos.Y.Offset + delta.Y
-        )
-    end
-end)
-
-warn("✅ Kurd Hub Mini Yüklendi! Tüm özellikler çalışır durumda.")
+warn("🎯 Kurd Hub Mini Yüklendi! 4 özellik aktif ve çalışıyor.")
