@@ -1,5365 +1,526 @@
-if syn and syn.cache_replace and syn.cache_invalidate and syn.is_cached and syn.write_clipboard and syn.set_thread_identity then
---[[games it supports Da Hood, Arsenal, Tower of Hell, KAT!, Fencing,
-Work At A Pizza Place, VR Hands, Adopt Me, Jailbreak, Prison Life, and
-Build A Boat For Treasure, and Gorrila Tag Professional.
-12+ games
-Rebuilt On IllusionHub
-Last Updated 2/18/2022
-]]--
-local OptTheme = "BloodTheme"
-local string = "https://discord.gg/A6HQQXvwNs"
-local string2 = "https://discord.com/invite/jVf7eSrED9"
--- Da Hood
-if game.PlaceId == 2788229376 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
+--setclipboard(tostring(game.PlaceId))
+--all on99 variables
+repeat wait() until game:IsLoaded()
+local player = game.Players.LocalPlayer
+local VirtualUser=game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+	warn("anti-afk")
+	VirtualUser:CaptureController()
+	VirtualUser:ClickButton2(Vector2.new())
 end)
-
-MainSection:NewButton("RayCodeX", "Launches RayCodeX script", function()
-   loadstring(game:GetObjects("rbxassetid://5812737894")[1].Source)()
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
---Arsenal
-elseif game.PlaceId == 286090429 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Impluse hub", "idk", function()
-loadstring(game:HttpGet('http://impulse-hub.xyz/ImpulseHub',true))()
- end)
-
-MainSection:NewButton("Zyrex-Hub", "10+", function()
-   _G.Toggle_GUI = Enum.KeyCode.RightControl --Right Ctrl
-
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/NotZyrex/Zyrex-Hub/master/Main.lua"), true))();
-end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Arsenal RAC Ban Menu", "Shows in chat also I have no idea what this does", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/qtDZm7LX"))()
-end)
-
-MainSection:NewButton("MonkeThing", "idk", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/KuriWasTaken/MonkeHub/main/arsenal.lua"))()
-end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("Arsenal FE audio + more!", "NOTE: you can get banned from some of these scripts", function()
- value = "2038227137" --song id here
-
-
-    local args = {
-        [1] = {
-            [1] = "UpdateID",
-            [2] =  value,
-        },
-    }
-    
-    game:GetService("ReplicatedStorage").Events.UpdateLoadout:FireServer(unpack(args))
-
-local args = {
-    [1] = true,
-    [2] = game:GetService("ReplicatedStorage").Taunts.Megaphone,
-}
-
-game:GetService("ReplicatedStorage").Events.ReplicateGear:FireServer(unpack(args))
-
-
-
-
-Players = game:GetService("Players")
-for i, player in pairs(Players:GetPlayers()) do
-    print("["..i.."] = "..player.Name)
-    local args = {
-    [1] = "GET NOOB",
-    "["..i.."] = "..player.Name,
-}
-end
-  end)
--- Tower Of Hell
-elseif game.PlaceId == 1962086868 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Tower of hell script", "just a gui", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/JayZone69/Tower-of-Hell/main/Script"))()
-end)
-
-MainSection:NewButton("Tower of hell script2", "idka", function()
-   loadstring(game:HttpGet("https://gist.githubusercontent.com/BloxiYT/26f5c60eaed40ab1ab4e1756a70eac69/raw/b386cfd481e316f72103a0e88c0316be7891f3fb/OMG%2520123456"))()
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- KAT!
-elseif game.PlaceId == 621129760 then 
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("KAT!", "auto throws knife", function()
-   --Subscribe to Ducky Exploits
-function nearestPlayerToRay()
-    local dist = math.huge
-    local ray
-    
-    for i,v in pairs(game.Players:GetChildren()) do
-        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("Head") and not v.Character:FindFirstChild("ForceField") then
-            if v.Character.Humanoid.Health > 0 and v.Character:FindFirstChild("Head") then -- needed..
-                local newVec = (v.Character.Head.Position - game.Players.LocalPlayer.Character.Head.Position)
-                if newVec.magnitude < dist then
-                    local toRay = Ray.new(game.Players.LocalPlayer.Character.Head.Position, newVec)
-                    if not workspace:FindPartOnRayWithIgnoreList(toRay, {game.Players.LocalPlayer.Character, v.Character, workspace.WorldIgnore, workspace.CurrentCamera}) then
-                        dist = newVec.magnitude
-                        ray = toRay
-                    end
-                end
-            end
-        end
-    end
-    return ray
-end
-
-local ray
-
-function init()
-    local knife = game.Players.LocalPlayer.Character:WaitForChild("Knife")
-    local scr = getsenv(knife.KnifeServer.KnifeClient)
-    if scr then
-        local ir = scr.inputReleased
-        local u7 = debug.getupvalue(ir, 2)
-        local cam = debug.getupvalue(ir, 5)
-        debug.setupvalue(ir, 5, setmetatable({}, {
-            __index = function(t,k)
-                if k == "ScreenPointToRay" then
-                    if ray ~= nil then
-                        return function() return ray end
-                    end
-                end
-                return cam[k]
-            end
-        }))
-    
-        
-        while wait(.1) do
-            if game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
-                break    
-            end
-            ray = nearestPlayerToRay()
-            if ray then
-                scr.inputDown()
-                u7.ChargeStart = -math.huge
-                ir()
-            end
-        end
-    end
-end
-
-init()
-game.Players.LocalPlayer.CharacterAdded:connect(function()
-    print("hi")
-    wait()
-    init()
-   end)
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
- -- Fencing
- elseif game.PlaceId == 12109643 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-   MainSection:NewButton("FE Brick Spam", "spams bricks", function()
-   -- https://www.roblox.com/games/12109643/Fencing
-
-game:GetService('RunService').Stepped:connect(function()
-for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-if v.Name == "Spray" then
-if v.Handle.Mesh then
-v.Handle.Mesh:Destroy()
-end
-v.Parent = workspace
-end
-end
-end)
-local function paint()
-for i,v in pairs(game.Workspace:GetChildren())do
-if v.Name == "Handle" then
-v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-v.Transparency = 1
-v.CanCollide = false
-wait()
-v.CFrame = game.Players.LocalPlayer.Character["Left Leg"].CFrame
-end
-end
-end
-local function equip()
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren())do
-if v.Name == "Spray" then
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-end
-while wait(0.05) do
-paint()
-equip()
-end
-end)
-
-MainSection:NewButton("FE Gain Double Health", "bruh", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(56,3.5,124.5)
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130,3.5,30)
-end)
-
-MainSection:NewButton("FE Give SprayPaint", "SprayPaint", function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(188,3.5,106)
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130,3.5,30)
-end)
-
-MainSection:NewButton("FE Perm God Mode", "permeanent God mode", function()
-   button              = workspace.Button
-button.CanCollide   = false
-button.Transparency = 1
-
-game:GetService("RunService").Heartbeat:connect(function(step)
-button.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position)
-button.Size   = Vector3.new(math.random(0,0), math.random(0,0), math.random(1,5))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Right Arm"].Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character.Torso.Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Left Arm"].Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Left Leg"].Position)
-wait()
-button.Size   = Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-button.CFrame = CFrame.new(game.Players.LocalPlayer.Character["Right Leg"].Position)
-end)
-end)
-
-MainSection:NewButton("FE Reach", "Farther Reach", function()
-   a=Instance.new("SelectionBox",game.Players.LocalPlayer.Backpack.Foil.Handle)
-a.Adornee=game.Players.LocalPlayer.Backpack.Foil.Handle
-game.Players.LocalPlayer.Backpack.Foil.Handle.Size=Vector3.new(1,1,30)
-end)
-
-MainSection:NewButton("FE Seat Spam", "Seat Spam", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-end)
-
-MainSection:NewButton("FE Weird Broken Fencing Swords", "Swords", function()
-  game.Lighting["LinkedSword3"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-game.Lighting["LinkedSword2"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-game.Lighting["LinkedSword"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Work at a Pizza Place
- elseif game.PlaceId == 192800 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-
-
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-   
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-   
-MainSection:NewButton("IDK", "script", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/cEwtwKZR",true))()
-end)
-
-MainSection:NewButton("FE Open Manager's Door", "Opens Manager's Door", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(43,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(42,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(43,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(51,5,7)
-end)
-
-MainSection:NewButton("FE Paint Cars Hot Pink", "Paints the cars but it can be laggy", function()
- --Change "Hot Pink" to a Roblox Color that they have.
-
-local Color = BrickColor.new('Hot pink')
-
-local PaintCar = function(Car,Color_Code)
-for ii, Child in pairs(Car:GetChildren()) do
-game.ReplicatedStorage.Channels.VehicleChannel:FireServer('Paint', Child, 'None', Color_Code)
-end
-end
-
-while wait() do
-for i, Car in pairs(workspace.Cars:GetChildren()) do
-PaintCar(Car, Color.Number)
-end
-end
-end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.CoreGui
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
+--on9 functions that are so damn important
+local function fireproximityprompt(ProximityPrompt, Amount, Skip) --fireproximityprompt for Solara executor
+	assert(ProximityPrompt, "Argument #1 Missing or nil")
+	assert(
+		typeof(ProximityPrompt) == "Instance" and ProximityPrompt:IsA("ProximityPrompt"),
+		"Attempted to fire a Value that is not a ProximityPrompt"
+	)
+	local HoldDuration = ProximityPrompt.HoldDuration
+	if Skip then
+		ProximityPrompt.HoldDuration = 0
 	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
+	for i = 1, Amount or 1 do
+		ProximityPrompt:InputHoldBegin()
+		if Skip then
+			wait(HoldDuration)
+		end
+		ProximityPrompt:InputHoldEnd()
+	end
+	ProximityPrompt.HoldDuration = HoldDuration
+end
+function toTarget(pos, targetPos, targetCFrame)
+	local tween_s = game:service"TweenService"
+	local info = TweenInfo.new((targetPos - pos).Magnitude/getgenv().speed, Enum.EasingStyle.Linear)
+	local tween, err = pcall(function()
+	local tween = tween_s:Create(game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = targetCFrame * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(90))})
+	tween:Play()
 	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
+	if not tween then return err end
+end
+getgenv().speed = 1600
+local CtrlClickTeePee
+function CTRLCLICKTP()
+	local UIS = game:GetService("UserInputService")
+	local Player = game.Players.LocalPlayer
+	local Mouse = Player:GetMouse()
+
+	function GetCharacter()
+	return player.Character
+	end
+
+	function Teleport(pos)
+		local Char = GetCharacter()
+		if Char then
+			Char:MoveTo(pos)
 		end
 	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
-	end)
-end
 
-end)
-
- MainSection:NewButton("FE Pizza Toppings Troll", "troll", function()
-   for i,v in pairs(workspace.AllDough:GetChildren()) do
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Sausage")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Cheese")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Pepperoni")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "TomatoSauce")
-end
-end)
-
-MainSection:NewButton("FE Teleport To manager chair", "it tps to manager chair", function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(23,5,6.5)
-  end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
- -- VR Hands
-elseif game.PlaceId == 4832438542 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-   
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-   
-MainSection:NewButton("VR Hands GUI", "GUI", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/ugQ9Nb7t"))()
-end)
-
-MainSection:NewButton("Hands VR", "VR Hands withour VR", function()
-    local cam = workspace.Camera
-local p
-local headObject
-local events = {}
-
-local controls = {
-	[Enum.UserInputType.MouseButton1] = {"move", "leftHand"},
-	[Enum.UserInputType.MouseMovement] = {"updateTarget"}, -- do not change
-	[Enum.UserInputType.MouseWheel] = {"adjustOffset"},
-	[Enum.UserInputType.MouseButton2] = {"move", "rightHand"},
-	[Enum.KeyCode.W] = {"move", "head", Vector3.new(0, 1, 0)},
-	[Enum.KeyCode.A] = {"move", "head", Vector3.new(-1, 0, 0)},
-	[Enum.KeyCode.S] = {"move", "head", Vector3.new(0, -1, 0)},
-	[Enum.KeyCode.D] = {"move", "head", Vector3.new(1, 0, 0)},
-	[Enum.KeyCode.Q] = {"move", "head", Vector3.new(0, 0, -1)},
-	[Enum.KeyCode.E] = {"move", "head", Vector3.new(0, 0, 1)},
-	[Enum.KeyCode.LeftShift] = {"gesture", "Fist"},
-	[Enum.KeyCode.LeftControl] = {"gesture", "Index"},
-	[Enum.KeyCode.LeftAlt] = {"gesture", "Thumb"},
-	[Enum.KeyCode.Z] = {"toggle", "canOffset"},
-	[Enum.KeyCode.R] = {"toggle", "rotationManager"},
-	[Enum.KeyCode.Tab] = {"selectAxis", "rotationManager"},
-	[Enum.KeyCode.Left] = {"updateAxisMover", "rotationManager", -1},
-	[Enum.KeyCode.Right] = {"updateAxisMover", "rotationManager", 1}
-}
-
-local services = {}
-
-setmetatable(services, {
-	__index = function(t, k)
-		services[k] = rawget(services, k) or game:GetService(k)
-		return services[k]
-	end
-})
-
-local function angleBetween(vecx, vecy)
-	return math.acos(vecx:Dot(vecy))
-end
-
-local hand = {}
-hand.__index = hand
-
-function hand:gesture(gestureName, keyState)
-	if keyState ~= 1 then
-		return
-	end
-
-	headObject.realHeadset[self.id .. gestureName] = 1 - headObject.realHeadset[self.id .. gestureName]
-end
-
-function hand:getMouseRay()
-	local mousePos = services.UserInputService:GetMouseLocation()
-	return CFrame.new(cam:ViewportPointToRay(mousePos.x, mousePos.y).Direction * (1.5 + headObject.handOffset))
-end
-
-function hand:calculateEndRotation()
-	return CFrame.Angles(cam.CFrame:ToEulerAnglesXYZ()) * CFrame.Angles(self.rotation[1] * (math.pi/6), self.rotation[2] * (math.pi/6), self.rotation[3] * (math.pi/6))
-end
-
-function hand:updateTarget()
-
-	local camLook = (cam.CFrame.lookVector * Vector3.new(1,0,1)).unit
-	
-	local theta = angleBetween(Vector3.new(-1, 0, 0), camLook)
-	theta = camLook.z > 0 and (2 * math.pi) - theta or theta
-
-	local relativeAngle = (self.id == "l" and -headObject.handAngle or headObject.handAngle)
-	local startPosition = CFrame.new(-math.cos(theta + relativeAngle), -0.5, -math.sin(theta + relativeAngle)) + (camLook * headObject.handOffset)
-
-	self.targetPosition = startPosition:Lerp(self:getMouseRay(), self.alpha) * self:calculateEndRotation()
-	
-	self.replicatePosition:Fire()
-end
-
-function hand:beginMove(minAlpha, maxAlpha)
-	local distAlpha = (maxAlpha - minAlpha) / 2
-
-	self.moving = true
-	repeat
-		services.RunService.RenderStepped:wait()
-		self:updateTarget()
-	until math.abs(self.alpha - minAlpha) < 0.05 or math.abs(maxAlpha - self.alpha) < 0.05 or self.alpha ~= self.alpha
-	
-	if self.alpha ~= self.alpha then
-		self.alpha = 0
-	end
-	
-	self.moving = false
-end
-
-function hand:move(keyState)
-
-	if headObject.rotationManager.active then
-		if self.id == "l" then
-			headObject.rotationManager.held = keyState == 1
-			
-			headObject.rotationManager.selectedAxis = 0
-		end
-		return
-	end
-
-	self.alphaMultiplier = keyState == 1 and 0.05 or -0.05
-	
-	if not self.moving and not (keyState == 1 and self.alpha >= 1) then
-		if keyState == 1 then
-			headObject.recentHand = self
-		end
-	
-		self:beginMove(0, 1)
-	end
-end
-
-function hand:new(direction, realHand)
-	local newHand = setmetatable({direction = direction, realHand = realHand}, hand)
-	newHand.alpha = 0
-	newHand.alphaMultiplier = 0.05
-	newHand.id = direction and "r" or "l"
-	newHand.targetPosition = CFrame.new()
-	newHand.moving = false
-	newHand.rotation = {0, 0, 0}
-	newHand.replicatePosition = Instance.new("BindableEvent")
-	newHand.replicatePosition.Event:connect(function()
-		events.UserCFrameChanged:Fire(newHand.direction and Enum.UserCFrame.RightHand or Enum.UserCFrame.LeftHand, newHand.targetPosition)
-	end)
-	
-	return newHand
-end
-
-local head = {}
-head.__index = head
-
-function head:handleInput(input, keyState)
-	local bind = controls[input.KeyCode] or controls[input.UserInputType]
-	
-	if bind then
-		if bind[1] == "updateTarget" and not self.rotationManager.active then
-			self.leftHand:updateTarget()
-			self.rightHand:updateTarget()
-		elseif bind[2] and type(self[bind[2]]) == "table" then
-			self[bind[2]][bind[1]](self[bind[2]], keyState, bind[3])
-		elseif bind[3] then
-			self[bind[1]](self, bind[3], keyState)
-		elseif bind[2] and self.recentHand[bind[1]] then
-			self.recentHand[bind[1]](self.recentHand, bind[2], keyState)
-		else
-			self[bind[1]](self, bind[2], keyState)
-		end
-	end
-end
-
-function head:adjustOffset(_, keyState)
-	if self.canOffset then		
-		self.leftHand:updateTarget()
-		self.rightHand:updateTarget()
-	end
-end
-
-function head:move(vec, keyState)
-	if vec.z ~= 0 then
-		self.realHeadset.Stick2 = math.clamp(self.realHeadset.Stick2 + (vec.z * keyState), -1, 1)
-	else
-	end
-end
-
-function head:freezeCam(b)
-	local dist = (self.realHeadset.Head.PrimaryPart.Position - cam.CFrame.p).magnitude
-		
-	p.CameraMinZoomDistance = b and dist or 0.5
-	p.CameraMaxZoomDistance = b and dist or 128
-end
-
-function head:toggle(stat, keyState)
-	if keyState ~= 1 then
-		return
-	end
-
-	self[stat] = not self[stat]
-	
-	if stat == "canOffset" then
-		self:freezeCam(self[stat])
-	end
-end
-
-local rotation = {}
-rotation.__index = rotation
-
-function rotation:new()
-	local newRotation = setmetatable({}, rotation)
-	
-	newRotation.rotationLookup = {{}, {}, {}}
-	newRotation.lineLookup = {{}, {}, {}}
-	newRotation.active = false
-	newRotation.held = false
-	newRotation.selectedAxis = 0
-	newRotation.angleLookup = {1, 1, 1}
-	
-	for i=1,3 do
-		local ref = {}
-		ref[i] = function() return 0 end
-		ref[i + 1 > 3 and ((i + 1) % 4) + 1 or i + 1] = math.cos
-		ref[i + 2 > 3 and ((i + 2) % 4) + 1 or i + 2] = math.sin
-		
-		local color = Color3.fromRGB(i == 1 and 255 or 0, i == 2 and 255 or 0, i == 3 and 255 or 0)
-		
-		for j=1,13 do
-			if j < 13 then
-				local step = math.pi * (j/6)
-				newRotation.rotationLookup[i][j] = Vector3.new(ref[1](step), ref[2](step), ref[3](step))
+	UIS.InputBegan:Connect(function(input)
+		if CtrlClickTeePee == true then
+			if input.UserInputType == Enum.UserInputType.MouseButton1 and UIS:IsKeyDown(Enum.KeyCode.LeftControl) then
+				Teleport(Mouse.Hit.p)
 			end
-			
-			local line = Drawing.new("Line")
-			line.Visible = true
-			line.Thickness = 5
-			line.Color = color
-			newRotation.lineLookup[i][j] = line
 		end
-		
-		local circle = Drawing.new("Circle")
-		circle.Visible = true
-		circle.Color = color
-		circle.Filled = true
-		circle.Radius = 10
-		circle.Position = Vector2.new(-2000, -2000)
-		newRotation.lineLookup[i][14] = circle
-		
-		local text = Drawing.new("Text")
-		text.Visible = true
-		text.Font = Drawing.Fonts.System
-		text.Size = 18
-		text.Color = Color3.new():lerp(color, 0.3)
-		text.Outline = false
-		newRotation.lineLookup[i][15] = text
+	end)
+end
+function UPPERFORMANCE()
+	local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
+	local g = game
+	local w = g.Workspace
+	local l = g.Lighting
+	local t = w.Terrain
+	t.WaterWaveSize = 0
+	t.WaterWaveSpeed = 0
+	t.WaterReflectance = 0
+	t.WaterTransparency = 0
+	l.GlobalShadows = false
+	l.FogEnd = 9e9
+	l.Brightness = 0
+	settings().Rendering.QualityLevel = "Level01"
+	for i,v in pairs(g:GetDescendants()) do
+		if v:IsA("Part") or v:IsA("Union") or v:IsA("MeshPart") then
+			v.Material = "Plastic"
+			v.Reflectance = 0
+		elseif v:IsA("Decal") and decalsyeeted then 
+			v.Transparency = 1
+		elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then 
+			v.Lifetime = NumberRange.new(0)
+		end
 	end
-	
-	return newRotation
 end
 
-function rotation:selectAxis(keyState)
-	self.tabActivated = keyState == 1
-	if self.tabActivated then
-		self.selectedAxis = math.clamp((self.selectedAxis + 1) % 4, 1, 3)
-	end
+if _G.dAAcG3fvBqVoPzVnAFk == nil then 
+	_G.dAAcG3fvBqVoPzVnAFk = "" 
 end 
-
-function rotation:toggle(keyState)
-	if keyState == 1 and headObject.recentHand.alpha < 0.05 and not self.held then
-		self.active = not self.active
-		
-		if not self.active then
-			self:updateAxes(0)
-			self.selectedAxis = 0
-			self.held = false
-			headObject.recentHand:updateTarget()
-		end
-	end
-end
-
-function rotation:updateAxes(visibleOverride)
-	local basePos = headObject.recentHand.realHand.Base.Position
-	local basePoint = cam:WorldToViewportPoint(basePos)
-
-	for i=1,3 do
-		for j=1,12 do
-			local vec, visible = cam:WorldToViewportPoint(basePos + (self.rotationLookup[i][j] * 10))
-			local vec2, visible2 = cam:WorldToViewportPoint(basePos + ((self.rotationLookup[i][j + 1] or self.rotationLookup[i][1]) * 10))
-			
-			local line = self.lineLookup[i][j]
-			
-			line.Transparency = visibleOverride or ((visible and visible2) and 1 or 0)
-			line.From = Vector2.new(vec.x, vec.y)
-			line.To = Vector2.new(vec2.x, vec2.y)
-		end
-		local axisRotation = headObject.recentHand.rotation[i]
-		
-		local axisMover = self.lineLookup[i][13]
-		local axisCircle = self.lineLookup[i][14]
-		local axisText = self.lineLookup[i][15]
-		
-		axisMover.From = Vector2.new(basePoint.x, basePoint.y)
-		axisMover.To = self.lineLookup[i][math.clamp(axisRotation < 1 and 12 or axisRotation, 1, 12)].From -- sorry, lazy
-		axisMover.Transparency = visibleOverride or 1
-		
-		axisCircle.Position = self.lineLookup[i][13].To
-		axisCircle.Transparency = visibleOverride or 1
-		
-		
-		
-		axisText.Position = self.lineLookup[2][3].From + axisText.TextBounds
-		axisText.Text = string.char(87 + self.selectedAxis) .. ": " .. math.deg(axisRotation * (math.pi / 6))
-		axisText.Transparency = visibleOverride or ((self.held or self.tabActivated) and self.selectedAxis == i and 1 or 0)
-		
-		local mousePos = services.UserInputService:GetMouseLocation()
-		if self.held and (self.lineLookup[i][14].Position - mousePos).magnitude < 10 and self.selectedAxis == 0 then
-			self.selectedAxis = i
-		end
-	end
-end
-
-function rotation:updateAxisMover(keyState, direction)
-	if keyState and direction then
-		if self.tabActivated and keyState == 1 then
-			headObject.recentHand.rotation[self.selectedAxis] = (headObject.recentHand.rotation[self.selectedAxis] + direction) % 12
-			headObject.recentHand:updateTarget()
-		end
-		return
-	end
-
-	if self.selectedAxis ~= 0 then
-		local mousePos = services.UserInputService:GetMouseLocation()
-		
-		local circlePos = self.lineLookup[self.selectedAxis][12].From
-		
-		local handPos = self.lineLookup[self.selectedAxis][13].From
-		
-		local mouseDir = self.selectedAxis == 1 and headObject.recentHand.id == "r" and (Vector2.new(-mousePos.x + (handPos.x * 2), mousePos.y) - handPos).unit or (mousePos - handPos).unit
-		-- mouse angle relating to the red circle is reflected on the right hand, so i "re-reflect" it. bad practice
-		
-		local circleDir = (circlePos - handPos).unit
-		
-		local rotationTheta = angleBetween(mouseDir, circleDir)
-		
-		local direction = mouseDir:Cross(circleDir)
-		
-		rotationTheta = direction > 0 and rotationTheta or (2 * math.pi) - rotationTheta
-		
-		if rotationTheta == rotationTheta then
-			headObject.recentHand.rotation[self.selectedAxis] = math.floor(6 * rotationTheta / math.pi)
-			
-			local hand = headObject.recentHand
-			hand.replicatePosition:Fire()
-		end
-	end
-end
-
-function head:new(realHeadset)
-	local newHead = setmetatable({realHeadset = realHeadset}, head)
-	
-	newHead.leftHand = hand:new(false, realHeadset.lHand)
-	newHead.rightHand = hand:new(true, realHeadset.rHand)
-	newHead.canOffset = false
-	newHead.recentHand = newHead.leftHand
-	newHead.handOffset = 0
-	newHead.handAngle = math.pi / 4
-	
-	newHead.rotationManager = rotation:new()
-	
-	newHead.chatRemote = debug.getupvalue(realHeadset.ButtonPressed, 3)
-	
-	cam:GetPropertyChangedSignal("CameraSubject"):connect(function()
-		if cam.CameraSubject ~= headObject.realHeadset.Head then
-			cam.CameraType = Enum.CameraType.Custom
-		end
-	end)
-	
-	services.UserInputService.WindowFocused:connect(function()
-		newHead.realHeadset.StickPosition = Vector3.new(0, 0, 0)
-		newHead.realHeadset.Stick2 = 0
-	end)
-	
-	return newHead
-end
-
-local ind, nc, nind
-
-local realVrService = game:GetService("VRService")
-
-local fakeVrService = setmetatable({
-	VREnabled = true,
-	SetTouchpadMode = function()
-	end,
-	RecenterUserHeadCFrame = function()
-	end,
-	GetUserCFrameEnabled = function(cf)
-		return true
-	end,
-	GetUserCFrame = function(cf)
-		return CFrame.new()
-	end
-
-}, {
-	__index = function(t, k)
-		local real = ind(realVrService, k)
-		if typeof(real) == "RBXScriptSignal" then
-			events[k] = events[k] or {
-				Name = k,
-				Connect = function(t, f)
-					t.Function = f
-
-					if t.Name == "UserCFrameChanged" then
-						headObject = head:new(debug.getupvalue(t.Function, 1))
-						
-						services.UserInputService.InputBegan:connect(function(i)
-							headObject:handleInput(i, 1)
+function notify(a,b,c)
+	local d=c or function()return end;
+	local e=b or false;
+		if a==_G.dAAcG3fvBqVoPzVnAFk and e==false then return end;
+		spawn(function()
+			for f,g in pairs(game.CoreGui:GetChildren())do 
+				spawn(function()
+					if g.Name=="MNotify"then 
+						pcall(function()
+							g.ImageButton.ZIndex=58;
+							g.ImageButton.TextLabel.ZIndex=59;
+							g.ImageButton:TweenPosition(UDim2.new(0.01,0,1,0),"Out","Quint",.7,true)
+							game:GetService("TweenService"):Create(g.ImageButton.TextLabel,TweenInfo.new(0.8,Enum.EasingStyle.Quint,Enum.EasingDirection.Out,0,false,0),{TextTransparency=1})
+							wait(1)
+							g:Destroy()
 						end)
-
-						services.UserInputService.InputChanged:connect(function(i)
-							headObject:handleInput(i, i.UserInputType == Enum.UserInputType.MouseWheel and i.Position.z or 0)
-						end)
-
-						services.UserInputService.InputEnded:connect(function(i)
-							headObject:handleInput(i, -1)
-						end)
-					end
-
-				end, 
-				Fire = function(t, ...)
-					return t.Function(...)
-				end
-			}
-
-			return events[k]
-		end
-
-		return real
-	end,
-	__call = function(t, method, vr, ...)
-		return t[method](...)
+					end 
+				end)
+			end;
+			_G.dAAcG3fvBqVoPzVnAFk=a
+			local d=c or function()return end;
+			local function h(i,j)
+				local k=Instance.new(i)
+					for f,g in pairs(j)do 
+						k[f]=g 
+					end;
+				return k end;
+				local l=h('ScreenGui',{DisplayOrder=0,Enabled=true,ResetOnSpawn=true,Name='MNotify',Parent=game.CoreGui})
+				local m=h('ImageButton',{Image='rbxassetid://1051186612',ImageColor3=Color3.new(0.129412,0.129412,0.129412),ImageRectOffset=Vector2.new(0,0),ImageRectSize=Vector2.new(0,0),ImageTransparency=0,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(20,20,20,20),AutoButtonColor=true,Modal=false,Selected=false,Style=Enum.ButtonStyle.Custom,Active=true,AnchorPoint=Vector2.new(0,0),BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderColor3=Color3.new(0.105882,0.164706,0.207843),BorderSizePixel=1,ClipsDescendants=false,Draggable=false,Position=UDim2.new(0.00999999978,0,1,0),Rotation=0,Selectable=true,Size=UDim2.new(0,234,0,40),SizeConstraint=Enum.SizeConstraint.RelativeXY,Visible=true,ZIndex=60,Name='ImageButton',Parent=l})
+				local n=h('TextLabel',{Font=Enum.Font.TitilliumWeb,FontSize=Enum.FontSize.Size24,Text=a,TextColor3=Color3.new(0.807843,0.807843,0.807843),TextScaled=false,TextSize=24,TextStrokeColor3=Color3.new(0,0,0),TextStrokeTransparency=1,TextTransparency=0,TextWrapped=false,TextXAlignment=Enum.TextXAlignment.Center,TextYAlignment=Enum.TextYAlignment.Center,Active=false,AnchorPoint=Vector2.new(0,0),BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,BorderColor3=Color3.new(0.105882,0.164706,0.207843),BorderSizePixel=1,ClipsDescendants=false,Draggable=false,Position=UDim2.new(0.132478639,0,0,0),Rotation=0,Selectable=false,Size=UDim2.new(0,174,0,40),SizeConstraint=Enum.SizeConstraint.RelativeXY,Visible=true,ZIndex=61,Name='TextLabel',Parent=m})
+				local o=h('UIListLayout',{Padding=UDim.new(0,0),FillDirection=Enum.FillDirection.Vertical,HorizontalAlignment=Enum.HorizontalAlignment.Center,SortOrder=Enum.SortOrder.Name,VerticalAlignment=Enum.VerticalAlignment.Top,Name='UIListLayout',Parent=m})
+				local p=1;
+				if string.len(a)<=49 then 
+					m.Size=UDim2.new(0,game:GetService("TextService"):GetTextSize(a,24,Enum.Font.TitilliumWeb,Vector2.new(500,900)).X+35,0,40)
+				elseif string.len(a)>49 then 
+					p=math.ceil(string.len(string.sub(a,49))/9)
+					m.Size=UDim2.new(0,game:GetService("TextService"):GetTextSize(a,24,Enum.Font.TitilliumWeb,Vector2.new(500+p*100,900)).X+35,0,40)
+				end;
+				m:TweenPosition(UDim2.new(0.01,0,.97,-60),"Out","Quint",.7,true)
+				spawn(function()
+					wait(4)
+					pcall(function()
+						m.ZIndex=58;
+						n.ZIndex=59;
+						m:TweenPosition(UDim2.new(0.01,0,1,0),"Out","Quint",.7,true)
+						_G.dAAcG3fvBqVoPzVnAFk=""
+						wait(.3)
+						l:Destroy()
+					end)
+				end)
+				m.MouseButton1Up:Connect(function()if c==nil then return end;
+				spawn(function()
+					pcall(function()
+						m.ZIndex=58;n.ZIndex=59;
+						m:TweenPosition(UDim2.new(0.01,0,1,0),"Out","Quint",.7,true)
+						_G.dAAcG3fvBqVoPzVnAFk=""
+						wait(1)
+						l:Destroy()
+					end)
+				end)
+				d()
+			end)
+		end)
 	end
-})
+	function roundNumber(num, numDecimalPlaces) -- https://devforum.roblox.com/t/rounding-to-1-decimal-point/673504
+	return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+end
+--99 Nights in the Forest Only
+local RemoteEvents = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents")
 
-ind = hookmetamethod(game, "__index", function(...)
-	local t, k = ...
+notify("Enabled anti-AFK")
+-- init
 
-	local scr = getcallingscript()
+--99 Nights in the Forest Lobby
+local function NNNITFLobby()
 
-	if t == realVrService and not (scr and ind(scr, "Name") == "CameraModule") then
-		return fakeVrService[k]
+	if game:GetService("CoreGui"):FindFirstChild("DogeHub V2") then
+		game:GetService("CoreGui")["DogeHub V2"]:Destroy(0)
 	end
 
-	return ind(...)
-end)
-
-nc = hookmetamethod(game, "__namecall", function(...)
-	local t = ...
-
-	if t == realVrService then
-		local method = getnamecallmethod()
-		return fakeVrService(method, ...)
-	elseif t == game.GetService(game, "StarterGui") and game.IsLoaded(game) then
-		return
+	--Workspace stuff
+	local DHV299NITFL = "DogeHubV2/99NightsintheForest/Lobby"
+	if isfolder(DHV299NITFL) == false then
+		makefolder(DHV299NITFL)
 	end
-
-	return nc(...)
-end)
-
-nind = hookmetamethod(game, "__newindex", function(...)
-	local t, k, v = ...
-	
-	local scr = getcallingscript()
-	
-	if t == cam and headObject then	
-		if k == "CFrame" and events.UserCFrameChanged then
-		
-			events.UserCFrameChanged:Fire(Enum.UserCFrame.Head, CFrame.Angles(cam.CFrame:ToEulerAnglesXYZ()))
-			
-			if headObject.rotationManager.active then
-			
-				headObject.rotationManager:updateAxes()
-				
-				if headObject.rotationManager.held then
-					headObject.rotationManager:updateAxisMover()
-				end
-			end
-			
-			if headObject.rotationManager.tabActivated and services.UserInputService:IsKeyDown(Enum.KeyCode.Left) or services.UserInputService:IsKeyDown(Enum.KeyCode.Right) then -- prevent controls from messing with camera
-				return
-			end
-		elseif k == "CameraType" then
-			nind(t, k, Enum.CameraType.Custom)
-			nind(t, "CameraSubject", headObject.realHeadset.Head)
-			headObject.leftHand:updateTarget()
-			headObject.rightHand:updateTarget()
-		end
-		if not (scr and scr.Name == "CameraModule") and not checkcaller() then
-			return
-		end
+	local Universal = DHV299NITFL .. "/Universal"
+	if isfolder(Universal) == false then
+		makefolder(Universal)
 	end
-	
-	nind(t, k, v)
-end)
-
-p = services.Players.LocalPlayer or (function()
-	services.Players:GetPropertyChangedSignal("LocalPlayer"):wait() -- this doesnt return anything for some reason??
-	return services.Players.LocalPlayer
-end)()
-
-p.Chatted:connect(function(c)
-	services.ReplicatedStorage.COM.Chat:FireServer("Chat", c)
-end)
-end)
- 
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Adopt me
-elseif game.PlaceId == 920587237 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Antartic Hub", "idk", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/JusticeValley/Antarctic-Hub/main/New.lua", true))()
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-syn.protect_gui(gui)
-gui.Parent = game.CoreGui
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
+	if isfile(Universal .. "/EnabledSliderPowa.txt") == false then
+		writefile(Universal .. "/EnabledSliderPowa.txt","false")
+	end
+	if isfile(Universal .. "/sliderspeed.txt") == false then
+		writefile(Universal .. "/sliderspeed.txt","16")
+	end
+	if isfile(Universal .. "/sliderjump.txt") == false then
+		writefile(Universal .. "/sliderjump.txt","50")
+	end
+	if isfile(Universal .. "/slidergravity.txt") == false then
+		writefile(Universal .. "/slidergravity.txt","196.2")
+	end
+	if isfile(Universal .. "/CtrlClickTeePee.txt") == false then
+		writefile(Universal .. "/CtrlClickTeePee.txt","false")
+	end
+	if isfile(Universal .. "/infjumptoggle.txt") == false then
+		writefile(Universal .. "/infjumptoggle.txt","false")
+	end
+	if isfile(Universal .. "/noclips.txt") == false then
+		writefile(Universal .. "/noclips.txt","false")
+	end
+	if isfile(Universal .. "/sliderfly.txt") == false then
+		writefile(Universal .. "/sliderfly.txt","101")
+	end
+	if isfile(Universal .. "/Pfly.txt") == false then
+		writefile(Universal .. "/Pfly.txt","false")
+	end
+	if isfile(Universal .. "/ripthatguy.txt") == false then
+		writefile(Universal .. "/ripthatguy.txt","Player's Name")
+	end
+	if isfile(Universal .. "/trackthatguy.txt") == false then
+		writefile(Universal .. "/trackthatguy.txt","false")
 	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
+	if isfile(DHV299NITFL .. "/AutoStartGame.txt") == false then
+		writefile(DHV299NITFL .. "/AutoStartGame.txt","false")
 	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
+	if isfile(DHV299NITFL .. "/AutoJoinGame.txt") == false then
+		writefile(DHV299NITFL .. "/AutoJoinGame.txt","false")
+	end
+	if isfile(DHV299NITFL .. "/PartyPlayerAmount.txt") == false then
+		writefile(DHV299NITFL .. "/PartyPlayerAmount.txt","3")
+	end
+	if isfile(DHV299NITFL .. "/WLP1.txt") == false then
+		writefile(DHV299NITFL .. "/WLP1.txt","")
+	end
+	if isfile(DHV299NITFL .. "/WLP2.txt") == false then
+		writefile(DHV299NITFL .. "/WLP2.txt","")
+	end
+	if isfile(DHV299NITFL .. "/WLP3.txt") == false then
+		writefile(DHV299NITFL .. "/WLP3.txt","")
+	end
+	if isfile(DHV299NITFL .. "/WLP4.txt") == false then
+		writefile(DHV299NITFL .. "/WLP4.txt","")
+	end
+	if isfile(DHV299NITFL .. "/WLP5.txt") == false then
+		writefile(DHV299NITFL .. "/WLP5.txt","")
+	end
+	if isfile(DHV299NITFL .. "/StartWLP.txt") == false then
+		writefile(DHV299NITFL .. "/StartWLP.txt","false")
+	end
+	if isfile(DHV299NITFL .. "/BLP1.txt") == false then
+		writefile(DHV299NITFL .. "/BLP1.txt","")
+	end
+	if isfile(DHV299NITFL .. "/BLP2.txt") == false then
+		writefile(DHV299NITFL .. "/BLP2.txt","")
+	end
+	if isfile(DHV299NITFL .. "/BLP3.txt") == false then
+		writefile(DHV299NITFL .. "/BLP3.txt","")
+	end
+	if isfile(DHV299NITFL .. "/BLP4.txt") == false then
+		writefile(DHV299NITFL .. "/BLP4.txt","")
+	end
+	if isfile(DHV299NITFL .. "/BLP5.txt") == false then
+		writefile(DHV299NITFL .. "/BLP5.txt","")
+	end
+	if isfile(DHV299NITFL .. "/StartBLP.txt") == false then
+		writefile(DHV299NITFL .. "/StartBLP.txt","false")
+	end
+	if isfile(DHV299NITFL .. "/ClassSelection.txt") == false then
+		writefile(DHV299NITFL .. "/ClassSelection.txt","")
+	end
+	if isfile(DHV299NITFL .. "/SnipeClasses.txt") == false then
+		writefile(DHV299NITFL .. "/SnipeClasses.txt","")
+	end
+	if isfile(DHV299NITFL .. "/AutoSnipeClasses.txt") == false then
+		writefile(DHV299NITFL .. "/AutoSnipeClasses.txt","false")
+	end
+
+	--DogeHub V2 GUI
+	local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kasep6720/Secret/Functions/pornhub%20page%20format%20gui"))()
+	local NoobieDoge = library.new("DogeHub V2", 5013109572)
+
+	-- themes
+	local themes = {
+		Background = Color3.fromRGB(24, 24, 24), 
+		Glow = Color3.fromRGB(128, 128 ,128), 
+		Accent = Color3.fromRGB(255,163,26), 
+		LightContrast = Color3.fromRGB(41, 41, 41), 
+		DarkContrast = Color3.fromRGB(27,27,27),  
+		TextColor = Color3.fromRGB(255, 255, 255)
+	}
+
+	-- first page
+	local page1 = NoobieDoge:addPage("Universal", 97521755974659)
+	local section1 = page1:addSection("Walk Speed & Jump Power & Gravity")
+	local section2 = page1:addSection("Other Functions")
+
+	local originalwalkspeed = 16
+	local originaljumppower = 50
+	local originalgravity = game:GetService("Workspace").Gravity
+
+	section1:addSlider("Walk Speed", tonumber(readfile(Universal .. "/sliderspeed.txt")), 0, 500, function(value)
+		sliderspeed = value
+		writefile(Universal .. "/sliderspeed.txt",tostring(sliderspeed))
 	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
+	section1:addSlider("Jump Power", tonumber(readfile(Universal .. "/sliderjump.txt")), 0, 500, function(value)
+		sliderjump = value
+		writefile(Universal .. "/sliderjump.txt",tostring(sliderjump))
+	end)
+	section1:addSlider("Gravity", tonumber(readfile(Universal .. "/slidergravity.txt")), 0, 500, function(value)
+		slidergravity = value
+		writefile(Universal .. "/slidergravity.txt",tostring(slidergravity))
+	end)
+	sliderspeed = tonumber(readfile(Universal .. "/sliderspeed.txt"))
+	sliderjump = tonumber(readfile(Universal .. "/sliderjump.txt"))
+	slidergravity = tonumber(readfile(Universal .. "/slidergravity.txt"))
+
+	if readfile(Universal .. "/EnabledSliderPowa.txt") == "true" then
+		section1:addToggle("Enabled", true, function(value)
+			sliderpowa = value
+			if sliderpowa == true then
+				writefile(Universal .. "/EnabledSliderPowa.txt","true")
+			else
+				writefile(Universal .. "/EnabledSliderPowa.txt","false")
+			end
+		end)
+		sliderpowa = true
 	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
+		section1:addToggle("Enabled", nil, function(value)
+			sliderpowa = value
+			if sliderpowa == true then
+				writefile(Universal .. "/EnabledSliderPowa.txt","true")
+			else
+				writefile(Universal .. "/EnabledSliderPowa.txt","false")
+			end
+		end)
+		sliderpowa = false
+	end
+	game:GetService('RunService').Stepped:connect(function()
+		if sliderpowa then
+			player.Character.Humanoid.WalkSpeed = sliderspeed
+			player.Character.Humanoid.JumpPower = sliderjump
+			game:GetService("Workspace").Gravity = slidergravity
+		end
+	end)
+
+	section1:addButton("Reset to Default", function()
+		player.Character.Humanoid.WalkSpeed = originalwalkspeed
+		player.Character.Humanoid.JumpPower = originaljumppower
+		game:GetService("Workspace").Gravity = originalgravity
+		section1:updateSlider("Walk Speed", "Walk Speed", originalwalkspeed, 0, 500)
+		section1:updateSlider("Jump Power", "Jump Power", originaljumppower, 0, 500)
+		section1:updateSlider("Gravity", "Gravity", originalgravity, 0, 500)
+		writefile(Universal .. "/EnabledSliderPowa.txt","true")
+		writefile(Universal .. "/originalwalkspeed.txt","16")
+		writefile(Universal .. "/originaljumppower.txt","50")
+		writefile(Universal .. "/originalgravity.txt","196.2")
+	end)
+
+	section2:addButton("Add ESP GUI", function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Kasep6720/Secret/Functions/Project%3A%20Bullshit%3A%20Rebooted"))()
+	end)
+
+	section2:addButton("Reset Character",function()
+		player.Character:BreakJoints()
+	end)
+
+	if readfile(Universal .. "/CtrlClickTeePee.txt") == "true" then
+		section2:addToggle("Ctrl + Click TP",true,function(bool)
+			CtrlClickTeePee = bool
+			CTRLCLICKTP()
+			if CtrlClickTeePee == true then
+				notify("Press Ctrl + Click to Teleport")
+				writefile(Universal .. "/CtrlClickTeePee.txt","true")
+			else
+				writefile(Universal .. "/CtrlClickTeePee.txt","false")
+			end
+		end)
+		CtrlClickTeePee = true
+		CTRLCLICKTP()
+	else
+		section2:addToggle("Ctrl + Click TP",false,function(bool)
+			CtrlClickTeePee = bool
+			CTRLCLICKTP()
+			if CtrlClickTeePee == true then
+				notify("Press Ctrl + Click to Teleport")
+				writefile(Universal .. "/CtrlClickTeePee.txt","true")
+			else
+				writefile(Universal .. "/CtrlClickTeePee.txt","false")
+			end
+		end)
+		CtrlClickTeePee = false
+	end
+
+	player.CharacterAdded:Connect(function()
+		if CtrlClickTeePee then
+			CTRLCLICKTP()
+		end
+	end)
+
+	if readfile(Universal .. "/infjumptoggle.txt") == "true" then
+		local infjumptoggle = true
+		section2:addToggle("Infinite Jump",true,function()
+			infjumptoggle = not infjumptoggle
+			notify("Infinite Jump: "..tostring(infjumptoggle),true)
+			if infjumptoggle then
+				getgenv().dc = false
+				local infjump
+				infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
+					if dc then infjump:Disconnect() return end
+					player.Character.Humanoid:ChangeState("Jumping")
+				end)
+				writefile(Universal .. "/infjumptoggle.txt","true")
+			else
+				getgenv().dc = true
+				writefile(Universal .. "/infjumptoggle.txt","false")
+			end
+		end)
+		getgenv().dc = false
+		local infjump
+		infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
+			if dc then infjump:Disconnect() return end
+			player.Character.Humanoid:ChangeState("Jumping")
+		end)
+	else
+		local infjumptoggle = false
+		section2:addToggle("Infinite Jump",false,function()
+			infjumptoggle = not infjumptoggle
+			notify("Infinite Jump: "..tostring(infjumptoggle),true)
+			if infjumptoggle then
+				getgenv().dc = false
+				local infjump
+				infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
+					if dc then infjump:Disconnect() return end
+					player.Character.Humanoid:ChangeState("Jumping")
+				end)
+				writefile(Universal .. "/infjumptoggle.txt","true")
+			else
+				getgenv().dc = true
+				writefile(Universal .. "/infjumptoggle.txt","false")
+			end
+		end)
+	end
+
+	player.CharacterAdded:Connect(function()
+		if infjumptoggle then
+			wait(1)
+			getgenv().dc = false
+			local infjump
+			infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
+				if dc then infjump:Disconnect() return end
+				player.Character.Humanoid:ChangeState("Jumping")
 			end)
 		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
 	end)
-end
 
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- JailBreak
-elseif game.PlaceId == 606849621 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-
-
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("Auto Arrest V2", "Arrest", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/HazeWasTaken/Jailbricked/main/AutoArrest.lua'))()
-end)
-
-MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Auto Rob", "Rob stores", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/wawsdasdacx/ohascriptnrrewading/main/jbsaxcriptidk1'))()
-end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("ESP/Aimbot", "bro", function()
-   local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local TextLabel = Instance.new("TextLabel")
-local TextLabel_2 = Instance.new("TextLabel")
-local TextLabel_3 = Instance.new("TextLabel")
-
---Properties:
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.new(1, 1, 1)
-Frame.BackgroundTransparency = 1
-Frame.Position = UDim2.new(0, 0, 0.876175702, 0)
-Frame.Size = UDim2.new(0, 100, 0, 84)
-
-TextLabel.Parent = Frame
-TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel.Size = UDim2.new(0, 100, 0, 34)
-TextLabel.Font = Enum.Font.SciFi
-TextLabel.Text = "Press E To Lock-On"
-TextLabel.TextColor3 = Color3.new(0, 0, 0)
-TextLabel.TextSize = 11
-
-TextLabel_2.Parent = Frame
-TextLabel_2.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel_2.Position = UDim2.new(0, 0, 0.40476191, 0)
-TextLabel_2.Size = UDim2.new(0, 100, 0, 25)
-TextLabel_2.Font = Enum.Font.SciFi
-TextLabel_2.Text = "Press T To Start ESP"
-TextLabel_2.TextColor3 = Color3.new(0, 0, 0)
-TextLabel_2.TextSize = 11
-
-TextLabel_3.Parent = Frame
-TextLabel_3.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel_3.Position = UDim2.new(0, 0, 0.702380955, 0)
-TextLabel_3.Size = UDim2.new(0, 100, 0, 25)
-TextLabel_3.Font = Enum.Font.Gotham
-TextLabel_3.Text = "Press L To Loop-ESP"
-TextLabel_3.TextColor3 = Color3.new(0, 0, 0)
-TextLabel_3.TextSize = 10
-pcall(function()
-local espcolor = Color3.fromRGB(140, 69, 102)
-local wallhack_esp_transparency = .4
-local gui_hide_button = {Enum.KeyCode.LeftControl, "h"}
-local plrs = game:GetService("Players")
-local lplr = game:GetService("Players").LocalPlayer
-local TeamBased = true ; local teambasedswitch = "o"
-local presskeytoaim = true; local aimkey = "e"
-aimbothider = false; aimbothiderspeed = .5
-local Aim_Assist = false ; Aim_Assist_Key = {Enum.KeyCode.LeftControl, "z"}
-local espupdatetime = 5; autoesp = false; local charmsesp = true
-local movementcounting = true
-
-
-
-
-local mouselock = false
-local canaimat = true
-local lockaim = true; local lockangle = 5
-local ver = "2.4"
-local cam = game.Workspace.CurrentCamera
-local BetterDeathCount = true
-local ballisticsboost = 0
-
-local mouse = lplr:GetMouse()
-local switch = false
-local key = "k"
-local aimatpart = nil
-local lightesp = false
-
-local abs = math.abs
-
-local Gui = Instance.new("ScreenGui")
-local Move = Instance.new("Frame")
-local Main = Instance.new("Frame")
-local EspStatus = Instance.new("TextLabel")
-local st1 = Instance.new("TextLabel")
-local st1_2 = Instance.new("TextLabel")
-local st1_3 = Instance.new("TextBox")
-local Name = Instance.new("TextLabel")
---Properties:
-
-Gui.Parent = plrs.LocalPlayer:WaitForChild("PlayerGui")
-
-
-local aimbotstatus = {"qc", "qr", "qe", "qd", "qi", "qt", "qs", "dd", "sp", "ql", "qa", "qd", "qs"}
-local gotstring = 0
-local function getrandomstring()
-    gotstring = gotstring+666
-    local str = ""
-    local randomstring = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-         "а","б","в","г","д","е","ё","ж","з","и","й","к","л","м","о","п","р","с","т","у","ф","х","ч","щ","ъ","ы","ъ","э","ю","я", "`", "$", 
-        "0","1","2","3","4","5","6","7","8","9", }
-    local counting123 = 0
-    for i, v in ipairs(randomstring) do
-        counting123 = i
-    end
-    do
-        math.randomseed(tick()+gotstring)
-        for i = 3, math.random(1,100) do
-                math.randomseed(i+tick()+gotstring)
-                
-                local oneortwo = math.random(1,2)
-                if oneortwo == 2 then
-                    math.randomseed(i+tick()+gotstring)
-                    str = str..""..randomstring[math.random(1, counting123)]
-                else
-                    math.randomseed(i+tick()+gotstring)
-                    str = str..""..string.upper(randomstring[math.random(1, counting123)])
-                end
-            
-        end
-    end
-    return str
-end
-local mousedown = false
-local isonmovething = false
-local mouseoffset = Vector2.new()
-local mousedown = false
-local bspeed = 3584
-local aimbotoffset = {dd = ":", sp = " ", qa = "a", qb = "b",qc = "c", qd = "d", qe = "e", qf = "f", qg = "g" , qh = "h" , qi = "i", qj = "j", qk = "k", ql = "l", qm = "m", qn = "n", qo = "o", qp = "p", qq = "q", qr = "r", qs = "s", qt = "t", qu = "u", qv = "w", qx = "x", qy = "y", qz = "z"}
-
-
-
-Gui.Name = getrandomstring()
-
-Move.Name = getrandomstring()
-Move.Draggable = true
-Move.Parent = Gui
-Move.BackgroundColor3 = Color3.new(0.0431373, 1, 0.0745098)
-Move.BackgroundTransparency = 0.40000000596046
-Move.BorderSizePixel = 0
-Move.Position = UDim2.new(0.5, 0,0.018, 0)
-Move.Size = UDim2.new(0, 320, 0, 30)
-
-Move.MouseEnter:Connect(function()
-    
-    isonmovething = true
-    
-end)
-Move.MouseLeave:Connect(function()
-    
-    isonmovething = mousedown and true or false
-end)
-mouse.Button1Down:connect(function()
-    mousedown = true
-    mouseoffset = Move.AbsolutePosition - Vector2.new(mouse.X, mouse.Y)
-end)
-mouse.Button1Up:connect(function()
-    mousedown = false
-end)
-
-mouse.Move:Connect(function()
-    if isonmovething == true and mousedown then
-        Move.Position = UDim2.new(0, mouseoffset.X + mouse.X, 0, mouseoffset.Y + mouse.Y)
-    end
-end)
-local function uc (st)
-    local ast = ""
-    for i, v in ipairs(st) do
-        local let = aimbotoffset[v]
-        ast = ast..let
-    end
-    return ast
-end
-
-Main.Name = getrandomstring()
-Main.Parent = Move
-Main.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-Main.BackgroundTransparency = 0.69999998807907
-Main.Position = UDim2.new(0, 0, 0.995670795, 0)
-Main.Size = UDim2.new(1.0000006, 0, 11.2, 0)
-
-st1.Name = getrandomstring()
-st1.Parent = Main
-st1.BackgroundColor3 = Color3.new(1, 1, 1)
-st1.BackgroundTransparency = 1
-st1.Position = UDim2.new(0, 0, 0, 0)
-st1.Size = UDim2.new(1, 0, 0.161862016, 0)
-st1.Font = Enum.Font.ArialBold
-st1.Text = uc(aimbotstatus)
-st1.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1.TextScaled = true
-st1.TextSize = 14
-st1.TextWrapped = true
-
-st1_2.Name = getrandomstring()
-st1_2.Parent = Main
-st1_2.BackgroundColor3 = Color3.new(1, 1, 1)
-st1_2.BackgroundTransparency = 1
-st1_2.Position = UDim2.new(0, 0, 0.375590861, 0)
-st1_2.Size = UDim2.new(0.999999881, 0, 0.161862016, 0)
-st1_2.Font = Enum.Font.ArialBold
-st1_2.TextXAlignment = Enum.TextXAlignment.Left
-st1_2.Text = "Current ballistics: 0"
-st1_2.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1_2.TextScaled = true
-st1_2.TextSize = 14
-st1_2.TextWrapped = true
-
-local aimbothiderbox = Instance.new("TextBox")
-aimbothiderbox.Name = getrandomstring()
-aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-aimbothiderbox.Size = UDim2.new(1, 0,0.162, 0)
-aimbothiderbox.TextScaled = true
-aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-aimbothiderbox.Position = UDim2.new(0, 0,0.853, 0)
-aimbothiderbox.BackgroundTransparency = 1
-aimbothiderbox.Parent = Main
-
-st1_3.Name = getrandomstring()
-st1_3.Parent = Main
-st1_3.BackgroundColor3 = Color3.new(1, 1, 1)
-st1_3.BackgroundTransparency = 1
-st1_3.Position = UDim2.new(0, 0, 0.18558608, 0)
-st1_3.Size = UDim2.new(0.999999881, 0, 0.161862016, 0)
-st1_3.Font = Enum.Font.ArialBold
-st1_3.Text = "Bullet speed = 3584"
-st1_3.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1_3.TextScaled = true
-st1_3.TextSize = 14
-st1_3.TextWrapped = true
-local teambasedstatus = st1_3:Clone()
-teambasedstatus.Parent = Main
-teambasedstatus.TextScaled = true
-teambasedstatus.Position = UDim2.new(0, 0,.7, 0)
-teambasedstatus.Size = UDim2.new(1, 0,.1, 0)
-teambasedstatus.Name = getrandomstring()
-teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-local espstatustext = teambasedstatus:Clone()
-espstatustext.Name = getrandomstring()
-espstatustext.Position = UDim2.new(0, 0,0.58, 0)
-espstatustext.Text = "Esp loop :"..tostring(autoesp)
-espstatustext.Parent = Main
-local hide = Instance.new("TextButton")
-hide.Text = "_"
-hide.BackgroundTransparency = 1
-hide.TextScaled = true
-hide.TextWrapped = true
-hide.Size = UDim2.new(0.1, 0,1, 0)
-hide.Position = UDim2.new(0.9, 0,-0.15, 0)
-hide.Name = getrandomstring()
-hide.Parent = Move
-Name.Name = getrandomstring()
-Name.Parent = Move
-Name.BackgroundColor3 = Color3.new(1, 1, 1)
-Name.BackgroundTransparency = 1
-Name.Size = UDim2.new(0.838, 0, 1, 0)
-Name.Font = Enum.Font.Arial
-Name.Text = "FPS gui v"..ver
-Name.TextColor3 = Color3.new(0, 0, 0)
-Name.TextScaled = true
-Name.TextSize = 14
-Name.TextWrapped = true
-Name.TextXAlignment = Enum.TextXAlignment.Left
-local scr = Instance.new("ScrollingFrame")
-scr.Size = Main.Size
-scr.Position = Main.Position
-scr.ScrollBarThickness = 0
-scr.BackgroundTransparency = 1
-scr.Name = getrandomstring()
-Main.Size = UDim2.new(1, 0, 1, 0)
-Main.Position = UDim2.new(0,0,0,0)
-Main.Parent = scr
-scr.Parent = Move
-startpos = Main.Position
-Move.Active = true
-Move:Destroy()
--- Scripts:
-hided = true
-hide.MouseButton1Click:Connect(function()
-    if hided == false then
-        hided = true
-        Main:TweenPosition(UDim2.new(0, 0, -1.5, 0))
-    else
-        hided = false
-        Main:TweenPosition(startpos)
-    end
-end)
-
-
-aimbothiderbox.FocusLost:Connect(function()
-    local numb = tonumber(aimbothiderbox.Text)
-    if aimbothider == true then
-        aimbothiderbox.TextColor3 =Color3.fromRGB(11, 255, 19)
-    else
-        aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-    end
-    if numb ~= nil then
-        aimbothiderspeed = numb
-        if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-    else
-        if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-    end
-end)
-
-
-local plrsforaim = {}
-
-
-Move.Draggable = true
-Gui.ResetOnSpawn = false
---Gui.Name = "Chat"
-Gui.DisplayOrder = 999
-pcall(function()
-if not game:GetService("CoreGui") then
-    Gui.Parent = plrs.LocalPlayer.PlayerGui
-else
-    Gui.Parent = game:GetService("CoreGui")
-end
-end)
-local espheadthing
-do
-local BillboardGui = Instance.new("BillboardGui")
-local PName = Instance.new("TextLabel")
-local Pdist = Instance.new("TextLabel")
-local ImageLabel = Instance.new("ImageLabel")
-local ImageLabel_2 = Instance.new("ImageLabel")
---Properties:
---BillboardGui.Parent = game.Workspace.Part
-BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-BillboardGui.AlwaysOnTop = true
-BillboardGui.LightInfluence = 0
-BillboardGui.Size = UDim2.new(0, 100, 0, 46)
-BillboardGui.Name = "headoverthing"
-PName.Name = "PName"
-PName.Parent = BillboardGui
-PName.BackgroundColor3 = espcolor
-PName.BackgroundTransparency = 0.55000001192093
-PName.BorderSizePixel = 0
-PName.Size = UDim2.new(0, 100, 0, 23)
-PName.Font = Enum.Font.SourceSans
-PName.Text = "urmom"
-PName.TextColor3 = Color3.new(0, 0, 0)
-PName.TextScaled = true
-PName.TextSize = 14
-PName.TextWrapped = true
-st1.Text = uc(aimbotstatus)
-Pdist.Name = "Pdist"
-Pdist.Parent = BillboardGui
-Pdist.AnchorPoint = Vector2.new(0.5, 0)
-Pdist.BackgroundColor3 = espcolor
-Pdist.BackgroundTransparency = 0.55000001192093
-Pdist.BorderSizePixel = 0
-Pdist.Position = UDim2.new(0.5, 0, 0.5, 0)
-Pdist.Size = UDim2.new(0, 70, 0, 23)
-Pdist.Font = Enum.Font.SourceSans
-Pdist.Text = "666"
-Pdist.TextColor3 = Color3.new(0, 0, 0)
-Pdist.TextScaled = true
-Pdist.TextSize = 14
-Pdist.TextWrapped = true
-
-ImageLabel.Parent = BillboardGui
-ImageLabel.BackgroundColor3 = Color3.new(0.298039, 1, 0)
-ImageLabel.BackgroundTransparency = 1
-ImageLabel.BorderColor3 = espcolor
-ImageLabel.Position = UDim2.new(1, -15, 0.5, 0)
-ImageLabel.Rotation = 180
-ImageLabel.Size = UDim2.new(0, 15, 0, 23)
-ImageLabel.Image = "rbxassetid://2832171824"
-ImageLabel.ImageColor3 = espcolor
-ImageLabel.ImageTransparency = 0.55000001192093
-
-ImageLabel_2.Parent = BillboardGui
-ImageLabel_2.BackgroundColor3 = espcolor
-ImageLabel_2.BackgroundTransparency = 1
-ImageLabel_2.BorderColor3 = Color3.new(0.298039, 1, 0)
-ImageLabel_2.Position = UDim2.new(0, 0, 0.5, 0)
-ImageLabel_2.Rotation = 180
-ImageLabel_2.Size = UDim2.new(0, 15, 0, 23)
-ImageLabel_2.Image = "rbxassetid://2832177613"
-ImageLabel_2.ImageColor3 = espcolor
-ImageLabel_2.ImageTransparency = 0.55000001192093
-espheadthing = BillboardGui
-end
-
-
-
-f = {}
-f.UpdateHeadUI = function(v)
-    
-        
-            if v.Adornee and v.Adornee ~= nil then
-                local destr = false
-                if TeamBased then
-                    destr = true
-                    local plr = plrs:GetPlayerFromCharacter(v.Adornee.Parent)
-                    if plr and plr.Team and plr.Team.Name ~= lplr.Team.Name then
-                        destr = false
-                    end
-                end
-                if lightesp == true then
-                    v.Pdist.TextColor3 = Color3.new(1,1,1)
-                    v.PName.TextColor3 = Color3.new(1,1,1)
-                else
-                    v.Pdist.TextColor3 = Color3.new(0,0,0)
-                    v.PName.TextColor3 = Color3.new(0,0,0)
-                end
-                local d = math.floor((cam.CFrame.p - v.Adornee.CFrame.p).magnitude)
-                v.Pdist.Text = tostring(d)
-                if d < 14 then
-                    v.Enabled = false
-                else
-                    v.Enabled = true
-                end
-                v.StudsOffset = Vector3.new(0,.6+d/14,0)
-                if destr then
-                    v:Destroy()
-                end
-            else
-                v:Destroy()
-            end
-        
-    
-end
-st1.Text = uc(aimbotstatus)
-local espforlder
-local partconverter = Instance.new("Part")
---local headsupdatelist = {}
-st1_3.FocusLost:connect(function()
-    if tonumber(st1_3.Text) then
-        bspeed = tonumber(st1_3.Text)
-    else
-        
-    end
-end)
-f.addesp = function()
-    pcall(function()
-    --print("ESP ran")
-    if espforlder then
-        espforlder:Destroy()
-        espforlder = Instance.new("Folder")
-        espforlder.Parent = game.Workspace.CurrentCamera
-    else
-        espforlder = Instance.new("Folder")
-        espforlder.Parent = game.Workspace.CurrentCamera
-    end
-    for i, v in pairs(espforlder:GetChildren()) do
-        v:Destroy()
-    end
-    for _, plr in pairs(plrs:GetChildren()) do
-        if plr.Character and plr.Character.Humanoid.Health > 0 and plr.Name ~= lplr.Name then
-            if TeamBased == true then
-                
-                if plr.Team.Name ~= plrs.LocalPlayer.Team.Name  then
-                    pcall(function()
-                    local e = espforlder:FindFirstChild(plr.Name)
-                    if not e then
-                        local fold = Instance.new("Folder", espforlder)
-                        fold.Name = plr.Name
-                        
-                        --partconverter.BrickColor = plr.Team.Color
-                        --local teamc = partconverter.Color
-                        for i, p in pairs(plr.Character:GetChildren()) do
-                            if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then
-                                if charmsesp then
-                                local urmom = Instance.new("BoxHandleAdornment")
-                                urmom.ZIndex = 10
-                                urmom.AlwaysOnTop = true
-                                urmom.Color3 = espcolor
-                                urmom.Size = p.Size
-                                urmom.Adornee = p
-                                urmom.Name = tick().." Ur mom has big gay"
-                                urmom.Transparency = wallhack_esp_transparency
-                                urmom.Parent = fold
-                                if p.Name == "Head" then
-                                    local th = p:FindFirstChild("headoverthing")
-                                    if not th then
-                                        local ht = espheadthing:Clone()
-                                        ht.PName.Text = p.Parent.Name
-                                        ht.Adornee = p
-                                        --table.insert(headsupdatelist, ht)
-                                        delay(0, function()
-                                            while wait(0.08) and plr and p do
-                                                f.UpdateHeadUI(ht)
-                                            end
-                                        end)
-                                        ht.Parent = p
-                                    end
-                                end
-                                end
-                            end
-                        end
-                        plr.Character.Humanoid.Died:Connect(function()
-                            fold:Destroy()
-                        end)
-                        
-                    end
-                    end)
-                end
-            else
-                local e = espforlder:FindFirstChild(plr.Name)
-                if not e then
-                    local fold = Instance.new("Folder", espforlder)
-                        fold.Name = plr.Name
-                        
-                        --partconverter.BrickColor = plr.Team.Color
-                        --local teamc = Move.BackgroundColor3
-                        for i, p in pairs(plr.Character:GetChildren()) do
-                            if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then
-                                pcall(function()
-                                if charmsesp then
-                                local urmom = Instance.new("BoxHandleAdornment")
-                                urmom.ZIndex = 10
-                                urmom.AlwaysOnTop = true
-                                urmom.Color3 = espcolor
-                                urmom.Size = p.Size
-                                urmom.Adornee = p
-                                urmom.Name = tick().." Ur mom has big gay"
-                                urmom.Transparency = wallhack_esp_transparency
-                                urmom.Parent = fold
-                                end
-                                if p.Name == "Head" then
-                                    local th = p:FindFirstChild("headoverthing")
-                                    if not th then
-                                        local ht = espheadthing:Clone()
-                                        ht.PName.Text = p.Parent.Name
-                                        ht.Adornee = p
-                                        delay(0, function()
-                                            while wait(0.08) and plr and p do
-                                                f.UpdateHeadUI(ht)
-                                            end
-                                        end)
-                                        --table.insert(headsupdatelist, ht)
-                                        ht.Parent = p
-                                    end
-                                end
-                                end)
-                            end
-                        end
-                        plr.Character.Humanoid.Died:Connect(function()
-                            fold:Destroy()
-                        end)
-                end
-            end
-            
-            
-        end
-    end
-    end)
-end
-
-local uis = game:GetService("UserInputService")
-local bringall = false
-local hided2 = false
-local upping = false
-local downing = false
-mouse.KeyDown:Connect(function(a)
-    
-    if a == "t" then
-        --print("worked1")
-        f.addesp()
-    elseif a == gui_hide_button[2] and uis:IsKeyDown(gui_hide_button[1]) then
-        if hided2 == false then
-            hided2 = true
-            autoesp =false
-            if espforlder then
-                espforlder:Destroy()
-            end
-            Gui.Enabled = false
-        else
-            Gui.Enabled = true
-            hided2 = false
-        end
-            
-    elseif a == "" then
-        if aimbothider == false then
-            aimbothider = true
-            if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-        else
-            
-            aimbothider = false
-            if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-        end
-        if aimbothider == true then
-            aimbothiderbox.TextColor3 =Color3.fromRGB(11, 255, 19)
-        else
-            aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-        end
-    elseif a == "l" then
-        if not uis:IsKeyDown(Enum.KeyCode.LeftControl) then
-            if autoesp == false then
-                autoesp = true
-            else
-                autoesp = false
-            end
-        else
-            if lightesp == true then
-                lightesp = false
-            else
-                lightesp = true
-            end
-        end
-    elseif a == "]" then
-        upping = true
-        downing = false
-    elseif a== "[" then
-        downing = true
-        upping = false
-    elseif a == Aim_Assist_Key[2] and uis:IsKeyDown(Aim_Assist_Key[1]) then
-        if Aim_Assist == true then
-            Aim_Assist = false
-            --print("disabled")
-        else
-            Aim_Assist = true
-        end
-    end
-    if a == "j" then
-        if mouse.Target then
-            mouse.Target:Destroy()
-        end
-    end
-    if a == key then
-        if switch == false then
-            switch = true
-        else
-            switch = false
-            if aimatpart ~= nil then
-                aimatpart = nil
-            end
-        end
-    elseif a == "b" and uis:IsKeyDown(Enum.KeyCode.LeftControl) and not uis:IsKeyDown(Enum.KeyCode.R) then
-        if movementcounting then
-            movementcounting = false
-        else
-            movementcounting = true
-        end
-    elseif a == teambasedswitch then
-        if TeamBased == true then
-            TeamBased = false
-            teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-        else
-            TeamBased = true
-            teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-        end
-    elseif a == "b" and uis:IsKeyDown(Enum.KeyCode.LeftControl) and uis:IsKeyDown(Enum.KeyCode.R) then
-        ballisticsboost = 0
-    elseif a == aimkey then
-        if not aimatpart then
-            local maxangle = math.rad(20)
-            for i, plr in pairs(plrs:GetChildren()) do
-                if plr.Name ~= lplr.Name and plr.Character and plr.Character.Head and plr.Character.Humanoid and plr.Character.Humanoid.Health > 1 then
-                    if TeamBased == true then
-                        if plr.Team.Name ~= lplr.Team.Name then
-                            local an = checkfov(plr.Character.Head)
-                            if an < maxangle then
-                                maxangle = an
-                                aimatpart = plr.Character.Head
-                            end
-                        end
-                    else
-                        local an = checkfov(plr.Character.Head)
-                            if an < maxangle then
-                                maxangle = an
-                                aimatpart = plr.Character.Head
-                            end
-                            --print(plr)
-                    end
-                    local old = aimatpart
-                    plr.Character.Humanoid.Died:Connect(function()
-                        --print("died")
-                        if aimatpart and aimatpart == old then
-                            aimatpart = nil
-                        end
-                    end)
-                    
-                end
-            end
-        else
-            aimatpart = nil
-            canaimat = false
-            delay(1.1, function()
-                canaimat = true
-            end)
-        end
-    end
-end)
-
-function getfovxyz (p0, p1, deg)
-    local x1, y1, z1 = p0:ToOrientation()
-    local cf = CFrame.new(p0.p, p1.p)
-    local x2, y2, z2 = cf:ToOrientation()
-    local d = math.deg
-    if deg then
-        return Vector3.new(d(x1-x2), d(y1-y2), d(z1-z2))
-    else
-        return Vector3.new((x1-x2), (y1-y2), (z1-z2))
-    end
-end
-
-
-function aimat(part)
-    if part then
-        --print(part)
-        local d = (cam.CFrame.p - part.CFrame.p).magnitude
-        local calculatedrop
-        local timetoaim = 0
-        local pos2 = Vector3.new()
-        if movementcounting == true then
-            timetoaim = d/bspeed
-            pos2 = part.Velocity * timetoaim
-        end
-        local minuseddrop = (ballisticsboost+50)/50
-        if ballisticsboost ~= 0 then
-            calculatedrop = d - (d/minuseddrop)
-            
-        else
-            calculatedrop = 0
-        end
-        --print(calculatedrop)
-        local addative = Vector3.new()
-        if movementcounting then
-            addative = pos2
-        end
-        local cf = CFrame.new(cam.CFrame.p, (addative + part.CFrame.p+ Vector3.new(0, calculatedrop, 0)))
-        if aimbothider == true or Aim_Assist == true then
-            cam.CFrame = cam.CFrame:Lerp(cf, aimbothiderspeed)
-        else
-            
-            cam.CFrame = cf
-        end
-        --print(cf)
-    end
-end
-function checkfov (part)
-    local fov = getfovxyz(game.Workspace.CurrentCamera.CFrame, part.CFrame)
-    local angle = math.abs(fov.X) + math.abs(fov.Y)
-    return angle
-end
-pcall(function()
-    delay(0, function()
-        while wait(.32) do
-            if Aim_Assist and not aimatpart and canaimat and lplr.Character and lplr.Character.Humanoid and lplr.Character.Humanoid.Health > 0 then
-                for i, plr in pairs(plrs:GetChildren()) do
-                    
-                    
-                        local minangle = math.rad(5.5)
-                        local lastpart = nil
-                        local function gg(plr)
-                            pcall(function()
-                            if plr.Name ~= lplr.Name and plr.Character and plr.Character.Humanoid and plr.Character.Humanoid.Health > 0 and plr.Character.Head then
-                                local raycasted = false
-                                local cf1 = CFrame.new(cam.CFrame.p, plr.Character.Head.CFrame.p) * CFrame.new(0, 0, -4)
-                                local r1 = Ray.new(cf1.p, cf1.LookVector * 9000)
-                                local obj, pos = game.Workspace:FindPartOnRayWithIgnoreList(r1,  {lplr.Character.Head})
-                                local dist = (plr.Character.Head.CFrame.p- pos).magnitude
-                                if dist < 4 then
-                                    raycasted = true
-                                end
-                                if raycasted == true then
-                                    local an1 = getfovxyz(cam.CFrame, plr.Character.Head.CFrame)
-                                    local an = abs(an1.X) + abs(an1.Y)
-                                    if an < minangle then
-                                        minangle = an
-                                        lastpart = plr.Character.Head
-                                    end
-                                end
-                            end
-                            end)
-                        end
-                        if TeamBased then
-                            if plr.Team.Name ~= lplr.Team.Name then
-                                gg(plr)
-                            end
-                        else
-                            gg(plr)
-                        end
-                        --print(math.deg(minangle))
-                        if lastpart then
-                            aimatpart = lastpart
-                            aimatpart.Parent.Humanoid.Died:Connect(function()
-                                if aimatpart == lastpart then
-                                    aimatpart = nil
-                                end
-                            end)
-                        
-                    end
-                end
-            end
-        end
-    end)
-end)
-local oldheadpos
-local lastaimapart
-game:GetService("RunService").RenderStepped:Connect(function(dt)
-    if uis:IsKeyDown(Enum.KeyCode.RightBracket) or uis:IsKeyDown(Enum.KeyCode.LeftBracket) then
-        if upping then
-            ballisticsboost = ballisticsboost + dt/1.9
-        elseif downing then
-            ballisticsboost = ballisticsboost - dt/1.9
-        end
-    end
-    if movementcounting then
-        st1_2.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-        st1_2.Text = "Current ballistics: "..tostring(math.floor(ballisticsboost*10)/10)
-    else
-        st1_2.TextColor3 = Color3.new(1,0,0)
-    end
-    espstatustext.Text = "Esp loop :"..tostring(autoesp)
-    if aimatpart and lplr.Character and lplr.Character.Head then
-        if BetterDeathCount and lastaimapart and lastaimapart == aimatpart then
-            local dist = (oldheadpos - aimatpart.CFrame.p).magnitude
-            if dist > 40 then
-                aimatpart = nil
-            end
-        end
-        lastaimapart = aimatpart
-        oldheadpos = lastaimapart.CFrame.p
-        do 
-            if aimatpart.Parent == plrs.LocalPlayer.Character then
-                aimatpart = nil
-            end
-            aimat(aimatpart)
-            pcall(function()
-                if Aim_Assist == true then
-                    local cf1 = CFrame.new(cam.CFrame.p, aimatpart.CFrame.p) * CFrame.new(0, 0, -4)
-                    local r1 = Ray.new(cf1.p, cf1.LookVector * 1000)
-                    local obj, pos = game.Workspace:FindPartOnRayWithIgnoreList(r1,  {lplr.Character.Head})
-                    local dist = (aimatpart.CFrame.p- pos).magnitude
-                    if obj then
-                        --print(obj:GetFullName())
-                    end
-                    if not obj or dist > 6 then
-                        aimatpart = nil
-                        --print("ooof")
-                    end
-                    canaimat = false
-                    delay(.5, function()
-                        canaimat = true
-                    end)
-                end
-            end)
-        end
-        
-        
-        
-    end
-end)
-
-
-delay(0, function()
-    while wait(espupdatetime) do
-        if autoesp == true then
-            pcall(function()
-            f.addesp()
-            end)
-        end
-    end
-end)
---warn("loaded")
-end)
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-MainSection:NewButton("JailMonkey", "MASSIVE FPS DROP", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/KuriWasTaken/MonkeyScripts/main/JailMonkey.lua"))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-syn.protect_gui(gui)
-gui.Parent = game.CoreGui
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
+	if readfile(Universal .. "/noclips.txt") == "true" then
+		section2:addToggle("Noclip", true, function(bool)
+			noclips = bool
+			if noclips then
+				writefile(Universal .. "/noclips.txt","true")
+			else
+				writefile(Universal .. "/noclips.txt","false")
+			end
+		end)
+		noclips = true
 	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
+		section2:addToggle("Noclip", false, function(bool)
+			noclips = bool
+			if noclips then
+				writefile(Universal .. "/noclips.txt","true")
+			else
+				writefile(Universal .. "/noclips.txt","false")
+			end
+		end)
 	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
-	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
+	game:GetService("RunService").Stepped:connect(function()
+		if noclips then
+			for i, v in pairs(player.Character:GetChildren()) do
+				if v:IsA("BasePart") then
+					v.CanCollide = false
+				end
+			end
 		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
 	end)
-end
 
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
---Prison Life
-elseif game.PlaceId == 155615604 then
-    local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-end)
-
-MainSection:NewButton("Prison Destroyer V2", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/DTi4fbKh"))();
-end)
-
-MainSection:NewButton("Prison Life Anti Abusers GUI", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/6mhZBAkh",true))()
-end)
-
-MainSection:NewButton("Prison Destroyer", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/08z0DUDE",true))()
-end)
-
-MainSection:NewButton("Kick Player", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/5iyrwLSH",true))()
-end)
-
-MainSection:NewButton("Prison Destroyer V1.6", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/4rkRHviN",true))()
-end)
-
-MainSection:NewButton("Loop Bring All", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/j80DG72a",true))()
-end)
-
-MainSection:NewButton("Bring All/Crim", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/aiNDd7Js",true))()
-end)
-game.Players.LocalPlayer.PlayerGui.Home.fadeFrame:Destroy()
-        local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
-    -- Build A Boat
-elseif game.PlaceId == 537413528 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("scriptt", "just a gui", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Vynixius/main/Build%20A%20Boat%20For%20Treasure/BABFT"))()
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Gorilla Tag Professional
-elseif game.PlaceId == 8690998110 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-
-
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-	    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-            local Window = Library.CreateLib("SkyHub Universal", OptTheme)
-            local Main = Window:NewTab("Main")
-            local MainSection = Main:NewSection("Main")
-            MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-                setclipboard(string)
-            end)
-	 MainSection:NewButton("V3rm Script", "Copys Discord invite link", function()
-                -- Made by 13 YOLD
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/miroeramaa/TurtleLib/main/TurtleUiLib.lua"))()
-local window1 = library:Window("Scripts")
-local window2 = library:Window("Teleport Areas")
-window1:Button("Infinite Wins", function()
-    spawn(function()
-while true do
-   local dec = game:GetService("Workspace"):FindFirstChild("ClickToGetCash").ClickDetector
-   fireclickdetector(dec)
-   local fun = game:GetService("Workspace"):FindFirstChild("ClickToGetCash").ClickDetector
-   fireclickdetector(fun)
-   wait(0.1)
-end
-end)
-end)
-window2:Button("Spectate (Easy Win)", function()
-    spawn(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-39.386, 59.2163, -102.248)
-
-end)
-end)
-window1:Button("TP All to You (Use Lava)", function()
-    spawn(function()
-  for _, player in pairs(game.Players:GetPlayers()) do
-player.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
-      end
-    end)
-end)
-window2:Button("Become a Lava Monke", function()
-    spawn(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(79.2755, 71.1624, -54.2756)
-end)
-end)
-window1:Slider("Walkspeed",16,70,5, function(value)
-  game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = value
-end)
-window1:Slider("JumpPower",50,150,20, function(value)
-  game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = value
-end)
-library:Keybind("Tab")
-game:GetService("StarterGui"):SetCore("SendNotification",{     
-Title = "Important!",     
-Text = "Infinite Wins is patched",
-Button1 = "unpatch pls?",Button2 = "no",     Duration = 20, })
-            end)
--- Universal
-else
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-
-
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-	    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-            local Window = Library.CreateLib("SkyHub Universal", OptTheme)
-            local Main = Window:NewTab("Main")
-            local MainSection = Main:NewSection("Main")
-            MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-                setclipboard(string)
-            end)
-
-            MainSection:NewButton("NoClip", "Walk Through Walls Hold V", function()
-                local h,char,play
-                play = game.Players.LocalPlayer
-                local uisss = game:getService("UserInputService")
-                game:getService("RunService"):BindToRenderStep("",0,function()
-                    char = play.Character
-	                if char then h = char:findFirstChildOfClass("Humanoid") end
-	               if not h then return end
-	               if uisss:IsKeyDown(Enum.KeyCode.V) then
-		                h:ChangeState(11)
-	                end
-                end)
-            end)
-
-            MainSection:NewButton("Btools", "Btools lol", function()
-                game.StarterGui:SetCoreGuiEnabled(2, true)
-                a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                a.BinType = 2
-                b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                b.BinType = 3
-                c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                c.BinType = 4
-            end)
- 
-MainSection:NewButton("FE Gui", "By Me sky", function()
-                local Admin = Instance.new("ScreenGui")
-local MainFrame = Instance.new("ScrollingFrame")
-local FlyBut = Instance.new("TextButton")
-local RespawnBut = Instance.new("TextButton")
-local Credslol = Instance.new("TextLabel")
-local ClickTpBut = Instance.new("TextButton")
-local NoClipBut = Instance.new("TextButton")
-local SonicBut = Instance.new("TextButton")
-local TelekiniesBut = Instance.new("TextButton")
-local WalkWallsBut = Instance.new("TextButton")
-local BtoolsBut = Instance.new("TextButton")
-local MEME = Instance.new("TextButton")
-syn.protect_gui(Admin)
-Admin.Name = "Admin"
-Admin.Parent = game.CoreGui
-Admin.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = Admin
-MainFrame.Active = true
-MainFrame.BackgroundColor3 = Color3.fromRGB(208, 66, 255)
-MainFrame.Position = UDim2.new(0.416337252, 0, 0.274846643, 0)
-MainFrame.Size = UDim2.new(0, 429, 0, 262)
-
-FlyBut.Name = "FlyBut"
-FlyBut.Parent = MainFrame
-FlyBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-FlyBut.Position = UDim2.new(0, 0, 0.0306748468, 0)
-FlyBut.Size = UDim2.new(0, 200, 0, 50)
-FlyBut.Style = Enum.ButtonStyle.RobloxButton
-FlyBut.Font = Enum.Font.SourceSans
-FlyBut.Text = "Fly"
-FlyBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-FlyBut.TextSize = 14.000
-
-RespawnBut.Name = "RespawnBut"
-RespawnBut.Parent = MainFrame
-RespawnBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RespawnBut.Position = UDim2.new(0.510489523, 0, 0.0306748468, 0)
-RespawnBut.Size = UDim2.new(0, 200, 0, 50)
-RespawnBut.Style = Enum.ButtonStyle.RobloxButton
-RespawnBut.Font = Enum.Font.SourceSans
-RespawnBut.Text = "Respawn"
-RespawnBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-RespawnBut.TextSize = 14.000
-
-Credslol.Name = "Creds lol"
-Credslol.Parent = MainFrame
-Credslol.BackgroundColor3 = Color3.fromRGB(208, 66, 255)
-Credslol.Size = UDim2.new(0, 419, 0, 50)
-Credslol.Font = Enum.Font.SourceSans
-Credslol.Text = "FE GUI Made By Sky Press down on Mouse Wheel to open/close"
-Credslol.TextColor3 = Color3.fromRGB(58, 93, 170)
-Credslol.TextSize = 14.000
-
-ClickTpBut.Name = "ClickTpBut"
-ClickTpBut.Parent = MainFrame
-ClickTpBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ClickTpBut.Position = UDim2.new(-0.00233101845, 0, 0.0650306717, 0)
-ClickTpBut.Size = UDim2.new(0, 200, 0, 50)
-ClickTpBut.Style = Enum.ButtonStyle.RobloxButton
-ClickTpBut.Font = Enum.Font.SourceSans
-ClickTpBut.Text = "ClickTP"
-ClickTpBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-ClickTpBut.TextSize = 14.000
-
-NoClipBut.Name = "NoClipBut"
-NoClipBut.Parent = MainFrame
-NoClipBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-NoClipBut.Position = UDim2.new(0.510489523, 0, 0.0650306717, 0)
-NoClipBut.Size = UDim2.new(0, 200, 0, 50)
-NoClipBut.Style = Enum.ButtonStyle.RobloxButton
-NoClipBut.Font = Enum.Font.SourceSans
-NoClipBut.Text = "Noclip"
-NoClipBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-NoClipBut.TextSize = 14.000
-
-SonicBut.Name = "SonicBut"
-SonicBut.Parent = MainFrame
-SonicBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SonicBut.Position = UDim2.new(-0.00233097491, 0, 0.0969325155, 0)
-SonicBut.Size = UDim2.new(0, 200, 0, 50)
-SonicBut.Style = Enum.ButtonStyle.RobloxButton
-SonicBut.Font = Enum.Font.SourceSans
-SonicBut.Text = "FE Sonic Animation"
-SonicBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-SonicBut.TextSize = 14.000
-
-TelekiniesBut.Name = "TelekiniesBut"
-TelekiniesBut.Parent = MainFrame
-TelekiniesBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TelekiniesBut.Position = UDim2.new(0.510489523, 0, 0.0957055241, 0)
-TelekiniesBut.Size = UDim2.new(0, 200, 0, 50)
-TelekiniesBut.Style = Enum.ButtonStyle.RobloxButton
-TelekiniesBut.Font = Enum.Font.SourceSans
-TelekiniesBut.Text = "Telekines"
-TelekiniesBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-TelekiniesBut.TextSize = 14.000
-
-WalkWallsBut.Name = "WalkWallsBut"
-WalkWallsBut.Parent = MainFrame
-WalkWallsBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-WalkWallsBut.Position = UDim2.new(0, 0, 0.130061358, 0)
-WalkWallsBut.Size = UDim2.new(0, 200, 0, 50)
-WalkWallsBut.Style = Enum.ButtonStyle.RobloxButton
-WalkWallsBut.Font = Enum.Font.SourceSans
-WalkWallsBut.Text = "FE Walk On walls"
-WalkWallsBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-WalkWallsBut.TextSize = 14.000
-
-BtoolsBut.Name = "BtoolsBut"
-BtoolsBut.Parent = MainFrame
-BtoolsBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-BtoolsBut.Position = UDim2.new(0.510489523, 0, 0.130061358, 0)
-BtoolsBut.Size = UDim2.new(0, 200, 0, 50)
-BtoolsBut.Style = Enum.ButtonStyle.RobloxButton
-BtoolsBut.Font = Enum.Font.SourceSans
-BtoolsBut.Text = "Btools"
-BtoolsBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-BtoolsBut.TextSize = 14.000
-
-MEME.Name = "MEME"
-MEME.Parent = MainFrame
-MEME.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-MEME.Position = UDim2.new(0, 0, 0.16257669, 0)
-MEME.Size = UDim2.new(0, 200, 0, 50)
-MEME.Style = Enum.ButtonStyle.RobloxButton
-MEME.Font = Enum.Font.SourceSans
-MEME.Text = "MEME"
-MEME.TextColor3 = Color3.fromRGB(58, 93, 170)
-MEME.TextSize = 14.000
-
--- Scripts:
-
-local function TSQII_fake_script() -- FlyBut.Fly 
-	local script = Instance.new('LocalScript', FlyBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Fly Already On." then
-			game.StarterGui:SetCore("SendNotification",  {
-				Title = "Fly Noti";
-				Text = "FLY ALREADY ON";
-				Icon = "";
-				Duration = 5;
-			})
-		else
-			script.Parent.Text = "Press E to disable/Enable"
-			wait(2.5)
-			script.Parent.Text = "Fly Already On."
+	section2:addSlider("Fly Speed", tonumber(readfile(Universal .. "/sliderfly.txt")), 0, 999, function(value)
+		sliderfly = value
+		writefile(Universal .. "/sliderfly.txt",tostring(sliderfly))
+	end)
+	sliderfly = tonumber(readfile(Universal .. "/sliderfly.txt"))
+	if readfile(Universal .. "/Pfly.txt") == "true" then
+		section2:addToggle("Press P to fly",true,function(bool)
+			Pfly = bool
+			if Pfly then
+				writefile(Universal .. "/Pfly.txt","true")
+			else
+				writefile(Universal .. "/Pfly.txt","false")
+			end
 			repeat wait() 
-			until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
-			local mouse = game.Players.LocalPlayer:GetMouse() 
+			until player and player.Character:findFirstChild("Head") player.Character:findFirstChild("Humanoid") 
+			local mouse = player:GetMouse() 
 			repeat wait() until mouse
-			local plr = game.Players.LocalPlayer 
-			local torso = plr.Character.HumanoidRootPart 
-			local flying = true
+			local torso = player.Character.Head 
+			local flying = false
 			local deb = true 
 			local ctrl = {f = 0, b = 0, l = 0, r = 0} 
 			local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
-			local maxspeed = 50 
+			local maxspeed = sliderfly 
 			local speed = 0 
-	
+
 			function Fly() 
 				local bg = Instance.new("BodyGyro", torso) 
 				bg.P = 9e4 
 				bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
 				bg.cframe = torso.CFrame 
+
 				local bv = Instance.new("BodyVelocity", torso) 
 				bv.velocity = Vector3.new(0,0.1,0) 
 				bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
 				repeat wait() 
-					plr.Character.Humanoid.PlatformStand = true 
+					player.Character.Humanoid.PlatformStand = true 
 					if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
-						speed = speed+.5+(speed/maxspeed) 
+						speed = speed+(sliderfly/1.7)+(speed/maxspeed) 
 						if speed > maxspeed then 
 							speed = maxspeed 
 						end 
+
 					elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
-						speed = speed-1 
+						speed = speed-(sliderfly/1.7)
 						if speed < 0 then 
 							speed = 0 
 						end 
@@ -5370,19 +531,20 @@ local function TSQII_fake_script() -- FlyBut.Fly
 					elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
 						bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
 					else 
-						bv.velocity = Vector3.new(0,0.1,0) 
+						bv.velocity = Vector3.new(0,0.1,0)
 					end 
 					bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
-				until not flying 
+				until not flying or not Pfly
 				ctrl = {f = 0, b = 0, l = 0, r = 0} 
 				lastctrl = {f = 0, b = 0, l = 0, r = 0} 
 				speed = 0 
 				bg:Destroy() 
 				bv:Destroy() 
-				plr.Character.Humanoid.PlatformStand = false 
+				player.Character.Humanoid.PlatformStand = false 
 			end 
+
 			mouse.KeyDown:connect(function(key) 
-				if key:lower() == "e" then 
+				if key:lower() == "p" then 
 					if flying then flying = false 
 					else 
 						flying = true 
@@ -5398,7 +560,9 @@ local function TSQII_fake_script() -- FlyBut.Fly
 					ctrl.r = 1 
 				end 
 			end) 
+
 			mouse.KeyUp:connect(function(key) 
+
 				if key:lower() == "w" then 
 					ctrl.f = 0 
 				elseif key:lower() == "s" then 
@@ -5410,6082 +574,132 @@ local function TSQII_fake_script() -- FlyBut.Fly
 				end 
 			end)
 			Fly()
-		end
-	end)
-end
-coroutine.wrap(TSQII_fake_script)()
-local function XMMUGI_fake_script() -- MainFrame.Drag 
-	local script = Instance.new('LocalScript', MainFrame)
-
-	local UserInputService = game:GetService("UserInputService")
-	
-	local gui = script.Parent
-	
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
-	
-	local function update(input)
-		local delta = input.Position - dragStart
-		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-	
-	gui.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = gui.Position
-	
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-	
-	gui.InputChanged:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-			dragInput = input
-		end
-	end)
-	
-	UserInputService.InputChanged:Connect(function(input)
-		if input == dragInput and dragging then
-			update(input)
-		end
-	end)
-end
-coroutine.wrap(XMMUGI_fake_script)()
-local function UEZKG_fake_script() -- RespawnBut.Repsawn 
-	local script = Instance.new('LocalScript', RespawnBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Respawning..." then
-			game.StarterGui:SetCore("SendNotification",  {
-				Title = "Respawn Noti";
-				Text = "Already Respawning...";
-				Icon = "";
-				Duration = 5;
-			})
-		else
-			script.Parent.Text = "Respawning..."
-			wait(2.5)
-			game.Players.LocalPlayer.Character.Humanoid.Health = 0
-			game.Players.LocalPlayer.Character.Head.Remove()
-			end
-	end)
-end
-coroutine.wrap(UEZKG_fake_script)()
-local function WOLU_fake_script() -- MainFrame.MouseButton3 
-	local script = Instance.new('LocalScript', MainFrame)
-
-	local UserInputService = game:GetService("UserInputService")
-	local function onInputBegan(input, gameProcessed)
-		if input.UserInputType == Enum.UserInputType.MouseButton3 then
-			if script.Parent.Visible == true then
-				script.Parent.Visible = false
-			else
-				script.Parent.Visible = true
-			end
-		end
-	end
-	UserInputService.InputBegan:Connect(onInputBegan)
-	
-end
-coroutine.wrap(WOLU_fake_script)()
-local function TGAB_fake_script() -- ClickTpBut.ClickTp 
-	local script = Instance.new('LocalScript', ClickTpBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		mouse = game.Players.LocalPlayer:GetMouse()
-		tool = Instance.new("Tool")
-		tool.RequiresHandle = false
-		tool.Name = "Click Teleport"
-		tool.Activated:connect(function()
-			local pos = mouse.Hit+Vector3.new(0,2.5,0)
-			pos = CFrame.new(pos.X,pos.Y,pos.Z)
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+			notify("Press P to fly: "..tostring(Pfly),true)
 		end)
-		tool.Parent = game.Players.LocalPlayer.Backpack
-	
-	end)
-end
-coroutine.wrap(TGAB_fake_script)()
-local function AATJTM_fake_script() -- NoClipBut.Noclip 
-	local script = Instance.new('LocalScript', NoClipBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Noclip" then
-			script.Parent.Text = "Clip"
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-		wait(2.6)
-			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(";noclip","All")
-		else
-			script.Parent.Text = "Noclip"
-			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(";clip","All")
-		end
-	end)
-end
-coroutine.wrap(AATJTM_fake_script)()
-local function ZDXVH_fake_script() -- SonicBut.Sonic 
-	local script = Instance.new('LocalScript', SonicBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		loadstring(game:HttpGetAsync("https://pastebin.com/raw/SyF5t70A"))()
-	end)
-end
-coroutine.wrap(ZDXVH_fake_script)()
-local function CRSQC_fake_script() -- TelekiniesBut.TEL 
-	local script = Instance.new('LocalScript', TelekiniesBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		--BROUGHT TO YOU BY RobloxScripter.com!--
-		--Follow Our Partners!--
-	
-		local function a(b, c)
-			local d = getfenv(c)
-			local e =
-				setmetatable(
-					{},
-					{__index = function(self, f)
-					if f == "script" then
-						return b
-					else
-						return d[f]
-					end
-				end}
-				)
-			setfenv(c, e)
-			return c
-		end
-		local g = {}
-		local h = Instance.new("Model", game:GetService("Lighting"))
-		local i = Instance.new("Tool")
-		local j = Instance.new("Part")
-		local k = Instance.new("Script")
-		local l = Instance.new("LocalScript")
-		local m = sethiddenproperty or set_hidden_property
-		i.Name = "Telekinesis"
-		i.Parent = h
-		i.Grip = CFrame.new(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-		i.GripForward = Vector3.new(-0, -1, -0)
-		i.GripRight = Vector3.new(0, 0, 1)
-		i.GripUp = Vector3.new(1, 0, 0)
-		j.Name = "Handle"
-		j.Parent = i
-		j.CFrame = CFrame.new(-17.2635937, 15.4915619, 46, 0, 1, 0, 1, 0, 0, 0, 0, -1)
-		j.Orientation = Vector3.new(0, 180, 90)
-		j.Position = Vector3.new(-17.2635937, 15.4915619, 46)
-		j.Rotation = Vector3.new(-180, 0, -90)
-		j.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
-		j.Transparency = 1
-		j.Size = Vector3.new(1, 1.20000005, 1)
-		j.BottomSurface = Enum.SurfaceType.Weld
-		j.BrickColor = BrickColor.new("Really black")
-		j.Material = Enum.Material.Metal
-		j.TopSurface = Enum.SurfaceType.Smooth
-		j.brickColor = BrickColor.new("Really black")
-		k.Name = "LineConnect"
-		k.Parent = i
-		table.insert(
-			g,
-			a(
-				k,
-				function()
-					wait()
-					local n = script.Part2
-					local o = script.Part1.Value
-					local p = script.Part2.Value
-					local q = script.Par.Value
-					local color = script.Color
-					local r = Instance.new("Part")
-					r.TopSurface = 0
-					r.BottomSurface = 0
-					r.Reflectance = .5
-					r.Name = "Laser"
-					r.Locked = true
-					r.CanCollide = false
-					r.Anchored = true
-					r.formFactor = 0
-					r.Size = Vector3.new(1, 1, 1)
-					local s = Instance.new("BlockMesh")
-					s.Parent = r
-					while true do
-						if n.Value == nil then
-							break
-						end
-						if o == nil or p == nil or q == nil then
-							break
-						end
-						if o.Parent == nil or p.Parent == nil then
-							break
-						end
-						if q.Parent == nil then
-							break
-						end
-						local t = CFrame.new(o.Position, p.Position)
-						local dist = (o.Position - p.Position).magnitude
-						r.Parent = q
-						r.BrickColor = color.Value.BrickColor
-						r.Reflectance = color.Value.Reflectance
-						r.Transparency = color.Value.Transparency
-						r.CFrame = CFrame.new(o.Position + t.lookVector * dist / 2)
-						r.CFrame = CFrame.new(r.Position, p.Position)
-						s.Scale = Vector3.new(.25, .25, dist)
-						wait()
-					end
-					r:remove()
-					script:remove()
-				end
-			)
-		)
-		k.Disabled = true
-		l.Name = "MainScript"
-		l.Parent = i
-		table.insert(
-			g,
-			a(
-				l,
-				function()
-					wait()
-					tool = script.Parent
-					lineconnect = tool.LineConnect
-					object = nil
-					mousedown = false
-					found = false
-					BP = Instance.new("BodyPosition")
-					BP.maxForce = Vector3.new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge)
-					BP.P = BP.P * 1.1
-					dist = nil
-					point = Instance.new("Part")
-					point.Locked = true
-					point.Anchored = true
-					point.formFactor = 0
-					point.Shape = 0
-					point.BrickColor = BrickColor.Black()
-					point.Size = Vector3.new(1, 1, 1)
-					point.CanCollide = false
-					local s = Instance.new("SpecialMesh")
-					s.MeshType = "Sphere"
-					s.Scale = Vector3.new(.7, .7, .7)
-					s.Parent = point
-					handle = tool.Handle
-					front = tool.Handle
-					color = tool.Handle
-					objval = nil
-					local u = false
-					local v = BP:clone()
-					v.maxForce = Vector3.new(30000, 30000, 30000)
-					function LineConnect(o, p, q)
-						local w = Instance.new("ObjectValue")
-						w.Value = o
-						w.Name = "Part1"
-						local x = Instance.new("ObjectValue")
-						x.Value = p
-						x.Name = "Part2"
-						local y = Instance.new("ObjectValue")
-						y.Value = q
-						y.Name = "Par"
-						local z = Instance.new("ObjectValue")
-						z.Value = color
-						z.Name = "Color"
-						local A = lineconnect:clone()
-						A.Disabled = false
-						w.Parent = A
-						x.Parent = A
-						y.Parent = A
-						z.Parent = A
-						A.Parent = workspace
-						if p == object then
-							objval = x
-						end
-					end
-					function onButton1Down(B)
-						if mousedown == true then
-							return
-						end
-						mousedown = true
-						coroutine.resume(
-							coroutine.create(
-								function()
-									local C = point:clone()
-									C.Parent = tool
-									LineConnect(front, C, workspace)
-									while mousedown == true do
-										C.Parent = tool
-										if object == nil then
-											if B.Target == nil then
-												local t = CFrame.new(front.Position, B.Hit.p)
-												C.CFrame = CFrame.new(front.Position + t.lookVector * 1000)
-											else
-												C.CFrame = CFrame.new(B.Hit.p)
-											end
-										else
-											LineConnect(front, object, workspace)
-											break
-										end
-										wait()
-									end
-									C:remove()
-								end
-							)
-						)
-						while mousedown == true do
-							if B.Target ~= nil then
-								local D = B.Target
-								if D.Anchored == false then
-									object = D
-									dist = (object.Position - front.Position).magnitude
-									break
-								end
-							end
-							wait()
-						end
-						while mousedown == true do
-							if object.Parent == nil then
-								break
-							end
-							local t = CFrame.new(front.Position, B.Hit.p)
-							BP.Parent = object
-							BP.position = front.Position + t.lookVector * dist
-							wait()
-						end
-						BP:remove()
-						object = nil
-						objval.Value = nil
-					end
-					function onKeyDown(E, B)
-						local E = E:lower()
-						local F = false
-						if E == "q" then
-							if dist >= 5 then
-								dist = dist - 10
-							end
-						end
-						if E == "r" then
-							if object == nil then
-								return
-							end
-							for G, H in pairs(object:children()) do
-								if H.className == "BodyGyro" then
-									return nil
-								end
-							end
-							BG = Instance.new("BodyGyro")
-							BG.maxTorque = Vector3.new(math.huge, math.huge, math.huge)
-							BG.cframe = CFrame.new(object.CFrame.p)
-							BG.Parent = object
-							repeat
-								wait()
-							until object.CFrame == CFrame.new(object.CFrame.p)
-							BG.Parent = nil
-							if object == nil then
-								return
-							end
-							for G, H in pairs(object:children()) do
-								if H.className == "BodyGyro" then
-									H.Parent = nil
-								end
-							end
-							object.Velocity = Vector3.new(0, 0, 0)
-							object.RotVelocity = Vector3.new(0, 0, 0)
-							object.Orientation = Vector3.new(0, 0, 0)
-						end
-						if E == "e" then
-							dist = dist + 10
-						end
-						if E == "t" then
-							if dist ~= 10 then
-								dist = 10
-							end
-						end
-						if E == "y" then
-							if dist ~= 200 then
-								dist = 200
-							end
-						end
-						if E == "=" then
-							BP.P = BP.P * 1.5
-						end
-						if E == "-" then
-							BP.P = BP.P * 0.5
-						end
-					end
-					function onEquipped(B)
-						keymouse = B
-						local I = tool.Parent
-						human = I.Humanoid
-						human.Changed:connect(
-							function()
-								if human.Health == 0 then
-									mousedown = false
-									BP:remove()
-									point:remove()
-									tool:remove()
-								end
-							end
-						)
-						B.Button1Down:connect(
-							function()
-								onButton1Down(B)
-							end
-						)
-						B.Button1Up:connect(
-							function()
-								mousedown = false
-							end
-						)
-						B.KeyDown:connect(
-							function(E)
-								onKeyDown(E, B)
-							end
-						)
-						B.Icon = "rbxasset://textures\\GunCursor.png"
-					end
-					tool.Equipped:connect(onEquipped)
-				end
-			)
-		)
-		for J, H in pairs(h:GetChildren()) do
-			H.Parent = game:GetService("Players").LocalPlayer.Backpack
-			pcall(
-				function()
-					H:MakeJoints()
-				end
-			)
-		end
-		h:Destroy()
-		for J, H in pairs(g) do
-			spawn(
-				function()
-					pcall(H)
-				end
-			)
-		end
-	end)
-end
-coroutine.wrap(CRSQC_fake_script)()
-local function ZHDWEL_fake_script() -- WalkWallsBut.walls 
-	local script = Instance.new('LocalScript', WalkWallsBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		getgenv()["cofiG"] = getgenv()["cofiG"] or {}
-		local hasToUpdate = true
-		local alreadyRan = cofiG.gravityController ~= nil
-	
-		local http = game:GetService'HttpService'
-		local readfile,writefile,fileexists = readfile or syn_io_read,writefile or syn_io_write,isfile or readfile
-	
-		local rawUrl,baseUrl = "https://ixss.keybase.pub/rblx/gravityController/", "https://keybase.pub/ixss/rblx/gravityController/"
-	
-		do
-			_G.req = [[
-	        local require = function(lol)
-	            lol = "https://raw.githubusercontent.com/msva/lua-htmlparser/master/src/"..lol:gsub("%.","/")..".lua";
-	            return loadstring(_G.req..game:HttpGet(lol))();
-	        end;
-	    ]]
-	
-			local require = function(lol)
-				lol = "https://raw.githubusercontent.com/msva/lua-htmlparser/master/src/"..lol:gsub("%.","/")..".lua";
-				return loadstring(_G.req..game:HttpGet(lol))();
-			end;
-	
-			cofiG.htmlparser = cofiG.htmlparser or require"htmlparser"
-		end
-	
-		do  -- check if exists
-			if fileexists'gravityController.json' then
-				local json = readfile'gravityController.json'
-				if json then
-					cofiG.gravityController = http:JSONDecode(json)
-					hasToUpdate = cofiG.gravityController.Version ~= game:HttpGet(rawUrl.."Version.txt")
-				end
-			end
-			game.StarterGui:SetCore("ChatMakeSystemMessage", {
-				Text = hasToUpdate and "Updating script..." or "Running script!";
-				Font = Enum.Font.Code;
-				Color = Color3.fromRGB(255, 60, 60);
-				FontSize = Enum.FontSize.Size96;   
-			})
-		end
-	
-	
-		if hasToUpdate then -- update/download
-	
-			function getScripts()
-				local ret = {}
-				local text = game:HttpGet(baseUrl, false)
-	
-				local root = cofiG.htmlparser.parse(text)
-				local files = root:select(".file")
-	
-				for i,v in pairs(files) do
-					if string.sub(v.attributes.href, string.len(v.attributes.href)-3) == ".lua" then
-						local name = string.sub(v.attributes.href,string.len(baseUrl)+1, string.len(v.attributes.href)-4)
-						local script = rawUrl..name..".lua"
-						ret[name] = game:HttpGet(script)
-					elseif string.sub(v.attributes.href, string.len(v.attributes.href)-3) == ".txt" then
-						local name = string.sub(v.attributes.href,string.len(baseUrl)+1, string.len(v.attributes.href)-4)
-						local script = rawUrl..name..".txt"
-						ret[name] = game:HttpGet(script)
-					end
-				end
-	
-				return ret
-			end
-			cofiG.gravityController = getScripts()
-			writefile('gravityController.json', http:JSONEncode(cofiG.gravityController))
-			warn('Script updated!')
-		end
-	
-		local a,b = pcall(loadstring(cofiG.gravityController.Loader))
-	
-		if not a then
-			error('Loader ', b)
-		end
-	
-		if not alreadyRan then
-			game.StarterGui:SetCore("ChatMakeSystemMessage", {
-				Text = game:HttpGet('https://ixss.keybase.pub/Watermark.txt', true)..", originally made by EgoMoose.";
-				Font = Enum.Font.Code;
-				Color = Color3.fromRGB(244, 0, 175);
-				FontSize = Enum.FontSize.Size96;   
-			})
-		end
-	end)
-end
-coroutine.wrap(ZHDWEL_fake_script)()
-local function GGZTRR_fake_script() -- BtoolsBut.Btools 
-	local script = Instance.new('LocalScript', BtoolsBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		game.StarterGui:SetCoreGuiEnabled(2, true)
-		a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		a.BinType = 2
-		b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		b.BinType = 3
-		c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		c.BinType = 4
-	end)
-end
-coroutine.wrap(GGZTRR_fake_script)()
-local function ACHGC_fake_script() -- MEME.me me 
-	local script = Instance.new('LocalScript', MEME)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		loadstring(game:HttpGetAsync("https://pastebin.com/raw/0QfjMKrF"))()
-	end)
-end
-coroutine.wrap(ACHGC_fake_script)()
-
-            end)    
-
-
-    MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-MainSection:NewButton("Dex", "Explorer", function()
-loadstring(game:GetObjects("rbxassetid://418957341")[1].Source)()
-end)
-
-MainSection:NewButton("Impluse hub", "idk", function()
-loadstring(game:HttpGet('http://impulse-hub.xyz/ImpulseHub',true))()
- end)
-
-MainSection:NewButton("Zyrex-Hub", "10+", function()
-   _G.Toggle_GUI = Enum.KeyCode.RightControl --Right Ctrl
-
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/NotZyrex/Zyrex-Hub/master/Main.lua"), true))();
-end)
-
-MainSection:NewButton("Psyhub", "idk", function()
-loadstring(game:GetObjects("rbxassetid://3014051754")[1].Source)()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Remote Spy", "Find remotes press F9", function()
-loadstring(game:HttpGet('https://pastebin.com/raw/b33cjh0p'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-    
-	   MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-        MainSection:NewButton("Infinite Yield FE", "Admin", function()
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-        end)
-
-        MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-            setclipboard(string2)
-        end)
-        
-        MainSection:NewButton("Destroy GUIS", "CLCK A LOT OF TIMES", function()
-                for i, v in pairs(game:GetService("CoreGui"):GetDescendants()) do
-            if v.Name == "Main" and v.Parent then
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                break
-            end
-        end
-end)
-        
-        local Player = Window:NewTab("Player")
-        local PlayerSection = Player:NewSection("Player")
-        PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-        end)
-
-        PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-        end)
-        
-        local Placeinfo = Window:NewTab("Place Info")
-        local Playerinform = Placeinfo:NewSection("Place Info")
-        
-         Playerinform:NewButton(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name, (game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Description), function()
-end)
-Playerinform:NewButton(game:GetService("Players"):GetNameFromUserIdAsync(game.CreatorId), (game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Description), function()
-
-end)
-       Playerinform:NewButton("FilterEnabled/Repesect Is: (Click dots)", ("Click on the button and press F9"), function()
-       print(game.Workspace.FilteringEnabled, "If it says true it means its on if it says false then it means its off")
-        if game:GetService("SoundService").RespectFilteringEnabled == true then
-                    print("RespectFilteringEnabled is enabled")
-                else
-                    print("RespectFilteringEnabled is disabled")
-                end
-       end)
-end
-end
-local S = ""
-if identifyexecutor then
-	S = select(1, identifyexecutor())
-end
-if S == "ScriptWare" then
---[[games it supports Da Hood, Arsenal, Tower of Hell, KAT!, Fencing,
-Work At A Pizza Place, VR Hands, Adopt Me, Jailbreak, Prison Life, and
-Build A Boat For Treasure, and Gorrila Tag Professional.
-12+ games
-Rebuilt On IllusionHub
-Last Updated 2/18/2022
-]]--
-local OptTheme = "BloodTheme"
-local string = "https://discord.gg/A6HQQXvwNs"
-local string2 = "https://discord.com/invite/jVf7eSrED9"
--- Da Hood
-if game.PlaceId == 2788229376 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("RayCodeX", "Launches RayCodeX script", function()
-   loadstring(game:GetObjects("rbxassetid://5812737894")[1].Source)()
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
---Arsenal
-elseif game.PlaceId == 286090429 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Impluse hub", "idk", function()
-loadstring(game:HttpGet('http://impulse-hub.xyz/ImpulseHub',true))()
- end)
-
-MainSection:NewButton("Zyrex-Hub", "10+", function()
-   _G.Toggle_GUI = Enum.KeyCode.RightControl --Right Ctrl
-
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/NotZyrex/Zyrex-Hub/master/Main.lua"), true))();
-end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Arsenal RAC Ban Menu", "Shows in chat also I have no idea what this does", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/qtDZm7LX"))()
-end)
-
-MainSection:NewButton("MonkeThing", "idk", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/KuriWasTaken/MonkeHub/main/arsenal.lua"))()
-end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("Arsenal FE audio + more!", "NOTE: you can get banned from some of these scripts", function()
- value = "2038227137" --song id here
-
-
-    local args = {
-        [1] = {
-            [1] = "UpdateID",
-            [2] =  value,
-        },
-    }
-    
-    game:GetService("ReplicatedStorage").Events.UpdateLoadout:FireServer(unpack(args))
-
-local args = {
-    [1] = true,
-    [2] = game:GetService("ReplicatedStorage").Taunts.Megaphone,
-}
-
-game:GetService("ReplicatedStorage").Events.ReplicateGear:FireServer(unpack(args))
-
-
-
-
-Players = game:GetService("Players")
-for i, player in pairs(Players:GetPlayers()) do
-    print("["..i.."] = "..player.Name)
-    local args = {
-    [1] = "GET NOOB",
-    "["..i.."] = "..player.Name,
-}
-end
-  end)
--- Tower Of Hell
-elseif game.PlaceId == 1962086868 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Tower of hell script", "just a gui", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/JayZone69/Tower-of-Hell/main/Script"))()
-end)
-
-MainSection:NewButton("Tower of hell script2", "idka", function()
-   loadstring(game:HttpGet("https://gist.githubusercontent.com/BloxiYT/26f5c60eaed40ab1ab4e1756a70eac69/raw/b386cfd481e316f72103a0e88c0316be7891f3fb/OMG%2520123456"))()
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- KAT!
-elseif game.PlaceId == 621129760 then 
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("KAT!", "auto throws knife", function()
-   --Subscribe to Ducky Exploits
-function nearestPlayerToRay()
-    local dist = math.huge
-    local ray
-    
-    for i,v in pairs(game.Players:GetChildren()) do
-        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("Head") and not v.Character:FindFirstChild("ForceField") then
-            if v.Character.Humanoid.Health > 0 and v.Character:FindFirstChild("Head") then -- needed..
-                local newVec = (v.Character.Head.Position - game.Players.LocalPlayer.Character.Head.Position)
-                if newVec.magnitude < dist then
-                    local toRay = Ray.new(game.Players.LocalPlayer.Character.Head.Position, newVec)
-                    if not workspace:FindPartOnRayWithIgnoreList(toRay, {game.Players.LocalPlayer.Character, v.Character, workspace.WorldIgnore, workspace.CurrentCamera}) then
-                        dist = newVec.magnitude
-                        ray = toRay
-                    end
-                end
-            end
-        end
-    end
-    return ray
-end
-
-local ray
-
-function init()
-    local knife = game.Players.LocalPlayer.Character:WaitForChild("Knife")
-    local scr = getsenv(knife.KnifeServer.KnifeClient)
-    if scr then
-        local ir = scr.inputReleased
-        local u7 = debug.getupvalue(ir, 2)
-        local cam = debug.getupvalue(ir, 5)
-        debug.setupvalue(ir, 5, setmetatable({}, {
-            __index = function(t,k)
-                if k == "ScreenPointToRay" then
-                    if ray ~= nil then
-                        return function() return ray end
-                    end
-                end
-                return cam[k]
-            end
-        }))
-    
-        
-        while wait(.1) do
-            if game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
-                break    
-            end
-            ray = nearestPlayerToRay()
-            if ray then
-                scr.inputDown()
-                u7.ChargeStart = -math.huge
-                ir()
-            end
-        end
-    end
-end
-
-init()
-game.Players.LocalPlayer.CharacterAdded:connect(function()
-    print("hi")
-    wait()
-    init()
-   end)
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
- -- Fencing
- elseif game.PlaceId == 12109643 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-   MainSection:NewButton("FE Brick Spam", "spams bricks", function()
-   -- https://www.roblox.com/games/12109643/Fencing
-
-game:GetService('RunService').Stepped:connect(function()
-for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-if v.Name == "Spray" then
-if v.Handle.Mesh then
-v.Handle.Mesh:Destroy()
-end
-v.Parent = workspace
-end
-end
-end)
-local function paint()
-for i,v in pairs(game.Workspace:GetChildren())do
-if v.Name == "Handle" then
-v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-v.Transparency = 1
-v.CanCollide = false
-wait()
-v.CFrame = game.Players.LocalPlayer.Character["Left Leg"].CFrame
-end
-end
-end
-local function equip()
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren())do
-if v.Name == "Spray" then
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-end
-while wait(0.05) do
-paint()
-equip()
-end
-end)
-
-MainSection:NewButton("FE Gain Double Health", "bruh", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(56,3.5,124.5)
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130,3.5,30)
-end)
-
-MainSection:NewButton("FE Give SprayPaint", "SprayPaint", function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(188,3.5,106)
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130,3.5,30)
-end)
-
-MainSection:NewButton("FE Perm God Mode", "permeanent God mode", function()
-   button              = workspace.Button
-button.CanCollide   = false
-button.Transparency = 1
-
-game:GetService("RunService").Heartbeat:connect(function(step)
-button.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position)
-button.Size   = Vector3.new(math.random(0,0), math.random(0,0), math.random(1,5))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Right Arm"].Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character.Torso.Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Left Arm"].Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Left Leg"].Position)
-wait()
-button.Size   = Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-button.CFrame = CFrame.new(game.Players.LocalPlayer.Character["Right Leg"].Position)
-end)
-end)
-
-MainSection:NewButton("FE Reach", "Farther Reach", function()
-   a=Instance.new("SelectionBox",game.Players.LocalPlayer.Backpack.Foil.Handle)
-a.Adornee=game.Players.LocalPlayer.Backpack.Foil.Handle
-game.Players.LocalPlayer.Backpack.Foil.Handle.Size=Vector3.new(1,1,30)
-end)
-
-MainSection:NewButton("FE Seat Spam", "Seat Spam", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-end)
-
-MainSection:NewButton("FE Weird Broken Fencing Swords", "Swords", function()
-  game.Lighting["LinkedSword3"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-game.Lighting["LinkedSword2"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-game.Lighting["LinkedSword"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Work at a Pizza Place
- elseif game.PlaceId == 192800 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-   
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-   
-MainSection:NewButton("IDK", "script", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/cEwtwKZR",true))()
-end)
-
-MainSection:NewButton("FE Open Manager's Door", "Opens Manager's Door", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(43,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(42,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(43,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(51,5,7)
-end)
-
-MainSection:NewButton("FE Paint Cars Hot Pink", "Paints the cars but it can be laggy", function()
- --Change "Hot Pink" to a Roblox Color that they have.
-
-local Color = BrickColor.new('Hot pink')
-
-local PaintCar = function(Car,Color_Code)
-for ii, Child in pairs(Car:GetChildren()) do
-game.ReplicatedStorage.Channels.VehicleChannel:FireServer('Paint', Child, 'None', Color_Code)
-end
-end
-
-while wait() do
-for i, Car in pairs(workspace.Cars:GetChildren()) do
-PaintCar(Car, Color.Number)
-end
-end
-end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = gethui()
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
-	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
-		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
-	end)
-end
-
-end)
-
- MainSection:NewButton("FE Pizza Toppings Troll", "troll", function()
-   for i,v in pairs(workspace.AllDough:GetChildren()) do
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Sausage")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Cheese")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Pepperoni")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "TomatoSauce")
-end
-end)
-
-MainSection:NewButton("FE Teleport To manager chair", "it tps to manager chair", function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(23,5,6.5)
-  end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
- -- VR Hands
-elseif game.PlaceId == 4832438542 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-   
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-   
-MainSection:NewButton("VR Hands GUI", "GUI", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/ugQ9Nb7t"))()
-end)
-
-MainSection:NewButton("Hands VR", "VR Hands withour VR", function()
-    local cam = workspace.Camera
-local p
-local headObject
-local events = {}
-
-local controls = {
-	[Enum.UserInputType.MouseButton1] = {"move", "leftHand"},
-	[Enum.UserInputType.MouseMovement] = {"updateTarget"}, -- do not change
-	[Enum.UserInputType.MouseWheel] = {"adjustOffset"},
-	[Enum.UserInputType.MouseButton2] = {"move", "rightHand"},
-	[Enum.KeyCode.W] = {"move", "head", Vector3.new(0, 1, 0)},
-	[Enum.KeyCode.A] = {"move", "head", Vector3.new(-1, 0, 0)},
-	[Enum.KeyCode.S] = {"move", "head", Vector3.new(0, -1, 0)},
-	[Enum.KeyCode.D] = {"move", "head", Vector3.new(1, 0, 0)},
-	[Enum.KeyCode.Q] = {"move", "head", Vector3.new(0, 0, -1)},
-	[Enum.KeyCode.E] = {"move", "head", Vector3.new(0, 0, 1)},
-	[Enum.KeyCode.LeftShift] = {"gesture", "Fist"},
-	[Enum.KeyCode.LeftControl] = {"gesture", "Index"},
-	[Enum.KeyCode.LeftAlt] = {"gesture", "Thumb"},
-	[Enum.KeyCode.Z] = {"toggle", "canOffset"},
-	[Enum.KeyCode.R] = {"toggle", "rotationManager"},
-	[Enum.KeyCode.Tab] = {"selectAxis", "rotationManager"},
-	[Enum.KeyCode.Left] = {"updateAxisMover", "rotationManager", -1},
-	[Enum.KeyCode.Right] = {"updateAxisMover", "rotationManager", 1}
-}
-
-local services = {}
-
-setmetatable(services, {
-	__index = function(t, k)
-		services[k] = rawget(services, k) or game:GetService(k)
-		return services[k]
-	end
-})
-
-local function angleBetween(vecx, vecy)
-	return math.acos(vecx:Dot(vecy))
-end
-
-local hand = {}
-hand.__index = hand
-
-function hand:gesture(gestureName, keyState)
-	if keyState ~= 1 then
-		return
-	end
-
-	headObject.realHeadset[self.id .. gestureName] = 1 - headObject.realHeadset[self.id .. gestureName]
-end
-
-function hand:getMouseRay()
-	local mousePos = services.UserInputService:GetMouseLocation()
-	return CFrame.new(cam:ViewportPointToRay(mousePos.x, mousePos.y).Direction * (1.5 + headObject.handOffset))
-end
-
-function hand:calculateEndRotation()
-	return CFrame.Angles(cam.CFrame:ToEulerAnglesXYZ()) * CFrame.Angles(self.rotation[1] * (math.pi/6), self.rotation[2] * (math.pi/6), self.rotation[3] * (math.pi/6))
-end
-
-function hand:updateTarget()
-
-	local camLook = (cam.CFrame.lookVector * Vector3.new(1,0,1)).unit
-	
-	local theta = angleBetween(Vector3.new(-1, 0, 0), camLook)
-	theta = camLook.z > 0 and (2 * math.pi) - theta or theta
-
-	local relativeAngle = (self.id == "l" and -headObject.handAngle or headObject.handAngle)
-	local startPosition = CFrame.new(-math.cos(theta + relativeAngle), -0.5, -math.sin(theta + relativeAngle)) + (camLook * headObject.handOffset)
-
-	self.targetPosition = startPosition:Lerp(self:getMouseRay(), self.alpha) * self:calculateEndRotation()
-	
-	self.replicatePosition:Fire()
-end
-
-function hand:beginMove(minAlpha, maxAlpha)
-	local distAlpha = (maxAlpha - minAlpha) / 2
-
-	self.moving = true
-	repeat
-		services.RunService.RenderStepped:wait()
-		self:updateTarget()
-	until math.abs(self.alpha - minAlpha) < 0.05 or math.abs(maxAlpha - self.alpha) < 0.05 or self.alpha ~= self.alpha
-	
-	if self.alpha ~= self.alpha then
-		self.alpha = 0
-	end
-	
-	self.moving = false
-end
-
-function hand:move(keyState)
-
-	if headObject.rotationManager.active then
-		if self.id == "l" then
-			headObject.rotationManager.held = keyState == 1
-			
-			headObject.rotationManager.selectedAxis = 0
-		end
-		return
-	end
-
-	self.alphaMultiplier = keyState == 1 and 0.05 or -0.05
-	
-	if not self.moving and not (keyState == 1 and self.alpha >= 1) then
-		if keyState == 1 then
-			headObject.recentHand = self
-		end
-	
-		self:beginMove(0, 1)
-	end
-end
-
-function hand:new(direction, realHand)
-	local newHand = setmetatable({direction = direction, realHand = realHand}, hand)
-	newHand.alpha = 0
-	newHand.alphaMultiplier = 0.05
-	newHand.id = direction and "r" or "l"
-	newHand.targetPosition = CFrame.new()
-	newHand.moving = false
-	newHand.rotation = {0, 0, 0}
-	newHand.replicatePosition = Instance.new("BindableEvent")
-	newHand.replicatePosition.Event:connect(function()
-		events.UserCFrameChanged:Fire(newHand.direction and Enum.UserCFrame.RightHand or Enum.UserCFrame.LeftHand, newHand.targetPosition)
-	end)
-	
-	return newHand
-end
-
-local head = {}
-head.__index = head
-
-function head:handleInput(input, keyState)
-	local bind = controls[input.KeyCode] or controls[input.UserInputType]
-	
-	if bind then
-		if bind[1] == "updateTarget" and not self.rotationManager.active then
-			self.leftHand:updateTarget()
-			self.rightHand:updateTarget()
-		elseif bind[2] and type(self[bind[2]]) == "table" then
-			self[bind[2]][bind[1]](self[bind[2]], keyState, bind[3])
-		elseif bind[3] then
-			self[bind[1]](self, bind[3], keyState)
-		elseif bind[2] and self.recentHand[bind[1]] then
-			self.recentHand[bind[1]](self.recentHand, bind[2], keyState)
-		else
-			self[bind[1]](self, bind[2], keyState)
-		end
-	end
-end
-
-function head:adjustOffset(_, keyState)
-	if self.canOffset then		
-		self.leftHand:updateTarget()
-		self.rightHand:updateTarget()
-	end
-end
-
-function head:move(vec, keyState)
-	if vec.z ~= 0 then
-		self.realHeadset.Stick2 = math.clamp(self.realHeadset.Stick2 + (vec.z * keyState), -1, 1)
-	else
-	end
-end
-
-function head:freezeCam(b)
-	local dist = (self.realHeadset.Head.PrimaryPart.Position - cam.CFrame.p).magnitude
-		
-	p.CameraMinZoomDistance = b and dist or 0.5
-	p.CameraMaxZoomDistance = b and dist or 128
-end
-
-function head:toggle(stat, keyState)
-	if keyState ~= 1 then
-		return
-	end
-
-	self[stat] = not self[stat]
-	
-	if stat == "canOffset" then
-		self:freezeCam(self[stat])
-	end
-end
-
-local rotation = {}
-rotation.__index = rotation
-
-function rotation:new()
-	local newRotation = setmetatable({}, rotation)
-	
-	newRotation.rotationLookup = {{}, {}, {}}
-	newRotation.lineLookup = {{}, {}, {}}
-	newRotation.active = false
-	newRotation.held = false
-	newRotation.selectedAxis = 0
-	newRotation.angleLookup = {1, 1, 1}
-	
-	for i=1,3 do
-		local ref = {}
-		ref[i] = function() return 0 end
-		ref[i + 1 > 3 and ((i + 1) % 4) + 1 or i + 1] = math.cos
-		ref[i + 2 > 3 and ((i + 2) % 4) + 1 or i + 2] = math.sin
-		
-		local color = Color3.fromRGB(i == 1 and 255 or 0, i == 2 and 255 or 0, i == 3 and 255 or 0)
-		
-		for j=1,13 do
-			if j < 13 then
-				local step = math.pi * (j/6)
-				newRotation.rotationLookup[i][j] = Vector3.new(ref[1](step), ref[2](step), ref[3](step))
-			end
-			
-			local line = Drawing.new("Line")
-			line.Visible = true
-			line.Thickness = 5
-			line.Color = color
-			newRotation.lineLookup[i][j] = line
-		end
-		
-		local circle = Drawing.new("Circle")
-		circle.Visible = true
-		circle.Color = color
-		circle.Filled = true
-		circle.Radius = 10
-		circle.Position = Vector2.new(-2000, -2000)
-		newRotation.lineLookup[i][14] = circle
-		
-		local text = Drawing.new("Text")
-		text.Visible = true
-		text.Font = Drawing.Fonts.System
-		text.Size = 18
-		text.Color = Color3.new():lerp(color, 0.3)
-		text.Outline = false
-		newRotation.lineLookup[i][15] = text
-	end
-	
-	return newRotation
-end
-
-function rotation:selectAxis(keyState)
-	self.tabActivated = keyState == 1
-	if self.tabActivated then
-		self.selectedAxis = math.clamp((self.selectedAxis + 1) % 4, 1, 3)
-	end
-end 
-
-function rotation:toggle(keyState)
-	if keyState == 1 and headObject.recentHand.alpha < 0.05 and not self.held then
-		self.active = not self.active
-		
-		if not self.active then
-			self:updateAxes(0)
-			self.selectedAxis = 0
-			self.held = false
-			headObject.recentHand:updateTarget()
-		end
-	end
-end
-
-function rotation:updateAxes(visibleOverride)
-	local basePos = headObject.recentHand.realHand.Base.Position
-	local basePoint = cam:WorldToViewportPoint(basePos)
-
-	for i=1,3 do
-		for j=1,12 do
-			local vec, visible = cam:WorldToViewportPoint(basePos + (self.rotationLookup[i][j] * 10))
-			local vec2, visible2 = cam:WorldToViewportPoint(basePos + ((self.rotationLookup[i][j + 1] or self.rotationLookup[i][1]) * 10))
-			
-			local line = self.lineLookup[i][j]
-			
-			line.Transparency = visibleOverride or ((visible and visible2) and 1 or 0)
-			line.From = Vector2.new(vec.x, vec.y)
-			line.To = Vector2.new(vec2.x, vec2.y)
-		end
-		local axisRotation = headObject.recentHand.rotation[i]
-		
-		local axisMover = self.lineLookup[i][13]
-		local axisCircle = self.lineLookup[i][14]
-		local axisText = self.lineLookup[i][15]
-		
-		axisMover.From = Vector2.new(basePoint.x, basePoint.y)
-		axisMover.To = self.lineLookup[i][math.clamp(axisRotation < 1 and 12 or axisRotation, 1, 12)].From -- sorry, lazy
-		axisMover.Transparency = visibleOverride or 1
-		
-		axisCircle.Position = self.lineLookup[i][13].To
-		axisCircle.Transparency = visibleOverride or 1
-		
-		
-		
-		axisText.Position = self.lineLookup[2][3].From + axisText.TextBounds
-		axisText.Text = string.char(87 + self.selectedAxis) .. ": " .. math.deg(axisRotation * (math.pi / 6))
-		axisText.Transparency = visibleOverride or ((self.held or self.tabActivated) and self.selectedAxis == i and 1 or 0)
-		
-		local mousePos = services.UserInputService:GetMouseLocation()
-		if self.held and (self.lineLookup[i][14].Position - mousePos).magnitude < 10 and self.selectedAxis == 0 then
-			self.selectedAxis = i
-		end
-	end
-end
-
-function rotation:updateAxisMover(keyState, direction)
-	if keyState and direction then
-		if self.tabActivated and keyState == 1 then
-			headObject.recentHand.rotation[self.selectedAxis] = (headObject.recentHand.rotation[self.selectedAxis] + direction) % 12
-			headObject.recentHand:updateTarget()
-		end
-		return
-	end
-
-	if self.selectedAxis ~= 0 then
-		local mousePos = services.UserInputService:GetMouseLocation()
-		
-		local circlePos = self.lineLookup[self.selectedAxis][12].From
-		
-		local handPos = self.lineLookup[self.selectedAxis][13].From
-		
-		local mouseDir = self.selectedAxis == 1 and headObject.recentHand.id == "r" and (Vector2.new(-mousePos.x + (handPos.x * 2), mousePos.y) - handPos).unit or (mousePos - handPos).unit
-		-- mouse angle relating to the red circle is reflected on the right hand, so i "re-reflect" it. bad practice
-		
-		local circleDir = (circlePos - handPos).unit
-		
-		local rotationTheta = angleBetween(mouseDir, circleDir)
-		
-		local direction = mouseDir:Cross(circleDir)
-		
-		rotationTheta = direction > 0 and rotationTheta or (2 * math.pi) - rotationTheta
-		
-		if rotationTheta == rotationTheta then
-			headObject.recentHand.rotation[self.selectedAxis] = math.floor(6 * rotationTheta / math.pi)
-			
-			local hand = headObject.recentHand
-			hand.replicatePosition:Fire()
-		end
-	end
-end
-
-function head:new(realHeadset)
-	local newHead = setmetatable({realHeadset = realHeadset}, head)
-	
-	newHead.leftHand = hand:new(false, realHeadset.lHand)
-	newHead.rightHand = hand:new(true, realHeadset.rHand)
-	newHead.canOffset = false
-	newHead.recentHand = newHead.leftHand
-	newHead.handOffset = 0
-	newHead.handAngle = math.pi / 4
-	
-	newHead.rotationManager = rotation:new()
-	
-	newHead.chatRemote = debug.getupvalue(realHeadset.ButtonPressed, 3)
-	
-	cam:GetPropertyChangedSignal("CameraSubject"):connect(function()
-		if cam.CameraSubject ~= headObject.realHeadset.Head then
-			cam.CameraType = Enum.CameraType.Custom
-		end
-	end)
-	
-	services.UserInputService.WindowFocused:connect(function()
-		newHead.realHeadset.StickPosition = Vector3.new(0, 0, 0)
-		newHead.realHeadset.Stick2 = 0
-	end)
-	
-	return newHead
-end
-
-local ind, nc, nind
-
-local realVrService = game:GetService("VRService")
-
-local fakeVrService = setmetatable({
-	VREnabled = true,
-	SetTouchpadMode = function()
-	end,
-	RecenterUserHeadCFrame = function()
-	end,
-	GetUserCFrameEnabled = function(cf)
-		return true
-	end,
-	GetUserCFrame = function(cf)
-		return CFrame.new()
-	end
-
-}, {
-	__index = function(t, k)
-		local real = ind(realVrService, k)
-		if typeof(real) == "RBXScriptSignal" then
-			events[k] = events[k] or {
-				Name = k,
-				Connect = function(t, f)
-					t.Function = f
-
-					if t.Name == "UserCFrameChanged" then
-						headObject = head:new(debug.getupvalue(t.Function, 1))
-						
-						services.UserInputService.InputBegan:connect(function(i)
-							headObject:handleInput(i, 1)
-						end)
-
-						services.UserInputService.InputChanged:connect(function(i)
-							headObject:handleInput(i, i.UserInputType == Enum.UserInputType.MouseWheel and i.Position.z or 0)
-						end)
-
-						services.UserInputService.InputEnded:connect(function(i)
-							headObject:handleInput(i, -1)
-						end)
-					end
-
-				end, 
-				Fire = function(t, ...)
-					return t.Function(...)
-				end
-			}
-
-			return events[k]
-		end
-
-		return real
-	end,
-	__call = function(t, method, vr, ...)
-		return t[method](...)
-	end
-})
-
-ind = hookmetamethod(game, "__index", function(...)
-	local t, k = ...
-
-	local scr = getcallingscript()
-
-	if t == realVrService and not (scr and ind(scr, "Name") == "CameraModule") then
-		return fakeVrService[k]
-	end
-
-	return ind(...)
-end)
-
-nc = hookmetamethod(game, "__namecall", function(...)
-	local t = ...
-
-	if t == realVrService then
-		local method = getnamecallmethod()
-		return fakeVrService(method, ...)
-	elseif t == game.GetService(game, "StarterGui") and game.IsLoaded(game) then
-		return
-	end
-
-	return nc(...)
-end)
-
-nind = hookmetamethod(game, "__newindex", function(...)
-	local t, k, v = ...
-	
-	local scr = getcallingscript()
-	
-	if t == cam and headObject then	
-		if k == "CFrame" and events.UserCFrameChanged then
-		
-			events.UserCFrameChanged:Fire(Enum.UserCFrame.Head, CFrame.Angles(cam.CFrame:ToEulerAnglesXYZ()))
-			
-			if headObject.rotationManager.active then
-			
-				headObject.rotationManager:updateAxes()
-				
-				if headObject.rotationManager.held then
-					headObject.rotationManager:updateAxisMover()
-				end
-			end
-			
-			if headObject.rotationManager.tabActivated and services.UserInputService:IsKeyDown(Enum.KeyCode.Left) or services.UserInputService:IsKeyDown(Enum.KeyCode.Right) then -- prevent controls from messing with camera
-				return
-			end
-		elseif k == "CameraType" then
-			nind(t, k, Enum.CameraType.Custom)
-			nind(t, "CameraSubject", headObject.realHeadset.Head)
-			headObject.leftHand:updateTarget()
-			headObject.rightHand:updateTarget()
-		end
-		if not (scr and scr.Name == "CameraModule") and not checkcaller() then
-			return
-		end
-	end
-	
-	nind(t, k, v)
-end)
-
-p = services.Players.LocalPlayer or (function()
-	services.Players:GetPropertyChangedSignal("LocalPlayer"):wait() -- this doesnt return anything for some reason??
-	return services.Players.LocalPlayer
-end)()
-
-p.Chatted:connect(function(c)
-	services.ReplicatedStorage.COM.Chat:FireServer("Chat", c)
-end)
-end)
- 
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Adopt me
-elseif game.PlaceId == 920587237 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Antartic Hub", "idk", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/JusticeValley/Antarctic-Hub/main/New.lua", true))()
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = gethui()
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
-	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
-		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
-	end)
-end
-
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- JailBreak
-elseif game.PlaceId == 606849621 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("Auto Arrest V2", "Arrest", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/HazeWasTaken/Jailbricked/main/AutoArrest.lua'))()
-end)
-
-MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Auto Rob", "Rob stores", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/wawsdasdacx/ohascriptnrrewading/main/jbsaxcriptidk1'))()
-end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("ESP/Aimbot", "bro", function()
-   local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local TextLabel = Instance.new("TextLabel")
-local TextLabel_2 = Instance.new("TextLabel")
-local TextLabel_3 = Instance.new("TextLabel")
-
---Properties:
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.new(1, 1, 1)
-Frame.BackgroundTransparency = 1
-Frame.Position = UDim2.new(0, 0, 0.876175702, 0)
-Frame.Size = UDim2.new(0, 100, 0, 84)
-
-TextLabel.Parent = Frame
-TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel.Size = UDim2.new(0, 100, 0, 34)
-TextLabel.Font = Enum.Font.SciFi
-TextLabel.Text = "Press E To Lock-On"
-TextLabel.TextColor3 = Color3.new(0, 0, 0)
-TextLabel.TextSize = 11
-
-TextLabel_2.Parent = Frame
-TextLabel_2.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel_2.Position = UDim2.new(0, 0, 0.40476191, 0)
-TextLabel_2.Size = UDim2.new(0, 100, 0, 25)
-TextLabel_2.Font = Enum.Font.SciFi
-TextLabel_2.Text = "Press T To Start ESP"
-TextLabel_2.TextColor3 = Color3.new(0, 0, 0)
-TextLabel_2.TextSize = 11
-
-TextLabel_3.Parent = Frame
-TextLabel_3.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel_3.Position = UDim2.new(0, 0, 0.702380955, 0)
-TextLabel_3.Size = UDim2.new(0, 100, 0, 25)
-TextLabel_3.Font = Enum.Font.Gotham
-TextLabel_3.Text = "Press L To Loop-ESP"
-TextLabel_3.TextColor3 = Color3.new(0, 0, 0)
-TextLabel_3.TextSize = 10
-pcall(function()
-local espcolor = Color3.fromRGB(140, 69, 102)
-local wallhack_esp_transparency = .4
-local gui_hide_button = {Enum.KeyCode.LeftControl, "h"}
-local plrs = game:GetService("Players")
-local lplr = game:GetService("Players").LocalPlayer
-local TeamBased = true ; local teambasedswitch = "o"
-local presskeytoaim = true; local aimkey = "e"
-aimbothider = false; aimbothiderspeed = .5
-local Aim_Assist = false ; Aim_Assist_Key = {Enum.KeyCode.LeftControl, "z"}
-local espupdatetime = 5; autoesp = false; local charmsesp = true
-local movementcounting = true
-
-
-
-
-local mouselock = false
-local canaimat = true
-local lockaim = true; local lockangle = 5
-local ver = "2.4"
-local cam = game.Workspace.CurrentCamera
-local BetterDeathCount = true
-local ballisticsboost = 0
-
-local mouse = lplr:GetMouse()
-local switch = false
-local key = "k"
-local aimatpart = nil
-local lightesp = false
-
-local abs = math.abs
-
-local Gui = Instance.new("ScreenGui")
-local Move = Instance.new("Frame")
-local Main = Instance.new("Frame")
-local EspStatus = Instance.new("TextLabel")
-local st1 = Instance.new("TextLabel")
-local st1_2 = Instance.new("TextLabel")
-local st1_3 = Instance.new("TextBox")
-local Name = Instance.new("TextLabel")
---Properties:
-
-Gui.Parent = plrs.LocalPlayer:WaitForChild("PlayerGui")
-
-
-local aimbotstatus = {"qc", "qr", "qe", "qd", "qi", "qt", "qs", "dd", "sp", "ql", "qa", "qd", "qs"}
-local gotstring = 0
-local function getrandomstring()
-    gotstring = gotstring+666
-    local str = ""
-    local randomstring = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-         "а","б","в","г","д","е","ё","ж","з","и","й","к","л","м","о","п","р","с","т","у","ф","х","ч","щ","ъ","ы","ъ","э","ю","я", "`", "$", 
-        "0","1","2","3","4","5","6","7","8","9", }
-    local counting123 = 0
-    for i, v in ipairs(randomstring) do
-        counting123 = i
-    end
-    do
-        math.randomseed(tick()+gotstring)
-        for i = 3, math.random(1,100) do
-                math.randomseed(i+tick()+gotstring)
-                
-                local oneortwo = math.random(1,2)
-                if oneortwo == 2 then
-                    math.randomseed(i+tick()+gotstring)
-                    str = str..""..randomstring[math.random(1, counting123)]
-                else
-                    math.randomseed(i+tick()+gotstring)
-                    str = str..""..string.upper(randomstring[math.random(1, counting123)])
-                end
-            
-        end
-    end
-    return str
-end
-local mousedown = false
-local isonmovething = false
-local mouseoffset = Vector2.new()
-local mousedown = false
-local bspeed = 3584
-local aimbotoffset = {dd = ":", sp = " ", qa = "a", qb = "b",qc = "c", qd = "d", qe = "e", qf = "f", qg = "g" , qh = "h" , qi = "i", qj = "j", qk = "k", ql = "l", qm = "m", qn = "n", qo = "o", qp = "p", qq = "q", qr = "r", qs = "s", qt = "t", qu = "u", qv = "w", qx = "x", qy = "y", qz = "z"}
-
-
-
-Gui.Name = getrandomstring()
-
-Move.Name = getrandomstring()
-Move.Draggable = true
-Move.Parent = Gui
-Move.BackgroundColor3 = Color3.new(0.0431373, 1, 0.0745098)
-Move.BackgroundTransparency = 0.40000000596046
-Move.BorderSizePixel = 0
-Move.Position = UDim2.new(0.5, 0,0.018, 0)
-Move.Size = UDim2.new(0, 320, 0, 30)
-
-Move.MouseEnter:Connect(function()
-    
-    isonmovething = true
-    
-end)
-Move.MouseLeave:Connect(function()
-    
-    isonmovething = mousedown and true or false
-end)
-mouse.Button1Down:connect(function()
-    mousedown = true
-    mouseoffset = Move.AbsolutePosition - Vector2.new(mouse.X, mouse.Y)
-end)
-mouse.Button1Up:connect(function()
-    mousedown = false
-end)
-
-mouse.Move:Connect(function()
-    if isonmovething == true and mousedown then
-        Move.Position = UDim2.new(0, mouseoffset.X + mouse.X, 0, mouseoffset.Y + mouse.Y)
-    end
-end)
-local function uc (st)
-    local ast = ""
-    for i, v in ipairs(st) do
-        local let = aimbotoffset[v]
-        ast = ast..let
-    end
-    return ast
-end
-
-Main.Name = getrandomstring()
-Main.Parent = Move
-Main.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-Main.BackgroundTransparency = 0.69999998807907
-Main.Position = UDim2.new(0, 0, 0.995670795, 0)
-Main.Size = UDim2.new(1.0000006, 0, 11.2, 0)
-
-st1.Name = getrandomstring()
-st1.Parent = Main
-st1.BackgroundColor3 = Color3.new(1, 1, 1)
-st1.BackgroundTransparency = 1
-st1.Position = UDim2.new(0, 0, 0, 0)
-st1.Size = UDim2.new(1, 0, 0.161862016, 0)
-st1.Font = Enum.Font.ArialBold
-st1.Text = uc(aimbotstatus)
-st1.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1.TextScaled = true
-st1.TextSize = 14
-st1.TextWrapped = true
-
-st1_2.Name = getrandomstring()
-st1_2.Parent = Main
-st1_2.BackgroundColor3 = Color3.new(1, 1, 1)
-st1_2.BackgroundTransparency = 1
-st1_2.Position = UDim2.new(0, 0, 0.375590861, 0)
-st1_2.Size = UDim2.new(0.999999881, 0, 0.161862016, 0)
-st1_2.Font = Enum.Font.ArialBold
-st1_2.TextXAlignment = Enum.TextXAlignment.Left
-st1_2.Text = "Current ballistics: 0"
-st1_2.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1_2.TextScaled = true
-st1_2.TextSize = 14
-st1_2.TextWrapped = true
-
-local aimbothiderbox = Instance.new("TextBox")
-aimbothiderbox.Name = getrandomstring()
-aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-aimbothiderbox.Size = UDim2.new(1, 0,0.162, 0)
-aimbothiderbox.TextScaled = true
-aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-aimbothiderbox.Position = UDim2.new(0, 0,0.853, 0)
-aimbothiderbox.BackgroundTransparency = 1
-aimbothiderbox.Parent = Main
-
-st1_3.Name = getrandomstring()
-st1_3.Parent = Main
-st1_3.BackgroundColor3 = Color3.new(1, 1, 1)
-st1_3.BackgroundTransparency = 1
-st1_3.Position = UDim2.new(0, 0, 0.18558608, 0)
-st1_3.Size = UDim2.new(0.999999881, 0, 0.161862016, 0)
-st1_3.Font = Enum.Font.ArialBold
-st1_3.Text = "Bullet speed = 3584"
-st1_3.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1_3.TextScaled = true
-st1_3.TextSize = 14
-st1_3.TextWrapped = true
-local teambasedstatus = st1_3:Clone()
-teambasedstatus.Parent = Main
-teambasedstatus.TextScaled = true
-teambasedstatus.Position = UDim2.new(0, 0,.7, 0)
-teambasedstatus.Size = UDim2.new(1, 0,.1, 0)
-teambasedstatus.Name = getrandomstring()
-teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-local espstatustext = teambasedstatus:Clone()
-espstatustext.Name = getrandomstring()
-espstatustext.Position = UDim2.new(0, 0,0.58, 0)
-espstatustext.Text = "Esp loop :"..tostring(autoesp)
-espstatustext.Parent = Main
-local hide = Instance.new("TextButton")
-hide.Text = "_"
-hide.BackgroundTransparency = 1
-hide.TextScaled = true
-hide.TextWrapped = true
-hide.Size = UDim2.new(0.1, 0,1, 0)
-hide.Position = UDim2.new(0.9, 0,-0.15, 0)
-hide.Name = getrandomstring()
-hide.Parent = Move
-Name.Name = getrandomstring()
-Name.Parent = Move
-Name.BackgroundColor3 = Color3.new(1, 1, 1)
-Name.BackgroundTransparency = 1
-Name.Size = UDim2.new(0.838, 0, 1, 0)
-Name.Font = Enum.Font.Arial
-Name.Text = "FPS gui v"..ver
-Name.TextColor3 = Color3.new(0, 0, 0)
-Name.TextScaled = true
-Name.TextSize = 14
-Name.TextWrapped = true
-Name.TextXAlignment = Enum.TextXAlignment.Left
-local scr = Instance.new("ScrollingFrame")
-scr.Size = Main.Size
-scr.Position = Main.Position
-scr.ScrollBarThickness = 0
-scr.BackgroundTransparency = 1
-scr.Name = getrandomstring()
-Main.Size = UDim2.new(1, 0, 1, 0)
-Main.Position = UDim2.new(0,0,0,0)
-Main.Parent = scr
-scr.Parent = Move
-startpos = Main.Position
-Move.Active = true
-Move:Destroy()
--- Scripts:
-hided = true
-hide.MouseButton1Click:Connect(function()
-    if hided == false then
-        hided = true
-        Main:TweenPosition(UDim2.new(0, 0, -1.5, 0))
-    else
-        hided = false
-        Main:TweenPosition(startpos)
-    end
-end)
-
-
-aimbothiderbox.FocusLost:Connect(function()
-    local numb = tonumber(aimbothiderbox.Text)
-    if aimbothider == true then
-        aimbothiderbox.TextColor3 =Color3.fromRGB(11, 255, 19)
-    else
-        aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-    end
-    if numb ~= nil then
-        aimbothiderspeed = numb
-        if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-    else
-        if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-    end
-end)
-
-
-local plrsforaim = {}
-
-
-Move.Draggable = true
-Gui.ResetOnSpawn = false
---Gui.Name = "Chat"
-Gui.DisplayOrder = 999
-pcall(function()
-if not game:GetService("CoreGui") then
-    Gui.Parent = plrs.LocalPlayer.PlayerGui
-else
-    Gui.Parent = game:GetService("CoreGui")
-end
-end)
-local espheadthing
-do
-local BillboardGui = Instance.new("BillboardGui")
-local PName = Instance.new("TextLabel")
-local Pdist = Instance.new("TextLabel")
-local ImageLabel = Instance.new("ImageLabel")
-local ImageLabel_2 = Instance.new("ImageLabel")
---Properties:
---BillboardGui.Parent = game.Workspace.Part
-BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-BillboardGui.AlwaysOnTop = true
-BillboardGui.LightInfluence = 0
-BillboardGui.Size = UDim2.new(0, 100, 0, 46)
-BillboardGui.Name = "headoverthing"
-PName.Name = "PName"
-PName.Parent = BillboardGui
-PName.BackgroundColor3 = espcolor
-PName.BackgroundTransparency = 0.55000001192093
-PName.BorderSizePixel = 0
-PName.Size = UDim2.new(0, 100, 0, 23)
-PName.Font = Enum.Font.SourceSans
-PName.Text = "urmom"
-PName.TextColor3 = Color3.new(0, 0, 0)
-PName.TextScaled = true
-PName.TextSize = 14
-PName.TextWrapped = true
-st1.Text = uc(aimbotstatus)
-Pdist.Name = "Pdist"
-Pdist.Parent = BillboardGui
-Pdist.AnchorPoint = Vector2.new(0.5, 0)
-Pdist.BackgroundColor3 = espcolor
-Pdist.BackgroundTransparency = 0.55000001192093
-Pdist.BorderSizePixel = 0
-Pdist.Position = UDim2.new(0.5, 0, 0.5, 0)
-Pdist.Size = UDim2.new(0, 70, 0, 23)
-Pdist.Font = Enum.Font.SourceSans
-Pdist.Text = "666"
-Pdist.TextColor3 = Color3.new(0, 0, 0)
-Pdist.TextScaled = true
-Pdist.TextSize = 14
-Pdist.TextWrapped = true
-
-ImageLabel.Parent = BillboardGui
-ImageLabel.BackgroundColor3 = Color3.new(0.298039, 1, 0)
-ImageLabel.BackgroundTransparency = 1
-ImageLabel.BorderColor3 = espcolor
-ImageLabel.Position = UDim2.new(1, -15, 0.5, 0)
-ImageLabel.Rotation = 180
-ImageLabel.Size = UDim2.new(0, 15, 0, 23)
-ImageLabel.Image = "rbxassetid://2832171824"
-ImageLabel.ImageColor3 = espcolor
-ImageLabel.ImageTransparency = 0.55000001192093
-
-ImageLabel_2.Parent = BillboardGui
-ImageLabel_2.BackgroundColor3 = espcolor
-ImageLabel_2.BackgroundTransparency = 1
-ImageLabel_2.BorderColor3 = Color3.new(0.298039, 1, 0)
-ImageLabel_2.Position = UDim2.new(0, 0, 0.5, 0)
-ImageLabel_2.Rotation = 180
-ImageLabel_2.Size = UDim2.new(0, 15, 0, 23)
-ImageLabel_2.Image = "rbxassetid://2832177613"
-ImageLabel_2.ImageColor3 = espcolor
-ImageLabel_2.ImageTransparency = 0.55000001192093
-espheadthing = BillboardGui
-end
-
-
-
-f = {}
-f.UpdateHeadUI = function(v)
-    
-        
-            if v.Adornee and v.Adornee ~= nil then
-                local destr = false
-                if TeamBased then
-                    destr = true
-                    local plr = plrs:GetPlayerFromCharacter(v.Adornee.Parent)
-                    if plr and plr.Team and plr.Team.Name ~= lplr.Team.Name then
-                        destr = false
-                    end
-                end
-                if lightesp == true then
-                    v.Pdist.TextColor3 = Color3.new(1,1,1)
-                    v.PName.TextColor3 = Color3.new(1,1,1)
-                else
-                    v.Pdist.TextColor3 = Color3.new(0,0,0)
-                    v.PName.TextColor3 = Color3.new(0,0,0)
-                end
-                local d = math.floor((cam.CFrame.p - v.Adornee.CFrame.p).magnitude)
-                v.Pdist.Text = tostring(d)
-                if d < 14 then
-                    v.Enabled = false
-                else
-                    v.Enabled = true
-                end
-                v.StudsOffset = Vector3.new(0,.6+d/14,0)
-                if destr then
-                    v:Destroy()
-                end
-            else
-                v:Destroy()
-            end
-        
-    
-end
-st1.Text = uc(aimbotstatus)
-local espforlder
-local partconverter = Instance.new("Part")
---local headsupdatelist = {}
-st1_3.FocusLost:connect(function()
-    if tonumber(st1_3.Text) then
-        bspeed = tonumber(st1_3.Text)
-    else
-        
-    end
-end)
-f.addesp = function()
-    pcall(function()
-    --print("ESP ran")
-    if espforlder then
-        espforlder:Destroy()
-        espforlder = Instance.new("Folder")
-        espforlder.Parent = game.Workspace.CurrentCamera
-    else
-        espforlder = Instance.new("Folder")
-        espforlder.Parent = game.Workspace.CurrentCamera
-    end
-    for i, v in pairs(espforlder:GetChildren()) do
-        v:Destroy()
-    end
-    for _, plr in pairs(plrs:GetChildren()) do
-        if plr.Character and plr.Character.Humanoid.Health > 0 and plr.Name ~= lplr.Name then
-            if TeamBased == true then
-                
-                if plr.Team.Name ~= plrs.LocalPlayer.Team.Name  then
-                    pcall(function()
-                    local e = espforlder:FindFirstChild(plr.Name)
-                    if not e then
-                        local fold = Instance.new("Folder", espforlder)
-                        fold.Name = plr.Name
-                        
-                        --partconverter.BrickColor = plr.Team.Color
-                        --local teamc = partconverter.Color
-                        for i, p in pairs(plr.Character:GetChildren()) do
-                            if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then
-                                if charmsesp then
-                                local urmom = Instance.new("BoxHandleAdornment")
-                                urmom.ZIndex = 10
-                                urmom.AlwaysOnTop = true
-                                urmom.Color3 = espcolor
-                                urmom.Size = p.Size
-                                urmom.Adornee = p
-                                urmom.Name = tick().." Ur mom has big gay"
-                                urmom.Transparency = wallhack_esp_transparency
-                                urmom.Parent = fold
-                                if p.Name == "Head" then
-                                    local th = p:FindFirstChild("headoverthing")
-                                    if not th then
-                                        local ht = espheadthing:Clone()
-                                        ht.PName.Text = p.Parent.Name
-                                        ht.Adornee = p
-                                        --table.insert(headsupdatelist, ht)
-                                        delay(0, function()
-                                            while wait(0.08) and plr and p do
-                                                f.UpdateHeadUI(ht)
-                                            end
-                                        end)
-                                        ht.Parent = p
-                                    end
-                                end
-                                end
-                            end
-                        end
-                        plr.Character.Humanoid.Died:Connect(function()
-                            fold:Destroy()
-                        end)
-                        
-                    end
-                    end)
-                end
-            else
-                local e = espforlder:FindFirstChild(plr.Name)
-                if not e then
-                    local fold = Instance.new("Folder", espforlder)
-                        fold.Name = plr.Name
-                        
-                        --partconverter.BrickColor = plr.Team.Color
-                        --local teamc = Move.BackgroundColor3
-                        for i, p in pairs(plr.Character:GetChildren()) do
-                            if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then
-                                pcall(function()
-                                if charmsesp then
-                                local urmom = Instance.new("BoxHandleAdornment")
-                                urmom.ZIndex = 10
-                                urmom.AlwaysOnTop = true
-                                urmom.Color3 = espcolor
-                                urmom.Size = p.Size
-                                urmom.Adornee = p
-                                urmom.Name = tick().." Ur mom has big gay"
-                                urmom.Transparency = wallhack_esp_transparency
-                                urmom.Parent = fold
-                                end
-                                if p.Name == "Head" then
-                                    local th = p:FindFirstChild("headoverthing")
-                                    if not th then
-                                        local ht = espheadthing:Clone()
-                                        ht.PName.Text = p.Parent.Name
-                                        ht.Adornee = p
-                                        delay(0, function()
-                                            while wait(0.08) and plr and p do
-                                                f.UpdateHeadUI(ht)
-                                            end
-                                        end)
-                                        --table.insert(headsupdatelist, ht)
-                                        ht.Parent = p
-                                    end
-                                end
-                                end)
-                            end
-                        end
-                        plr.Character.Humanoid.Died:Connect(function()
-                            fold:Destroy()
-                        end)
-                end
-            end
-            
-            
-        end
-    end
-    end)
-end
-
-local uis = game:GetService("UserInputService")
-local bringall = false
-local hided2 = false
-local upping = false
-local downing = false
-mouse.KeyDown:Connect(function(a)
-    
-    if a == "t" then
-        --print("worked1")
-        f.addesp()
-    elseif a == gui_hide_button[2] and uis:IsKeyDown(gui_hide_button[1]) then
-        if hided2 == false then
-            hided2 = true
-            autoesp =false
-            if espforlder then
-                espforlder:Destroy()
-            end
-            Gui.Enabled = false
-        else
-            Gui.Enabled = true
-            hided2 = false
-        end
-            
-    elseif a == "" then
-        if aimbothider == false then
-            aimbothider = true
-            if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-        else
-            
-            aimbothider = false
-            if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-        end
-        if aimbothider == true then
-            aimbothiderbox.TextColor3 =Color3.fromRGB(11, 255, 19)
-        else
-            aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-        end
-    elseif a == "l" then
-        if not uis:IsKeyDown(Enum.KeyCode.LeftControl) then
-            if autoesp == false then
-                autoesp = true
-            else
-                autoesp = false
-            end
-        else
-            if lightesp == true then
-                lightesp = false
-            else
-                lightesp = true
-            end
-        end
-    elseif a == "]" then
-        upping = true
-        downing = false
-    elseif a== "[" then
-        downing = true
-        upping = false
-    elseif a == Aim_Assist_Key[2] and uis:IsKeyDown(Aim_Assist_Key[1]) then
-        if Aim_Assist == true then
-            Aim_Assist = false
-            --print("disabled")
-        else
-            Aim_Assist = true
-        end
-    end
-    if a == "j" then
-        if mouse.Target then
-            mouse.Target:Destroy()
-        end
-    end
-    if a == key then
-        if switch == false then
-            switch = true
-        else
-            switch = false
-            if aimatpart ~= nil then
-                aimatpart = nil
-            end
-        end
-    elseif a == "b" and uis:IsKeyDown(Enum.KeyCode.LeftControl) and not uis:IsKeyDown(Enum.KeyCode.R) then
-        if movementcounting then
-            movementcounting = false
-        else
-            movementcounting = true
-        end
-    elseif a == teambasedswitch then
-        if TeamBased == true then
-            TeamBased = false
-            teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-        else
-            TeamBased = true
-            teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-        end
-    elseif a == "b" and uis:IsKeyDown(Enum.KeyCode.LeftControl) and uis:IsKeyDown(Enum.KeyCode.R) then
-        ballisticsboost = 0
-    elseif a == aimkey then
-        if not aimatpart then
-            local maxangle = math.rad(20)
-            for i, plr in pairs(plrs:GetChildren()) do
-                if plr.Name ~= lplr.Name and plr.Character and plr.Character.Head and plr.Character.Humanoid and plr.Character.Humanoid.Health > 1 then
-                    if TeamBased == true then
-                        if plr.Team.Name ~= lplr.Team.Name then
-                            local an = checkfov(plr.Character.Head)
-                            if an < maxangle then
-                                maxangle = an
-                                aimatpart = plr.Character.Head
-                            end
-                        end
-                    else
-                        local an = checkfov(plr.Character.Head)
-                            if an < maxangle then
-                                maxangle = an
-                                aimatpart = plr.Character.Head
-                            end
-                            --print(plr)
-                    end
-                    local old = aimatpart
-                    plr.Character.Humanoid.Died:Connect(function()
-                        --print("died")
-                        if aimatpart and aimatpart == old then
-                            aimatpart = nil
-                        end
-                    end)
-                    
-                end
-            end
-        else
-            aimatpart = nil
-            canaimat = false
-            delay(1.1, function()
-                canaimat = true
-            end)
-        end
-    end
-end)
-
-function getfovxyz (p0, p1, deg)
-    local x1, y1, z1 = p0:ToOrientation()
-    local cf = CFrame.new(p0.p, p1.p)
-    local x2, y2, z2 = cf:ToOrientation()
-    local d = math.deg
-    if deg then
-        return Vector3.new(d(x1-x2), d(y1-y2), d(z1-z2))
-    else
-        return Vector3.new((x1-x2), (y1-y2), (z1-z2))
-    end
-end
-
-
-function aimat(part)
-    if part then
-        --print(part)
-        local d = (cam.CFrame.p - part.CFrame.p).magnitude
-        local calculatedrop
-        local timetoaim = 0
-        local pos2 = Vector3.new()
-        if movementcounting == true then
-            timetoaim = d/bspeed
-            pos2 = part.Velocity * timetoaim
-        end
-        local minuseddrop = (ballisticsboost+50)/50
-        if ballisticsboost ~= 0 then
-            calculatedrop = d - (d/minuseddrop)
-            
-        else
-            calculatedrop = 0
-        end
-        --print(calculatedrop)
-        local addative = Vector3.new()
-        if movementcounting then
-            addative = pos2
-        end
-        local cf = CFrame.new(cam.CFrame.p, (addative + part.CFrame.p+ Vector3.new(0, calculatedrop, 0)))
-        if aimbothider == true or Aim_Assist == true then
-            cam.CFrame = cam.CFrame:Lerp(cf, aimbothiderspeed)
-        else
-            
-            cam.CFrame = cf
-        end
-        --print(cf)
-    end
-end
-function checkfov (part)
-    local fov = getfovxyz(game.Workspace.CurrentCamera.CFrame, part.CFrame)
-    local angle = math.abs(fov.X) + math.abs(fov.Y)
-    return angle
-end
-pcall(function()
-    delay(0, function()
-        while wait(.32) do
-            if Aim_Assist and not aimatpart and canaimat and lplr.Character and lplr.Character.Humanoid and lplr.Character.Humanoid.Health > 0 then
-                for i, plr in pairs(plrs:GetChildren()) do
-                    
-                    
-                        local minangle = math.rad(5.5)
-                        local lastpart = nil
-                        local function gg(plr)
-                            pcall(function()
-                            if plr.Name ~= lplr.Name and plr.Character and plr.Character.Humanoid and plr.Character.Humanoid.Health > 0 and plr.Character.Head then
-                                local raycasted = false
-                                local cf1 = CFrame.new(cam.CFrame.p, plr.Character.Head.CFrame.p) * CFrame.new(0, 0, -4)
-                                local r1 = Ray.new(cf1.p, cf1.LookVector * 9000)
-                                local obj, pos = game.Workspace:FindPartOnRayWithIgnoreList(r1,  {lplr.Character.Head})
-                                local dist = (plr.Character.Head.CFrame.p- pos).magnitude
-                                if dist < 4 then
-                                    raycasted = true
-                                end
-                                if raycasted == true then
-                                    local an1 = getfovxyz(cam.CFrame, plr.Character.Head.CFrame)
-                                    local an = abs(an1.X) + abs(an1.Y)
-                                    if an < minangle then
-                                        minangle = an
-                                        lastpart = plr.Character.Head
-                                    end
-                                end
-                            end
-                            end)
-                        end
-                        if TeamBased then
-                            if plr.Team.Name ~= lplr.Team.Name then
-                                gg(plr)
-                            end
-                        else
-                            gg(plr)
-                        end
-                        --print(math.deg(minangle))
-                        if lastpart then
-                            aimatpart = lastpart
-                            aimatpart.Parent.Humanoid.Died:Connect(function()
-                                if aimatpart == lastpart then
-                                    aimatpart = nil
-                                end
-                            end)
-                        
-                    end
-                end
-            end
-        end
-    end)
-end)
-local oldheadpos
-local lastaimapart
-game:GetService("RunService").RenderStepped:Connect(function(dt)
-    if uis:IsKeyDown(Enum.KeyCode.RightBracket) or uis:IsKeyDown(Enum.KeyCode.LeftBracket) then
-        if upping then
-            ballisticsboost = ballisticsboost + dt/1.9
-        elseif downing then
-            ballisticsboost = ballisticsboost - dt/1.9
-        end
-    end
-    if movementcounting then
-        st1_2.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-        st1_2.Text = "Current ballistics: "..tostring(math.floor(ballisticsboost*10)/10)
-    else
-        st1_2.TextColor3 = Color3.new(1,0,0)
-    end
-    espstatustext.Text = "Esp loop :"..tostring(autoesp)
-    if aimatpart and lplr.Character and lplr.Character.Head then
-        if BetterDeathCount and lastaimapart and lastaimapart == aimatpart then
-            local dist = (oldheadpos - aimatpart.CFrame.p).magnitude
-            if dist > 40 then
-                aimatpart = nil
-            end
-        end
-        lastaimapart = aimatpart
-        oldheadpos = lastaimapart.CFrame.p
-        do 
-            if aimatpart.Parent == plrs.LocalPlayer.Character then
-                aimatpart = nil
-            end
-            aimat(aimatpart)
-            pcall(function()
-                if Aim_Assist == true then
-                    local cf1 = CFrame.new(cam.CFrame.p, aimatpart.CFrame.p) * CFrame.new(0, 0, -4)
-                    local r1 = Ray.new(cf1.p, cf1.LookVector * 1000)
-                    local obj, pos = game.Workspace:FindPartOnRayWithIgnoreList(r1,  {lplr.Character.Head})
-                    local dist = (aimatpart.CFrame.p- pos).magnitude
-                    if obj then
-                        --print(obj:GetFullName())
-                    end
-                    if not obj or dist > 6 then
-                        aimatpart = nil
-                        --print("ooof")
-                    end
-                    canaimat = false
-                    delay(.5, function()
-                        canaimat = true
-                    end)
-                end
-            end)
-        end
-        
-        
-        
-    end
-end)
-
-
-delay(0, function()
-    while wait(espupdatetime) do
-        if autoesp == true then
-            pcall(function()
-            f.addesp()
-            end)
-        end
-    end
-end)
---warn("loaded")
-end)
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-MainSection:NewButton("JailMonkey", "MASSIVE FPS DROP", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/KuriWasTaken/MonkeyScripts/main/JailMonkey.lua"))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = gethui()
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
-	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
-		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
-	end)
-end
-
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
---Prison Life
-elseif game.PlaceId == 155615604 then
-    local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-end)
-
-MainSection:NewButton("Prison Destroyer V2", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/DTi4fbKh"))();
-end)
-
-MainSection:NewButton("Prison Life Anti Abusers GUI", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/6mhZBAkh",true))()
-end)
-
-MainSection:NewButton("Prison Destroyer", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/08z0DUDE",true))()
-end)
-
-MainSection:NewButton("Kick Player", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/5iyrwLSH",true))()
-end)
-
-MainSection:NewButton("Prison Destroyer V1.6", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/4rkRHviN",true))()
-end)
-
-MainSection:NewButton("Loop Bring All", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/j80DG72a",true))()
-end)
-
-MainSection:NewButton("Bring All/Crim", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/aiNDd7Js",true))()
-end)
-game.Players.LocalPlayer.PlayerGui.Home.fadeFrame:Destroy()
-        local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
-    -- Build A Boat
-elseif game.PlaceId == 537413528 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("scriptt", "just a gui", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Vynixius/main/Build%20A%20Boat%20For%20Treasure/BABFT"))()
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Gorilla Tag Professional
-elseif game.PlaceId == 8690998110 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-
-
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-	    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-            local Window = Library.CreateLib("SkyHub Universal", OptTheme)
-            local Main = Window:NewTab("Main")
-            local MainSection = Main:NewSection("Main")
-            MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-                setclipboard(string)
-            end)
-	 MainSection:NewButton("V3rm Script", "Copys Discord invite link", function()
-                -- Made by 13 YOLD
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/miroeramaa/TurtleLib/main/TurtleUiLib.lua"))()
-local window1 = library:Window("Scripts")
-local window2 = library:Window("Teleport Areas")
-window1:Button("Infinite Wins", function()
-    spawn(function()
-while true do
-   local dec = game:GetService("Workspace"):FindFirstChild("ClickToGetCash").ClickDetector
-   fireclickdetector(dec)
-   local fun = game:GetService("Workspace"):FindFirstChild("ClickToGetCash").ClickDetector
-   fireclickdetector(fun)
-   wait(0.1)
-end
-end)
-end)
-window2:Button("Spectate (Easy Win)", function()
-    spawn(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-39.386, 59.2163, -102.248)
-
-end)
-end)
-window1:Button("TP All to You (Use Lava)", function()
-    spawn(function()
-  for _, player in pairs(game.Players:GetPlayers()) do
-player.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
-      end
-    end)
-end)
-window2:Button("Become a Lava Monke", function()
-    spawn(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(79.2755, 71.1624, -54.2756)
-end)
-end)
-window1:Slider("Walkspeed",16,70,5, function(value)
-  game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = value
-end)
-window1:Slider("JumpPower",50,150,20, function(value)
-  game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = value
-end)
-library:Keybind("Tab")
-game:GetService("StarterGui"):SetCore("SendNotification",{     
-Title = "Important!",     
-Text = "Infinite Wins is patched",
-Button1 = "unpatch pls?",Button2 = "no",     Duration = 20, })
-            end)
--- Universal
-else
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = gethui()
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = gethui()
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-	    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-            local Window = Library.CreateLib("SkyHub Universal", OptTheme)
-            local Main = Window:NewTab("Main")
-            local MainSection = Main:NewSection("Main")
-            MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-                setclipboard(string)
-            end)
-
-            MainSection:NewButton("NoClip", "Walk Through Walls Hold V", function()
-                local h,char,play
-                play = game.Players.LocalPlayer
-                local uisss = game:getService("UserInputService")
-                game:getService("RunService"):BindToRenderStep("",0,function()
-                    char = play.Character
-	                if char then h = char:findFirstChildOfClass("Humanoid") end
-	               if not h then return end
-	               if uisss:IsKeyDown(Enum.KeyCode.V) then
-		                h:ChangeState(11)
-	                end
-                end)
-            end)
-
-            MainSection:NewButton("Btools", "Btools lol", function()
-                game.StarterGui:SetCoreGuiEnabled(2, true)
-                a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                a.BinType = 2
-                b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                b.BinType = 3
-                c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                c.BinType = 4
-            end)
- 
-MainSection:NewButton("FE Gui", "By Me sky", function()
-                local Admin = Instance.new("ScreenGui")
-local MainFrame = Instance.new("ScrollingFrame")
-local FlyBut = Instance.new("TextButton")
-local RespawnBut = Instance.new("TextButton")
-local Credslol = Instance.new("TextLabel")
-local ClickTpBut = Instance.new("TextButton")
-local NoClipBut = Instance.new("TextButton")
-local SonicBut = Instance.new("TextButton")
-local TelekiniesBut = Instance.new("TextButton")
-local WalkWallsBut = Instance.new("TextButton")
-local BtoolsBut = Instance.new("TextButton")
-local MEME = Instance.new("TextButton")
-
-Admin.Name = "Admin"
-Admin.Parent = gethui()
-Admin.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = Admin
-MainFrame.Active = true
-MainFrame.BackgroundColor3 = Color3.fromRGB(208, 66, 255)
-MainFrame.Position = UDim2.new(0.416337252, 0, 0.274846643, 0)
-MainFrame.Size = UDim2.new(0, 429, 0, 262)
-
-FlyBut.Name = "FlyBut"
-FlyBut.Parent = MainFrame
-FlyBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-FlyBut.Position = UDim2.new(0, 0, 0.0306748468, 0)
-FlyBut.Size = UDim2.new(0, 200, 0, 50)
-FlyBut.Style = Enum.ButtonStyle.RobloxButton
-FlyBut.Font = Enum.Font.SourceSans
-FlyBut.Text = "Fly"
-FlyBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-FlyBut.TextSize = 14.000
-
-RespawnBut.Name = "RespawnBut"
-RespawnBut.Parent = MainFrame
-RespawnBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RespawnBut.Position = UDim2.new(0.510489523, 0, 0.0306748468, 0)
-RespawnBut.Size = UDim2.new(0, 200, 0, 50)
-RespawnBut.Style = Enum.ButtonStyle.RobloxButton
-RespawnBut.Font = Enum.Font.SourceSans
-RespawnBut.Text = "Respawn"
-RespawnBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-RespawnBut.TextSize = 14.000
-
-Credslol.Name = "Creds lol"
-Credslol.Parent = MainFrame
-Credslol.BackgroundColor3 = Color3.fromRGB(208, 66, 255)
-Credslol.Size = UDim2.new(0, 419, 0, 50)
-Credslol.Font = Enum.Font.SourceSans
-Credslol.Text = "FE GUI Made By Sky Press down on Mouse Wheel to open/close"
-Credslol.TextColor3 = Color3.fromRGB(58, 93, 170)
-Credslol.TextSize = 14.000
-
-ClickTpBut.Name = "ClickTpBut"
-ClickTpBut.Parent = MainFrame
-ClickTpBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ClickTpBut.Position = UDim2.new(-0.00233101845, 0, 0.0650306717, 0)
-ClickTpBut.Size = UDim2.new(0, 200, 0, 50)
-ClickTpBut.Style = Enum.ButtonStyle.RobloxButton
-ClickTpBut.Font = Enum.Font.SourceSans
-ClickTpBut.Text = "ClickTP"
-ClickTpBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-ClickTpBut.TextSize = 14.000
-
-NoClipBut.Name = "NoClipBut"
-NoClipBut.Parent = MainFrame
-NoClipBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-NoClipBut.Position = UDim2.new(0.510489523, 0, 0.0650306717, 0)
-NoClipBut.Size = UDim2.new(0, 200, 0, 50)
-NoClipBut.Style = Enum.ButtonStyle.RobloxButton
-NoClipBut.Font = Enum.Font.SourceSans
-NoClipBut.Text = "Noclip"
-NoClipBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-NoClipBut.TextSize = 14.000
-
-SonicBut.Name = "SonicBut"
-SonicBut.Parent = MainFrame
-SonicBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SonicBut.Position = UDim2.new(-0.00233097491, 0, 0.0969325155, 0)
-SonicBut.Size = UDim2.new(0, 200, 0, 50)
-SonicBut.Style = Enum.ButtonStyle.RobloxButton
-SonicBut.Font = Enum.Font.SourceSans
-SonicBut.Text = "FE Sonic Animation"
-SonicBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-SonicBut.TextSize = 14.000
-
-TelekiniesBut.Name = "TelekiniesBut"
-TelekiniesBut.Parent = MainFrame
-TelekiniesBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TelekiniesBut.Position = UDim2.new(0.510489523, 0, 0.0957055241, 0)
-TelekiniesBut.Size = UDim2.new(0, 200, 0, 50)
-TelekiniesBut.Style = Enum.ButtonStyle.RobloxButton
-TelekiniesBut.Font = Enum.Font.SourceSans
-TelekiniesBut.Text = "Telekines"
-TelekiniesBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-TelekiniesBut.TextSize = 14.000
-
-WalkWallsBut.Name = "WalkWallsBut"
-WalkWallsBut.Parent = MainFrame
-WalkWallsBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-WalkWallsBut.Position = UDim2.new(0, 0, 0.130061358, 0)
-WalkWallsBut.Size = UDim2.new(0, 200, 0, 50)
-WalkWallsBut.Style = Enum.ButtonStyle.RobloxButton
-WalkWallsBut.Font = Enum.Font.SourceSans
-WalkWallsBut.Text = "FE Walk On walls"
-WalkWallsBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-WalkWallsBut.TextSize = 14.000
-
-BtoolsBut.Name = "BtoolsBut"
-BtoolsBut.Parent = MainFrame
-BtoolsBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-BtoolsBut.Position = UDim2.new(0.510489523, 0, 0.130061358, 0)
-BtoolsBut.Size = UDim2.new(0, 200, 0, 50)
-BtoolsBut.Style = Enum.ButtonStyle.RobloxButton
-BtoolsBut.Font = Enum.Font.SourceSans
-BtoolsBut.Text = "Btools"
-BtoolsBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-BtoolsBut.TextSize = 14.000
-
-MEME.Name = "MEME"
-MEME.Parent = MainFrame
-MEME.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-MEME.Position = UDim2.new(0, 0, 0.16257669, 0)
-MEME.Size = UDim2.new(0, 200, 0, 50)
-MEME.Style = Enum.ButtonStyle.RobloxButton
-MEME.Font = Enum.Font.SourceSans
-MEME.Text = "MEME"
-MEME.TextColor3 = Color3.fromRGB(58, 93, 170)
-MEME.TextSize = 14.000
-
--- Scripts:
-
-local function TSQII_fake_script() -- FlyBut.Fly 
-	local script = Instance.new('LocalScript', FlyBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Fly Already On." then
-			game.StarterGui:SetCore("SendNotification",  {
-				Title = "Fly Noti";
-				Text = "FLY ALREADY ON";
-				Icon = "";
-				Duration = 5;
-			})
-		else
-			script.Parent.Text = "Press E to disable/Enable"
-			wait(2.5)
-			script.Parent.Text = "Fly Already On."
+		Pfly = true
+		repeat wait() 
+		until player and player.Character:findFirstChild("Head") player.Character:findFirstChild("Humanoid") 
+		local mouse = player:GetMouse() 
+		repeat wait() until mouse
+		local torso = player.Character.Head 
+		local flying = false
+		local deb = true 
+		local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+		local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+		local maxspeed = sliderfly 
+		local speed = 0 
+
+		function Fly() 
+			local bg = Instance.new("BodyGyro", torso) 
+			bg.P = 9e4 
+			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+			bg.cframe = torso.CFrame 
+
+			local bv = Instance.new("BodyVelocity", torso) 
+			bv.velocity = Vector3.new(0,0.1,0) 
+			bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
 			repeat wait() 
-			until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
-			local mouse = game.Players.LocalPlayer:GetMouse() 
+				player.Character.Humanoid.PlatformStand = true 
+				if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+					speed = speed+(sliderfly/1.7)+(speed/maxspeed) 
+					if speed > maxspeed then 
+						speed = maxspeed 
+					end 
+
+				elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+					speed = speed-(sliderfly/1.7)
+					if speed < 0 then 
+						speed = 0 
+					end 
+				end 
+				if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+					lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+				elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+				else 
+					bv.velocity = Vector3.new(0,0.1,0)
+				end 
+				bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+			until not flying or not Pfly
+			ctrl = {f = 0, b = 0, l = 0, r = 0} 
+			lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+			speed = 0 
+			bg:Destroy() 
+			bv:Destroy() 
+			player.Character.Humanoid.PlatformStand = false 
+		end 
+
+		mouse.KeyDown:connect(function(key) 
+			if key:lower() == "p" then 
+				if flying then flying = false 
+				else 
+					flying = true 
+					Fly() 
+				end 
+			elseif key:lower() == "w" then 
+				ctrl.f = 1 
+			elseif key:lower() == "s" then 
+				ctrl.b = -1 
+			elseif key:lower() == "a" then 
+				ctrl.l = -1 
+			elseif key:lower() == "d" then 
+				ctrl.r = 1 
+			end 
+		end) 
+
+		mouse.KeyUp:connect(function(key) 
+
+			if key:lower() == "w" then 
+				ctrl.f = 0 
+			elseif key:lower() == "s" then 
+				ctrl.b = 0 
+			elseif key:lower() == "a" then 
+				ctrl.l = 0 
+			elseif key:lower() == "d" then 
+				ctrl.r = 0 
+			end 
+		end)
+		Fly()
+	else
+		section2:addToggle("Press P to fly",false,function(bool)
+			Pfly = bool
+			if Pfly then
+				writefile(Universal .. "/Pfly.txt","true")
+			else
+				writefile(Universal .. "/Pfly.txt","false")
+			end
+			repeat wait() 
+			until player and player.Character:findFirstChild("Head") player.Character:findFirstChild("Humanoid") 
+			local mouse = player:GetMouse() 
 			repeat wait() until mouse
-			local plr = game.Players.LocalPlayer 
-			local torso = plr.Character.HumanoidRootPart 
-			local flying = true
+			local torso = player.Character.Head 
+			local flying = false
 			local deb = true 
 			local ctrl = {f = 0, b = 0, l = 0, r = 0} 
 			local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
-			local maxspeed = 50 
+			local maxspeed = sliderfly 
 			local speed = 0 
-	
+
 			function Fly() 
 				local bg = Instance.new("BodyGyro", torso) 
 				bg.P = 9e4 
 				bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
 				bg.cframe = torso.CFrame 
+
 				local bv = Instance.new("BodyVelocity", torso) 
 				bv.velocity = Vector3.new(0,0.1,0) 
 				bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
 				repeat wait() 
-					plr.Character.Humanoid.PlatformStand = true 
+					player.Character.Humanoid.PlatformStand = true 
 					if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
-						speed = speed+.5+(speed/maxspeed) 
+						speed = speed+(sliderfly/1.7)+(speed/maxspeed) 
 						if speed > maxspeed then 
 							speed = maxspeed 
 						end 
+
 					elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
-						speed = speed-1 
+						speed = speed-(sliderfly/1.7)
 						if speed < 0 then 
 							speed = 0 
 						end 
@@ -11496,19 +710,20 @@ local function TSQII_fake_script() -- FlyBut.Fly
 					elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
 						bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
 					else 
-						bv.velocity = Vector3.new(0,0.1,0) 
+						bv.velocity = Vector3.new(0,0.1,0)
 					end 
 					bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
-				until not flying 
+				until not flying or not Pfly
 				ctrl = {f = 0, b = 0, l = 0, r = 0} 
 				lastctrl = {f = 0, b = 0, l = 0, r = 0} 
 				speed = 0 
 				bg:Destroy() 
 				bv:Destroy() 
-				plr.Character.Humanoid.PlatformStand = false 
+				player.Character.Humanoid.PlatformStand = false 
 			end 
+
 			mouse.KeyDown:connect(function(key) 
-				if key:lower() == "e" then 
+				if key:lower() == "p" then 
 					if flying then flying = false 
 					else 
 						flying = true 
@@ -11524,7 +739,9 @@ local function TSQII_fake_script() -- FlyBut.Fly
 					ctrl.r = 1 
 				end 
 			end) 
+
 			mouse.KeyUp:connect(function(key) 
+
 				if key:lower() == "w" then 
 					ctrl.f = 0 
 				elseif key:lower() == "s" then 
@@ -11536,6078 +753,44 @@ local function TSQII_fake_script() -- FlyBut.Fly
 				end 
 			end)
 			Fly()
-		end
-	end)
-end
-coroutine.wrap(TSQII_fake_script)()
-local function XMMUGI_fake_script() -- MainFrame.Drag 
-	local script = Instance.new('LocalScript', MainFrame)
-
-	local UserInputService = game:GetService("UserInputService")
-	
-	local gui = script.Parent
-	
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
-	
-	local function update(input)
-		local delta = input.Position - dragStart
-		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-	
-	gui.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = gui.Position
-	
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-	
-	gui.InputChanged:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-			dragInput = input
-		end
-	end)
-	
-	UserInputService.InputChanged:Connect(function(input)
-		if input == dragInput and dragging then
-			update(input)
-		end
-	end)
-end
-coroutine.wrap(XMMUGI_fake_script)()
-local function UEZKG_fake_script() -- RespawnBut.Repsawn 
-	local script = Instance.new('LocalScript', RespawnBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Respawning..." then
-			game.StarterGui:SetCore("SendNotification",  {
-				Title = "Respawn Noti";
-				Text = "Already Respawning...";
-				Icon = "";
-				Duration = 5;
-			})
-		else
-			script.Parent.Text = "Respawning..."
-			wait(2.5)
-			game.Players.LocalPlayer.Character.Humanoid.Health = 0
-			game.Players.LocalPlayer.Character.Head.Remove()
-			end
-	end)
-end
-coroutine.wrap(UEZKG_fake_script)()
-local function WOLU_fake_script() -- MainFrame.MouseButton3 
-	local script = Instance.new('LocalScript', MainFrame)
-
-	local UserInputService = game:GetService("UserInputService")
-	local function onInputBegan(input, gameProcessed)
-		if input.UserInputType == Enum.UserInputType.MouseButton3 then
-			if script.Parent.Visible == true then
-				script.Parent.Visible = false
-			else
-				script.Parent.Visible = true
-			end
-		end
-	end
-	UserInputService.InputBegan:Connect(onInputBegan)
-	
-end
-coroutine.wrap(WOLU_fake_script)()
-local function TGAB_fake_script() -- ClickTpBut.ClickTp 
-	local script = Instance.new('LocalScript', ClickTpBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		mouse = game.Players.LocalPlayer:GetMouse()
-		tool = Instance.new("Tool")
-		tool.RequiresHandle = false
-		tool.Name = "Click Teleport"
-		tool.Activated:connect(function()
-			local pos = mouse.Hit+Vector3.new(0,2.5,0)
-			pos = CFrame.new(pos.X,pos.Y,pos.Z)
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+			notify("Press P to fly: "..tostring(Pfly),true)
 		end)
-		tool.Parent = game.Players.LocalPlayer.Backpack
-	
-	end)
-end
-coroutine.wrap(TGAB_fake_script)()
-local function AATJTM_fake_script() -- NoClipBut.Noclip 
-	local script = Instance.new('LocalScript', NoClipBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Noclip" then
-			script.Parent.Text = "Clip"
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-		wait(2.6)
-			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(";noclip","All")
-		else
-			script.Parent.Text = "Noclip"
-			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(";clip","All")
-		end
-	end)
-end
-coroutine.wrap(AATJTM_fake_script)()
-local function ZDXVH_fake_script() -- SonicBut.Sonic 
-	local script = Instance.new('LocalScript', SonicBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		loadstring(game:HttpGetAsync("https://pastebin.com/raw/SyF5t70A"))()
-	end)
-end
-coroutine.wrap(ZDXVH_fake_script)()
-local function CRSQC_fake_script() -- TelekiniesBut.TEL 
-	local script = Instance.new('LocalScript', TelekiniesBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		--BROUGHT TO YOU BY RobloxScripter.com!--
-		--Follow Our Partners!--
-	
-		local function a(b, c)
-			local d = getfenv(c)
-			local e =
-				setmetatable(
-					{},
-					{__index = function(self, f)
-					if f == "script" then
-						return b
-					else
-						return d[f]
-					end
-				end}
-				)
-			setfenv(c, e)
-			return c
-		end
-		local g = {}
-		local h = Instance.new("Model", game:GetService("Lighting"))
-		local i = Instance.new("Tool")
-		local j = Instance.new("Part")
-		local k = Instance.new("Script")
-		local l = Instance.new("LocalScript")
-		local m = sethiddenproperty or set_hidden_property
-		i.Name = "Telekinesis"
-		i.Parent = h
-		i.Grip = CFrame.new(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-		i.GripForward = Vector3.new(-0, -1, -0)
-		i.GripRight = Vector3.new(0, 0, 1)
-		i.GripUp = Vector3.new(1, 0, 0)
-		j.Name = "Handle"
-		j.Parent = i
-		j.CFrame = CFrame.new(-17.2635937, 15.4915619, 46, 0, 1, 0, 1, 0, 0, 0, 0, -1)
-		j.Orientation = Vector3.new(0, 180, 90)
-		j.Position = Vector3.new(-17.2635937, 15.4915619, 46)
-		j.Rotation = Vector3.new(-180, 0, -90)
-		j.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
-		j.Transparency = 1
-		j.Size = Vector3.new(1, 1.20000005, 1)
-		j.BottomSurface = Enum.SurfaceType.Weld
-		j.BrickColor = BrickColor.new("Really black")
-		j.Material = Enum.Material.Metal
-		j.TopSurface = Enum.SurfaceType.Smooth
-		j.brickColor = BrickColor.new("Really black")
-		k.Name = "LineConnect"
-		k.Parent = i
-		table.insert(
-			g,
-			a(
-				k,
-				function()
-					wait()
-					local n = script.Part2
-					local o = script.Part1.Value
-					local p = script.Part2.Value
-					local q = script.Par.Value
-					local color = script.Color
-					local r = Instance.new("Part")
-					r.TopSurface = 0
-					r.BottomSurface = 0
-					r.Reflectance = .5
-					r.Name = "Laser"
-					r.Locked = true
-					r.CanCollide = false
-					r.Anchored = true
-					r.formFactor = 0
-					r.Size = Vector3.new(1, 1, 1)
-					local s = Instance.new("BlockMesh")
-					s.Parent = r
-					while true do
-						if n.Value == nil then
-							break
-						end
-						if o == nil or p == nil or q == nil then
-							break
-						end
-						if o.Parent == nil or p.Parent == nil then
-							break
-						end
-						if q.Parent == nil then
-							break
-						end
-						local t = CFrame.new(o.Position, p.Position)
-						local dist = (o.Position - p.Position).magnitude
-						r.Parent = q
-						r.BrickColor = color.Value.BrickColor
-						r.Reflectance = color.Value.Reflectance
-						r.Transparency = color.Value.Transparency
-						r.CFrame = CFrame.new(o.Position + t.lookVector * dist / 2)
-						r.CFrame = CFrame.new(r.Position, p.Position)
-						s.Scale = Vector3.new(.25, .25, dist)
-						wait()
-					end
-					r:remove()
-					script:remove()
-				end
-			)
-		)
-		k.Disabled = true
-		l.Name = "MainScript"
-		l.Parent = i
-		table.insert(
-			g,
-			a(
-				l,
-				function()
-					wait()
-					tool = script.Parent
-					lineconnect = tool.LineConnect
-					object = nil
-					mousedown = false
-					found = false
-					BP = Instance.new("BodyPosition")
-					BP.maxForce = Vector3.new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge)
-					BP.P = BP.P * 1.1
-					dist = nil
-					point = Instance.new("Part")
-					point.Locked = true
-					point.Anchored = true
-					point.formFactor = 0
-					point.Shape = 0
-					point.BrickColor = BrickColor.Black()
-					point.Size = Vector3.new(1, 1, 1)
-					point.CanCollide = false
-					local s = Instance.new("SpecialMesh")
-					s.MeshType = "Sphere"
-					s.Scale = Vector3.new(.7, .7, .7)
-					s.Parent = point
-					handle = tool.Handle
-					front = tool.Handle
-					color = tool.Handle
-					objval = nil
-					local u = false
-					local v = BP:clone()
-					v.maxForce = Vector3.new(30000, 30000, 30000)
-					function LineConnect(o, p, q)
-						local w = Instance.new("ObjectValue")
-						w.Value = o
-						w.Name = "Part1"
-						local x = Instance.new("ObjectValue")
-						x.Value = p
-						x.Name = "Part2"
-						local y = Instance.new("ObjectValue")
-						y.Value = q
-						y.Name = "Par"
-						local z = Instance.new("ObjectValue")
-						z.Value = color
-						z.Name = "Color"
-						local A = lineconnect:clone()
-						A.Disabled = false
-						w.Parent = A
-						x.Parent = A
-						y.Parent = A
-						z.Parent = A
-						A.Parent = workspace
-						if p == object then
-							objval = x
-						end
-					end
-					function onButton1Down(B)
-						if mousedown == true then
-							return
-						end
-						mousedown = true
-						coroutine.resume(
-							coroutine.create(
-								function()
-									local C = point:clone()
-									C.Parent = tool
-									LineConnect(front, C, workspace)
-									while mousedown == true do
-										C.Parent = tool
-										if object == nil then
-											if B.Target == nil then
-												local t = CFrame.new(front.Position, B.Hit.p)
-												C.CFrame = CFrame.new(front.Position + t.lookVector * 1000)
-											else
-												C.CFrame = CFrame.new(B.Hit.p)
-											end
-										else
-											LineConnect(front, object, workspace)
-											break
-										end
-										wait()
-									end
-									C:remove()
-								end
-							)
-						)
-						while mousedown == true do
-							if B.Target ~= nil then
-								local D = B.Target
-								if D.Anchored == false then
-									object = D
-									dist = (object.Position - front.Position).magnitude
-									break
-								end
-							end
-							wait()
-						end
-						while mousedown == true do
-							if object.Parent == nil then
-								break
-							end
-							local t = CFrame.new(front.Position, B.Hit.p)
-							BP.Parent = object
-							BP.position = front.Position + t.lookVector * dist
-							wait()
-						end
-						BP:remove()
-						object = nil
-						objval.Value = nil
-					end
-					function onKeyDown(E, B)
-						local E = E:lower()
-						local F = false
-						if E == "q" then
-							if dist >= 5 then
-								dist = dist - 10
-							end
-						end
-						if E == "r" then
-							if object == nil then
-								return
-							end
-							for G, H in pairs(object:children()) do
-								if H.className == "BodyGyro" then
-									return nil
-								end
-							end
-							BG = Instance.new("BodyGyro")
-							BG.maxTorque = Vector3.new(math.huge, math.huge, math.huge)
-							BG.cframe = CFrame.new(object.CFrame.p)
-							BG.Parent = object
-							repeat
-								wait()
-							until object.CFrame == CFrame.new(object.CFrame.p)
-							BG.Parent = nil
-							if object == nil then
-								return
-							end
-							for G, H in pairs(object:children()) do
-								if H.className == "BodyGyro" then
-									H.Parent = nil
-								end
-							end
-							object.Velocity = Vector3.new(0, 0, 0)
-							object.RotVelocity = Vector3.new(0, 0, 0)
-							object.Orientation = Vector3.new(0, 0, 0)
-						end
-						if E == "e" then
-							dist = dist + 10
-						end
-						if E == "t" then
-							if dist ~= 10 then
-								dist = 10
-							end
-						end
-						if E == "y" then
-							if dist ~= 200 then
-								dist = 200
-							end
-						end
-						if E == "=" then
-							BP.P = BP.P * 1.5
-						end
-						if E == "-" then
-							BP.P = BP.P * 0.5
-						end
-					end
-					function onEquipped(B)
-						keymouse = B
-						local I = tool.Parent
-						human = I.Humanoid
-						human.Changed:connect(
-							function()
-								if human.Health == 0 then
-									mousedown = false
-									BP:remove()
-									point:remove()
-									tool:remove()
-								end
-							end
-						)
-						B.Button1Down:connect(
-							function()
-								onButton1Down(B)
-							end
-						)
-						B.Button1Up:connect(
-							function()
-								mousedown = false
-							end
-						)
-						B.KeyDown:connect(
-							function(E)
-								onKeyDown(E, B)
-							end
-						)
-						B.Icon = "rbxasset://textures\\GunCursor.png"
-					end
-					tool.Equipped:connect(onEquipped)
-				end
-			)
-		)
-		for J, H in pairs(h:GetChildren()) do
-			H.Parent = game:GetService("Players").LocalPlayer.Backpack
-			pcall(
-				function()
-					H:MakeJoints()
-				end
-			)
-		end
-		h:Destroy()
-		for J, H in pairs(g) do
-			spawn(
-				function()
-					pcall(H)
-				end
-			)
-		end
-	end)
-end
-coroutine.wrap(CRSQC_fake_script)()
-local function ZHDWEL_fake_script() -- WalkWallsBut.walls 
-	local script = Instance.new('LocalScript', WalkWallsBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		getgenv()["cofiG"] = getgenv()["cofiG"] or {}
-		local hasToUpdate = true
-		local alreadyRan = cofiG.gravityController ~= nil
-	
-		local http = game:GetService'HttpService'
-		local readfile,writefile,fileexists = readfile or syn_io_read,writefile or syn_io_write,isfile or readfile
-	
-		local rawUrl,baseUrl = "https://ixss.keybase.pub/rblx/gravityController/", "https://keybase.pub/ixss/rblx/gravityController/"
-	
-		do
-			_G.req = [[
-	        local require = function(lol)
-	            lol = "https://raw.githubusercontent.com/msva/lua-htmlparser/master/src/"..lol:gsub("%.","/")..".lua";
-	            return loadstring(_G.req..game:HttpGet(lol))();
-	        end;
-	    ]]
-	
-			local require = function(lol)
-				lol = "https://raw.githubusercontent.com/msva/lua-htmlparser/master/src/"..lol:gsub("%.","/")..".lua";
-				return loadstring(_G.req..game:HttpGet(lol))();
-			end;
-	
-			cofiG.htmlparser = cofiG.htmlparser or require"htmlparser"
-		end
-	
-		do  -- check if exists
-			if fileexists'gravityController.json' then
-				local json = readfile'gravityController.json'
-				if json then
-					cofiG.gravityController = http:JSONDecode(json)
-					hasToUpdate = cofiG.gravityController.Version ~= game:HttpGet(rawUrl.."Version.txt")
-				end
-			end
-			game.StarterGui:SetCore("ChatMakeSystemMessage", {
-				Text = hasToUpdate and "Updating script..." or "Running script!";
-				Font = Enum.Font.Code;
-				Color = Color3.fromRGB(255, 60, 60);
-				FontSize = Enum.FontSize.Size96;   
-			})
-		end
-	
-	
-		if hasToUpdate then -- update/download
-	
-			function getScripts()
-				local ret = {}
-				local text = game:HttpGet(baseUrl, false)
-	
-				local root = cofiG.htmlparser.parse(text)
-				local files = root:select(".file")
-	
-				for i,v in pairs(files) do
-					if string.sub(v.attributes.href, string.len(v.attributes.href)-3) == ".lua" then
-						local name = string.sub(v.attributes.href,string.len(baseUrl)+1, string.len(v.attributes.href)-4)
-						local script = rawUrl..name..".lua"
-						ret[name] = game:HttpGet(script)
-					elseif string.sub(v.attributes.href, string.len(v.attributes.href)-3) == ".txt" then
-						local name = string.sub(v.attributes.href,string.len(baseUrl)+1, string.len(v.attributes.href)-4)
-						local script = rawUrl..name..".txt"
-						ret[name] = game:HttpGet(script)
-					end
-				end
-	
-				return ret
-			end
-			cofiG.gravityController = getScripts()
-			writefile('gravityController.json', http:JSONEncode(cofiG.gravityController))
-			warn('Script updated!')
-		end
-	
-		local a,b = pcall(loadstring(cofiG.gravityController.Loader))
-	
-		if not a then
-			error('Loader ', b)
-		end
-	
-		if not alreadyRan then
-			game.StarterGui:SetCore("ChatMakeSystemMessage", {
-				Text = game:HttpGet('https://ixss.keybase.pub/Watermark.txt', true)..", originally made by EgoMoose.";
-				Font = Enum.Font.Code;
-				Color = Color3.fromRGB(244, 0, 175);
-				FontSize = Enum.FontSize.Size96;   
-			})
-		end
-	end)
-end
-coroutine.wrap(ZHDWEL_fake_script)()
-local function GGZTRR_fake_script() -- BtoolsBut.Btools 
-	local script = Instance.new('LocalScript', BtoolsBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		game.StarterGui:SetCoreGuiEnabled(2, true)
-		a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		a.BinType = 2
-		b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		b.BinType = 3
-		c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		c.BinType = 4
-	end)
-end
-coroutine.wrap(GGZTRR_fake_script)()
-local function ACHGC_fake_script() -- MEME.me me 
-	local script = Instance.new('LocalScript', MEME)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		loadstring(game:HttpGetAsync("https://pastebin.com/raw/0QfjMKrF"))()
-	end)
-end
-coroutine.wrap(ACHGC_fake_script)()
-
-            end)    
-
-
-    MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-MainSection:NewButton("Dex", "Explorer", function()
-loadstring(game:GetObjects("rbxassetid://418957341")[1].Source)()
-end)
-
-MainSection:NewButton("Impluse hub", "idk", function()
-loadstring(game:HttpGet('http://impulse-hub.xyz/ImpulseHub',true))()
- end)
-
-MainSection:NewButton("Zyrex-Hub", "10+", function()
-   _G.Toggle_GUI = Enum.KeyCode.RightControl --Right Ctrl
-
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/NotZyrex/Zyrex-Hub/master/Main.lua"), true))();
-end)
-
-MainSection:NewButton("Psyhub", "idk", function()
-loadstring(game:GetObjects("rbxassetid://3014051754")[1].Source)()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Remote Spy", "Find remotes press F9", function()
-loadstring(game:HttpGet('https://pastebin.com/raw/b33cjh0p'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-    
-	   MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-        MainSection:NewButton("Infinite Yield FE", "Admin", function()
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-        end)
-
-        MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-            setclipboard(string2)
-        end)
-        
-        MainSection:NewButton("Destroy GUIS", "CLCK A LOT OF TIMES", function()
-                for i, v in pairs(game:GetService("CoreGui"):GetDescendants()) do
-            if v.Name == "Main" and v.Parent then
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                break
-            end
-        end
-end)
-        
-        local Player = Window:NewTab("Player")
-        local PlayerSection = Player:NewSection("Player")
-        PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-        end)
-
-        PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-        end)
-        
-        local Placeinfo = Window:NewTab("Place Info")
-        local Playerinform = Placeinfo:NewSection("Place Info")
-        
-         Playerinform:NewButton(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name, (game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Description), function()
-end)
-Playerinform:NewButton(game:GetService("Players"):GetNameFromUserIdAsync(game.CreatorId), (game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Description), function()
-
-end)
-       Playerinform:NewButton("FilterEnabled/Repesect Is: (Click dots)", ("Click on the button and press F9"), function()
-       print(game.Workspace.FilteringEnabled, "If it says true it means its on if it says false then it means its off")
-        if game:GetService("SoundService").RespectFilteringEnabled == true then
-                    print("RespectFilteringEnabled is enabled")
-                else
-                    print("RespectFilteringEnabled is disabled")
-                end
-       end)
-    end
-    end
-    if not syn and not S == "ScriptWare" then
-    --[[games it supports Da Hood, Arsenal, Tower of Hell, KAT!, Fencing,
-Work At A Pizza Place, VR Hands, Adopt Me, Jailbreak, Prison Life, and
-Build A Boat For Treasure, and Gorrila Tag Professional.
-12+ games
-Rebuilt On IllusionHub
-Last Updated 2/18/2022
-]]--
-local OptTheme = "BloodTheme"
-local string = "https://discord.gg/A6HQQXvwNs"
-local string2 = "https://discord.com/invite/jVf7eSrED9"
--- Da Hood
-if game.PlaceId == 2788229376 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("RayCodeX", "Launches RayCodeX script", function()
-   loadstring(game:GetObjects("rbxassetid://5812737894")[1].Source)()
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
---Arsenal
-elseif game.PlaceId == 286090429 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Impluse hub", "idk", function()
-loadstring(game:HttpGet('http://impulse-hub.xyz/ImpulseHub',true))()
- end)
-
-MainSection:NewButton("Zyrex-Hub", "10+", function()
-   _G.Toggle_GUI = Enum.KeyCode.RightControl --Right Ctrl
-
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/NotZyrex/Zyrex-Hub/master/Main.lua"), true))();
-end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Arsenal RAC Ban Menu", "Shows in chat also I have no idea what this does", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/qtDZm7LX"))()
-end)
-
-MainSection:NewButton("MonkeThing", "idk", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/KuriWasTaken/MonkeHub/main/arsenal.lua"))()
-end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("Arsenal FE audio + more!", "NOTE: you can get banned from some of these scripts", function()
- value = "2038227137" --song id here
-
-
-    local args = {
-        [1] = {
-            [1] = "UpdateID",
-            [2] =  value,
-        },
-    }
-    
-    game:GetService("ReplicatedStorage").Events.UpdateLoadout:FireServer(unpack(args))
-
-local args = {
-    [1] = true,
-    [2] = game:GetService("ReplicatedStorage").Taunts.Megaphone,
-}
-
-game:GetService("ReplicatedStorage").Events.ReplicateGear:FireServer(unpack(args))
-
-
-
-
-Players = game:GetService("Players")
-for i, player in pairs(Players:GetPlayers()) do
-    print("["..i.."] = "..player.Name)
-    local args = {
-    [1] = "GET NOOB",
-    "["..i.."] = "..player.Name,
-}
-end
-  end)
--- Tower Of Hell
-elseif game.PlaceId == 1962086868 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Tower of hell script", "just a gui", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/JayZone69/Tower-of-Hell/main/Script"))()
-end)
-
-MainSection:NewButton("Tower of hell script2", "idka", function()
-   loadstring(game:HttpGet("https://gist.githubusercontent.com/BloxiYT/26f5c60eaed40ab1ab4e1756a70eac69/raw/b386cfd481e316f72103a0e88c0316be7891f3fb/OMG%2520123456"))()
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- KAT!
-elseif game.PlaceId == 621129760 then 
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("KAT!", "auto throws knife", function()
-   --Subscribe to Ducky Exploits
-function nearestPlayerToRay()
-    local dist = math.huge
-    local ray
-    
-    for i,v in pairs(game.Players:GetChildren()) do
-        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("Head") and not v.Character:FindFirstChild("ForceField") then
-            if v.Character.Humanoid.Health > 0 and v.Character:FindFirstChild("Head") then -- needed..
-                local newVec = (v.Character.Head.Position - game.Players.LocalPlayer.Character.Head.Position)
-                if newVec.magnitude < dist then
-                    local toRay = Ray.new(game.Players.LocalPlayer.Character.Head.Position, newVec)
-                    if not workspace:FindPartOnRayWithIgnoreList(toRay, {game.Players.LocalPlayer.Character, v.Character, workspace.WorldIgnore, workspace.CurrentCamera}) then
-                        dist = newVec.magnitude
-                        ray = toRay
-                    end
-                end
-            end
-        end
-    end
-    return ray
-end
-
-local ray
-
-function init()
-    local knife = game.Players.LocalPlayer.Character:WaitForChild("Knife")
-    local scr = getsenv(knife.KnifeServer.KnifeClient)
-    if scr then
-        local ir = scr.inputReleased
-        local u7 = debug.getupvalue(ir, 2)
-        local cam = debug.getupvalue(ir, 5)
-        debug.setupvalue(ir, 5, setmetatable({}, {
-            __index = function(t,k)
-                if k == "ScreenPointToRay" then
-                    if ray ~= nil then
-                        return function() return ray end
-                    end
-                end
-                return cam[k]
-            end
-        }))
-    
-        
-        while wait(.1) do
-            if game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
-                break    
-            end
-            ray = nearestPlayerToRay()
-            if ray then
-                scr.inputDown()
-                u7.ChargeStart = -math.huge
-                ir()
-            end
-        end
-    end
-end
-
-init()
-game.Players.LocalPlayer.CharacterAdded:connect(function()
-    print("hi")
-    wait()
-    init()
-   end)
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
- -- Fencing
- elseif game.PlaceId == 12109643 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-   MainSection:NewButton("FE Brick Spam", "spams bricks", function()
-   -- https://www.roblox.com/games/12109643/Fencing
-
-game:GetService('RunService').Stepped:connect(function()
-for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-if v.Name == "Spray" then
-if v.Handle.Mesh then
-v.Handle.Mesh:Destroy()
-end
-v.Parent = workspace
-end
-end
-end)
-local function paint()
-for i,v in pairs(game.Workspace:GetChildren())do
-if v.Name == "Handle" then
-v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-v.Transparency = 1
-v.CanCollide = false
-wait()
-v.CFrame = game.Players.LocalPlayer.Character["Left Leg"].CFrame
-end
-end
-end
-local function equip()
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren())do
-if v.Name == "Spray" then
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-end
-while wait(0.05) do
-paint()
-equip()
-end
-end)
-
-MainSection:NewButton("FE Gain Double Health", "bruh", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(56,3.5,124.5)
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130,3.5,30)
-end)
-
-MainSection:NewButton("FE Give SprayPaint", "SprayPaint", function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(188,3.5,106)
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-130,3.5,30)
-end)
-
-MainSection:NewButton("FE Perm God Mode", "permeanent God mode", function()
-   button              = workspace.Button
-button.CanCollide   = false
-button.Transparency = 1
-
-game:GetService("RunService").Heartbeat:connect(function(step)
-button.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position)
-button.Size   = Vector3.new(math.random(0,0), math.random(0,0), math.random(1,5))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Right Arm"].Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character.Torso.Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Left Arm"].Position)
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-wait()
-button.Size=Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-button.CFrame=CFrame.new(game.Players.LocalPlayer.Character["Left Leg"].Position)
-wait()
-button.Size   = Vector3.new(math.random(0,0), math.random(0,0), math.random(0,0))
-button.CFrame = CFrame.new(game.Players.LocalPlayer.Character["Right Leg"].Position)
-end)
-end)
-
-MainSection:NewButton("FE Reach", "Farther Reach", function()
-   a=Instance.new("SelectionBox",game.Players.LocalPlayer.Backpack.Foil.Handle)
-a.Adornee=game.Players.LocalPlayer.Backpack.Foil.Handle
-game.Players.LocalPlayer.Backpack.Foil.Handle.Size=Vector3.new(1,1,30)
-end)
-
-MainSection:NewButton("FE Seat Spam", "Seat Spam", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-10,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-20,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25,7.5,54)
-wait(0.05)
-game.Players.LocalPlayer.Character.Humanoid.Sit            = false
-wait(0.05)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-30,7.5,54)
-wait(0.05)
-end)
-
-MainSection:NewButton("FE Weird Broken Fencing Swords", "Swords", function()
-  game.Lighting["LinkedSword3"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-game.Lighting["LinkedSword2"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-game.Lighting["LinkedSword"]:Clone().Parent = game.Players.LocalPlayer.Backpack
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Work at a Pizza Place
- elseif game.PlaceId == 192800 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-   
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-   
-MainSection:NewButton("IDK", "script", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/cEwtwKZR",true))()
-end)
-
-MainSection:NewButton("FE Open Manager's Door", "Opens Manager's Door", function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(43,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(42,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(43,5,7)
-wait(0.2)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(51,5,7)
-end)
-
-MainSection:NewButton("FE Paint Cars Hot Pink", "Paints the cars but it can be laggy", function()
- --Change "Hot Pink" to a Roblox Color that they have.
-
-local Color = BrickColor.new('Hot pink')
-
-local PaintCar = function(Car,Color_Code)
-for ii, Child in pairs(Car:GetChildren()) do
-game.ReplicatedStorage.Channels.VehicleChannel:FireServer('Paint', Child, 'None', Color_Code)
-end
-end
-
-while wait() do
-for i, Car in pairs(workspace.Cars:GetChildren()) do
-PaintCar(Car, Color.Number)
-end
-end
-end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.CoreGui
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
-	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
-		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
-	end)
-end
-
-end)
-
- MainSection:NewButton("FE Pizza Toppings Troll", "troll", function()
-   for i,v in pairs(workspace.AllDough:GetChildren()) do
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Sausage")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Cheese")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "Pepperoni")
-    workspace.GameService.AddIngredientToPizza:FireServer(v, "TomatoSauce")
-end
-end)
-
-MainSection:NewButton("FE Teleport To manager chair", "it tps to manager chair", function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(23,5,6.5)
-  end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
- -- VR Hands
-elseif game.PlaceId == 4832438542 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
- local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-   
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-   
-MainSection:NewButton("VR Hands GUI", "GUI", function()
-   loadstring(game:HttpGet("https://pastebin.com/raw/ugQ9Nb7t"))()
-end)
-
-MainSection:NewButton("Hands VR", "VR Hands withour VR", function()
-    local cam = workspace.Camera
-local p
-local headObject
-local events = {}
-
-local controls = {
-	[Enum.UserInputType.MouseButton1] = {"move", "leftHand"},
-	[Enum.UserInputType.MouseMovement] = {"updateTarget"}, -- do not change
-	[Enum.UserInputType.MouseWheel] = {"adjustOffset"},
-	[Enum.UserInputType.MouseButton2] = {"move", "rightHand"},
-	[Enum.KeyCode.W] = {"move", "head", Vector3.new(0, 1, 0)},
-	[Enum.KeyCode.A] = {"move", "head", Vector3.new(-1, 0, 0)},
-	[Enum.KeyCode.S] = {"move", "head", Vector3.new(0, -1, 0)},
-	[Enum.KeyCode.D] = {"move", "head", Vector3.new(1, 0, 0)},
-	[Enum.KeyCode.Q] = {"move", "head", Vector3.new(0, 0, -1)},
-	[Enum.KeyCode.E] = {"move", "head", Vector3.new(0, 0, 1)},
-	[Enum.KeyCode.LeftShift] = {"gesture", "Fist"},
-	[Enum.KeyCode.LeftControl] = {"gesture", "Index"},
-	[Enum.KeyCode.LeftAlt] = {"gesture", "Thumb"},
-	[Enum.KeyCode.Z] = {"toggle", "canOffset"},
-	[Enum.KeyCode.R] = {"toggle", "rotationManager"},
-	[Enum.KeyCode.Tab] = {"selectAxis", "rotationManager"},
-	[Enum.KeyCode.Left] = {"updateAxisMover", "rotationManager", -1},
-	[Enum.KeyCode.Right] = {"updateAxisMover", "rotationManager", 1}
-}
-
-local services = {}
-
-setmetatable(services, {
-	__index = function(t, k)
-		services[k] = rawget(services, k) or game:GetService(k)
-		return services[k]
-	end
-})
-
-local function angleBetween(vecx, vecy)
-	return math.acos(vecx:Dot(vecy))
-end
-
-local hand = {}
-hand.__index = hand
-
-function hand:gesture(gestureName, keyState)
-	if keyState ~= 1 then
-		return
 	end
 
-	headObject.realHeadset[self.id .. gestureName] = 1 - headObject.realHeadset[self.id .. gestureName]
-end
-
-function hand:getMouseRay()
-	local mousePos = services.UserInputService:GetMouseLocation()
-	return CFrame.new(cam:ViewportPointToRay(mousePos.x, mousePos.y).Direction * (1.5 + headObject.handOffset))
-end
-
-function hand:calculateEndRotation()
-	return CFrame.Angles(cam.CFrame:ToEulerAnglesXYZ()) * CFrame.Angles(self.rotation[1] * (math.pi/6), self.rotation[2] * (math.pi/6), self.rotation[3] * (math.pi/6))
-end
-
-function hand:updateTarget()
-
-	local camLook = (cam.CFrame.lookVector * Vector3.new(1,0,1)).unit
-	
-	local theta = angleBetween(Vector3.new(-1, 0, 0), camLook)
-	theta = camLook.z > 0 and (2 * math.pi) - theta or theta
-
-	local relativeAngle = (self.id == "l" and -headObject.handAngle or headObject.handAngle)
-	local startPosition = CFrame.new(-math.cos(theta + relativeAngle), -0.5, -math.sin(theta + relativeAngle)) + (camLook * headObject.handOffset)
-
-	self.targetPosition = startPosition:Lerp(self:getMouseRay(), self.alpha) * self:calculateEndRotation()
-	
-	self.replicatePosition:Fire()
-end
-
-function hand:beginMove(minAlpha, maxAlpha)
-	local distAlpha = (maxAlpha - minAlpha) / 2
-
-	self.moving = true
-	repeat
-		services.RunService.RenderStepped:wait()
-		self:updateTarget()
-	until math.abs(self.alpha - minAlpha) < 0.05 or math.abs(maxAlpha - self.alpha) < 0.05 or self.alpha ~= self.alpha
-	
-	if self.alpha ~= self.alpha then
-		self.alpha = 0
-	end
-	
-	self.moving = false
-end
-
-function hand:move(keyState)
-
-	if headObject.rotationManager.active then
-		if self.id == "l" then
-			headObject.rotationManager.held = keyState == 1
-			
-			headObject.rotationManager.selectedAxis = 0
-		end
-		return
-	end
-
-	self.alphaMultiplier = keyState == 1 and 0.05 or -0.05
-	
-	if not self.moving and not (keyState == 1 and self.alpha >= 1) then
-		if keyState == 1 then
-			headObject.recentHand = self
-		end
-	
-		self:beginMove(0, 1)
-	end
-end
-
-function hand:new(direction, realHand)
-	local newHand = setmetatable({direction = direction, realHand = realHand}, hand)
-	newHand.alpha = 0
-	newHand.alphaMultiplier = 0.05
-	newHand.id = direction and "r" or "l"
-	newHand.targetPosition = CFrame.new()
-	newHand.moving = false
-	newHand.rotation = {0, 0, 0}
-	newHand.replicatePosition = Instance.new("BindableEvent")
-	newHand.replicatePosition.Event:connect(function()
-		events.UserCFrameChanged:Fire(newHand.direction and Enum.UserCFrame.RightHand or Enum.UserCFrame.LeftHand, newHand.targetPosition)
-	end)
-	
-	return newHand
-end
-
-local head = {}
-head.__index = head
-
-function head:handleInput(input, keyState)
-	local bind = controls[input.KeyCode] or controls[input.UserInputType]
-	
-	if bind then
-		if bind[1] == "updateTarget" and not self.rotationManager.active then
-			self.leftHand:updateTarget()
-			self.rightHand:updateTarget()
-		elseif bind[2] and type(self[bind[2]]) == "table" then
-			self[bind[2]][bind[1]](self[bind[2]], keyState, bind[3])
-		elseif bind[3] then
-			self[bind[1]](self, bind[3], keyState)
-		elseif bind[2] and self.recentHand[bind[1]] then
-			self.recentHand[bind[1]](self.recentHand, bind[2], keyState)
-		else
-			self[bind[1]](self, bind[2], keyState)
-		end
-	end
-end
-
-function head:adjustOffset(_, keyState)
-	if self.canOffset then		
-		self.leftHand:updateTarget()
-		self.rightHand:updateTarget()
-	end
-end
-
-function head:move(vec, keyState)
-	if vec.z ~= 0 then
-		self.realHeadset.Stick2 = math.clamp(self.realHeadset.Stick2 + (vec.z * keyState), -1, 1)
-	else
-	end
-end
-
-function head:freezeCam(b)
-	local dist = (self.realHeadset.Head.PrimaryPart.Position - cam.CFrame.p).magnitude
-		
-	p.CameraMinZoomDistance = b and dist or 0.5
-	p.CameraMaxZoomDistance = b and dist or 128
-end
-
-function head:toggle(stat, keyState)
-	if keyState ~= 1 then
-		return
-	end
-
-	self[stat] = not self[stat]
-	
-	if stat == "canOffset" then
-		self:freezeCam(self[stat])
-	end
-end
-
-local rotation = {}
-rotation.__index = rotation
-
-function rotation:new()
-	local newRotation = setmetatable({}, rotation)
-	
-	newRotation.rotationLookup = {{}, {}, {}}
-	newRotation.lineLookup = {{}, {}, {}}
-	newRotation.active = false
-	newRotation.held = false
-	newRotation.selectedAxis = 0
-	newRotation.angleLookup = {1, 1, 1}
-	
-	for i=1,3 do
-		local ref = {}
-		ref[i] = function() return 0 end
-		ref[i + 1 > 3 and ((i + 1) % 4) + 1 or i + 1] = math.cos
-		ref[i + 2 > 3 and ((i + 2) % 4) + 1 or i + 2] = math.sin
-		
-		local color = Color3.fromRGB(i == 1 and 255 or 0, i == 2 and 255 or 0, i == 3 and 255 or 0)
-		
-		for j=1,13 do
-			if j < 13 then
-				local step = math.pi * (j/6)
-				newRotation.rotationLookup[i][j] = Vector3.new(ref[1](step), ref[2](step), ref[3](step))
-			end
-			
-			local line = Drawing.new("Line")
-			line.Visible = true
-			line.Thickness = 5
-			line.Color = color
-			newRotation.lineLookup[i][j] = line
-		end
-		
-		local circle = Drawing.new("Circle")
-		circle.Visible = true
-		circle.Color = color
-		circle.Filled = true
-		circle.Radius = 10
-		circle.Position = Vector2.new(-2000, -2000)
-		newRotation.lineLookup[i][14] = circle
-		
-		local text = Drawing.new("Text")
-		text.Visible = true
-		text.Font = Drawing.Fonts.System
-		text.Size = 18
-		text.Color = Color3.new():lerp(color, 0.3)
-		text.Outline = false
-		newRotation.lineLookup[i][15] = text
-	end
-	
-	return newRotation
-end
-
-function rotation:selectAxis(keyState)
-	self.tabActivated = keyState == 1
-	if self.tabActivated then
-		self.selectedAxis = math.clamp((self.selectedAxis + 1) % 4, 1, 3)
-	end
-end 
-
-function rotation:toggle(keyState)
-	if keyState == 1 and headObject.recentHand.alpha < 0.05 and not self.held then
-		self.active = not self.active
-		
-		if not self.active then
-			self:updateAxes(0)
-			self.selectedAxis = 0
-			self.held = false
-			headObject.recentHand:updateTarget()
-		end
-	end
-end
-
-function rotation:updateAxes(visibleOverride)
-	local basePos = headObject.recentHand.realHand.Base.Position
-	local basePoint = cam:WorldToViewportPoint(basePos)
-
-	for i=1,3 do
-		for j=1,12 do
-			local vec, visible = cam:WorldToViewportPoint(basePos + (self.rotationLookup[i][j] * 10))
-			local vec2, visible2 = cam:WorldToViewportPoint(basePos + ((self.rotationLookup[i][j + 1] or self.rotationLookup[i][1]) * 10))
-			
-			local line = self.lineLookup[i][j]
-			
-			line.Transparency = visibleOverride or ((visible and visible2) and 1 or 0)
-			line.From = Vector2.new(vec.x, vec.y)
-			line.To = Vector2.new(vec2.x, vec2.y)
-		end
-		local axisRotation = headObject.recentHand.rotation[i]
-		
-		local axisMover = self.lineLookup[i][13]
-		local axisCircle = self.lineLookup[i][14]
-		local axisText = self.lineLookup[i][15]
-		
-		axisMover.From = Vector2.new(basePoint.x, basePoint.y)
-		axisMover.To = self.lineLookup[i][math.clamp(axisRotation < 1 and 12 or axisRotation, 1, 12)].From -- sorry, lazy
-		axisMover.Transparency = visibleOverride or 1
-		
-		axisCircle.Position = self.lineLookup[i][13].To
-		axisCircle.Transparency = visibleOverride or 1
-		
-		
-		
-		axisText.Position = self.lineLookup[2][3].From + axisText.TextBounds
-		axisText.Text = string.char(87 + self.selectedAxis) .. ": " .. math.deg(axisRotation * (math.pi / 6))
-		axisText.Transparency = visibleOverride or ((self.held or self.tabActivated) and self.selectedAxis == i and 1 or 0)
-		
-		local mousePos = services.UserInputService:GetMouseLocation()
-		if self.held and (self.lineLookup[i][14].Position - mousePos).magnitude < 10 and self.selectedAxis == 0 then
-			self.selectedAxis = i
-		end
-	end
-end
-
-function rotation:updateAxisMover(keyState, direction)
-	if keyState and direction then
-		if self.tabActivated and keyState == 1 then
-			headObject.recentHand.rotation[self.selectedAxis] = (headObject.recentHand.rotation[self.selectedAxis] + direction) % 12
-			headObject.recentHand:updateTarget()
-		end
-		return
-	end
-
-	if self.selectedAxis ~= 0 then
-		local mousePos = services.UserInputService:GetMouseLocation()
-		
-		local circlePos = self.lineLookup[self.selectedAxis][12].From
-		
-		local handPos = self.lineLookup[self.selectedAxis][13].From
-		
-		local mouseDir = self.selectedAxis == 1 and headObject.recentHand.id == "r" and (Vector2.new(-mousePos.x + (handPos.x * 2), mousePos.y) - handPos).unit or (mousePos - handPos).unit
-		-- mouse angle relating to the red circle is reflected on the right hand, so i "re-reflect" it. bad practice
-		
-		local circleDir = (circlePos - handPos).unit
-		
-		local rotationTheta = angleBetween(mouseDir, circleDir)
-		
-		local direction = mouseDir:Cross(circleDir)
-		
-		rotationTheta = direction > 0 and rotationTheta or (2 * math.pi) - rotationTheta
-		
-		if rotationTheta == rotationTheta then
-			headObject.recentHand.rotation[self.selectedAxis] = math.floor(6 * rotationTheta / math.pi)
-			
-			local hand = headObject.recentHand
-			hand.replicatePosition:Fire()
-		end
-	end
-end
-
-function head:new(realHeadset)
-	local newHead = setmetatable({realHeadset = realHeadset}, head)
-	
-	newHead.leftHand = hand:new(false, realHeadset.lHand)
-	newHead.rightHand = hand:new(true, realHeadset.rHand)
-	newHead.canOffset = false
-	newHead.recentHand = newHead.leftHand
-	newHead.handOffset = 0
-	newHead.handAngle = math.pi / 4
-	
-	newHead.rotationManager = rotation:new()
-	
-	newHead.chatRemote = debug.getupvalue(realHeadset.ButtonPressed, 3)
-	
-	cam:GetPropertyChangedSignal("CameraSubject"):connect(function()
-		if cam.CameraSubject ~= headObject.realHeadset.Head then
-			cam.CameraType = Enum.CameraType.Custom
-		end
-	end)
-	
-	services.UserInputService.WindowFocused:connect(function()
-		newHead.realHeadset.StickPosition = Vector3.new(0, 0, 0)
-		newHead.realHeadset.Stick2 = 0
-	end)
-	
-	return newHead
-end
-
-local ind, nc, nind
-
-local realVrService = game:GetService("VRService")
-
-local fakeVrService = setmetatable({
-	VREnabled = true,
-	SetTouchpadMode = function()
-	end,
-	RecenterUserHeadCFrame = function()
-	end,
-	GetUserCFrameEnabled = function(cf)
-		return true
-	end,
-	GetUserCFrame = function(cf)
-		return CFrame.new()
-	end
-
-}, {
-	__index = function(t, k)
-		local real = ind(realVrService, k)
-		if typeof(real) == "RBXScriptSignal" then
-			events[k] = events[k] or {
-				Name = k,
-				Connect = function(t, f)
-					t.Function = f
-
-					if t.Name == "UserCFrameChanged" then
-						headObject = head:new(debug.getupvalue(t.Function, 1))
-						
-						services.UserInputService.InputBegan:connect(function(i)
-							headObject:handleInput(i, 1)
-						end)
-
-						services.UserInputService.InputChanged:connect(function(i)
-							headObject:handleInput(i, i.UserInputType == Enum.UserInputType.MouseWheel and i.Position.z or 0)
-						end)
-
-						services.UserInputService.InputEnded:connect(function(i)
-							headObject:handleInput(i, -1)
-						end)
-					end
-
-				end, 
-				Fire = function(t, ...)
-					return t.Function(...)
-				end
-			}
-
-			return events[k]
-		end
-
-		return real
-	end,
-	__call = function(t, method, vr, ...)
-		return t[method](...)
-	end
-})
-
-ind = hookmetamethod(game, "__index", function(...)
-	local t, k = ...
-
-	local scr = getcallingscript()
-
-	if t == realVrService and not (scr and ind(scr, "Name") == "CameraModule") then
-		return fakeVrService[k]
-	end
-
-	return ind(...)
-end)
-
-nc = hookmetamethod(game, "__namecall", function(...)
-	local t = ...
-
-	if t == realVrService then
-		local method = getnamecallmethod()
-		return fakeVrService(method, ...)
-	elseif t == game.GetService(game, "StarterGui") and game.IsLoaded(game) then
-		return
-	end
-
-	return nc(...)
-end)
-
-nind = hookmetamethod(game, "__newindex", function(...)
-	local t, k, v = ...
-	
-	local scr = getcallingscript()
-	
-	if t == cam and headObject then	
-		if k == "CFrame" and events.UserCFrameChanged then
-		
-			events.UserCFrameChanged:Fire(Enum.UserCFrame.Head, CFrame.Angles(cam.CFrame:ToEulerAnglesXYZ()))
-			
-			if headObject.rotationManager.active then
-			
-				headObject.rotationManager:updateAxes()
-				
-				if headObject.rotationManager.held then
-					headObject.rotationManager:updateAxisMover()
-				end
-			end
-			
-			if headObject.rotationManager.tabActivated and services.UserInputService:IsKeyDown(Enum.KeyCode.Left) or services.UserInputService:IsKeyDown(Enum.KeyCode.Right) then -- prevent controls from messing with camera
-				return
-			end
-		elseif k == "CameraType" then
-			nind(t, k, Enum.CameraType.Custom)
-			nind(t, "CameraSubject", headObject.realHeadset.Head)
-			headObject.leftHand:updateTarget()
-			headObject.rightHand:updateTarget()
-		end
-		if not (scr and scr.Name == "CameraModule") and not checkcaller() then
-			return
-		end
-	end
-	
-	nind(t, k, v)
-end)
-
-p = services.Players.LocalPlayer or (function()
-	services.Players:GetPropertyChangedSignal("LocalPlayer"):wait() -- this doesnt return anything for some reason??
-	return services.Players.LocalPlayer
-end)()
-
-p.Chatted:connect(function(c)
-	services.ReplicatedStorage.COM.Chat:FireServer("Chat", c)
-end)
-end)
- 
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Adopt me
-elseif game.PlaceId == 920587237 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Antartic Hub", "idk", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/JusticeValley/Antarctic-Hub/main/New.lua", true))()
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.CoreGui
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
-	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
-		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
-	end)
-end
-
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- JailBreak
-elseif game.PlaceId == 606849621 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-   local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
-MainSection:NewButton("Auto Arrest V2", "Arrest", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/HazeWasTaken/Jailbricked/main/AutoArrest.lua'))()
-end)
-
-MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Auto Rob", "Rob stores", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/wawsdasdacx/ohascriptnrrewading/main/jbsaxcriptidk1'))()
-end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-MainSection:NewButton("ESP/Aimbot", "bro", function()
-   local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local TextLabel = Instance.new("TextLabel")
-local TextLabel_2 = Instance.new("TextLabel")
-local TextLabel_3 = Instance.new("TextLabel")
-
---Properties:
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.new(1, 1, 1)
-Frame.BackgroundTransparency = 1
-Frame.Position = UDim2.new(0, 0, 0.876175702, 0)
-Frame.Size = UDim2.new(0, 100, 0, 84)
-
-TextLabel.Parent = Frame
-TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel.Size = UDim2.new(0, 100, 0, 34)
-TextLabel.Font = Enum.Font.SciFi
-TextLabel.Text = "Press E To Lock-On"
-TextLabel.TextColor3 = Color3.new(0, 0, 0)
-TextLabel.TextSize = 11
-
-TextLabel_2.Parent = Frame
-TextLabel_2.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel_2.Position = UDim2.new(0, 0, 0.40476191, 0)
-TextLabel_2.Size = UDim2.new(0, 100, 0, 25)
-TextLabel_2.Font = Enum.Font.SciFi
-TextLabel_2.Text = "Press T To Start ESP"
-TextLabel_2.TextColor3 = Color3.new(0, 0, 0)
-TextLabel_2.TextSize = 11
-
-TextLabel_3.Parent = Frame
-TextLabel_3.BackgroundColor3 = Color3.new(1, 1, 1)
-TextLabel_3.Position = UDim2.new(0, 0, 0.702380955, 0)
-TextLabel_3.Size = UDim2.new(0, 100, 0, 25)
-TextLabel_3.Font = Enum.Font.Gotham
-TextLabel_3.Text = "Press L To Loop-ESP"
-TextLabel_3.TextColor3 = Color3.new(0, 0, 0)
-TextLabel_3.TextSize = 10
-pcall(function()
-local espcolor = Color3.fromRGB(140, 69, 102)
-local wallhack_esp_transparency = .4
-local gui_hide_button = {Enum.KeyCode.LeftControl, "h"}
-local plrs = game:GetService("Players")
-local lplr = game:GetService("Players").LocalPlayer
-local TeamBased = true ; local teambasedswitch = "o"
-local presskeytoaim = true; local aimkey = "e"
-aimbothider = false; aimbothiderspeed = .5
-local Aim_Assist = false ; Aim_Assist_Key = {Enum.KeyCode.LeftControl, "z"}
-local espupdatetime = 5; autoesp = false; local charmsesp = true
-local movementcounting = true
-
-
-
-
-local mouselock = false
-local canaimat = true
-local lockaim = true; local lockangle = 5
-local ver = "2.4"
-local cam = game.Workspace.CurrentCamera
-local BetterDeathCount = true
-local ballisticsboost = 0
-
-local mouse = lplr:GetMouse()
-local switch = false
-local key = "k"
-local aimatpart = nil
-local lightesp = false
-
-local abs = math.abs
-
-local Gui = Instance.new("ScreenGui")
-local Move = Instance.new("Frame")
-local Main = Instance.new("Frame")
-local EspStatus = Instance.new("TextLabel")
-local st1 = Instance.new("TextLabel")
-local st1_2 = Instance.new("TextLabel")
-local st1_3 = Instance.new("TextBox")
-local Name = Instance.new("TextLabel")
---Properties:
-
-Gui.Parent = plrs.LocalPlayer:WaitForChild("PlayerGui")
-
-
-local aimbotstatus = {"qc", "qr", "qe", "qd", "qi", "qt", "qs", "dd", "sp", "ql", "qa", "qd", "qs"}
-local gotstring = 0
-local function getrandomstring()
-    gotstring = gotstring+666
-    local str = ""
-    local randomstring = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "g", "k", "l", "m", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-         "а","б","в","г","д","е","ё","ж","з","и","й","к","л","м","о","п","р","с","т","у","ф","х","ч","щ","ъ","ы","ъ","э","ю","я", "`", "$", 
-        "0","1","2","3","4","5","6","7","8","9", }
-    local counting123 = 0
-    for i, v in ipairs(randomstring) do
-        counting123 = i
-    end
-    do
-        math.randomseed(tick()+gotstring)
-        for i = 3, math.random(1,100) do
-                math.randomseed(i+tick()+gotstring)
-                
-                local oneortwo = math.random(1,2)
-                if oneortwo == 2 then
-                    math.randomseed(i+tick()+gotstring)
-                    str = str..""..randomstring[math.random(1, counting123)]
-                else
-                    math.randomseed(i+tick()+gotstring)
-                    str = str..""..string.upper(randomstring[math.random(1, counting123)])
-                end
-            
-        end
-    end
-    return str
-end
-local mousedown = false
-local isonmovething = false
-local mouseoffset = Vector2.new()
-local mousedown = false
-local bspeed = 3584
-local aimbotoffset = {dd = ":", sp = " ", qa = "a", qb = "b",qc = "c", qd = "d", qe = "e", qf = "f", qg = "g" , qh = "h" , qi = "i", qj = "j", qk = "k", ql = "l", qm = "m", qn = "n", qo = "o", qp = "p", qq = "q", qr = "r", qs = "s", qt = "t", qu = "u", qv = "w", qx = "x", qy = "y", qz = "z"}
-
-
-
-Gui.Name = getrandomstring()
-
-Move.Name = getrandomstring()
-Move.Draggable = true
-Move.Parent = Gui
-Move.BackgroundColor3 = Color3.new(0.0431373, 1, 0.0745098)
-Move.BackgroundTransparency = 0.40000000596046
-Move.BorderSizePixel = 0
-Move.Position = UDim2.new(0.5, 0,0.018, 0)
-Move.Size = UDim2.new(0, 320, 0, 30)
-
-Move.MouseEnter:Connect(function()
-    
-    isonmovething = true
-    
-end)
-Move.MouseLeave:Connect(function()
-    
-    isonmovething = mousedown and true or false
-end)
-mouse.Button1Down:connect(function()
-    mousedown = true
-    mouseoffset = Move.AbsolutePosition - Vector2.new(mouse.X, mouse.Y)
-end)
-mouse.Button1Up:connect(function()
-    mousedown = false
-end)
-
-mouse.Move:Connect(function()
-    if isonmovething == true and mousedown then
-        Move.Position = UDim2.new(0, mouseoffset.X + mouse.X, 0, mouseoffset.Y + mouse.Y)
-    end
-end)
-local function uc (st)
-    local ast = ""
-    for i, v in ipairs(st) do
-        local let = aimbotoffset[v]
-        ast = ast..let
-    end
-    return ast
-end
-
-Main.Name = getrandomstring()
-Main.Parent = Move
-Main.BackgroundColor3 = Color3.new(0.176471, 0.176471, 0.176471)
-Main.BackgroundTransparency = 0.69999998807907
-Main.Position = UDim2.new(0, 0, 0.995670795, 0)
-Main.Size = UDim2.new(1.0000006, 0, 11.2, 0)
-
-st1.Name = getrandomstring()
-st1.Parent = Main
-st1.BackgroundColor3 = Color3.new(1, 1, 1)
-st1.BackgroundTransparency = 1
-st1.Position = UDim2.new(0, 0, 0, 0)
-st1.Size = UDim2.new(1, 0, 0.161862016, 0)
-st1.Font = Enum.Font.ArialBold
-st1.Text = uc(aimbotstatus)
-st1.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1.TextScaled = true
-st1.TextSize = 14
-st1.TextWrapped = true
-
-st1_2.Name = getrandomstring()
-st1_2.Parent = Main
-st1_2.BackgroundColor3 = Color3.new(1, 1, 1)
-st1_2.BackgroundTransparency = 1
-st1_2.Position = UDim2.new(0, 0, 0.375590861, 0)
-st1_2.Size = UDim2.new(0.999999881, 0, 0.161862016, 0)
-st1_2.Font = Enum.Font.ArialBold
-st1_2.TextXAlignment = Enum.TextXAlignment.Left
-st1_2.Text = "Current ballistics: 0"
-st1_2.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1_2.TextScaled = true
-st1_2.TextSize = 14
-st1_2.TextWrapped = true
-
-local aimbothiderbox = Instance.new("TextBox")
-aimbothiderbox.Name = getrandomstring()
-aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-aimbothiderbox.Size = UDim2.new(1, 0,0.162, 0)
-aimbothiderbox.TextScaled = true
-aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-aimbothiderbox.Position = UDim2.new(0, 0,0.853, 0)
-aimbothiderbox.BackgroundTransparency = 1
-aimbothiderbox.Parent = Main
-
-st1_3.Name = getrandomstring()
-st1_3.Parent = Main
-st1_3.BackgroundColor3 = Color3.new(1, 1, 1)
-st1_3.BackgroundTransparency = 1
-st1_3.Position = UDim2.new(0, 0, 0.18558608, 0)
-st1_3.Size = UDim2.new(0.999999881, 0, 0.161862016, 0)
-st1_3.Font = Enum.Font.ArialBold
-st1_3.Text = "Bullet speed = 3584"
-st1_3.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-st1_3.TextScaled = true
-st1_3.TextSize = 14
-st1_3.TextWrapped = true
-local teambasedstatus = st1_3:Clone()
-teambasedstatus.Parent = Main
-teambasedstatus.TextScaled = true
-teambasedstatus.Position = UDim2.new(0, 0,.7, 0)
-teambasedstatus.Size = UDim2.new(1, 0,.1, 0)
-teambasedstatus.Name = getrandomstring()
-teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-local espstatustext = teambasedstatus:Clone()
-espstatustext.Name = getrandomstring()
-espstatustext.Position = UDim2.new(0, 0,0.58, 0)
-espstatustext.Text = "Esp loop :"..tostring(autoesp)
-espstatustext.Parent = Main
-local hide = Instance.new("TextButton")
-hide.Text = "_"
-hide.BackgroundTransparency = 1
-hide.TextScaled = true
-hide.TextWrapped = true
-hide.Size = UDim2.new(0.1, 0,1, 0)
-hide.Position = UDim2.new(0.9, 0,-0.15, 0)
-hide.Name = getrandomstring()
-hide.Parent = Move
-Name.Name = getrandomstring()
-Name.Parent = Move
-Name.BackgroundColor3 = Color3.new(1, 1, 1)
-Name.BackgroundTransparency = 1
-Name.Size = UDim2.new(0.838, 0, 1, 0)
-Name.Font = Enum.Font.Arial
-Name.Text = "FPS gui v"..ver
-Name.TextColor3 = Color3.new(0, 0, 0)
-Name.TextScaled = true
-Name.TextSize = 14
-Name.TextWrapped = true
-Name.TextXAlignment = Enum.TextXAlignment.Left
-local scr = Instance.new("ScrollingFrame")
-scr.Size = Main.Size
-scr.Position = Main.Position
-scr.ScrollBarThickness = 0
-scr.BackgroundTransparency = 1
-scr.Name = getrandomstring()
-Main.Size = UDim2.new(1, 0, 1, 0)
-Main.Position = UDim2.new(0,0,0,0)
-Main.Parent = scr
-scr.Parent = Move
-startpos = Main.Position
-Move.Active = true
-Move:Destroy()
--- Scripts:
-hided = true
-hide.MouseButton1Click:Connect(function()
-    if hided == false then
-        hided = true
-        Main:TweenPosition(UDim2.new(0, 0, -1.5, 0))
-    else
-        hided = false
-        Main:TweenPosition(startpos)
-    end
-end)
-
-
-aimbothiderbox.FocusLost:Connect(function()
-    local numb = tonumber(aimbothiderbox.Text)
-    if aimbothider == true then
-        aimbothiderbox.TextColor3 =Color3.fromRGB(11, 255, 19)
-    else
-        aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-    end
-    if numb ~= nil then
-        aimbothiderspeed = numb
-        if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-    else
-        if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-    end
-end)
-
-
-local plrsforaim = {}
-
-
-Move.Draggable = true
-Gui.ResetOnSpawn = false
---Gui.Name = "Chat"
-Gui.DisplayOrder = 999
-pcall(function()
-if not game:GetService("CoreGui") then
-    Gui.Parent = plrs.LocalPlayer.PlayerGui
-else
-    Gui.Parent = game:GetService("CoreGui")
-end
-end)
-local espheadthing
-do
-local BillboardGui = Instance.new("BillboardGui")
-local PName = Instance.new("TextLabel")
-local Pdist = Instance.new("TextLabel")
-local ImageLabel = Instance.new("ImageLabel")
-local ImageLabel_2 = Instance.new("ImageLabel")
---Properties:
---BillboardGui.Parent = game.Workspace.Part
-BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-BillboardGui.AlwaysOnTop = true
-BillboardGui.LightInfluence = 0
-BillboardGui.Size = UDim2.new(0, 100, 0, 46)
-BillboardGui.Name = "headoverthing"
-PName.Name = "PName"
-PName.Parent = BillboardGui
-PName.BackgroundColor3 = espcolor
-PName.BackgroundTransparency = 0.55000001192093
-PName.BorderSizePixel = 0
-PName.Size = UDim2.new(0, 100, 0, 23)
-PName.Font = Enum.Font.SourceSans
-PName.Text = "urmom"
-PName.TextColor3 = Color3.new(0, 0, 0)
-PName.TextScaled = true
-PName.TextSize = 14
-PName.TextWrapped = true
-st1.Text = uc(aimbotstatus)
-Pdist.Name = "Pdist"
-Pdist.Parent = BillboardGui
-Pdist.AnchorPoint = Vector2.new(0.5, 0)
-Pdist.BackgroundColor3 = espcolor
-Pdist.BackgroundTransparency = 0.55000001192093
-Pdist.BorderSizePixel = 0
-Pdist.Position = UDim2.new(0.5, 0, 0.5, 0)
-Pdist.Size = UDim2.new(0, 70, 0, 23)
-Pdist.Font = Enum.Font.SourceSans
-Pdist.Text = "666"
-Pdist.TextColor3 = Color3.new(0, 0, 0)
-Pdist.TextScaled = true
-Pdist.TextSize = 14
-Pdist.TextWrapped = true
-
-ImageLabel.Parent = BillboardGui
-ImageLabel.BackgroundColor3 = Color3.new(0.298039, 1, 0)
-ImageLabel.BackgroundTransparency = 1
-ImageLabel.BorderColor3 = espcolor
-ImageLabel.Position = UDim2.new(1, -15, 0.5, 0)
-ImageLabel.Rotation = 180
-ImageLabel.Size = UDim2.new(0, 15, 0, 23)
-ImageLabel.Image = "rbxassetid://2832171824"
-ImageLabel.ImageColor3 = espcolor
-ImageLabel.ImageTransparency = 0.55000001192093
-
-ImageLabel_2.Parent = BillboardGui
-ImageLabel_2.BackgroundColor3 = espcolor
-ImageLabel_2.BackgroundTransparency = 1
-ImageLabel_2.BorderColor3 = Color3.new(0.298039, 1, 0)
-ImageLabel_2.Position = UDim2.new(0, 0, 0.5, 0)
-ImageLabel_2.Rotation = 180
-ImageLabel_2.Size = UDim2.new(0, 15, 0, 23)
-ImageLabel_2.Image = "rbxassetid://2832177613"
-ImageLabel_2.ImageColor3 = espcolor
-ImageLabel_2.ImageTransparency = 0.55000001192093
-espheadthing = BillboardGui
-end
-
-
-
-f = {}
-f.UpdateHeadUI = function(v)
-    
-        
-            if v.Adornee and v.Adornee ~= nil then
-                local destr = false
-                if TeamBased then
-                    destr = true
-                    local plr = plrs:GetPlayerFromCharacter(v.Adornee.Parent)
-                    if plr and plr.Team and plr.Team.Name ~= lplr.Team.Name then
-                        destr = false
-                    end
-                end
-                if lightesp == true then
-                    v.Pdist.TextColor3 = Color3.new(1,1,1)
-                    v.PName.TextColor3 = Color3.new(1,1,1)
-                else
-                    v.Pdist.TextColor3 = Color3.new(0,0,0)
-                    v.PName.TextColor3 = Color3.new(0,0,0)
-                end
-                local d = math.floor((cam.CFrame.p - v.Adornee.CFrame.p).magnitude)
-                v.Pdist.Text = tostring(d)
-                if d < 14 then
-                    v.Enabled = false
-                else
-                    v.Enabled = true
-                end
-                v.StudsOffset = Vector3.new(0,.6+d/14,0)
-                if destr then
-                    v:Destroy()
-                end
-            else
-                v:Destroy()
-            end
-        
-    
-end
-st1.Text = uc(aimbotstatus)
-local espforlder
-local partconverter = Instance.new("Part")
---local headsupdatelist = {}
-st1_3.FocusLost:connect(function()
-    if tonumber(st1_3.Text) then
-        bspeed = tonumber(st1_3.Text)
-    else
-        
-    end
-end)
-f.addesp = function()
-    pcall(function()
-    --print("ESP ran")
-    if espforlder then
-        espforlder:Destroy()
-        espforlder = Instance.new("Folder")
-        espforlder.Parent = game.Workspace.CurrentCamera
-    else
-        espforlder = Instance.new("Folder")
-        espforlder.Parent = game.Workspace.CurrentCamera
-    end
-    for i, v in pairs(espforlder:GetChildren()) do
-        v:Destroy()
-    end
-    for _, plr in pairs(plrs:GetChildren()) do
-        if plr.Character and plr.Character.Humanoid.Health > 0 and plr.Name ~= lplr.Name then
-            if TeamBased == true then
-                
-                if plr.Team.Name ~= plrs.LocalPlayer.Team.Name  then
-                    pcall(function()
-                    local e = espforlder:FindFirstChild(plr.Name)
-                    if not e then
-                        local fold = Instance.new("Folder", espforlder)
-                        fold.Name = plr.Name
-                        
-                        --partconverter.BrickColor = plr.Team.Color
-                        --local teamc = partconverter.Color
-                        for i, p in pairs(plr.Character:GetChildren()) do
-                            if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then
-                                if charmsesp then
-                                local urmom = Instance.new("BoxHandleAdornment")
-                                urmom.ZIndex = 10
-                                urmom.AlwaysOnTop = true
-                                urmom.Color3 = espcolor
-                                urmom.Size = p.Size
-                                urmom.Adornee = p
-                                urmom.Name = tick().." Ur mom has big gay"
-                                urmom.Transparency = wallhack_esp_transparency
-                                urmom.Parent = fold
-                                if p.Name == "Head" then
-                                    local th = p:FindFirstChild("headoverthing")
-                                    if not th then
-                                        local ht = espheadthing:Clone()
-                                        ht.PName.Text = p.Parent.Name
-                                        ht.Adornee = p
-                                        --table.insert(headsupdatelist, ht)
-                                        delay(0, function()
-                                            while wait(0.08) and plr and p do
-                                                f.UpdateHeadUI(ht)
-                                            end
-                                        end)
-                                        ht.Parent = p
-                                    end
-                                end
-                                end
-                            end
-                        end
-                        plr.Character.Humanoid.Died:Connect(function()
-                            fold:Destroy()
-                        end)
-                        
-                    end
-                    end)
-                end
-            else
-                local e = espforlder:FindFirstChild(plr.Name)
-                if not e then
-                    local fold = Instance.new("Folder", espforlder)
-                        fold.Name = plr.Name
-                        
-                        --partconverter.BrickColor = plr.Team.Color
-                        --local teamc = Move.BackgroundColor3
-                        for i, p in pairs(plr.Character:GetChildren()) do
-                            if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" then
-                                pcall(function()
-                                if charmsesp then
-                                local urmom = Instance.new("BoxHandleAdornment")
-                                urmom.ZIndex = 10
-                                urmom.AlwaysOnTop = true
-                                urmom.Color3 = espcolor
-                                urmom.Size = p.Size
-                                urmom.Adornee = p
-                                urmom.Name = tick().." Ur mom has big gay"
-                                urmom.Transparency = wallhack_esp_transparency
-                                urmom.Parent = fold
-                                end
-                                if p.Name == "Head" then
-                                    local th = p:FindFirstChild("headoverthing")
-                                    if not th then
-                                        local ht = espheadthing:Clone()
-                                        ht.PName.Text = p.Parent.Name
-                                        ht.Adornee = p
-                                        delay(0, function()
-                                            while wait(0.08) and plr and p do
-                                                f.UpdateHeadUI(ht)
-                                            end
-                                        end)
-                                        --table.insert(headsupdatelist, ht)
-                                        ht.Parent = p
-                                    end
-                                end
-                                end)
-                            end
-                        end
-                        plr.Character.Humanoid.Died:Connect(function()
-                            fold:Destroy()
-                        end)
-                end
-            end
-            
-            
-        end
-    end
-    end)
-end
-
-local uis = game:GetService("UserInputService")
-local bringall = false
-local hided2 = false
-local upping = false
-local downing = false
-mouse.KeyDown:Connect(function(a)
-    
-    if a == "t" then
-        --print("worked1")
-        f.addesp()
-    elseif a == gui_hide_button[2] and uis:IsKeyDown(gui_hide_button[1]) then
-        if hided2 == false then
-            hided2 = true
-            autoesp =false
-            if espforlder then
-                espforlder:Destroy()
-            end
-            Gui.Enabled = false
-        else
-            Gui.Enabled = true
-            hided2 = false
-        end
-            
-    elseif a == "" then
-        if aimbothider == false then
-            aimbothider = true
-            if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-        else
-            
-            aimbothider = false
-            if aimbothider == true then
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." on"
-        else
-            aimbothiderbox.Text = "Speed :"..tostring(aimbothiderspeed).." off"
-        end
-        end
-        if aimbothider == true then
-            aimbothiderbox.TextColor3 =Color3.fromRGB(11, 255, 19)
-        else
-            aimbothiderbox.TextColor3 =Color3.fromRGB(255, 0, 0)
-        end
-    elseif a == "l" then
-        if not uis:IsKeyDown(Enum.KeyCode.LeftControl) then
-            if autoesp == false then
-                autoesp = true
-            else
-                autoesp = false
-            end
-        else
-            if lightesp == true then
-                lightesp = false
-            else
-                lightesp = true
-            end
-        end
-    elseif a == "]" then
-        upping = true
-        downing = false
-    elseif a== "[" then
-        downing = true
-        upping = false
-    elseif a == Aim_Assist_Key[2] and uis:IsKeyDown(Aim_Assist_Key[1]) then
-        if Aim_Assist == true then
-            Aim_Assist = false
-            --print("disabled")
-        else
-            Aim_Assist = true
-        end
-    end
-    if a == "j" then
-        if mouse.Target then
-            mouse.Target:Destroy()
-        end
-    end
-    if a == key then
-        if switch == false then
-            switch = true
-        else
-            switch = false
-            if aimatpart ~= nil then
-                aimatpart = nil
-            end
-        end
-    elseif a == "b" and uis:IsKeyDown(Enum.KeyCode.LeftControl) and not uis:IsKeyDown(Enum.KeyCode.R) then
-        if movementcounting then
-            movementcounting = false
-        else
-            movementcounting = true
-        end
-    elseif a == teambasedswitch then
-        if TeamBased == true then
-            TeamBased = false
-            teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-        else
-            TeamBased = true
-            teambasedstatus.Text = "Team Based: "..tostring(TeamBased)
-        end
-    elseif a == "b" and uis:IsKeyDown(Enum.KeyCode.LeftControl) and uis:IsKeyDown(Enum.KeyCode.R) then
-        ballisticsboost = 0
-    elseif a == aimkey then
-        if not aimatpart then
-            local maxangle = math.rad(20)
-            for i, plr in pairs(plrs:GetChildren()) do
-                if plr.Name ~= lplr.Name and plr.Character and plr.Character.Head and plr.Character.Humanoid and plr.Character.Humanoid.Health > 1 then
-                    if TeamBased == true then
-                        if plr.Team.Name ~= lplr.Team.Name then
-                            local an = checkfov(plr.Character.Head)
-                            if an < maxangle then
-                                maxangle = an
-                                aimatpart = plr.Character.Head
-                            end
-                        end
-                    else
-                        local an = checkfov(plr.Character.Head)
-                            if an < maxangle then
-                                maxangle = an
-                                aimatpart = plr.Character.Head
-                            end
-                            --print(plr)
-                    end
-                    local old = aimatpart
-                    plr.Character.Humanoid.Died:Connect(function()
-                        --print("died")
-                        if aimatpart and aimatpart == old then
-                            aimatpart = nil
-                        end
-                    end)
-                    
-                end
-            end
-        else
-            aimatpart = nil
-            canaimat = false
-            delay(1.1, function()
-                canaimat = true
-            end)
-        end
-    end
-end)
-
-function getfovxyz (p0, p1, deg)
-    local x1, y1, z1 = p0:ToOrientation()
-    local cf = CFrame.new(p0.p, p1.p)
-    local x2, y2, z2 = cf:ToOrientation()
-    local d = math.deg
-    if deg then
-        return Vector3.new(d(x1-x2), d(y1-y2), d(z1-z2))
-    else
-        return Vector3.new((x1-x2), (y1-y2), (z1-z2))
-    end
-end
-
-
-function aimat(part)
-    if part then
-        --print(part)
-        local d = (cam.CFrame.p - part.CFrame.p).magnitude
-        local calculatedrop
-        local timetoaim = 0
-        local pos2 = Vector3.new()
-        if movementcounting == true then
-            timetoaim = d/bspeed
-            pos2 = part.Velocity * timetoaim
-        end
-        local minuseddrop = (ballisticsboost+50)/50
-        if ballisticsboost ~= 0 then
-            calculatedrop = d - (d/minuseddrop)
-            
-        else
-            calculatedrop = 0
-        end
-        --print(calculatedrop)
-        local addative = Vector3.new()
-        if movementcounting then
-            addative = pos2
-        end
-        local cf = CFrame.new(cam.CFrame.p, (addative + part.CFrame.p+ Vector3.new(0, calculatedrop, 0)))
-        if aimbothider == true or Aim_Assist == true then
-            cam.CFrame = cam.CFrame:Lerp(cf, aimbothiderspeed)
-        else
-            
-            cam.CFrame = cf
-        end
-        --print(cf)
-    end
-end
-function checkfov (part)
-    local fov = getfovxyz(game.Workspace.CurrentCamera.CFrame, part.CFrame)
-    local angle = math.abs(fov.X) + math.abs(fov.Y)
-    return angle
-end
-pcall(function()
-    delay(0, function()
-        while wait(.32) do
-            if Aim_Assist and not aimatpart and canaimat and lplr.Character and lplr.Character.Humanoid and lplr.Character.Humanoid.Health > 0 then
-                for i, plr in pairs(plrs:GetChildren()) do
-                    
-                    
-                        local minangle = math.rad(5.5)
-                        local lastpart = nil
-                        local function gg(plr)
-                            pcall(function()
-                            if plr.Name ~= lplr.Name and plr.Character and plr.Character.Humanoid and plr.Character.Humanoid.Health > 0 and plr.Character.Head then
-                                local raycasted = false
-                                local cf1 = CFrame.new(cam.CFrame.p, plr.Character.Head.CFrame.p) * CFrame.new(0, 0, -4)
-                                local r1 = Ray.new(cf1.p, cf1.LookVector * 9000)
-                                local obj, pos = game.Workspace:FindPartOnRayWithIgnoreList(r1,  {lplr.Character.Head})
-                                local dist = (plr.Character.Head.CFrame.p- pos).magnitude
-                                if dist < 4 then
-                                    raycasted = true
-                                end
-                                if raycasted == true then
-                                    local an1 = getfovxyz(cam.CFrame, plr.Character.Head.CFrame)
-                                    local an = abs(an1.X) + abs(an1.Y)
-                                    if an < minangle then
-                                        minangle = an
-                                        lastpart = plr.Character.Head
-                                    end
-                                end
-                            end
-                            end)
-                        end
-                        if TeamBased then
-                            if plr.Team.Name ~= lplr.Team.Name then
-                                gg(plr)
-                            end
-                        else
-                            gg(plr)
-                        end
-                        --print(math.deg(minangle))
-                        if lastpart then
-                            aimatpart = lastpart
-                            aimatpart.Parent.Humanoid.Died:Connect(function()
-                                if aimatpart == lastpart then
-                                    aimatpart = nil
-                                end
-                            end)
-                        
-                    end
-                end
-            end
-        end
-    end)
-end)
-local oldheadpos
-local lastaimapart
-game:GetService("RunService").RenderStepped:Connect(function(dt)
-    if uis:IsKeyDown(Enum.KeyCode.RightBracket) or uis:IsKeyDown(Enum.KeyCode.LeftBracket) then
-        if upping then
-            ballisticsboost = ballisticsboost + dt/1.9
-        elseif downing then
-            ballisticsboost = ballisticsboost - dt/1.9
-        end
-    end
-    if movementcounting then
-        st1_2.TextColor3 = Color3.new(0.0431373, 1, 0.0745098)
-        st1_2.Text = "Current ballistics: "..tostring(math.floor(ballisticsboost*10)/10)
-    else
-        st1_2.TextColor3 = Color3.new(1,0,0)
-    end
-    espstatustext.Text = "Esp loop :"..tostring(autoesp)
-    if aimatpart and lplr.Character and lplr.Character.Head then
-        if BetterDeathCount and lastaimapart and lastaimapart == aimatpart then
-            local dist = (oldheadpos - aimatpart.CFrame.p).magnitude
-            if dist > 40 then
-                aimatpart = nil
-            end
-        end
-        lastaimapart = aimatpart
-        oldheadpos = lastaimapart.CFrame.p
-        do 
-            if aimatpart.Parent == plrs.LocalPlayer.Character then
-                aimatpart = nil
-            end
-            aimat(aimatpart)
-            pcall(function()
-                if Aim_Assist == true then
-                    local cf1 = CFrame.new(cam.CFrame.p, aimatpart.CFrame.p) * CFrame.new(0, 0, -4)
-                    local r1 = Ray.new(cf1.p, cf1.LookVector * 1000)
-                    local obj, pos = game.Workspace:FindPartOnRayWithIgnoreList(r1,  {lplr.Character.Head})
-                    local dist = (aimatpart.CFrame.p- pos).magnitude
-                    if obj then
-                        --print(obj:GetFullName())
-                    end
-                    if not obj or dist > 6 then
-                        aimatpart = nil
-                        --print("ooof")
-                    end
-                    canaimat = false
-                    delay(.5, function()
-                        canaimat = true
-                    end)
-                end
-            end)
-        end
-        
-        
-        
-    end
-end)
-
-
-delay(0, function()
-    while wait(espupdatetime) do
-        if autoesp == true then
-            pcall(function()
-            f.addesp()
-            end)
-        end
-    end
-end)
---warn("loaded")
-end)
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-MainSection:NewButton("JailMonkey", "MASSIVE FPS DROP", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/KuriWasTaken/MonkeyScripts/main/JailMonkey.lua"))()
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("GabX", "GabX", function()
-   --// GabX, the script hub that has all you need! \\--
--- Made by Darion#8863
-
-local tabs = {
-	{
-		name = "Scripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"R2S (EnvEdit)",
-				"https://pastebin.com/raw/ZAHTikfe"
-			},
-			{
-				"Old R2S",
-				"https://pastebin.com/raw/jXh45kfE"
-			},
-			{
-				"Grab Knife V4",
-				"https://pastebin.com/raw/7zK1Swpt"
-			},
-			{
-				"Grab Knife V3",
-				"https://pastebin.com/raw/TPZXG8fH"
-			},
-			{
-				"R6 Fly(E)",
-				"https://pastebin.com/raw/hTJsM2jV"
-			},
-			{
-				"Speed",
-				"https://pastebin.com/raw/mrdWh73D"
-			},
-			{
-				"JumpPower",
-				"https://pastebin.com/raw/sA5xym2V"
-			},
-			{
-				"Loopheal",
-				"https://pastebin.com/raw/vD9zjBQx"
-			},
-			{
-				"Chat Logs",
-				"https://pastebin.com/raw/mtGM0Dkh"
-			},
-			{
-				"Audio Stealer",
-				"https://pastebin.com/raw/ABRqgZ3L"
-			},
-			{
-				"FE Check (F9)",
-				"https://pastebin.com/raw/SRibuFiK"
-			},
-			{
-				"No clip (F)",
-				"https://pastebin.com/raw/bnqAE95f"
-			},
-			{
-				"Bomb Vest",
-				"https://pastebin.com/raw/S7vdifqp"
-			},
-			{
-				"Robux Troll",
-				"https://pastebin.com/raw/BHjfPXC6"
-			}
-		}
-	},
-	{
-		name = "FeScripts",
-		comingsoon = false,
-		scripts = {
-			{
-				"FE God",
-				"https://pastebin.com/raw/p814kXmM"
-			},
-			{
-				"Kill/Fling",
-				"https://pastebin.com/raw/Pb3PR6EL"
-			},
-			{
-				"Shutdown",
-				"https://pastebin.com/raw/RELufQFM"
-			},
-			{
-				"Hat Spin",
-				"https://pastebin.com/raw/Y8iEYKZD"
-			},
-			{
-				"Suicide Gun",
-				"https://pastebin.com/raw/SeRxrgci"
-			},
-			{
-				"Click TP Tool",
-				"https://pastebin.com/raw/16tXkJjD"
-			},
-			{
-				"OOF Spam",
-				"https://pastebin.com/raw/JaMbzp0B"
-			},
-			{
-				"Respawn",
-				"https://pastebin.com/raw/61WmHqNp"
-			}
-		}
-	},
-	{
-		name = "GUIs",
-		comingsoon = false,
-		scripts = {
-			{
-				"Topk3k V4",
-				"https://pastebin.com/raw/bEmmF8UH"
-			},
-			{
-				"Arosia",
-				"https://pastebin.com/raw/Nwit6ZqP"
-			},
-			{
-				"Equinox",
-				"https://pastebin.com/raw/scYFbHQb"
-			},
-			{
-				"Ani's(R15)",
-				"https://pastebin.com/raw/MenK10Ak"
-			},
-			{
-				"Ani's(R6)",
-				"https://pastebin.com/raw/Ydt76Kep"
-			},
-			{
-				"Rose Hub",
-				"https://pastebin.com/raw/1BJj0fB4"
-			},
-			{
-				"OPFinality",
-				"https://pastebin.com/raw/fG5b1zrM"
-			},
-			{
-				"Old OPHub",
-				"https://pastebin.com/raw/FxhQbqsp"
-			},
-			{
-				"HyperTotal",
-				"https://pastebin.com/raw/aYdepQa0"
-			},
-			{
-				"Clown Van",
-				"https://pastebin.com/raw/0uJXBEmN"
-			},
-			{
-				"Sern Hub",
-				"https://pastebin.com/raw/8sD7V8xp"
-			},
-			{
-				"Cooler Kids V2",
-				"https://pastebin.com/raw/GGQeWXSL"
-			},
-			{
-				"Ping/FPS",
-				"https://pastebin.com/raw/Qh8eeWF7"
-			},
-			{
-				"Spectate",
-				"https://pastebin.com/raw/WgpJfMGS"
-			},
-			{
-				"Ro-xploit",
-				"https://pastebin.com/raw/ZkhCcaa5"
-			},
-			{
-				"TP GUI",
-				"https://pastebin.com/raw/EBhdqeWb"
-			}
-		}
-	},
-	{
-		name = "Commands",
-		comingsoon = false,
-		scripts = {
-			{
-				"BTools",
-				"https://pastebin.com/raw/752Gzv1G"
-			},
-			{
-				"Ghost",
-				"https://pastebin.com/raw/aiYL4LKV"
-			},
-			{
-				"Big pp",
-				"https://pastebin.com/raw/xAcpS2Ze"
-			},
-			{
-				"Inf Jump",
-				"https://pastebin.com/raw/Dz61QSir"
-			}
-		}
-	},
-	{
-		name = "Stat Change",
-		comingsoon = false,
-		scripts = {
-			{
-				"Clone Tycoon 2",
-				"https://pastebin.com/raw/ga02bJq5"
-			},
-			{
-				"Naruto Final Bond LVL",
-				"https://pastebin.com/raw/j5gYsnxM"
-			},
-			{
-				"Shinobi Life",
-				"https://pastebin.com/raw/rpWG7xBj"
-			},
-			{
-				"Rocitizens",
-				"https://pastebin.com/raw/P3WAujA9"
-			},
-			{
-				"Naruto New Gen",
-				"https://pastebin.com/raw/34Fdq480"
-			},
-			{
-				"False DBFP",
-				"https://pastebin.com/raw/tTCcVDAf"
-			},
-			{
-				"Jaws",
-				"https://pastebin.com/raw/RkNJ3jn2"
-			},
-			{
-				"Giant Survival 2",
-				"https://pastebin.com/raw/sbme5pNF"
-			},
-			{
-				"One Piece Unleashed 2",
-				"https://pastebin.com/raw/QAgtrGdX"
-			},
-			{
-				"Tuber Simulator",
-				"https://pastebin.com/raw/zy1dFtrc"
-			},
-			{
-				"Yard Work Simulator",
-				"https://pastebin.com/raw/udKYdRpW"
-			},
-			{
-				"Dragon Ball Super 2",
-				"https://pastebin.com/raw/U5i77x2T"
-			},
-			{
-				"Avatar: Legend of Kora",
-				"https://pastebin.com/raw/ggcfAQcH"
-			}
-		}
-	},
-	{
-		name = "Games",
-		comingsoon = false,
-		scripts = {
-			{
-				"NRPG Beyond Fast Shoot",
-				"https://pastebin.com/raw/zXCvQxRF"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Jailbreak AFK",
-				"https://pastebin.com/raw/hhRca3cj"
-			},
-			{
-				"Jailbreak GUI",
-				"https://pastebin.com/raw/CQFw06tN"
-			},
-			{
-				"The Streets",
-				"https://pastebin.com/raw/xZyABVJ1"
-			},
-			{
-				"Lumber Tycoon",
-				"https://pastebin.com/raw/33kYAahS"
-			},
-			{
-				"Phantom Forces",
-				"https://pastebin.com/raw/LgQEjvxS"
-			},
-			{
-				"Hilton Hotels",
-				"https://pastebin.com/raw/QfHywxaZ"
-			},
-			{
-				"Work At A Pizza Place",
-				"https://pastebin.com/raw/KyfBZCKL"
-			},
-			{
-				"Prison Royale",
-				"https://pastebin.com/raw/0W4QBB5C"
-			},
-			{
-				"Greenwood Town",
-				"https://pastebin.com/raw/96JTe9Gd"
-			},
-			{	
-				"Naruto Final Bond",
-				"https://pastebin.com/raw/ujKgVWBn"
-			},
-			{	"Project Pokemon",
-				"https://pastebin.com/raw/jDTLJf9Z"
-			},
-			{	"Scuba Diving",
-				"https://pastebin.com/raw/NwSeijRv"
-			}
-		}
-	},
-	{
-		name = "Admins",
-		comingsoon = false,
-		scripts = {
-			{
-				"Infinite Yield",
-				"https://pastebin.com/raw/MjBzRjmT"
-			},
-			{
-				"Rocky's",
-				"https://pastebin.com/raw/3V4s9UPx"
-			},
-			{
-				"Dex Explorer",
-				"https://pastebin.com/raw/eqy8yt4q"
-			},
-			{
-				"N3xulis",
-				"https://pastebin.com/raw/eKkbtM3A"
-			},
-			{
-				"ARX Admin",
-				"https://pastebin.com/raw/4PGmJv5R"
-			},
-			{
-				"Shattervast",
-				"https://pastebin.com/raw/44bNjECt"
-			},
-			{
-				"Filter My Ass",
-				"https://pastebin.com/raw/Tn1xz43y"
-			},
-			{
-				"C00lgui",
-				"https://pastebin.com/raw/Xt0S28mx"
-			},
-			{
-				"Mayem",
-				"https://pastebin.com/raw/tWQnvRqH"
-			},
-			{
-				"Nosyliam",
-				"https://pastebin.com/raw/FmeiVpiE"
-			},
-			{
-				"Your Mom V2",
-				"https://pastebin.com/raw/1FsNUZHq"
-			},
-			{
-				"PME Safazi",
-				"https://pastebin.com/raw/yrnDMLYs"
-			}
-		}
-	},
-	{
-		name = "Forms",
-		comingsoon = false,
-		scripts = {
-			{
-				"Madara",
-				"https://pastebin.com/raw/LYjZdycr"
-			},
-			{
-				"Shadow Titan",
-				"https://pastebin.com/raw/E7b9cy1h"
-			},
-			{
-				"Assasin",
-				"https://pastebin.com/raw/bKu2GuzN"
-			},
-			{
-				"Beast Claws",
-				"https://pastebin.com/raw/0AH8SZTJ"
-			},
-			{
-				"6 Swords",
-				"https://pastebin.com/raw/80juE2kw"
-			},
-			{
-				"Goku SSJ3",
-				"https://pastebin.com/raw/vFmVuXk4"
-			},
-			{
-				"OmagaV2",
-				"https://pastebin.com/raw/VSerZV3e"
-			},
-			{
-				"Absalom Titan",
-				"https://pastebin.com/raw/ZmySaMrb"
-			},
-			{
-				"Ace",
-				"https://pastebin.com/raw/fA4XSTY1"
-			},
-			{
-				"Beerus",
-				"https://pastebin.com/raw/c1TGDAKC"
-			},
-			{
-				"DSSJ4",
-				"https://pastebin.com/raw/pfdud8wK"
-			},
-			{
-				"Zenatic",
-				"https://pastebin.com/raw/wTJxmWyG"
-			},
-			{
-				"Naruto",
-				"https://pastebin.com/raw/eEN5mC9u"
-			}
-		}
-	},
-	{
-		name = "Extra",
-		comingsoon = true
-	}
-}
-local othertabs = {
-	{
-		name = "Info",
-		text = "GabX was made by a new learning scripter named Darion. It started off as a simple project to learn scripting just for myself, but I decided to release it anyways just for fun. It received quite a bit of attention and several youtube videos were made on it. I felt like I didn't deserve the support because nothing was actually made by me, I just added buttons. I decided to rewrite the UI all by myself! I did get some help in the scripting part because I'm not the best in scripting since I'm new to making scripts and exploiting related stuff in general. Now GabX has been updated and the UI was all self made! Also, when I wanted to release it I didn't know any good name for it. I asked my friend and he didn't know either, so I just chose my friends name and added an X to it! :D",
-	},
-	{
-		name = "Help",
-		text = "If there is anything patched, not the most recent update, broken or anything else please DM Darion#8863 and join the server. http://discord.gg/E64Jd89"
-	},
-	{
-		name = "Credits",
-		text = "GabX was made by Darion#8863."
-	}
-}
-
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.CoreGui
-
-local openclose = Instance.new("TextButton")
-openclose.Parent = gui
-openclose.Name = "OpenClose"
-openclose.Style = Enum.ButtonStyle.RobloxRoundButton
-openclose.Font = Enum.Font.SciFi
-openclose.TextSize = 25
-openclose.Text = "OPEN"
-openclose.ZIndex = 12
-openclose.Size = UDim2.new(0, 110,0, 45)
-openclose.Position = UDim2.new(0, 0,0.791, 0)
-
-local top = Instance.new("Frame")
-top.Parent = gui
-top.Name = "Topbar"
-top.BorderSizePixel = 0
-top.BackgroundColor3 = Color3.new((192 / 255), (225 / 255), (237 / 255))
-top.Size = UDim2.new(0, 500, 0, 36)
-top.Position = UDim2.new(0, -505, 0.5, -218)
-top.Draggable = true
-top.Active = true
-top.ZIndex = 10
-top.Visible = false
-
-local logo = Instance.new("ImageLabel")
-logo.Parent = top
-logo.Name = "Logo"
-logo.BorderSizePixel = 0
-logo.BackgroundTransparency = 1
-logo.Image = "rbxassetid://1902404068"
-logo.ScaleType = Enum.ScaleType.Crop
-logo.Size = UDim2.new(0, 140, 0, 36)
-logo.Position = UDim2.new(0.5, -70, 0, 0)
-logo.ZIndex = 11
-
-local main = Instance.new("Frame")
-main.Parent = top
-main.Name = "MainFrame"
-main.BorderSizePixel = 0
-main.BackgroundColor3 = Color3.new(1, 1, 1)
-main.BackgroundTransparency = 0.2
-main.Position = UDim2.new(0, 0, 1, 0)
-main.Size = UDim2.new(1, 0, 0, 400)
-main.ZIndex = 10
-
-local tabsf = Instance.new("Frame")
-tabsf.Parent = main
-tabsf.Name = "Tabs"
-tabsf.BorderSizePixel = 0
-tabsf.BackgroundTransparency = 1
-tabsf.Position = UDim2.new(0, 0, 0, 0)
-tabsf.Size = UDim2.new(0, 100, 1, 0)
-
-
-openclose.MouseButton1Click:connect(function()
-	if top.Visible then
-		openclose.Text = "OPEN"
-		top:TweenPosition(UDim2.new(0, -505, 0.5, -218))
-		wait(1.05)
-		top.Visible = false
-	else
-		openclose.Text = "CLOSE"
-		top.Visible = true
-		top:TweenPosition(UDim2.new(0.5, -250, 0.5, -218))
-		wait(1.05)
-	end 
-end)
-
-local current = "Scripts"
-for i1, tab in ipairs(tabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, (i1 - 1) * 30)
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local tabfr = Instance.new("Frame")
-	tabfr.Parent = main
-	tabfr.Name = tab.name
-	tabfr.BorderSizePixel = 0
-	tabfr.BackgroundTransparency = 1
-	tabfr.Size = UDim2.new(0, 390, 1, -10)
-	tabfr.Position = UDim2.new(0, 105, 0, 5)
-	if tab.name ~= current then
-		tabfr.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		tabfr.Visible = true 
-	end)
-	
-	if tab.comingsoon then
-		local text = Instance.new("TextLabel")
-		text.Parent = tabfr
-		text.BorderSizePixel = 0
-		text.BackgroundTransparency = 1
-		text.BackgroundColor3 = Color3.new(1, 1, 1)
-		text.Font = Enum.Font.SciFi
-		text.TextSize = 60
-		text.Text = "Coming Soon!"
-		text.Position = UDim2.new(0, 0, 0, 0)
-		text.Size = UDim2.new(1, 0, 0, 100)
-		text.ZIndex = 11
-	else
-		for i2, scr in ipairs(tab.scripts) do
-			local scrbtn = Instance.new("TextButton")
-			scrbtn.Parent = tabfr
-			scrbtn.Name = scr[1]
-			scrbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-			scrbtn.Position = UDim2.new(0, ((i2 - 1) % 4) * 100, 0, math.floor((i2 - 1) / 4) * 50)
-			scrbtn.Size = UDim2.new(0, 90, 0, 40)
-			scrbtn.TextSize = 14
-			scrbtn.TextScaled = true
-			scrbtn.TextScaled = false
-			scrbtn.Font = Enum.Font.SciFi
-			scrbtn.Text = scr[1]
-			scrbtn.ZIndex = 11
-			
-			scrbtn.MouseButton1Click:connect(function()
-				loadstring(game:HttpGet(scr[2], true))()
-			end)
-		end
-	end
-end
-for i,tab in ipairs(othertabs) do
-	local tabbtn = Instance.new("TextButton")
-	tabbtn.Parent = tabsf
-	tabbtn.Name = tab.name 
-	tabbtn.Style = Enum.ButtonStyle.RobloxRoundDropdownButton
-	tabbtn.Size = UDim2.new(1, 0, 0, 26)
-	tabbtn.Position = UDim2.new(0, 0, 0, 314 + ((i - 1) * 30))
-	tabbtn.Font = Enum.Font.SciFi
-	tabbtn.TextSize = 16
-	tabbtn.Text = tab.name
-	tabbtn.ZIndex = 11
-	
-	local text = Instance.new("TextLabel")
-	text.Parent = main
-	text.Name = tab.name 
-	text.BorderSizePixel = 0
-	text.BackgroundTransparency = 0.2
-	text.BackgroundColor3 = Color3.new(1, 1, 1)
-	text.Size = UDim2.new(0, 390, 1, -10)
-	text.Position = UDim2.new(0, 105, 0, 5)
-	text.Text = tab.text
-	text.Font = Enum.Font.SciFi
-	text.TextSize = 20
-	text.TextXAlignment = Enum.TextXAlignment.Center
-	text.TextYAlignment = Enum.TextYAlignment.Top
-	text.TextWrapped = true
-	text.ZIndex = 11 
-	if tab.name ~= current then
-		text.Visible = false
-	end
-	
-	tabbtn.MouseButton1Click:connect(function()
-		main[current].Visible = false
-		current = tab.name
-		text.Visible = true 
-	end)
-end
-
-end)
-
-   local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
---Prison Life
-elseif game.PlaceId == 155615604 then
-    local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-end)
-
-MainSection:NewButton("Prison Destroyer V2", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/DTi4fbKh"))();
-end)
-
-MainSection:NewButton("Prison Life Anti Abusers GUI", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/6mhZBAkh",true))()
-end)
-
-MainSection:NewButton("Prison Destroyer", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/08z0DUDE",true))()
-end)
-
-MainSection:NewButton("Kick Player", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/5iyrwLSH",true))()
-end)
-
-MainSection:NewButton("Prison Destroyer V1.6", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/4rkRHviN",true))()
-end)
-
-MainSection:NewButton("Loop Bring All", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/j80DG72a",true))()
-end)
-
-MainSection:NewButton("Bring All/Crim", "Jake11Price", function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/aiNDd7Js",true))()
-end)
-game.Players.LocalPlayer.PlayerGui.Home.fadeFrame:Destroy()
-        local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
-    -- Build A Boat
-elseif game.PlaceId == 537413528 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-   local Window = Library.CreateLib("SkyHub", OptTheme)
-   local Main = Window:NewTab("Main")
-   local MainSection = Main:NewSection("Main")
-   MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-   setclipboard(string)
-end)
-
- MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-   setclipboard(string2)
-end)
-
-MainSection:NewButton("CocoHub", "idk", function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/MarsQQ/CocoHub/master/CocoZHub'),true))()
- end)
-
-MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-
-MainSection:NewButton("scriptt", "just a gui", function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Vynixius/main/Build%20A%20Boat%20For%20Treasure/BABFT"))()
-end)
-
-MainSection:NewButton("Infinite Yield FE", "Admin", function()
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-end)
-
-local Player = Window:NewTab("Player")
-   local PlayerSection = Player:NewSection("Player")
-PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-    end)
-
-    PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-    end)
--- Gorilla Tag Professional
-elseif game.PlaceId == 8690998110 then
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-
-
-
-local screenGui = Instance.new("ScreenGui")
-syn.protect_gui(screenGui)
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-syn.protect_gui(ScreenGui)
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-	    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-            local Window = Library.CreateLib("SkyHub Universal", OptTheme)
-            local Main = Window:NewTab("Main")
-            local MainSection = Main:NewSection("Main")
-            MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-                setclipboard(string)
-            end)
-	 MainSection:NewButton("V3rm Script", "Copys Discord invite link", function()
-                -- Made by 13 YOLD
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/miroeramaa/TurtleLib/main/TurtleUiLib.lua"))()
-local window1 = library:Window("Scripts")
-local window2 = library:Window("Teleport Areas")
-window1:Button("Infinite Wins", function()
-    spawn(function()
-while true do
-   local dec = game:GetService("Workspace"):FindFirstChild("ClickToGetCash").ClickDetector
-   fireclickdetector(dec)
-   local fun = game:GetService("Workspace"):FindFirstChild("ClickToGetCash").ClickDetector
-   fireclickdetector(fun)
-   wait(0.1)
-end
-end)
-end)
-window2:Button("Spectate (Easy Win)", function()
-    spawn(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-39.386, 59.2163, -102.248)
-
-end)
-end)
-window1:Button("TP All to You (Use Lava)", function()
-    spawn(function()
-  for _, player in pairs(game.Players:GetPlayers()) do
-player.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
-      end
-    end)
-end)
-window2:Button("Become a Lava Monke", function()
-    spawn(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(79.2755, 71.1624, -54.2756)
-end)
-end)
-window1:Slider("Walkspeed",16,70,5, function(value)
-  game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = value
-end)
-window1:Slider("JumpPower",50,150,20, function(value)
-  game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = value
-end)
-library:Keybind("Tab")
-game:GetService("StarterGui"):SetCore("SendNotification",{     
-Title = "Important!",     
-Text = "Infinite Wins is patched",
-Button1 = "unpatch pls?",Button2 = "no",     Duration = 20, })
-            end)
--- Universal
-else
-local Players = game:GetService("Players")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer 
-local playerGui = player:WaitForChild("PlayerGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.IgnoreGuiInset = true
-screenGui.Parent = game.CoreGui
-local textLabel = Instance.new("TextLabel")
-textLabel.Size = UDim2.new(1, 0, 1, 0)
-textLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-textLabel.Font = Enum.Font.GothamSemibold
-textLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-textLabel.Text = "Loading SkyHub."
-textLabel.TextSize = 28
-textLabel.Parent = screenGui
-local loadingRing = Instance.new("ImageLabel")
-loadingRing.Size = UDim2.new(0, 256, 0, 256)
-loadingRing.BackgroundTransparency = 1
-loadingRing.Image = "rbxassetid://4965945816"
-loadingRing.AnchorPoint = Vector2.new(0.5, 0.5)
-loadingRing.Position = UDim2.new(0.5, 0, 0.5, 0)
-loadingRing.Parent = screenGui
-
-ReplicatedFirst:RemoveDefaultLoadingScreen()
-
-local tweenInfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-local tween = TweenService:Create(loadingRing, tweenInfo, {Rotation = 360})
-tween:Play()
-
-wait(5)
-screenGui:Destroy()
-
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
-
-ScreenGui.Parent = game.CoreGui
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.IgnoreGuiInset = true
-
-TextLabel.Parent = ScreenGui
-TextLabel.BackgroundColor3 = Color3.fromRGB(51, 255, 153)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.GothamSemibold
-TextLabel.TextColor3 = Color3.new(0.8, 0.8, 0.8)
-TextLabel.TextSize = 28
-TextLabel.Text = "Loaded!"
-
-wait(2.5)
-ScreenGui:Destroy()
-	    local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-            local Window = Library.CreateLib("SkyHub Universal", OptTheme)
-            local Main = Window:NewTab("Main")
-            local MainSection = Main:NewSection("Main")
-            MainSection:NewButton("Discord Invite", "Copys Discord invite link", function()
-                setclipboard(string)
-            end)
-
-            MainSection:NewButton("NoClip", "Walk Through Walls Hold V", function()
-                local h,char,play
-                play = game.Players.LocalPlayer
-                local uisss = game:getService("UserInputService")
-                game:getService("RunService"):BindToRenderStep("",0,function()
-                    char = play.Character
-	                if char then h = char:findFirstChildOfClass("Humanoid") end
-	               if not h then return end
-	               if uisss:IsKeyDown(Enum.KeyCode.V) then
-		                h:ChangeState(11)
-	                end
-                end)
-            end)
-
-            MainSection:NewButton("Btools", "Btools lol", function()
-                game.StarterGui:SetCoreGuiEnabled(2, true)
-                a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                a.BinType = 2
-                b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                b.BinType = 3
-                c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-                c.BinType = 4
-            end)
- 
-MainSection:NewButton("FE Gui", "By Me sky", function()
-                local Admin = Instance.new("ScreenGui")
-local MainFrame = Instance.new("ScrollingFrame")
-local FlyBut = Instance.new("TextButton")
-local RespawnBut = Instance.new("TextButton")
-local Credslol = Instance.new("TextLabel")
-local ClickTpBut = Instance.new("TextButton")
-local NoClipBut = Instance.new("TextButton")
-local SonicBut = Instance.new("TextButton")
-local TelekiniesBut = Instance.new("TextButton")
-local WalkWallsBut = Instance.new("TextButton")
-local BtoolsBut = Instance.new("TextButton")
-local MEME = Instance.new("TextButton")
-
-Admin.Name = "Admin"
-Admin.Parent = game.CoreGui
-Admin.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = Admin
-MainFrame.Active = true
-MainFrame.BackgroundColor3 = Color3.fromRGB(208, 66, 255)
-MainFrame.Position = UDim2.new(0.416337252, 0, 0.274846643, 0)
-MainFrame.Size = UDim2.new(0, 429, 0, 262)
-
-FlyBut.Name = "FlyBut"
-FlyBut.Parent = MainFrame
-FlyBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-FlyBut.Position = UDim2.new(0, 0, 0.0306748468, 0)
-FlyBut.Size = UDim2.new(0, 200, 0, 50)
-FlyBut.Style = Enum.ButtonStyle.RobloxButton
-FlyBut.Font = Enum.Font.SourceSans
-FlyBut.Text = "Fly"
-FlyBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-FlyBut.TextSize = 14.000
-
-RespawnBut.Name = "RespawnBut"
-RespawnBut.Parent = MainFrame
-RespawnBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RespawnBut.Position = UDim2.new(0.510489523, 0, 0.0306748468, 0)
-RespawnBut.Size = UDim2.new(0, 200, 0, 50)
-RespawnBut.Style = Enum.ButtonStyle.RobloxButton
-RespawnBut.Font = Enum.Font.SourceSans
-RespawnBut.Text = "Respawn"
-RespawnBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-RespawnBut.TextSize = 14.000
-
-Credslol.Name = "Creds lol"
-Credslol.Parent = MainFrame
-Credslol.BackgroundColor3 = Color3.fromRGB(208, 66, 255)
-Credslol.Size = UDim2.new(0, 419, 0, 50)
-Credslol.Font = Enum.Font.SourceSans
-Credslol.Text = "FE GUI Made By Sky Press down on Mouse Wheel to open/close"
-Credslol.TextColor3 = Color3.fromRGB(58, 93, 170)
-Credslol.TextSize = 14.000
-
-ClickTpBut.Name = "ClickTpBut"
-ClickTpBut.Parent = MainFrame
-ClickTpBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ClickTpBut.Position = UDim2.new(-0.00233101845, 0, 0.0650306717, 0)
-ClickTpBut.Size = UDim2.new(0, 200, 0, 50)
-ClickTpBut.Style = Enum.ButtonStyle.RobloxButton
-ClickTpBut.Font = Enum.Font.SourceSans
-ClickTpBut.Text = "ClickTP"
-ClickTpBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-ClickTpBut.TextSize = 14.000
-
-NoClipBut.Name = "NoClipBut"
-NoClipBut.Parent = MainFrame
-NoClipBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-NoClipBut.Position = UDim2.new(0.510489523, 0, 0.0650306717, 0)
-NoClipBut.Size = UDim2.new(0, 200, 0, 50)
-NoClipBut.Style = Enum.ButtonStyle.RobloxButton
-NoClipBut.Font = Enum.Font.SourceSans
-NoClipBut.Text = "Noclip"
-NoClipBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-NoClipBut.TextSize = 14.000
-
-SonicBut.Name = "SonicBut"
-SonicBut.Parent = MainFrame
-SonicBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SonicBut.Position = UDim2.new(-0.00233097491, 0, 0.0969325155, 0)
-SonicBut.Size = UDim2.new(0, 200, 0, 50)
-SonicBut.Style = Enum.ButtonStyle.RobloxButton
-SonicBut.Font = Enum.Font.SourceSans
-SonicBut.Text = "FE Sonic Animation"
-SonicBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-SonicBut.TextSize = 14.000
-
-TelekiniesBut.Name = "TelekiniesBut"
-TelekiniesBut.Parent = MainFrame
-TelekiniesBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TelekiniesBut.Position = UDim2.new(0.510489523, 0, 0.0957055241, 0)
-TelekiniesBut.Size = UDim2.new(0, 200, 0, 50)
-TelekiniesBut.Style = Enum.ButtonStyle.RobloxButton
-TelekiniesBut.Font = Enum.Font.SourceSans
-TelekiniesBut.Text = "Telekines"
-TelekiniesBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-TelekiniesBut.TextSize = 14.000
-
-WalkWallsBut.Name = "WalkWallsBut"
-WalkWallsBut.Parent = MainFrame
-WalkWallsBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-WalkWallsBut.Position = UDim2.new(0, 0, 0.130061358, 0)
-WalkWallsBut.Size = UDim2.new(0, 200, 0, 50)
-WalkWallsBut.Style = Enum.ButtonStyle.RobloxButton
-WalkWallsBut.Font = Enum.Font.SourceSans
-WalkWallsBut.Text = "FE Walk On walls"
-WalkWallsBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-WalkWallsBut.TextSize = 14.000
-
-BtoolsBut.Name = "BtoolsBut"
-BtoolsBut.Parent = MainFrame
-BtoolsBut.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-BtoolsBut.Position = UDim2.new(0.510489523, 0, 0.130061358, 0)
-BtoolsBut.Size = UDim2.new(0, 200, 0, 50)
-BtoolsBut.Style = Enum.ButtonStyle.RobloxButton
-BtoolsBut.Font = Enum.Font.SourceSans
-BtoolsBut.Text = "Btools"
-BtoolsBut.TextColor3 = Color3.fromRGB(58, 93, 170)
-BtoolsBut.TextSize = 14.000
-
-MEME.Name = "MEME"
-MEME.Parent = MainFrame
-MEME.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-MEME.Position = UDim2.new(0, 0, 0.16257669, 0)
-MEME.Size = UDim2.new(0, 200, 0, 50)
-MEME.Style = Enum.ButtonStyle.RobloxButton
-MEME.Font = Enum.Font.SourceSans
-MEME.Text = "MEME"
-MEME.TextColor3 = Color3.fromRGB(58, 93, 170)
-MEME.TextSize = 14.000
-
--- Scripts:
-
-local function TSQII_fake_script() -- FlyBut.Fly 
-	local script = Instance.new('LocalScript', FlyBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Fly Already On." then
-			game.StarterGui:SetCore("SendNotification",  {
-				Title = "Fly Noti";
-				Text = "FLY ALREADY ON";
-				Icon = "";
-				Duration = 5;
-			})
-		else
-			script.Parent.Text = "Press E to disable/Enable"
-			wait(2.5)
-			script.Parent.Text = "Fly Already On."
+	player.CharacterAdded:Connect(function()
+		if Pfly then
 			repeat wait() 
-			until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
-			local mouse = game.Players.LocalPlayer:GetMouse() 
+			until player and player.Character:findFirstChild("Head") player.Character:findFirstChild("Humanoid") 
+			local mouse = player:GetMouse() 
 			repeat wait() until mouse
-			local plr = game.Players.LocalPlayer 
-			local torso = plr.Character.HumanoidRootPart 
-			local flying = true
+			local player = game.Players.LocalPlayer 
+			local torso = player.Character.Head 
+			local flying = false
 			local deb = true 
 			local ctrl = {f = 0, b = 0, l = 0, r = 0} 
 			local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
-			local maxspeed = 50 
+			local maxspeed = sliderfly 
 			local speed = 0 
-	
+			
 			function Fly() 
 				local bg = Instance.new("BodyGyro", torso) 
 				bg.P = 9e4 
 				bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
 				bg.cframe = torso.CFrame 
+	
 				local bv = Instance.new("BodyVelocity", torso) 
 				bv.velocity = Vector3.new(0,0.1,0) 
 				bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
 				repeat wait() 
-					plr.Character.Humanoid.PlatformStand = true 
+					player.Character.Humanoid.PlatformStand = true 
 					if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
-						speed = speed+.5+(speed/maxspeed) 
+						speed = speed+(sliderfly/1.7)+(speed/maxspeed) 
 						if speed > maxspeed then 
 							speed = maxspeed 
 						end 
+	
 					elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
-						speed = speed-1 
+						speed = speed-(sliderfly/1.7)
 						if speed < 0 then 
 							speed = 0 
 						end 
@@ -17618,19 +801,20 @@ local function TSQII_fake_script() -- FlyBut.Fly
 					elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
 						bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
 					else 
-						bv.velocity = Vector3.new(0,0.1,0) 
+						bv.velocity = Vector3.new(0,0.1,0)
 					end 
 					bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
-				until not flying 
+				until not flying or not Pfly
 				ctrl = {f = 0, b = 0, l = 0, r = 0} 
 				lastctrl = {f = 0, b = 0, l = 0, r = 0} 
 				speed = 0 
 				bg:Destroy() 
 				bv:Destroy() 
-				plr.Character.Humanoid.PlatformStand = false 
+				player.Character.Humanoid.PlatformStand = false 
 			end 
+	
 			mouse.KeyDown:connect(function(key) 
-				if key:lower() == "e" then 
+				if key:lower() == "p" then 
 					if flying then flying = false 
 					else 
 						flying = true 
@@ -17646,7 +830,9 @@ local function TSQII_fake_script() -- FlyBut.Fly
 					ctrl.r = 1 
 				end 
 			end) 
+	
 			mouse.KeyUp:connect(function(key) 
+	
 				if key:lower() == "w" then 
 					ctrl.f = 0 
 				elseif key:lower() == "s" then 
@@ -17660,697 +846,3195 @@ local function TSQII_fake_script() -- FlyBut.Fly
 			Fly()
 		end
 	end)
-end
-coroutine.wrap(TSQII_fake_script)()
-local function XMMUGI_fake_script() -- MainFrame.Drag 
-	local script = Instance.new('LocalScript', MainFrame)
 
-	local UserInputService = game:GetService("UserInputService")
-	
-	local gui = script.Parent
-	
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
-	
-	local function update(input)
-		local delta = input.Position - dragStart
-		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-	
-	gui.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = gui.Position
-	
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
+	section2:addTextbox("Track selected player",readfile(Universal .. "/ripthatguy.txt"),function(ripthatguy)
+		notify("Player Selected: " .. ripthatguy)
+		Target = ripthatguy
+		writefile(Universal .. "/ripthatguy.txt",Target)
+	end)
+	Target = readfile(Universal .. "/ripthatguy.txt")
+
+	if readfile(Universal .. "/trackthatguy.txt") == "true" then
+		local trackthatguy = true
+		section2:addToggle("Track Player",true,function(bool)
+			trackthatguy = bool
+			if trackthatguy == true then
+				writefile(Universal .. "/trackthatguy.txt","true")
+			else
+				writefile(Universal .. "/trackthatguy.txt","false")
+			end
+			local platform = Instance.new("Part", player.Character)
+			platform.Anchored = true
+			platform.Transparency = 1
+			platform.Size = Vector3.new(6, 1, 6)
+
+			local connection
+			connection = game:GetService("RunService").RenderStepped:connect(function()
+				if player.Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(Target) then
+					platform.Position = player.Character.HumanoidRootPart.CFrame * Vector3.new(0, -1.8, 0)
+				else
+					connection:Disconnect()
 				end
+			end)
+			game:GetService('RunService').Stepped:connect(function()
+				if trackthatguy ~= true then
+					platform:Destroy()
+				end
+			end)
+		end)
+		trackthatguy = true
+	else
+		local trackthatguy = false
+		section2:addToggle("Track Player",false,function(bool)
+			trackthatguy = bool
+			if trackthatguy == true then
+				writefile(Universal .. "/trackthatguy.txt","true")
+			else
+				writefile(Universal .. "/trackthatguy.txt","false")
+			end
+			local platform = Instance.new("Part", player.Character)
+			platform.Anchored = true
+			platform.Transparency = 1
+			platform.Size = Vector3.new(6, 1, 6)
+
+			local connection
+			connection = game:GetService("RunService").RenderStepped:connect(function()
+				if player.Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(Target) then
+					platform.Position = player.Character.HumanoidRootPart.CFrame * Vector3.new(0, -1.8, 0)
+				else
+					connection:Disconnect()
+				end
+			end)
+			game:GetService('RunService').Stepped:connect(function()
+				if trackthatguy ~= true then
+					platform:Destroy()
+				end
+			end)
+		end)
+	end
+
+	game:GetService('RunService').Stepped:connect(function()
+		if trackthatguy == true or readfile(Universal .. "/trackthatguy.txt") == "true" then
+			if player.Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(Target) then
+				player.Character.HumanoidRootPart.CFrame = game.Players[Target].Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 10)
+				game:GetService("Workspace").CurrentCamera.CFrame = CFrame.new(game:GetService("Workspace").CurrentCamera.CFrame.p, game.Players[Target].Character.HumanoidRootPart.Position)
+			end
+		end
+	end)
+	
+	-- load
+	NoobieDoge:SelectPage(NoobieDoge.pages[1], true)
+
+	-- second page
+	local page2 = NoobieDoge:addPage("Auto Join", 97521755974659)
+	local section1 = page2:addSection("Create Party")
+	local section2 = page2:addSection("Join Party")
+	local section3 = page2:addSection("Party Settings")
+	local section4 = page2:addSection("Player Whitelist")
+	local section5 = page2:addSection("Player Blacklist")
+	local section6 = page2:addSection("Local Player")
+
+	local playernames = {}
+	local seenNames = {} -- Dictionary to track seen names
+	for _, peepo in pairs(Game.Players:GetPlayers()) do
+		if not seenNames[peepo.Name] and peepo.Name ~= player.Name then -- Check if name hasn't been seen & localplayer
+			table.insert(playernames, peepo.Name)
+			seenNames[peepo.Name] = true -- Mark name as seen
+		end
+	end
+
+	local AutoStartGame
+	if readfile(DHV299NITFL .. "/AutoStartGame.txt") == "true" then
+		AutoStartGame = true
+		section1:addToggle("Auto Start Game",true,function(bool)
+			AutoStartGame = bool
+			if AutoStartGame == true then
+				writefile(DHV299NITFL .. "/AutoStartGame.txt","true")
+				section2:updateToggle("Auto Join Game")
+				AutoJoinGame = false
+			else
+				writefile(DHV299NITFL .. "/AutoStartGame.txt","false")
+			end
+		end)
+	else
+		AutoStartGame = false
+		section1:addToggle("Auto Start Game",false,function(bool)
+			AutoStartGame = bool
+			if AutoStartGame == true then
+				writefile(DHV299NITFL .. "/AutoStartGame.txt","true")
+				section2:updateToggle("Auto Join Game")
+				AutoJoinGame = false
+			else
+				writefile(DHV299NITFL .. "/AutoStartGame.txt","false")
+			end
+		end)
+	end
+
+	local AutoJoinGame
+	if readfile(DHV299NITFL .. "/AutoJoinGame.txt") == "true" then
+		AutoJoinGame = true
+		section2:addToggle("Auto Join Game",true,function(bool)
+			AutoJoinGame = bool
+			if AutoJoinGame == true then
+				writefile(DHV299NITFL .. "/AutoJoinGame.txt","true")
+				section1:updateToggle("Auto Start Game")
+				AutoStartGame = false
+			else
+				writefile(DHV299NITFL .. "/AutoJoinGame.txt","false")
+			end
+		end)
+	else
+		AutoJoinGame = false
+		section2:addToggle("Auto Join Game",false,function(bool)
+			AutoJoinGame = bool
+			if AutoJoinGame == true then
+				writefile(DHV299NITFL .. "/AutoJoinGame.txt","true")
+				section1:updateToggle("Auto Start Game")
+				AutoStartGame = false
+			else
+				writefile(DHV299NITFL .. "/AutoJoinGame.txt","false")
+			end
+		end)
+	end
+
+	section3:addSlider("Party Player Amount", tonumber(readfile(DHV299NITFL .. "/PartyPlayerAmount.txt")), 1, 5, function(value)
+		PartyPlayerAmount = value
+		writefile(DHV299NITFL .. "/PartyPlayerAmount.txt",tostring(PartyPlayerAmount))
+	end)
+	PartyPlayerAmount = tonumber(readfile(DHV299NITFL .. "/PartyPlayerAmount.txt"))
+
+	section3:addButton("THIS FUNCTION IS NOT WORKING RN",function()
+		notify("idk how to do auto click buttons so sorry")
+	end)
+
+	local tempdropdownnumber = 0
+	local WLP1 = readfile(DHV299NITFL .. "/WLP1.txt")
+	section4:addDropdown("Whitelisted Player 1: " .. readfile(DHV299NITFL .. "/WLP1.txt"),playernames,function(WLP1a)
+		print("Selected: " .. WLP1a)
+		notify("Selected: " .. WLP1a)
+		WLP1 = WLP1a
+		writefile(DHV299NITFL .. "/WLP1.txt",WLP1a)
+	end)
+
+	local WLP2 = readfile(DHV299NITFL .. "/WLP2.txt")
+	section4:addDropdown("Whitelisted Player 2: " .. readfile(DHV299NITFL .. "/WLP2.txt"),playernames,function(WLP2a)
+		print("Selected: " .. WLP2a)
+		notify("Selected: " .. WLP2a)
+		WLP2 = WLP2a
+		writefile(DHV299NITFL .. "/WLP2.txt",WLP2a)
+	end)
+
+	local WLP3 = readfile(DHV299NITFL .. "/WLP3.txt")
+	section4:addDropdown("Whitelisted Player 3: " .. readfile(DHV299NITFL .. "/WLP3.txt"),playernames,function(WLP3a)
+		print("Selected: " .. WLP3a)
+		notify("Selected: " .. WLP3a)
+		WLP3 = WLP3a
+		writefile(DHV299NITFL .. "/WLP3.txt",WLP3a)
+	end)
+
+	local WLP4 = readfile(DHV299NITFL .. "/WLP4.txt")
+	section4:addDropdown("Whitelisted Player 4: " .. readfile(DHV299NITFL .. "/WLP4.txt"),playernames,function(WLP4a)
+		print("Selected: " .. WLP4a)
+		notify("Selected: " .. WLP4a)
+		WLP4 = WLP4a
+		writefile(DHV299NITFL .. "/WLP4.txt",WLP4a)
+	end)
+
+	local WLP5 = readfile(DHV299NITFL .. "/WLP5.txt")
+	section4:addDropdown("Whitelisted Player 5: " .. readfile(DHV299NITFL .. "/WLP5.txt"),playernames,function(WLP5a)
+		print("Selected: " .. WLP5a)
+		notify("Selected: " .. WLP5a)
+		WLP5 = WLP5a
+		writefile(DHV299NITFL .. "/WLP5.txt",WLP5a)
+	end)
+
+	section4:addButton("Reset Whitelist",function()
+		for _, peepo in pairs(Game.Players:GetPlayers()) do
+			if not seenNames[peepo.Name] and peepo.Name ~= player.Name then -- Check if name hasn't been seen & localplayer
+				table.insert(playernames, peepo.Name)
+				seenNames[peepo.Name] = true -- Mark name as seen
+			end
+		end
+		tempdropdownnumber = 0
+		for _, dropdown in pairs(game:GetService("CoreGui")["DogeHub V2"].Main["Auto Join"]["Player Whitelist"].Container:GetChildren()) do
+			if dropdown.Name == "Dropdown" then
+				local tempddname = dropdown.Search.TextBox.Text
+				tempdropdownnumber = tempdropdownnumber + 1
+				section4:updateDropdown(tempddname,"Whitelisted Player ".. tempdropdownnumber..": ",playernames)
+			end
+		end
+		writefile(DHV299NITFL .. "/WLP1.txt","")
+		writefile(DHV299NITFL .. "/WLP2.txt","")
+		writefile(DHV299NITFL .. "/WLP3.txt","")
+		writefile(DHV299NITFL .. "/WLP4.txt","")
+		writefile(DHV299NITFL .. "/WLP5.txt","")
+		tempdropdownnumber = 0
+	end)
+
+	local StartWLP
+	if readfile(DHV299NITFL .. "/StartWLP.txt") == "true" then
+		StartWLP = true
+		section4:addToggle("Enabled",true,function(bool)
+			StartWLP = bool
+			if StartWLP == true then
+				writefile(DHV299NITFL .. "/StartWLP.txt","true")
+				section5:updateToggle("Enabled")
+				StartBLP = false
+				writefile(DHV299NITFL .. "/StartBLP.txt","false")
+			else
+				writefile(DHV299NITFL .. "/StartWLP.txt","false")
+			end
+		end)
+	else
+		StartWLP = false
+		section4:addToggle("Enabled",false,function(bool)
+			StartWLP = bool
+			if StartWLP == true then
+				writefile(DHV299NITFL .. "/StartWLP.txt","true")
+				section5:updateToggle("Enabled")
+				StartBLP = false
+				writefile(DHV299NITFL .. "/StartBLP.txt","false")
+			else
+				writefile(DHV299NITFL .. "/StartWLP.txt","false")
+			end
+		end)
+	end
+
+	local BLP1 = readfile(DHV299NITFL .. "/BLP1.txt")
+	section5:addDropdown("Blacklisted Player 1: " .. readfile(DHV299NITFL .. "/BLP1.txt"),playernames,function(BLP1a)
+		print("Selected: " .. BLP1a)
+		notify("Selected: " .. BLP1a)
+		BLP1 = BLP1a
+		writefile(DHV299NITFL .. "/BLP1.txt",BLP1a)
+	end)
+
+	local BLP2 = readfile(DHV299NITFL .. "/BLP2.txt")
+	section5:addDropdown("Blacklisted Player 2: " .. readfile(DHV299NITFL .. "/BLP2.txt"),playernames,function(BLP2a)
+		print("Selected: " .. BLP2a)
+		notify("Selected: " .. BLP2a)
+		BLP2 = BLP2a
+		writefile(DHV299NITFL .. "/BLP2.txt",BLP2a)
+	end)
+
+	local BLP3 = readfile(DHV299NITFL .. "/BLP3.txt")
+	section5:addDropdown("Blacklisted Player 3: " .. readfile(DHV299NITFL .. "/BLP3.txt"),playernames,function(BLP3a)
+		print("Selected: " .. BLP3a)
+		notify("Selected: " .. BLP3a)
+		BLP3 = BLP3a
+		writefile(DHV299NITFL .. "/BLP3.txt",BLP3a)
+	end)
+
+	local BLP4 = readfile(DHV299NITFL .. "/BLP4.txt")
+	section5:addDropdown("Blacklisted Player 4: " .. readfile(DHV299NITFL .. "/BLP4.txt"),playernames,function(BLP4a)
+		print("Selected: " .. BLP4a)
+		notify("Selected: " .. BLP4a)
+		BLP4 = BLP4a
+		writefile(DHV299NITFL .. "/BLP4.txt",BLP4a)
+	end)
+
+	local BLP5 = readfile(DHV299NITFL .. "/BLP5.txt")
+	section5:addDropdown("Blacklisted Player 5: " .. readfile(DHV299NITFL .. "/BLP5.txt"),playernames,function(BLP5a)
+		print("Selected: " .. BLP5a)
+		notify("Selected: " .. BLP5a)
+		BLP5 = BLP5a
+		writefile(DHV299NITFL .. "/BLP5.txt",BLP5a)
+	end)
+
+	section5:addButton("Reset Blacklist",function()
+		for _, peepo in pairs(Game.Players:GetPlayers()) do
+			if not seenNames[peepo.Name] and peepo.Name ~= player.Name then -- Check if name hasn't been seen & localplayer
+				table.insert(playernames, peepo.Name)
+				seenNames[peepo.Name] = true -- Mark name as seen
+			end
+		end
+		tempdropdownnumber = 0
+		for _, dropdown in pairs(game:GetService("CoreGui")["DogeHub V2"].Main["Auto Join"]["Player Blacklist"].Container:GetChildren()) do
+			if dropdown.Name == "Dropdown" then
+				local tempddname = dropdown.Search.TextBox.Text
+				tempdropdownnumber = tempdropdownnumber + 1
+				section5:updateDropdown(tempddname,"Blacklisted Player ".. tempdropdownnumber..": ",playernames)
+			end
+		end
+		writefile(DHV299NITFL .. "/BLP1.txt","")
+		writefile(DHV299NITFL .. "/BLP2.txt","")
+		writefile(DHV299NITFL .. "/BLP3.txt","")
+		writefile(DHV299NITFL .. "/BLP4.txt","")
+		writefile(DHV299NITFL .. "/BLP5.txt","")
+		tempdropdownnumber = 0
+	end)
+
+	local StartBLP
+	if readfile(DHV299NITFL .. "/StartBLP.txt") == "true" then
+		StartBLP = true
+		section5:addToggle("Enabled",true,function(bool)
+			StartBLP = bool
+			if StartBLP == true then
+				writefile(DHV299NITFL .. "/StartBLP.txt","true")
+				section4:updateToggle("Enabled")
+				StartWLP = false
+				writefile(DHV299NITFL .. "/StartWLP.txt","false")
+			else
+				writefile(DHV299NITFL .. "/StartBLP.txt","false")
+			end
+		end)
+	else
+		StartBLP = false
+		section5:addToggle("Enabled",false,function(bool)
+			StartBLP = bool
+			if StartBLP == true then
+				writefile(DHV299NITFL .. "/StartBLP.txt","true")
+				section4:updateToggle("Enabled")
+				StartWLP = false
+				writefile(DHV299NITFL .. "/StartWLP.txt","false")
+			else
+				writefile(DHV299NITFL .. "/StartBLP.txt","false")
+			end
+		end)
+	end
+
+	local UrClasses = {}
+	for _, classes in pairs(player:WaitForChild("ClassProgress"):GetChildren()) do
+		if true then
+			table.insert(UrClasses, classes.Name)
+		end
+	end
+	table.insert(UrClasses, "None")
+	local ClassSelection = readfile(DHV299NITFL .. "/ClassSelection.txt")
+	section6:addDropdown("Class Selection: " .. readfile(DHV299NITFL .. "/ClassSelection.txt"),UrClasses,function(ClassSelection1)
+		print("Class Selected: " .. ClassSelection1)
+		notify("Class Selected: " .. ClassSelection1)
+		ClassSelection = ClassSelection1
+		writefile(DHV299NITFL .. "/ClassSelection.txt",ClassSelection1)
+		if ClassSelection1 == "None" then
+			writefile(DHV299NITFL .. "/ClassSelection.txt","")
+		end
+	end)
+
+	local equipclass = RemoteEvents.UpdateEquipped
+	local playerisinparty = false
+	local function getPlayersTouchingPart(part)
+		if not part or not part:IsA("BasePart") then
+			return {}
+		end
+		-- Get all parts touching the target part
+		local touchingParts = part:GetTouchingParts()
+		local playerNames1 = {}
+		-- Check each touching part for a player
+		for _, touchedPart in ipairs(touchingParts) do
+			local player = game.Players:GetPlayerFromCharacter(touchedPart.Parent)
+			if player and not table.find(playerNames1, player.Name) then
+				table.insert(playerNames1, player.Name)
+			end
+		end
+		return playerNames1
+	end
+	local function JoinAnEmptyTeleporter()
+		for _, teleporter in pairs(workspace:GetChildren()) do
+			if teleporter:FindFirstChild("EnterPart") and (teleporter.BillboardHolder.BillboardGui.Players.Text == "0/5" or teleporter.BillboardHolder.BillboardGui.Players.Text == "0/10") then
+				--player.Character:FindFirstChild("HumanoidRootPart").CFrame =  teleporter.EnterPart.CFrame*CFrame.new(0, 3, 0) task.wait()
+				toTarget(player.Character.HumanoidRootPart.Position,teleporter.EnterPart.Position,CFrame.new(teleporter.EnterPart.Position+Vector3.new(-1,3,-1)))
+				toTarget(player.Character.HumanoidRootPart.Position,teleporter.EnterPart.Position,CFrame.new(teleporter.EnterPart.Position+Vector3.new(1,3,1)))
+				if player.PlayerGui.Interface.LobbyCreate.Visible == true then 
+					playerisinparty = true
+					break 
+				end
+			end
+		end
+	end
+	local function JoinARandomTeleporterWithPeople()
+		for _, teleporter in pairs(workspace:GetChildren()) do
+			if teleporter:FindFirstChild("EnterPart") and (teleporter.BillboardHolder.BillboardGui.Players.Text ~= "0/5" and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "0/10" and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "Creating..." and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "1/1" and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "2/2" and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "3/3" and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "4/4" and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "5/5" and teleporter.BillboardHolder.BillboardGui.Players.Text ~= "10/10" and teleporter.BillboardHolder.BillboardGui.Players.TextColor3 ~= Color3.fromRGB(225, 0, 0)) then
+				--player.Character:FindFirstChild("HumanoidRootPart").CFrame =  teleporter.EnterPart.CFrame*CFrame.new(0, 3, 0) task.wait()
+				toTarget(player.Character.HumanoidRootPart.Position,teleporter.EnterPart.Position,CFrame.new(teleporter.EnterPart.Position+Vector3.new(-1,3,-1)))
+				toTarget(player.Character.HumanoidRootPart.Position,teleporter.EnterPart.Position,CFrame.new(teleporter.EnterPart.Position+Vector3.new(1,3,1)))
+				if player.PlayerGui.Interface.LobbyCreate.Visible == true then 
+					playerisinparty = true
+					break 
+				end
+			end
+		end
+	end
+	local function CheckPartyMembersBlacklistWhitelist()
+		for _, teleporter in pairs(workspace:GetChildren()) do
+			if teleporter:FindFirstChild("EnterPart") and teleporter:FindFirstChild("BeamPartEnd") then
+				local part = teleporter.BeamPartEnd
+				part.Touched:Connect(function(hit)
+					local player1 = game.Players:GetPlayerFromCharacter(hit.Parent)
+					if player1 then
+						print(player1.Name .. " is touching the part!")
+						if player1.Name == player.Name then
+							playerisinparty = true
+						end
+						task.wait()
+						if StartWLP and playerisinparty then
+							if player1.Name ~= player.Name and player1.Name ~= WLP1 and player1.Name ~= WLP2 and player1.Name ~= WLP3 and player1.Name ~= WLP4 and player1.Name ~= WLP5 then
+								LeaveLobby()
+								notify("Left since player joined is not whitelisted")
+							else
+								warn(player1.Name .. ", safe")
+							end
+						elseif StartBLP and playerisinparty then
+							if player1.Name == player.Name or (player1.Name ~= BLP1 and player1.Name ~= BLP2 and player1.Name ~= BLP3 and player1.Name ~= BLP4 and player1.Name ~= BLP5) then
+								warn(player1.Name .. ", safe")
+							else
+								LeaveLobby()
+								notify("Left since blacklisted player joined")
+							end
+						end
+					end
+				end)
+			end
+		end
+	end
+	local function LeaveLobby()
+		playerisinparty = false
+		local args = {[1] = "Remove"}
+		RemoteEvents.TeleportEvent:FireServer(unpack(args))
+		print("leavelobby")
+	end
+
+	task.spawn(function()
+		while task.wait(.5) do
+			print(playerisinparty)
+			if AutoStartGame == true then
+				equipclass:FireServer(ClassSelection)
+				task.wait()
+				if ClassSelection == "None" or ClassSelection == "" or player.ClassProgress[ClassSelection]:GetAttribute("Equipped") == true then
+					CheckPartyMembersBlacklistWhitelist()
+					task.wait()
+					if player.PlayerGui.Interface.LobbyCreate.Visible ~= true and playerisinparty == false then
+						JoinAnEmptyTeleporter()
+					end
+				end
+			elseif AutoJoinGame == true then
+				equipclass:FireServer(ClassSelection)
+				task.wait()
+				if ClassSelection == "None" or ClassSelection == "" or player.ClassProgress[ClassSelection]:GetAttribute("Equipped") == true then
+					CheckPartyMembersBlacklistWhitelist()
+					task.wait()
+					if player.PlayerGui.TeleporterAssets.TextButton.Visible ~= true and playerisinparty == false then
+						JoinARandomTeleporterWithPeople()
+					end
+				end
+			else
+				playerisinparty = false
+			end
+		end
+	end)
+	
+	local CreateLobbyCloseButton = player.PlayerGui.Interface.LobbyCreate.CloseButton
+	local ExitLobbyButton = player.PlayerGui.TeleporterAssets.TextButton
+	CreateLobbyCloseButton.MouseButton1Down:connect(LeaveLobby)
+	ExitLobbyButton.MouseButton1Down:connect(LeaveLobby)
+	
+	section6:addButton("Teleport to Spawn",function()
+		player.Character.HumanoidRootPart.CFrame =  workspace.SpawnLocation.CFrame*CFrame.new(0, 3, 0)
+	end)
+
+	-- third page
+	local page3 = NoobieDoge:addPage("Snipe Classes", 97521755974659)
+	local section1 = page3:addSection("Auto Buy Classes")
+	local section2 = page3:addSection("Daily Class Shop")
+
+	local ALLClasses = {}
+	for _, classes in pairs(player.PlayerGui.Interface.Classes.RotatingShop.Frame.ScrollingFrame:GetChildren()) do
+		if classes.Name ~= "UIGridLayout" and classes.Name ~= "Template" then
+			table.insert(ALLClasses, classes.Name)
+		end
+	end
+	section1:addDropdown("Class Selection: " .. readfile(DHV299NITFL .. "/SnipeClasses.txt"),ALLClasses,function(SnipeClasses1)
+		print("Class Selected: " .. SnipeClasses1)
+		notify("Class Selected: " .. SnipeClasses1)
+		SnipeClasses = SnipeClasses1
+		writefile(DHV299NITFL .. "/SnipeClasses.txt",SnipeClasses1)
+		if SnipeClasses1 == "None" then
+			writefile(DHV299NITFL .. "/SnipeClasses.txt","")
+		end
+	end)
+	SnipeClasses = readfile(DHV299NITFL .. "/SnipeClasses.txt")
+		
+	local AutoSnipeClasses
+	if readfile(DHV299NITFL .. "/AutoSnipeClasses.txt") == "true" then
+		AutoSnipeClasses = true
+		section1:addToggle("Enabled",true,function(bool)
+			AutoSnipeClasses = bool
+			if AutoSnipeClasses == true then
+				writefile(DHV299NITFL .. "/AutoSnipeClasses.txt","true")
+			else
+				writefile(DHV299NITFL .. "/AutoSnipeClasses.txt","false")
+			end
+		end)
+	else
+		AutoSnipeClasses = false
+		section1:addToggle("Enabled",false,function(bool)
+			AutoSnipeClasses = bool
+			if AutoSnipeClasses == true then
+				writefile(DHV299NITFL .. "/AutoSnipeClasses.txt","true")
+			else
+				writefile(DHV299NITFL .. "/AutoSnipeClasses.txt","false")
+			end
+		end)
+	end
+
+	section2:addButton("Show Daily Shop UI",function()
+		player.PlayerGui.Interface.Classes.Visible = true
+		notify("I don't know why you need this but ok.")
+	end)
+
+	section2:addButton("Reroll",function()
+		local rerollshop = RemoteEvents.RequestRerollShop
+		rerollshop:FireServer()
+		notify("I don't know why you need this but ok.")
+	end)
+
+	task.spawn(function()
+		while task.wait(.5) do
+			if AutoSnipeClasses == true then
+				for _, class in pairs(player.PlayerGui.Interface.Classes.RotatingShop.Frame.ScrollingFrame:GetChildren()) do
+					if player:WaitForChild("ClassProgress"):FindFirstChild(SnipeClasses) then
+						warn("You already owned this class!") wait(5)
+					else
+						if class.Name == SnipeClasses and class.Stock.Visible == false then
+							warn("ON STOCK!!!")
+							if tonumber(class.Price.Amount.Text) <= tonumber(player.PlayerGui.Interface.DiamondCount.Count.Text) then
+								local buyclass = RemoteEvents.RequestPurchaseClass
+								buyclass:FireServer(SnipeClasses)
+								task.wait(1)
+							else
+								warn("Not enough diamonds to purchase class!") wait(2)
+							end
+						end
+					end
+				end
+			end
+		end
+	end)
+
+	-- last page
+	local pagelast = NoobieDoge:addPage("Settings", 97521755974659)
+	local settings = pagelast:addSection("Settings")
+	local colors = pagelast:addSection("Colors")
+	local credits = pagelast:addSection("Credits")
+
+	settings:addButton("Upgrade Performance",function()
+		UPPERFORMANCE()
+		settings:updateButton("Upgrade Performance","Upgraded Performance")
+	end)
+
+	settings:addButton("Reset Script",function()
+		local player = game.Players.LocalPlayer
+		local ScreenGuiK = Instance.new("ScreenGui")
+		local Frame = Instance.new("ImageLabel")
+		local TextLabelFrame = Instance.new("ImageLabel")
+		local TextLabel = Instance.new("TextLabel")
+		local TextButton = Instance.new("ImageButton")
+		local TextButtonText = Instance.new("TextButton")
+		local TextButton_2 = Instance.new("ImageButton")
+		local TextButton_2Text = Instance.new("TextButton")
+
+		ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+		Frame.Parent = ScreenGuiK
+		Frame.Name = "Main"
+		Frame.BackgroundTransparency = 1
+		Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+		Frame.Size = UDim2.new(0, 220, 0, 120)
+		Frame.Image = "rbxassetid://4641149554"
+		Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+		Frame.ScaleType = Enum.ScaleType.Slice
+		Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+		Frame.Active = true
+		Frame.Draggable = true
+
+		TextLabelFrame.Parent = Frame
+		TextLabelFrame.Name = "TopBar"
+		TextLabelFrame.BackgroundTransparency = 1
+		TextLabelFrame.ClipsDescendants = true
+		TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+		TextLabelFrame.ZIndex = 2
+		TextLabelFrame.Image = "rbxassetid://4595286933"
+		TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+		TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+		
+		TextLabel.Parent = Frame
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Size = UDim2.new(0, 220, 0, 60)
+		TextLabel.ZIndex = 3
+		TextLabel.Font = Enum.Font.TitilliumWeb
+		TextLabel.Text = "Are you sure that you want to reset script?"
+		TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.TextScaled = false
+		TextLabel.TextSize = 21.000
+		TextLabel.TextWrapped = true
+
+		TextButton.Parent = Frame
+		TextButton.Name = "Button"
+		TextButton.BackgroundTransparency = 1
+		TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+		TextButton.BorderSizePixel = 0
+		TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton.ZIndex = 2
+		TextButton.Image = "rbxassetid://5028857472"
+		TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton.ScaleType = Enum.ScaleType.Slice
+		TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButtonText.Parent = TextButton
+		TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButtonText.BackgroundTransparency = 1
+		TextButtonText.ZIndex = 3
+		TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButtonText.Font = Enum.Font.TitilliumWeb
+		TextButtonText.Text = "Yes"
+		TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButtonText.TextScaled = true
+		TextButtonText.TextSize = 40.000
+		TextButtonText.TextWrapped = true
+
+		function ResetYES()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+			local DHV299NITFL = "DogeHubV2/99NightsintheForest/Lobby"
+			makefolder(DHV299NITFL)
+			local Universal = DHV299NITFL .. "/Universal"
+			makefolder(Universal)
+			writefile(Universal .. "/EnabledSliderPowa.txt","false")
+			writefile(Universal .. "/sliderspeed.txt","16")
+			writefile(Universal .. "/sliderjump.txt","50")
+			writefile(Universal .. "/slidergravity.txt","196.2")
+			writefile(Universal .. "/CtrlClickTeePee.txt","false")
+			writefile(Universal .. "/infjumptoggle.txt","false")
+			writefile(Universal .. "/noclips.txt","false")
+			writefile(Universal .. "/sliderfly.txt","201")
+			writefile(Universal .. "/Pfly.txt","false")
+			writefile(Universal .. "/ripthatguy.txt","Player's Name")
+			writefile(Universal .. "/trackthatguy.txt","false")
+			writefile(DHV299NITFL .. "/AutoStartGame.txt","false")
+			writefile(DHV299NITFL .. "/AutoJoinGame.txt","false")
+			writefile(DHV299NITFL .. "/PartyPlayerAmount.txt","3")
+			writefile(DHV299NITFL .. "/WLP1.txt","")
+			writefile(DHV299NITFL .. "/WLP2.txt","")
+			writefile(DHV299NITFL .. "/WLP3.txt","")
+			writefile(DHV299NITFL .. "/WLP4.txt","")
+			writefile(DHV299NITFL .. "/WLP5.txt","")
+			writefile(DHV299NITFL .. "/StartWLP.txt","false")
+			writefile(DHV299NITFL .. "/BLP1.txt","")
+			writefile(DHV299NITFL .. "/BLP2.txt","")
+			writefile(DHV299NITFL .. "/BLP3.txt","")
+			writefile(DHV299NITFL .. "/BLP4.txt","")
+			writefile(DHV299NITFL .. "/BLP5.txt","")
+			writefile(DHV299NITFL .. "/StartBLP.txt","false")
+			writefile(DHV299NITFL .. "/ClassSelection.txt","")
+			writefile(DHV299NITFL .. "/SnipeClasses.txt","")
+			writefile(DHV299NITFL .. "/AutoSnipeClasses.txt","false")
+			sliderpowa = false
+			CtrlClickTeePee = false
+			noclips = false
+			Pfly = false
+			trackthatguy = false
+			getgenv().dc = true
+			AutoStartGame = false
+			AutoJoinGame = false
+			StartWLP = false
+			StartBLP = false
+			AutoSnipeClasses = false
+			wait()
+			for i,library in pairs(game:GetService("CoreGui"):GetChildren()) do
+				if library.Name == "DogeHub V2" then
+					library:Destroy()
+				end
+			end
+			notify("Do not reset script too many times!")
+			wait(.1)
+			NNNITFLobby()
+		end
+		TextButton.MouseButton1Click:connect(ResetYES)
+		TextButtonText.MouseButton1Click:connect(ResetYES)
+
+		TextButton_2.Parent = Frame
+		TextButton_2.Name = "Button"
+		TextButton_2.BackgroundTransparency = 1
+		TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+		TextButton_2.BorderSizePixel = 0
+		TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2.ZIndex = 2
+		TextButton_2.Image = "rbxassetid://5028857472"
+		TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton_2.ScaleType = Enum.ScaleType.Slice
+		TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButton_2Text.Parent = TextButton_2
+		TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButton_2Text.BackgroundTransparency = 1
+		TextButton_2Text.ZIndex = 3
+		TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2Text.Font = Enum.Font.TitilliumWeb
+		TextButton_2Text.Text = "No"
+		TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButton_2Text.TextScaled = true
+		TextButton_2Text.TextSize = 40.000
+		TextButton_2Text.TextWrapped = true
+
+		function ResetNO()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+		end
+		TextButton_2.MouseButton1Click:connect(ResetNO)	
+		TextButton_2Text.MouseButton1Click:connect(ResetNO)
+	end)
+
+	settings:addButton("Rejoin Server",function()
+		local player = game.Players.LocalPlayer
+		local ScreenGuiK = Instance.new("ScreenGui")
+		local Frame = Instance.new("ImageLabel")
+		local TextLabelFrame = Instance.new("ImageLabel")
+		local TextLabel = Instance.new("TextLabel")
+		local TextButton = Instance.new("ImageButton")
+		local TextButtonText = Instance.new("TextButton")
+		local TextButton_2 = Instance.new("ImageButton")
+		local TextButton_2Text = Instance.new("TextButton")
+
+		ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+		Frame.Parent = ScreenGuiK
+		Frame.Name = "Main"
+		Frame.BackgroundTransparency = 1
+		Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+		Frame.Size = UDim2.new(0, 220, 0, 120)
+		Frame.Image = "rbxassetid://4641149554"
+		Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+		Frame.ScaleType = Enum.ScaleType.Slice
+		Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+		Frame.Active = true
+		Frame.Draggable = true
+
+		TextLabelFrame.Parent = Frame
+		TextLabelFrame.Name = "TopBar"
+		TextLabelFrame.BackgroundTransparency = 1
+		TextLabelFrame.ClipsDescendants = true
+		TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+		TextLabelFrame.ZIndex = 2
+		TextLabelFrame.Image = "rbxassetid://4595286933"
+		TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+		TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+		
+		TextLabel.Parent = Frame
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Size = UDim2.new(0, 220, 0, 60)
+		TextLabel.ZIndex = 3
+		TextLabel.Font = Enum.Font.TitilliumWeb
+		TextLabel.Text = "Are you sure you want to rejoin server?"
+		TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.TextScaled = false
+		TextLabel.TextSize = 24.000
+		TextLabel.TextWrapped = true
+
+		TextButton.Parent = Frame
+		TextButton.Name = "Button"
+		TextButton.BackgroundTransparency = 1
+		TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+		TextButton.BorderSizePixel = 0
+		TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton.ZIndex = 2
+		TextButton.Image = "rbxassetid://5028857472"
+		TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton.ScaleType = Enum.ScaleType.Slice
+		TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButtonText.Parent = TextButton
+		TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButtonText.BackgroundTransparency = 1
+		TextButtonText.ZIndex = 3
+		TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButtonText.Font = Enum.Font.TitilliumWeb
+		TextButtonText.Text = "Yes"
+		TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButtonText.TextScaled = true
+		TextButtonText.TextSize = 40.000
+		TextButtonText.TextWrapped = true
+
+		function RejoinYES()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+			local TS = game:GetService("TeleportService")
+			local Player = game.Players.LocalPlayer
+			TS:Teleport(game.PlaceId, Player)
+		end
+		TextButton.MouseButton1Click:connect(RejoinYES)
+		TextButtonText.MouseButton1Click:connect(RejoinYES)
+
+		TextButton_2.Parent = Frame
+		TextButton_2.Name = "Button"
+		TextButton_2.BackgroundTransparency = 1
+		TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+		TextButton_2.BorderSizePixel = 0
+		TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2.ZIndex = 2
+		TextButton_2.Image = "rbxassetid://5028857472"
+		TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton_2.ScaleType = Enum.ScaleType.Slice
+		TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButton_2Text.Parent = TextButton_2
+		TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButton_2Text.BackgroundTransparency = 1
+		TextButton_2Text.ZIndex = 3
+		TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2Text.Font = Enum.Font.TitilliumWeb
+		TextButton_2Text.Text = "No"
+		TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButton_2Text.TextScaled = true
+		TextButton_2Text.TextSize = 40.000
+		TextButton_2Text.TextWrapped = true
+
+		function RejoinNO()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+		end
+		TextButton_2.MouseButton1Click:connect(RejoinNO)	
+		TextButton_2Text.MouseButton1Click:connect(RejoinNO)
+	end)
+
+	settings:addKeybind("Toggle Keybind", Enum.KeyCode.RightControl, function()
+	print("Activated Keybind")
+	NoobieDoge:toggle()
+	end, function()
+	print("Changed Keybind")
+	end)
+
+	local DHV2Frame = game:GetService("CoreGui")["DogeHub V2"]["DogeHub V2 Toggle"]
+	local DHV2TextButton = DHV2Frame.Button
+	local DHV2TextButtonText = DHV2Frame.Button.TextButton
+	local function ToggleGUI()
+		NoobieDoge:toggle()
+	end
+	DHV2TextButton.MouseButton1Click:connect(ToggleGUI)
+	DHV2TextButtonText.MouseButton1Click:connect(ToggleGUI)
+	
+	settings:addToggle("Show Mobile Toggle Button",false,function(bool)
+		SMTB = bool
+		if SMTB == true then
+			DHV2Frame.Visible = true
+		else
+			DHV2Frame.Visible = false
+		end
+	end)
+
+	for theme, color in pairs(themes) do -- all in one theme changer, i know, im cool
+		colors:addColorPicker(theme, color, function(color3)
+			NoobieDoge:setTheme(theme, color3)
+		end)
+	end
+
+	credits:addButton("Made by NoobieDoge")
+	credits:addButton("https://discord.gg/P2CeRjvTDt")
+	credits:addButton("Copy Discord Link",function()
+		setclipboard("https://discord.gg/P2CeRjvTDt")
+		wait()
+		notify("Discord link copied to clipboard!")
+	end)
+
+	gameplaceexecuted = "99 Nights in the Forest Lobby"
+
+end
+
+--99 Nights in the Forest
+local function NNNITFMain()
+
+	if game:GetService("CoreGui"):FindFirstChild("DogeHub V2") then
+		game:GetService("CoreGui")["DogeHub V2"]:Destroy(0)
+	end
+
+	--DogeHub V2 GUI
+	local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kasep6720/Secret/Functions/pornhub%20page%20format%20gui"))()
+	local NoobieDoge = library.new("DogeHub V2", 5013109572)
+
+	-- themes
+	local themes = {
+		Background = Color3.fromRGB(24, 24, 24), 
+		Glow = Color3.fromRGB(128, 128 ,128), 
+		Accent = Color3.fromRGB(255,163,26), 
+		LightContrast = Color3.fromRGB(41, 41, 41), 
+		DarkContrast = Color3.fromRGB(27,27,27),  
+		TextColor = Color3.fromRGB(255, 255, 255)
+	}
+
+	-- first page
+	local page1 = NoobieDoge:addPage("Universal", 97521755974659)
+	local section1 = page1:addSection("Walk Speed & Jump Power & Gravity")
+	local section2 = page1:addSection("Other Functions")
+
+	local originalwalkspeed = 16
+	local originaljumppower = 50
+	local originalgravity = game:GetService("Workspace").Gravity
+
+	section1:addSlider("Walk Speed", originalwalkspeed, 0, 500, function(value)
+		sliderspeed = value
+	end)
+	section1:addSlider("Jump Power", originaljumppower, 0, 500, function(value)
+		sliderjump = value
+	end)
+	section1:addSlider("Gravity", originalgravity, 0, 500, function(value)
+		slidergravity = value
+	end)
+	sliderspeed = 16
+	sliderjump = 50
+	slidergravity = 196.2
+
+	section1:addToggle("Enabled", nil, function(value)
+		sliderpowa = value
+	end)
+	game:GetService('RunService').Stepped:connect(function()
+		if sliderpowa then
+			player.Character.Humanoid.WalkSpeed = sliderspeed
+			player.Character.Humanoid.JumpPower = sliderjump
+			game:GetService("Workspace").Gravity = slidergravity
+		end
+	end)
+
+	section1:addButton("Reset to Default", function()
+		player.Character.Humanoid.WalkSpeed = originalwalkspeed
+		player.Character.Humanoid.JumpPower = originaljumppower
+		game:GetService("Workspace").Gravity = originalgravity
+		section1:updateSlider("Walk Speed", "Walk Speed", originalwalkspeed, 0, 500)
+		section1:updateSlider("Jump Power", "Jump Power", originaljumppower, 0, 500)
+		section1:updateSlider("Gravity", "Gravity", originalgravity, 0, 500)
+	end)
+
+	section2:addButton("Add ESP GUI", function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Kasep6720/Secret/Functions/Project%3A%20Bullshit%3A%20Rebooted"))()
+	end)
+
+	section2:addButton("Reset Character",function()
+		player.Character:BreakJoints()
+	end)
+
+	section2:addToggle("Ctrl + Click TP",false,function(bool)
+		CtrlClickTeePee = bool
+		CTRLCLICKTP()
+		if CtrlClickTeePee == true then
+			notify("Press Ctrl + Click to Teleport")
+		end
+	end)
+
+	local infjumptoggle = false
+	section2:addToggle("Infinite Jump",false,function()
+		infjumptoggle = not infjumptoggle
+		notify("Infinite Jump: "..tostring(infjumptoggle),true)
+		if infjumptoggle then
+			getgenv().dc = false
+			local infjump
+			infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
+				if dc then infjump:Disconnect() return end
+				player.Character.Humanoid:ChangeState("Jumping")
+			end)
+		else
+			getgenv().dc = true
+		end
+	end)
+
+	player.CharacterAdded:Connect(function()
+		if infjumptoggle then
+			wait(1)
+			getgenv().dc = false
+			local infjump
+			infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
+				if dc then infjump:Disconnect() return end
+				player.Character.Humanoid:ChangeState("Jumping")
 			end)
 		end
 	end)
 	
-	gui.InputChanged:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-			dragInput = input
-		end
-	end)
-	
-	UserInputService.InputChanged:Connect(function(input)
-		if input == dragInput and dragging then
-			update(input)
-		end
-	end)
-end
-coroutine.wrap(XMMUGI_fake_script)()
-local function UEZKG_fake_script() -- RespawnBut.Repsawn 
-	local script = Instance.new('LocalScript', RespawnBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Respawning..." then
-			game.StarterGui:SetCore("SendNotification",  {
-				Title = "Respawn Noti";
-				Text = "Already Respawning...";
-				Icon = "";
-				Duration = 5;
-			})
-		else
-			script.Parent.Text = "Respawning..."
-			wait(2.5)
-			game.Players.LocalPlayer.Character.Humanoid.Health = 0
-			game.Players.LocalPlayer.Character.Head.Remove()
+	section2:addToggle("Noclip", false, function(bool)
+		noclips = bool
+		game:GetService("RunService").Stepped:connect(function()
+			if noclips then
+				for i, v in pairs(player.Character:GetChildren()) do
+					if v:IsA("BasePart") then
+						v.CanCollide = false
+					end
+				end
 			end
+		end)
 	end)
-end
-coroutine.wrap(UEZKG_fake_script)()
-local function WOLU_fake_script() -- MainFrame.MouseButton3 
-	local script = Instance.new('LocalScript', MainFrame)
 
-	local UserInputService = game:GetService("UserInputService")
-	local function onInputBegan(input, gameProcessed)
-		if input.UserInputType == Enum.UserInputType.MouseButton3 then
-			if script.Parent.Visible == true then
-				script.Parent.Visible = false
+	section2:addSlider("Fly Speed", 101, 0, 999, function(value)
+		sliderfly = value
+	end)
+	sliderfly = 101
+	section2:addToggle("Press P to fly",false,function(bool)
+		Pfly = bool
+		repeat wait() 
+		until player and player.Character:findFirstChild("Head") player.Character:findFirstChild("Humanoid") 
+		local mouse = player:GetMouse() 
+		repeat wait() until mouse
+		local torso = player.Character.Head 
+		local flying = false
+		local deb = true 
+		local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+		local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+		local maxspeed = sliderfly 
+		local speed = 0 
+
+		function Fly() 
+			local bg = Instance.new("BodyGyro", torso) 
+			bg.P = 9e4 
+			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+			bg.cframe = torso.CFrame 
+
+			local bv = Instance.new("BodyVelocity", torso) 
+			bv.velocity = Vector3.new(0,0.1,0) 
+			bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
+			repeat wait() 
+				player.Character.Humanoid.PlatformStand = true 
+				if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+					speed = speed+(sliderfly/1.7)+(speed/maxspeed) 
+					if speed > maxspeed then 
+						speed = maxspeed 
+					end 
+
+				elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+					speed = speed-(sliderfly/1.7)
+					if speed < 0 then 
+						speed = 0 
+					end 
+				end 
+				if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+					lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+				elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+				else 
+					bv.velocity = Vector3.new(0,0.1,0)
+				end 
+				bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+			until not flying or not Pfly
+			ctrl = {f = 0, b = 0, l = 0, r = 0} 
+			lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+			speed = 0 
+			bg:Destroy() 
+			bv:Destroy() 
+			player.Character.Humanoid.PlatformStand = false 
+		end 
+
+		mouse.KeyDown:connect(function(key) 
+			if key:lower() == "p" then 
+				if flying then flying = false 
+				else 
+					flying = true 
+					Fly() 
+				end 
+			elseif key:lower() == "w" then 
+				ctrl.f = 1 
+			elseif key:lower() == "s" then 
+				ctrl.b = -1 
+			elseif key:lower() == "a" then 
+				ctrl.l = -1 
+			elseif key:lower() == "d" then 
+				ctrl.r = 1 
+			end 
+		end) 
+
+		mouse.KeyUp:connect(function(key) 
+
+			if key:lower() == "w" then 
+				ctrl.f = 0 
+			elseif key:lower() == "s" then 
+				ctrl.b = 0 
+			elseif key:lower() == "a" then 
+				ctrl.l = 0 
+			elseif key:lower() == "d" then 
+				ctrl.r = 0 
+			end 
+		end)
+		Fly()
+		notify("Press P to fly: "..tostring(Pfly),true)
+	end)
+
+	player.CharacterAdded:Connect(function()
+		if Pfly then
+			repeat wait() 
+			until player and player.Character:findFirstChild("Head") player.Character:findFirstChild("Humanoid") 
+			local mouse = player:GetMouse() 
+			repeat wait() until mouse
+			local player = game.Players.LocalPlayer 
+			local torso = player.Character.Head 
+			local flying = false
+			local deb = true 
+			local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+			local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+			local maxspeed = sliderfly 
+			local speed = 0 
+			
+			function Fly() 
+				local bg = Instance.new("BodyGyro", torso) 
+				bg.P = 9e4 
+				bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+				bg.cframe = torso.CFrame 
+	
+				local bv = Instance.new("BodyVelocity", torso) 
+				bv.velocity = Vector3.new(0,0.1,0) 
+				bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
+				repeat wait() 
+					player.Character.Humanoid.PlatformStand = true 
+					if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+						speed = speed+(sliderfly/1.7)+(speed/maxspeed) 
+						if speed > maxspeed then 
+							speed = maxspeed 
+						end 
+	
+					elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+						speed = speed-(sliderfly/1.7)
+						if speed < 0 then 
+							speed = 0 
+						end 
+					end 
+					if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+						bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+						lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+					elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+						bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+					else 
+						bv.velocity = Vector3.new(0,0.1,0)
+					end 
+					bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+				until not flying or not Pfly
+				ctrl = {f = 0, b = 0, l = 0, r = 0} 
+				lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+				speed = 0 
+				bg:Destroy() 
+				bv:Destroy() 
+				player.Character.Humanoid.PlatformStand = false 
+			end 
+	
+			mouse.KeyDown:connect(function(key) 
+				if key:lower() == "p" then 
+					if flying then flying = false 
+					else 
+						flying = true 
+						Fly() 
+					end 
+				elseif key:lower() == "w" then 
+					ctrl.f = 1 
+				elseif key:lower() == "s" then 
+					ctrl.b = -1 
+				elseif key:lower() == "a" then 
+					ctrl.l = -1 
+				elseif key:lower() == "d" then 
+					ctrl.r = 1 
+				end 
+			end) 
+	
+			mouse.KeyUp:connect(function(key) 
+	
+				if key:lower() == "w" then 
+					ctrl.f = 0 
+				elseif key:lower() == "s" then 
+					ctrl.b = 0 
+				elseif key:lower() == "a" then 
+					ctrl.l = 0 
+				elseif key:lower() == "d" then 
+					ctrl.r = 0 
+				end 
+			end)
+			Fly()
+		end
+	end)
+
+	section2:addTextbox("Track selected player","Player's Name",function(ripthatguy)
+		notify("Player Selected: " .. ripthatguy)
+		Target = ripthatguy
+	end)
+
+	local trackthatguy = false
+	section2:addToggle("Track Player",false,function(bool)
+		trackthatguy = bool
+		local platform = Instance.new("Part", player.Character)
+		platform.Anchored = true
+		platform.Transparency = 1
+		platform.Size = Vector3.new(6, 1, 6)
+
+		local connection
+		connection = game:GetService("RunService").RenderStepped:connect(function()
+			if player.Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(Target) then
+				platform.Position = player.Character.HumanoidRootPart.CFrame * Vector3.new(0, -1.8, 0)
 			else
-				script.Parent.Visible = true
+				connection:Disconnect()
+			end
+		end)
+		game:GetService('RunService').Stepped:connect(function()
+			if trackthatguy ~= true then
+				platform:Destroy()
+			end
+		end)
+	end)
+	game:GetService('RunService').Stepped:connect(function()
+		if trackthatguy == true and player.Character:FindFirstChild("HumanoidRootPart") and game.Players:FindFirstChild(Target) then
+			player.Character.HumanoidRootPart.CFrame = game.Players[Target].Character.HumanoidRootPart.CFrame * CFrame.new(0, 5, 10)
+			game:GetService("Workspace").CurrentCamera.CFrame = CFrame.new(game:GetService("Workspace").CurrentCamera.CFrame.p, game.Players[Target].Character.HumanoidRootPart.Position)
+		end
+	end)
+
+	-- load
+	NoobieDoge:SelectPage(NoobieDoge.pages[1], true)
+
+	-- second page
+	local page2 = NoobieDoge:addPage("Misc", 97521755974659)
+	local section1 = page2:addSection("Game Functions")
+	local section2 = page2:addSection("idk")
+	local section3 = page2:addSection("Teleports")
+
+	local AllKnownMelee = {"Spear","Morningstar","Katana","Laser Sword","Ice Sword","Trident","Poison Spear","Inferno Sword","Cultist King Mace","Obsidiron Hammer"}
+	local sack = nil
+	local function findSack()
+		for _, item in pairs(player.Inventory:GetChildren()) do
+			if string.find(item.Name, "Sack") then
+				return item
+			end
+		end
+		return nil
+	end
+	local axe = nil
+	local function findAxe()
+		for _, item in pairs(player.Inventory:GetChildren()) do
+			if string.find(item.Name, "Axe") or string.find(item.Name, "Chainsaw") then
+				return item
+			end
+		end
+		return nil
+	end
+	sack = findSack()
+	axe = findAxe()
+	local toolsDamageIDs = {
+		["Old Axe"] = "1_8982038982",
+		["Good Axe"] = "112_8982038982",
+		["Strong Axe"] = "116_8982038982",
+		["Chainsaw"] = "647_8992824875",
+		["Spear"] = "196_8999010016"
+		
+	}
+
+	-- Try to find any supported tool in inventory with damageID
+	local function getAnyToolWithDamageID()
+		for toolName, damageID in pairs(toolsDamageIDs) do
+			local tool = player.Inventory:FindFirstChild(toolName)
+			if tool then
+				return tool, damageID
+			end
+		end
+		return nil, nil
+	end
+
+	-- Equip a given tool
+	local function equipTool(tool)
+		if tool then
+			RemoteEvents.EquipItemHandle:FireServer("FireAllClients", tool)
+		end
+	end
+
+	-- Unequip a given tool
+	local function unequipTool(tool)
+		if tool then
+			RemoteEvents.UnequipItemHandle:FireServer("FireAllClients", tool)
+		end
+	end
+	
+	local function store(item)
+		--if not sack then return end
+		sack = findSack()
+		local spart = item:FindFirstChildWhichIsA("BasePart")
+		if spart then
+			player.Character.HumanoidRootPart.CFrame = spart.CFrame
+			task.wait(0.2)
+			RemoteEvents:WaitForChild("RequestBagStoreItem"):InvokeServer(sack, item)
+			task.wait(0.2)
+		end
+	end
+
+	local uniqueItems = {}
+	local seenNames = {} -- Dictionary to track seen names
+	for _, item in pairs(workspace.Items:GetChildren()) do
+		if item:FindFirstChildWhichIsA("BasePart") then
+			if not seenNames[item.Name] then -- Check if name hasn't been seen
+				table.insert(uniqueItems, item.Name)
+				seenNames[item.Name] = true -- Mark name as seen
 			end
 		end
 	end
-	UserInputService.InputBegan:Connect(onInputBegan)
-	
-end
-coroutine.wrap(WOLU_fake_script)()
-local function TGAB_fake_script() -- ClickTpBut.ClickTp 
-	local script = Instance.new('LocalScript', ClickTpBut)
 
-	script.Parent.MouseButton1Down:Connect(function()
-		mouse = game.Players.LocalPlayer:GetMouse()
-		tool = Instance.new("Tool")
-		tool.RequiresHandle = false
-		tool.Name = "Click Teleport"
-		tool.Activated:connect(function()
-			local pos = mouse.Hit+Vector3.new(0,2.5,0)
-			pos = CFrame.new(pos.X,pos.Y,pos.Z)
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
+	local campfire = workspace:FindFirstChild("Map"):FindFirstChild("Campground"):FindFirstChild("MainFire"):FindFirstChild("Center")
+	local scrapper = workspace:FindFirstChild("Map"):FindFirstChild("Campground"):FindFirstChild("Scrapper"):FindFirstChild("Main")
+	local fillFrame = campfire.BillboardGui.Frame.Background.Fill
+	
+	if workspace.Map.Landmarks:FindFirstChild("Fishing Hut") and workspace.Map.Landmarks["Fishing Hut"]:FindFirstChild("Main") then workspace.Map.Landmarks["Fishing Hut"].Main:Destroy() end
+	spawn(function() while task.wait(1) do for _, berrybushes in pairs(workspace.Map.Landmarks:GetChildren()) do if berrybushes.Name == "Berry Bush" and berrybushes:FindFirstChild("Bush") then berrybushes.Bush:Destroy() end end end end)
+
+	section1:addButton("God Mode",function()
+		getgenv().godmode = true
+		notify("Godmode Activated")
+	end)
+
+	local function god()
+		if not RemoteEvents then return end
+		local dmg = RemoteEvents:FindFirstChild("DamagePlayer")
+		if not dmg then return end
+		local ok = pcall(function()
+			dmg:FireServer(-9e9)
 		end)
-		tool.Parent = game.Players.LocalPlayer.Backpack
-	
-	end)
-end
-coroutine.wrap(TGAB_fake_script)()
-local function AATJTM_fake_script() -- NoClipBut.Noclip 
-	local script = Instance.new('LocalScript', NoClipBut)
+		if not ok then
+			notify("Godmode failed to fire")
+			warn("Godmode failed to fire")
+		end
+	end
 
-	script.Parent.MouseButton1Down:Connect(function()
-		if script.Parent.Text == "Noclip" then
-			script.Parent.Text = "Clip"
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-		wait(2.6)
-			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(";noclip","All")
+	task.spawn(function()
+		while task.wait(0.5) do
+			if getgenv().godmode then
+				god()
+			end
+		end
+	end)
+
+	section1:addButton("Instant bag children",function()
+		for _, kid in pairs(workspace.Characters:GetChildren()) do
+			if kid:FindFirstChild("Head") and kid.Head:FindFirstChild("ProximityAttachment") and kid.Head:FindFirstChild("KidCrying") then
+				store(kid)
+			end
+		end
+		player.Character.HumanoidRootPart.CFrame =  campfire.CFrame*CFrame.new(0, 9, 0)
+		notify("Bagged all children avaliable!")
+	end)
+
+	section1:addToggle("Auto unlock all avaliable chests",false,function(bool)
+		AutoUnlockAllChests = bool
+	end)
+	task.spawn(function()
+		while wait(.1) do
+			if AutoUnlockAllChests then
+				for _, item in pairs(workspace.Items:GetChildren()) do
+					if item:FindFirstChild("ChestLid") and item:FindFirstChild("Main") and item.Main:FindFirstChild("ProximityAttachment") and not item:FindFirstChild("IceBlock") and not item:FindFirstChild("Platform") then
+						local args = {item}
+						RemoteEvents.RequestOpenItemChest:FireServer(unpack(args))
+						warn("Opened ".. item.Name)
+					end
+				end
+			end
+		end
+	end)
+
+	section1:addToggle("Auto get all avaliable coin stacks",false,function(bool)
+		AutoGetAllCoinStacks = bool
+	end)
+	task.spawn(function()
+		while wait(.1) do
+			if AutoGetAllCoinStacks then
+				for _, item in pairs(workspace.Items:GetChildren()) do
+					if item.Name == "Coin Stack" and item:FindFirstChild("HumanoidRootPart") then
+						--item.Main.CFrame=player.Character.HumanoidRootPart.CFrame*CFrame.new(0, 1, 0)
+						local args = {item}
+						RemoteEvents.RequestCollectCoints:InvokeServer(unpack(args))
+						warn("Collected a Coin Stack")
+					end
+				end
+			end
+		end
+	end)
+
+	local BoostPad = false
+	section1:addToggle("Auto boost pad when near",false,function(bool)
+		BoostPad = bool
+	end)
+	spawn(function()
+		while task.wait(.1) do
+			if BoostPad then
+				if workspace.Structures:FindFirstChild("Boost Pad") and workspace.Structures["Boost Pad"]:FindFirstChild("Primary") then
+					local prox = workspace.Structures["Boost Pad"].Primary.ProximityAttachment.ProximityInteraction
+					prox.HoldDuration = 0
+					--prox.MaxActivationDistance = 9e9
+					prox.Exclusivity = 2
+					prox.RequiresLineOfSight  = false
+					fireproximityprompt(prox)
+				else
+					warn("No boost pad detected")
+				end
+			end
+		end
+	end)
+
+	-- Store default fog values to restore later
+	local defaultFogStart = game.Lighting.FogStart
+	local defaultFogEnd = game.Lighting.FogEnd
+	section1:addToggle("Toggle Fog",false,function(bool)
+		fogEnabled = bool
+		if fogEnabled then
+			-- Disable fog (clear sky)
+			game.Lighting.FogStart = 999999 -- so far away it's basically off
+			game.Lighting.FogEnd = 1000000
 		else
-			script.Parent.Text = "Noclip"
-			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(";clip","All")
+			-- Restore default fog settings
+			game.Lighting.FogStart = defaultFogStart
+			game.Lighting.FogEnd = defaultFogEnd
 		end
 	end)
-end
-coroutine.wrap(AATJTM_fake_script)()
-local function ZDXVH_fake_script() -- SonicBut.Sonic 
-	local script = Instance.new('LocalScript', SonicBut)
 
-	script.Parent.MouseButton1Down:Connect(function()
-		loadstring(game:HttpGetAsync("https://pastebin.com/raw/SyF5t70A"))()
+	section2:addButton("Instant unlock cultist stronghold enterence doors (testing)",function()
+		local prox = workspace.Map.Landmarks.Stronghold.Functional.EntryDoors.DoorRight.Main.ProximityAttachment.ProximityInteraction
+		prox.HoldDuration = 0
+		prox.MaxActivationDistance = 9e9
+		prox.Exclusivity = 2
+		prox.RequiresLineOfSight  = false
+		task.wait(.1)
+		fireproximityprompt(prox)
+		notify("Unlocked Cultist Stronghold Enterance Doors")
 	end)
-end
-coroutine.wrap(ZDXVH_fake_script)()
-local function CRSQC_fake_script() -- TelekiniesBut.TEL 
-	local script = Instance.new('LocalScript', TelekiniesBut)
+	section2:addButton("Teleport to stronghold corridor (testing)",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks.Stronghold.Functional.Sign.CFrame*CFrame.new(0, 0, -20)
+		end)
+	end)
 
-	script.Parent.MouseButton1Down:Connect(function()
-		--BROUGHT TO YOU BY RobloxScripter.com!--
-		--Follow Our Partners!--
-	
-		local function a(b, c)
-			local d = getfenv(c)
-			local e =
-				setmetatable(
-					{},
-					{__index = function(self, f)
-					if f == "script" then
-						return b
-					else
-						return d[f]
-					end
-				end}
-				)
-			setfenv(c, e)
-			return c
-		end
-		local g = {}
-		local h = Instance.new("Model", game:GetService("Lighting"))
-		local i = Instance.new("Tool")
-		local j = Instance.new("Part")
-		local k = Instance.new("Script")
-		local l = Instance.new("LocalScript")
-		local m = sethiddenproperty or set_hidden_property
-		i.Name = "Telekinesis"
-		i.Parent = h
-		i.Grip = CFrame.new(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-		i.GripForward = Vector3.new(-0, -1, -0)
-		i.GripRight = Vector3.new(0, 0, 1)
-		i.GripUp = Vector3.new(1, 0, 0)
-		j.Name = "Handle"
-		j.Parent = i
-		j.CFrame = CFrame.new(-17.2635937, 15.4915619, 46, 0, 1, 0, 1, 0, 0, 0, 0, -1)
-		j.Orientation = Vector3.new(0, 180, 90)
-		j.Position = Vector3.new(-17.2635937, 15.4915619, 46)
-		j.Rotation = Vector3.new(-180, 0, -90)
-		j.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
-		j.Transparency = 1
-		j.Size = Vector3.new(1, 1.20000005, 1)
-		j.BottomSurface = Enum.SurfaceType.Weld
-		j.BrickColor = BrickColor.new("Really black")
-		j.Material = Enum.Material.Metal
-		j.TopSurface = Enum.SurfaceType.Smooth
-		j.brickColor = BrickColor.new("Really black")
-		k.Name = "LineConnect"
-		k.Parent = i
-		table.insert(
-			g,
-			a(
-				k,
-				function()
-					wait()
-					local n = script.Part2
-					local o = script.Part1.Value
-					local p = script.Part2.Value
-					local q = script.Par.Value
-					local color = script.Color
-					local r = Instance.new("Part")
-					r.TopSurface = 0
-					r.BottomSurface = 0
-					r.Reflectance = .5
-					r.Name = "Laser"
-					r.Locked = true
-					r.CanCollide = false
-					r.Anchored = true
-					r.formFactor = 0
-					r.Size = Vector3.new(1, 1, 1)
-					local s = Instance.new("BlockMesh")
-					s.Parent = r
-					while true do
-						if n.Value == nil then
-							break
-						end
-						if o == nil or p == nil or q == nil then
-							break
-						end
-						if o.Parent == nil or p.Parent == nil then
-							break
-						end
-						if q.Parent == nil then
-							break
-						end
-						local t = CFrame.new(o.Position, p.Position)
-						local dist = (o.Position - p.Position).magnitude
-						r.Parent = q
-						r.BrickColor = color.Value.BrickColor
-						r.Reflectance = color.Value.Reflectance
-						r.Transparency = color.Value.Transparency
-						r.CFrame = CFrame.new(o.Position + t.lookVector * dist / 2)
-						r.CFrame = CFrame.new(r.Position, p.Position)
-						s.Scale = Vector3.new(.25, .25, dist)
-						wait()
-					end
-					r:remove()
-					script:remove()
+	section3:addButton("Teleport to campfire",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame =  campfire.CFrame*CFrame.new(0, 9, 0)
+		end)
+	end)
+	section3:addButton("Teleport to scrapper",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame =  scrapper.CFrame*CFrame.new(0, 3, 0)
+		end)
+	end)
+	section3:addButton("Teleport to fairy",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks:FindFirstChild("Fairy House"):FindFirstChild("Door"):FindFirstChild("Part").CFrame*CFrame.new(0, 0, -10)
+		end)
+	end)
+	section3:addButton("Teleport to fishing hut",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks:FindFirstChild("Fishing Hut"):FindFirstChild("Building"):FindFirstChild("Door"):FindFirstChild("Main").CFrame*CFrame.new(0, 5, 0)
+		end)
+	end)
+	section3:addButton("Teleport to animal shelter",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks:FindFirstChild("Animal Shelter"):FindFirstChild("Building").Part.CFrame*CFrame.new(0, 5, 0)
+		end)
+	end)
+	section3:addButton("Teleport to skills building",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks:FindFirstChild("SkillsBuilding"):FindFirstChild("FluteBench"):FindFirstChild("Model"):FindFirstChild("Part").CFrame*CFrame.new(0, 15, -5)
+		end)
+	end)
+	section3:addButton("Teleport to cultist stronghold",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks:FindFirstChild("Stronghold"):FindFirstChild("Building"):FindFirstChild("Sign"):FindFirstChild("Meshes/mossy_coin_Cylinder.001").CFrame*CFrame.new(-12, 0, 0)
+		end)
+	end)
+
+	-- third page
+	local page3 = NoobieDoge:addPage("Items", 97521755974659)
+	local section1 = page3:addSection("Bring Items")
+	local section2 = page3:addSection("Campfire")
+	local section2a = page3:addSection("Auto Burn Fuel")
+	local section3 = page3:addSection("Scrapper")
+	local section3a = page3:addSection("Auto Scrap Items")
+	local section4 = page3:addSection("Food")
+	local section5 = page3:addSection("BioFuel Processor")
+
+	local AllKnownFuel = {"Log","Biofuel","Coal","Fuel Canister","Oil Barrel"}
+	local AllKnownCookableFood = {"Morsel","Steak","Ribs","Mackerel","Salmon","Clownfish","Char","Eel","Swordfish","Shark","Lava Eel","Lionfish"}
+	local AllKnownScrap = {"Bolt","Sheet Metal","UFO Junk","UFO Component","Broken Fan","Old Radio","Broken Microwave","Tyre","Metal Chair","Old Car Engine","Washing Machine","Cultist Experiment","Cultist Prototype","UFO Scrap","Log","Chair","Cultist Gem","Forest Gem"}
+	local AllKnownScrapMetal = {"Bolt","Sheet Metal","UFO Junk","UFO Component","Broken Fan","Old Radio","Broken Microwave","Tyre","Metal Chair","Old Car Engine","Washing Machine","Cultist Experiment","Cultist Prototype","UFO Scrap"}
+	local AllKnownScrapWood = {"Log","Chair"}
+	local AllKnownScrapGem = {"Cultist Gem","Forest Gem"}
+	local AllKnownBioFuelMaterials = {"Log","Morsel","Cooked Morsel","Steak","Cooked Steak","Ribs","Cooked Ribs","Carrot","Corn","Pumpkin","Berry","Apple","Mackerel","Cooked Mackerel","Salmon","Cooked Salmon","Clownfish","Cooked Clownfish","Char","Cooked Char","Eel","Cooked Eel","Swordfish","Cooked Swordfish","Shark","Cooked Shark","Lava Eel","Cooked Lava Eel","Lionfish","Cooked Lionfish","Bunny Foot","Wolf Pelt","Alpha Wolf Pelt","Bear Pelt"}
+	section1:addButton("Update Item List",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if item:FindFirstChildWhichIsA("BasePart") then
+				if not seenNames[item.Name] then -- Check if name hasn't been seen
+					table.insert(uniqueItems, item.Name)
+					seenNames[item.Name] = true -- Mark name as seen
 				end
-			)
-		)
-		k.Disabled = true
-		l.Name = "MainScript"
-		l.Parent = i
-		table.insert(
-			g,
-			a(
-				l,
-				function()
-					wait()
-					tool = script.Parent
-					lineconnect = tool.LineConnect
-					object = nil
-					mousedown = false
-					found = false
-					BP = Instance.new("BodyPosition")
-					BP.maxForce = Vector3.new(math.huge * math.huge, math.huge * math.huge, math.huge * math.huge)
-					BP.P = BP.P * 1.1
-					dist = nil
-					point = Instance.new("Part")
-					point.Locked = true
-					point.Anchored = true
-					point.formFactor = 0
-					point.Shape = 0
-					point.BrickColor = BrickColor.Black()
-					point.Size = Vector3.new(1, 1, 1)
-					point.CanCollide = false
-					local s = Instance.new("SpecialMesh")
-					s.MeshType = "Sphere"
-					s.Scale = Vector3.new(.7, .7, .7)
-					s.Parent = point
-					handle = tool.Handle
-					front = tool.Handle
-					color = tool.Handle
-					objval = nil
-					local u = false
-					local v = BP:clone()
-					v.maxForce = Vector3.new(30000, 30000, 30000)
-					function LineConnect(o, p, q)
-						local w = Instance.new("ObjectValue")
-						w.Value = o
-						w.Name = "Part1"
-						local x = Instance.new("ObjectValue")
-						x.Value = p
-						x.Name = "Part2"
-						local y = Instance.new("ObjectValue")
-						y.Value = q
-						y.Name = "Par"
-						local z = Instance.new("ObjectValue")
-						z.Value = color
-						z.Name = "Color"
-						local A = lineconnect:clone()
-						A.Disabled = false
-						w.Parent = A
-						x.Parent = A
-						y.Parent = A
-						z.Parent = A
-						A.Parent = workspace
-						if p == object then
-							objval = x
+			end
+		end
+		local tempItemsB = {}
+		for _, name in ipairs(uniqueItems) do
+			table.insert(tempItemsB, name)
+		end
+		table.insert(tempItemsB, "Select item to bring") table.insert(tempItemsB, "")
+		for _, name in ipairs(tempItemsB) do
+			if game:GetService("CoreGui")["DogeHub V2"].Main["Items"]["Bring Items"].Container.Dropdown.Search.TextBox.Text == name then
+				section1:updateDropdown(name,"Select item to bring",uniqueItems,function(LeBring1)
+					print("Selected: " .. LeBring1)
+					notify("Item Selected: " .. LeBring1)
+					LeBring = LeBring1
+				end)
+			end
+		end
+	end)
+
+	section1:addDropdown("Select item to bring",uniqueItems,function(LeBring1)
+		print("Selected: " .. LeBring1)
+		notify("Item Selected: " .. LeBring1)
+		LeBring = LeBring1
+	end)
+
+	section1:addButton("Bring item",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				if item.Name == LeBring then
+					task.wait()
+					local args = {item}
+					RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+					item:FindFirstChildWhichIsA("BasePart").CFrame=player.Character.HumanoidRootPart.CFrame*CFrame.new(0, 30, 0)
+					RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+				end
+			end
+		end
+	end)
+
+	section1:addButton("Bring Everything",function()
+		local player = game.Players.LocalPlayer
+		local ScreenGuiK = Instance.new("ScreenGui")
+		local Frame = Instance.new("ImageLabel")
+		local TextLabelFrame = Instance.new("ImageLabel")
+		local TextLabel = Instance.new("TextLabel")
+		local TextButton = Instance.new("ImageButton")
+		local TextButtonText = Instance.new("TextButton")
+		local TextButton_2 = Instance.new("ImageButton")
+		local TextButton_2Text = Instance.new("TextButton")
+
+		ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+		Frame.Parent = ScreenGuiK
+		Frame.Name = "Main"
+		Frame.BackgroundTransparency = 1
+		Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+		Frame.Size = UDim2.new(0, 220, 0, 120)
+		Frame.Image = "rbxassetid://4641149554"
+		Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+		Frame.ScaleType = Enum.ScaleType.Slice
+		Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+		Frame.Active = true
+		Frame.Draggable = true
+
+		TextLabelFrame.Parent = Frame
+		TextLabelFrame.Name = "TopBar"
+		TextLabelFrame.BackgroundTransparency = 1
+		TextLabelFrame.ClipsDescendants = true
+		TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+		TextLabelFrame.ZIndex = 2
+		TextLabelFrame.Image = "rbxassetid://4595286933"
+		TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+		TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+
+		TextLabel.Parent = Frame
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Size = UDim2.new(0, 220, 0, 60)
+		TextLabel.ZIndex = 3
+		TextLabel.Font = Enum.Font.TitilliumWeb
+		TextLabel.Text = "This procedure may cause lag! Are you sure that you want to bring everything?"
+		TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.TextScaled = false
+		TextLabel.TextSize = 18.000
+		TextLabel.TextWrapped = true
+
+		TextButton.Parent = Frame
+		TextButton.Name = "Button"
+		TextButton.BackgroundTransparency = 1
+		TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+		TextButton.BorderSizePixel = 0
+		TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton.ZIndex = 2
+		TextButton.Image = "rbxassetid://5028857472"
+		TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton.ScaleType = Enum.ScaleType.Slice
+		TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButtonText.Parent = TextButton
+		TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButtonText.BackgroundTransparency = 1
+		TextButtonText.ZIndex = 3
+		TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButtonText.Font = Enum.Font.TitilliumWeb
+		TextButtonText.Text = "Yes"
+		TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButtonText.TextScaled = true
+		TextButtonText.TextSize = 40.000
+		TextButtonText.TextWrapped = true
+
+		function BEverythingYES()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+			for _, item in pairs(workspace.Items:GetChildren()) do
+				if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+					if (item:FindFirstChild("Main") and item:FindFirstChildWhichIsA("MeshPart")) or item:GetDescendants("Glass") or item:FindFirstChild("Handle") or item:FindFirstChild("HumanoidRootPart") then
+						pcall(function()
+							task.wait()
+							local args = {item}
+							RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+							item:FindFirstChildWhichIsA("BasePart").CFrame=player.Character.HumanoidRootPart.CFrame*CFrame.new(0, 30, 0)
+							RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+						end)
+					end
+				end
+			end
+		end
+		TextButton.MouseButton1Click:connect(BEverythingYES)
+		TextButtonText.MouseButton1Click:connect(BEverythingYES)
+
+		TextButton_2.Parent = Frame
+		TextButton_2.Name = "Button"
+		TextButton_2.BackgroundTransparency = 1
+		TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+		TextButton_2.BorderSizePixel = 0
+		TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2.ZIndex = 2
+		TextButton_2.Image = "rbxassetid://5028857472"
+		TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton_2.ScaleType = Enum.ScaleType.Slice
+		TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButton_2Text.Parent = TextButton_2
+		TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButton_2Text.BackgroundTransparency = 1
+		TextButton_2Text.ZIndex = 3
+		TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2Text.Font = Enum.Font.TitilliumWeb
+		TextButton_2Text.Text = "No"
+		TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButton_2Text.TextScaled = true
+		TextButton_2Text.TextSize = 40.000
+		TextButton_2Text.TextWrapped = true
+
+		function BEverythingNO()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+		end
+		TextButton_2.MouseButton1Click:connect(BEverythingNO)	
+		TextButton_2Text.MouseButton1Click:connect(BEverythingNO)
+	end)
+
+	section2:addButton("Burn fuel only",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				for _, x in ipairs(AllKnownFuel) do
+					if item.Name == x then
+						pcall(function()
+							task.wait(.1)
+							local args = {item}
+							RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+							item:FindFirstChildWhichIsA("BasePart").CFrame=campfire.CFrame*CFrame.new(0, 13, 0)
+							RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+						end)
+					end
+				end
+			end
+		end
+	end)
+	
+	section2:addButton("Cook food only",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				for _, x in ipairs(AllKnownCookableFood) do
+					if item.Name == x then
+						pcall(function()
+							task.wait(.1)
+							local args = {item}
+							RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+							item:FindFirstChildWhichIsA("BasePart").CFrame=campfire.CFrame*CFrame.new(0, 13, 0)
+							RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+						end)
+					end
+				end
+			end
+		end
+	end)
+
+	section2:addButton("Update Item List",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if item:FindFirstChildWhichIsA("BasePart") then
+				if not seenNames[item.Name] then -- Check if name hasn't been seen
+					table.insert(uniqueItems, item.Name)
+					seenNames[item.Name] = true -- Mark name as seen
+				end
+			end
+		end
+		local tempItemsC = {}
+		for _, name in ipairs(uniqueItems) do
+			table.insert(tempItemsC, name)
+		end
+		table.insert(tempItemsC, "Select item to burn") table.insert(tempItemsC, "")
+		for _, name in ipairs(tempItemsC) do
+			if game:GetService("CoreGui")["DogeHub V2"].Main["Items"].Campfire.Container.Dropdown.Search.TextBox.Text == name then
+				section2:updateDropdown(name,"Select item to burn",uniqueItems,function(Campfirethrow1)
+					print("Selected: " .. Campfirethrow1)
+					notify("Item Selected: " .. Campfirethrow1)
+					Campfirethrow = Campfirethrow1
+				end)
+			end
+		end
+	end)
+
+	section2:addDropdown("Select item to burn",uniqueItems,function(Campfirethrow1)
+		print("Selected: " .. Campfirethrow1)
+		notify("Item Selected: " .. Campfirethrow1)
+		Campfirethrow = Campfirethrow1
+	end)
+
+	section2:addButton("Burn item",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				if item.Name == Campfirethrow then
+					pcall(function()
+						task.wait(.1)
+						local args = {item}
+						RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+						item:FindFirstChildWhichIsA("BasePart").CFrame=campfire.CFrame*CFrame.new(0, 13, 0)
+						RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+					end)
+				end
+			end
+		end
+	end)
+
+	section2:addButton("Burn Everything",function()
+		local player = game.Players.LocalPlayer
+		local ScreenGuiK = Instance.new("ScreenGui")
+		local Frame = Instance.new("ImageLabel")
+		local TextLabelFrame = Instance.new("ImageLabel")
+		local TextLabel = Instance.new("TextLabel")
+		local TextButton = Instance.new("ImageButton")
+		local TextButtonText = Instance.new("TextButton")
+		local TextButton_2 = Instance.new("ImageButton")
+		local TextButton_2Text = Instance.new("TextButton")
+
+		ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+		Frame.Parent = ScreenGuiK
+		Frame.Name = "Main"
+		Frame.BackgroundTransparency = 1
+		Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+		Frame.Size = UDim2.new(0, 220, 0, 120)
+		Frame.Image = "rbxassetid://4641149554"
+		Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+		Frame.ScaleType = Enum.ScaleType.Slice
+		Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+		Frame.Active = true
+		Frame.Draggable = true
+
+		TextLabelFrame.Parent = Frame
+		TextLabelFrame.Name = "TopBar"
+		TextLabelFrame.BackgroundTransparency = 1
+		TextLabelFrame.ClipsDescendants = true
+		TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+		TextLabelFrame.ZIndex = 2
+		TextLabelFrame.Image = "rbxassetid://4595286933"
+		TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+		TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+
+		TextLabel.Parent = Frame
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Size = UDim2.new(0, 220, 0, 60)
+		TextLabel.ZIndex = 3
+		TextLabel.Font = Enum.Font.TitilliumWeb
+		TextLabel.Text = "This procedure may cause lag! Are you sure that you want to burn everything?"
+		TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.TextScaled = false
+		TextLabel.TextSize = 18.000
+		TextLabel.TextWrapped = true
+
+		TextButton.Parent = Frame
+		TextButton.Name = "Button"
+		TextButton.BackgroundTransparency = 1
+		TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+		TextButton.BorderSizePixel = 0
+		TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton.ZIndex = 2
+		TextButton.Image = "rbxassetid://5028857472"
+		TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton.ScaleType = Enum.ScaleType.Slice
+		TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButtonText.Parent = TextButton
+		TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButtonText.BackgroundTransparency = 1
+		TextButtonText.ZIndex = 3
+		TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButtonText.Font = Enum.Font.TitilliumWeb
+		TextButtonText.Text = "Yes"
+		TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButtonText.TextScaled = true
+		TextButtonText.TextSize = 40.000
+		TextButtonText.TextWrapped = true
+
+		function BurnEverythingYES()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+			for _, item in pairs(workspace.Items:GetChildren()) do
+				if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+					if (item:FindFirstChild("Main") and item:FindFirstChildWhichIsA("MeshPart")) or item:GetDescendants("Glass") or item:FindFirstChild("Handle") or item:FindFirstChild("HumanoidRootPart") then
+						pcall(function()
+							task.wait(.1)
+							local args = {item}
+							RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+							item:FindFirstChildWhichIsA("BasePart").CFrame=campfire.CFrame*CFrame.new(0, 13, 0)
+							RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+						end)
+					end
+				end
+			end
+		end
+		TextButton.MouseButton1Click:connect(BurnEverythingYES)
+		TextButtonText.MouseButton1Click:connect(BurnEverythingYES)
+
+		TextButton_2.Parent = Frame
+		TextButton_2.Name = "Button"
+		TextButton_2.BackgroundTransparency = 1
+		TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+		TextButton_2.BorderSizePixel = 0
+		TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2.ZIndex = 2
+		TextButton_2.Image = "rbxassetid://5028857472"
+		TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton_2.ScaleType = Enum.ScaleType.Slice
+		TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButton_2Text.Parent = TextButton_2
+		TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButton_2Text.BackgroundTransparency = 1
+		TextButton_2Text.ZIndex = 3
+		TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2Text.Font = Enum.Font.TitilliumWeb
+		TextButton_2Text.Text = "No"
+		TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButton_2Text.TextScaled = true
+		TextButton_2Text.TextSize = 40.000
+		TextButton_2Text.TextWrapped = true
+
+		function BurnEverythingNO()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+		end
+		TextButton_2.MouseButton1Click:connect(BurnEverythingNO)	
+		TextButton_2Text.MouseButton1Click:connect(BurnEverythingNO)
+	end)
+
+	local AutoBurnFuel = false
+	local BurnFuelPercentage = 70
+	section2a:addToggle("Auto Burn Fuel",false,function(bool)
+		AutoBurnFuel = bool
+		if AutoBurnFuel then
+			notify("Auto burn fuel when campfire health is lower than "..tostring(BurnFuelPercentage).."%")
+		end
+	end)
+	section2a:addSlider("Auto burn fuel when campfire health dropped to:", 70, 0, 100, function(value)
+		BurnFuelPercentage = value
+	end)
+
+	task.spawn(function()
+		while task.wait() do
+			if AutoBurnFuel then
+				if workspace.Map.Campground.MainFire.Center.FireLight.Enabled == false then
+					for _, item in pairs(workspace.Items:GetChildren()) do
+						if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+							for _, x in ipairs(AllKnownFuel) do
+								if item.Name == x then
+									pcall(function()
+										task.wait(.1)
+										local args = {item}
+										RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+										item:FindFirstChildWhichIsA("BasePart").CFrame=campfire.CFrame*CFrame.new(0, 13, 0)
+										RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+									end)
+								end
+							end
 						end
 					end
-					function onButton1Down(B)
-						if mousedown == true then
-							return
-						end
-						mousedown = true
-						coroutine.resume(
-							coroutine.create(
-								function()
-									local C = point:clone()
-									C.Parent = tool
-									LineConnect(front, C, workspace)
-									while mousedown == true do
-										C.Parent = tool
-										if object == nil then
-											if B.Target == nil then
-												local t = CFrame.new(front.Position, B.Hit.p)
-												C.CFrame = CFrame.new(front.Position + t.lookVector * 1000)
-											else
-												C.CFrame = CFrame.new(B.Hit.p)
-											end
-										else
-											LineConnect(front, object, workspace)
-											break
+				else
+					local healthPercent = fillFrame.Size.X.Scale
+					if healthPercent < (BurnFuelPercentage/100) then
+						repeat
+							for _, item in pairs(workspace.Items:GetChildren()) do
+								if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+									for _, x in ipairs(AllKnownFuel) do
+										if item.Name == x and healthPercent <= 0.99 then
+											pcall(function()
+												task.wait(.5)
+												print("Campfire health percentage: "..healthPercent) print("Please search for fuel!")
+												local args = {item}
+												RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+												item:FindFirstChildWhichIsA("BasePart").CFrame=campfire.CFrame*CFrame.new(0, 13, 0)
+												RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+												healthPercent = fillFrame.Size.X.Scale
+											end)
 										end
-										wait()
 									end
-									C:remove()
-								end
-							)
-						)
-						while mousedown == true do
-							if B.Target ~= nil then
-								local D = B.Target
-								if D.Anchored == false then
-									object = D
-									dist = (object.Position - front.Position).magnitude
-									break
 								end
 							end
-							wait()
-						end
-						while mousedown == true do
-							if object.Parent == nil then
-								break
-							end
-							local t = CFrame.new(front.Position, B.Hit.p)
-							BP.Parent = object
-							BP.position = front.Position + t.lookVector * dist
-							wait()
-						end
-						BP:remove()
-						object = nil
-						objval.Value = nil
+							task.wait(0.5)
+							healthPercent = fillFrame.Size.X.Scale
+						until healthPercent >= 1
 					end
-					function onKeyDown(E, B)
-						local E = E:lower()
-						local F = false
-						if E == "q" then
-							if dist >= 5 then
-								dist = dist - 10
-							end
-						end
-						if E == "r" then
-							if object == nil then
-								return
-							end
-							for G, H in pairs(object:children()) do
-								if H.className == "BodyGyro" then
-									return nil
-								end
-							end
-							BG = Instance.new("BodyGyro")
-							BG.maxTorque = Vector3.new(math.huge, math.huge, math.huge)
-							BG.cframe = CFrame.new(object.CFrame.p)
-							BG.Parent = object
-							repeat
-								wait()
-							until object.CFrame == CFrame.new(object.CFrame.p)
-							BG.Parent = nil
-							if object == nil then
-								return
-							end
-							for G, H in pairs(object:children()) do
-								if H.className == "BodyGyro" then
-									H.Parent = nil
-								end
-							end
-							object.Velocity = Vector3.new(0, 0, 0)
-							object.RotVelocity = Vector3.new(0, 0, 0)
-							object.Orientation = Vector3.new(0, 0, 0)
-						end
-						if E == "e" then
-							dist = dist + 10
-						end
-						if E == "t" then
-							if dist ~= 10 then
-								dist = 10
-							end
-						end
-						if E == "y" then
-							if dist ~= 200 then
-								dist = 200
-							end
-						end
-						if E == "=" then
-							BP.P = BP.P * 1.5
-						end
-						if E == "-" then
-							BP.P = BP.P * 0.5
-						end
-					end
-					function onEquipped(B)
-						keymouse = B
-						local I = tool.Parent
-						human = I.Humanoid
-						human.Changed:connect(
-							function()
-								if human.Health == 0 then
-									mousedown = false
-									BP:remove()
-									point:remove()
-									tool:remove()
-								end
-							end
-						)
-						B.Button1Down:connect(
-							function()
-								onButton1Down(B)
-							end
-						)
-						B.Button1Up:connect(
-							function()
-								mousedown = false
-							end
-						)
-						B.KeyDown:connect(
-							function(E)
-								onKeyDown(E, B)
-							end
-						)
-						B.Icon = "rbxasset://textures\\GunCursor.png"
-					end
-					tool.Equipped:connect(onEquipped)
-				end
-			)
-		)
-		for J, H in pairs(h:GetChildren()) do
-			H.Parent = game:GetService("Players").LocalPlayer.Backpack
-			pcall(
-				function()
-					H:MakeJoints()
-				end
-			)
-		end
-		h:Destroy()
-		for J, H in pairs(g) do
-			spawn(
-				function()
-					pcall(H)
-				end
-			)
-		end
-	end)
-end
-coroutine.wrap(CRSQC_fake_script)()
-local function ZHDWEL_fake_script() -- WalkWallsBut.walls 
-	local script = Instance.new('LocalScript', WalkWallsBut)
-
-	script.Parent.MouseButton1Down:Connect(function()
-		getgenv()["cofiG"] = getgenv()["cofiG"] or {}
-		local hasToUpdate = true
-		local alreadyRan = cofiG.gravityController ~= nil
-	
-		local http = game:GetService'HttpService'
-		local readfile,writefile,fileexists = readfile or syn_io_read,writefile or syn_io_write,isfile or readfile
-	
-		local rawUrl,baseUrl = "https://ixss.keybase.pub/rblx/gravityController/", "https://keybase.pub/ixss/rblx/gravityController/"
-	
-		do
-			_G.req = [[
-	        local require = function(lol)
-	            lol = "https://raw.githubusercontent.com/msva/lua-htmlparser/master/src/"..lol:gsub("%.","/")..".lua";
-	            return loadstring(_G.req..game:HttpGet(lol))();
-	        end;
-	    ]]
-	
-			local require = function(lol)
-				lol = "https://raw.githubusercontent.com/msva/lua-htmlparser/master/src/"..lol:gsub("%.","/")..".lua";
-				return loadstring(_G.req..game:HttpGet(lol))();
-			end;
-	
-			cofiG.htmlparser = cofiG.htmlparser or require"htmlparser"
-		end
-	
-		do  -- check if exists
-			if fileexists'gravityController.json' then
-				local json = readfile'gravityController.json'
-				if json then
-					cofiG.gravityController = http:JSONDecode(json)
-					hasToUpdate = cofiG.gravityController.Version ~= game:HttpGet(rawUrl.."Version.txt")
+					task.wait(2)
 				end
 			end
-			game.StarterGui:SetCore("ChatMakeSystemMessage", {
-				Text = hasToUpdate and "Updating script..." or "Running script!";
-				Font = Enum.Font.Code;
-				Color = Color3.fromRGB(255, 60, 60);
-				FontSize = Enum.FontSize.Size96;   
-			})
 		end
-	
-	
-		if hasToUpdate then -- update/download
-	
-			function getScripts()
-				local ret = {}
-				local text = game:HttpGet(baseUrl, false)
-	
-				local root = cofiG.htmlparser.parse(text)
-				local files = root:select(".file")
-	
-				for i,v in pairs(files) do
-					if string.sub(v.attributes.href, string.len(v.attributes.href)-3) == ".lua" then
-						local name = string.sub(v.attributes.href,string.len(baseUrl)+1, string.len(v.attributes.href)-4)
-						local script = rawUrl..name..".lua"
-						ret[name] = game:HttpGet(script)
-					elseif string.sub(v.attributes.href, string.len(v.attributes.href)-3) == ".txt" then
-						local name = string.sub(v.attributes.href,string.len(baseUrl)+1, string.len(v.attributes.href)-4)
-						local script = rawUrl..name..".txt"
-						ret[name] = game:HttpGet(script)
+	end)
+
+	section3:addButton("Scrap materials only",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				for _, x in ipairs(AllKnownScrap) do
+					if item.Name == x then
+						pcall(function()
+							task.wait(.1)
+							local args = {item}
+							RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+							item:FindFirstChildWhichIsA("BasePart").CFrame=scrapper.CFrame*CFrame.new(0, 8, 0)
+							RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+						end)
 					end
 				end
-	
-				return ret
 			end
-			cofiG.gravityController = getScripts()
-			writefile('gravityController.json', http:JSONEncode(cofiG.gravityController))
-			warn('Script updated!')
-		end
-	
-		local a,b = pcall(loadstring(cofiG.gravityController.Loader))
-	
-		if not a then
-			error('Loader ', b)
-		end
-	
-		if not alreadyRan then
-			game.StarterGui:SetCore("ChatMakeSystemMessage", {
-				Text = game:HttpGet('https://ixss.keybase.pub/Watermark.txt', true)..", originally made by EgoMoose.";
-				Font = Enum.Font.Code;
-				Color = Color3.fromRGB(244, 0, 175);
-				FontSize = Enum.FontSize.Size96;   
-			})
 		end
 	end)
-end
-coroutine.wrap(ZHDWEL_fake_script)()
-local function GGZTRR_fake_script() -- BtoolsBut.Btools 
-	local script = Instance.new('LocalScript', BtoolsBut)
 
-	script.Parent.MouseButton1Down:Connect(function()
-		game.StarterGui:SetCoreGuiEnabled(2, true)
-		a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		a.BinType = 2
-		b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		b.BinType = 3
-		c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-		c.BinType = 4
+	section3:addButton("Update Item List",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if item:FindFirstChildWhichIsA("BasePart") then
+				if not seenNames[item.Name] then -- Check if name hasn't been seen
+					table.insert(uniqueItems, item.Name)
+					seenNames[item.Name] = true -- Mark name as seen
+				end
+			end
+		end
+		local tempItemsS = {}
+		for _, name in ipairs(uniqueItems) do
+			table.insert(tempItemsS, name)
+		end
+		table.insert(tempItemsS, "Select item to scrap") table.insert(tempItemsS, "")
+		for _, name in ipairs(tempItemsS) do
+			if game:GetService("CoreGui")["DogeHub V2"].Main["Items"].Scrapper.Container.Dropdown.Search.TextBox.Text == name then
+				section3:updateDropdown(name,"Select item to scrap",uniqueItems,function(Scrapperscrap1)
+					print("Selected: " .. Scrapperscrap1)
+					notify("Item Selected: " .. Scrapperscrap1)
+					Scrapperscrap = Scrapperscrap1
+				end)
+			end
+		end
 	end)
-end
-coroutine.wrap(GGZTRR_fake_script)()
-local function ACHGC_fake_script() -- MEME.me me 
-	local script = Instance.new('LocalScript', MEME)
 
-	script.Parent.MouseButton1Down:Connect(function()
-		loadstring(game:HttpGetAsync("https://pastebin.com/raw/0QfjMKrF"))()
+	section3:addDropdown("Select item to scrap",uniqueItems,function(Scrapperscrap1)
+		print("Selected: " .. Scrapperscrap1)
+		notify("Item Selected: " .. Scrapperscrap1)
+		Scrapperscrap = Scrapperscrap1
 	end)
+
+	section3:addButton("Scrap item",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				if item.Name == Scrapperscrap then
+					pcall(function()
+						task.wait(.1)
+						local args = {item}
+						RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+						item:FindFirstChildWhichIsA("BasePart").CFrame=scrapper.CFrame*CFrame.new(0, 8, 0)
+						RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+					end)
+				end
+			end
+		end
+	end)
+
+	section3:addButton("Scrap Everything",function()
+		local player = game.Players.LocalPlayer
+		local ScreenGuiK = Instance.new("ScreenGui")
+		local Frame = Instance.new("ImageLabel")
+		local TextLabelFrame = Instance.new("ImageLabel")
+		local TextLabel = Instance.new("TextLabel")
+		local TextButton = Instance.new("ImageButton")
+		local TextButtonText = Instance.new("TextButton")
+		local TextButton_2 = Instance.new("ImageButton")
+		local TextButton_2Text = Instance.new("TextButton")
+
+		ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+		Frame.Parent = ScreenGuiK
+		Frame.Name = "Main"
+		Frame.BackgroundTransparency = 1
+		Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+		Frame.Size = UDim2.new(0, 220, 0, 120)
+		Frame.Image = "rbxassetid://4641149554"
+		Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+		Frame.ScaleType = Enum.ScaleType.Slice
+		Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+		Frame.Active = true
+		Frame.Draggable = true
+
+		TextLabelFrame.Parent = Frame
+		TextLabelFrame.Name = "TopBar"
+		TextLabelFrame.BackgroundTransparency = 1
+		TextLabelFrame.ClipsDescendants = true
+		TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+		TextLabelFrame.ZIndex = 2
+		TextLabelFrame.Image = "rbxassetid://4595286933"
+		TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+		TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+
+		TextLabel.Parent = Frame
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Size = UDim2.new(0, 220, 0, 60)
+		TextLabel.ZIndex = 3
+		TextLabel.Font = Enum.Font.TitilliumWeb
+		TextLabel.Text = "This procedure may cause lag! Are you sure that you want to scrap everything?"
+		TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.TextScaled = false
+		TextLabel.TextSize = 18.000
+		TextLabel.TextWrapped = true
+
+		TextButton.Parent = Frame
+		TextButton.Name = "Button"
+		TextButton.BackgroundTransparency = 1
+		TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+		TextButton.BorderSizePixel = 0
+		TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton.ZIndex = 2
+		TextButton.Image = "rbxassetid://5028857472"
+		TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton.ScaleType = Enum.ScaleType.Slice
+		TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButtonText.Parent = TextButton
+		TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButtonText.BackgroundTransparency = 1
+		TextButtonText.ZIndex = 3
+		TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButtonText.Font = Enum.Font.TitilliumWeb
+		TextButtonText.Text = "Yes"
+		TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButtonText.TextScaled = true
+		TextButtonText.TextSize = 40.000
+		TextButtonText.TextWrapped = true
+
+		function ScrapEverythingYES()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+			for _, item in pairs(workspace.Items:GetChildren()) do
+				if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+					if (item:FindFirstChild("Main") and item:FindFirstChildWhichIsA("MeshPart")) or item:GetDescendants("Glass") or item:FindFirstChild("Handle") or item:FindFirstChild("HumanoidRootPart") then
+						pcall(function()
+							task.wait(.1)
+							local args = {item}
+							RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+							item:FindFirstChildWhichIsA("BasePart").CFrame=scrapper.CFrame*CFrame.new(0, 8, 0)
+							RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+						end)
+					end
+				end
+			end
+		end
+		TextButton.MouseButton1Click:connect(ScrapEverythingYES)
+		TextButtonText.MouseButton1Click:connect(ScrapEverythingYES)
+
+		TextButton_2.Parent = Frame
+		TextButton_2.Name = "Button"
+		TextButton_2.BackgroundTransparency = 1
+		TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+		TextButton_2.BorderSizePixel = 0
+		TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2.ZIndex = 2
+		TextButton_2.Image = "rbxassetid://5028857472"
+		TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton_2.ScaleType = Enum.ScaleType.Slice
+		TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButton_2Text.Parent = TextButton_2
+		TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButton_2Text.BackgroundTransparency = 1
+		TextButton_2Text.ZIndex = 3
+		TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2Text.Font = Enum.Font.TitilliumWeb
+		TextButton_2Text.Text = "No"
+		TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButton_2Text.TextScaled = true
+		TextButton_2Text.TextSize = 40.000
+		TextButton_2Text.TextWrapped = true
+
+		function ScrapEverythingNO()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+		end
+		TextButton_2.MouseButton1Click:connect(ScrapEverythingNO)	
+		TextButton_2Text.MouseButton1Click:connect(ScrapEverythingNO)
+	end)
+
+	local AutoScrapItems = false
+	section3a:addToggle("Auto Scrap Items",false,function(bool)
+		AutoScrapItems = bool
+		if AutoScrapItems then
+			notify("Auto scrap items when found")
+		end
+	end)
+
+	local AutoScrapItemsM = true
+	section3a:addToggle("Scrap Metal",true,function(bool)
+		AutoScrapItemsM = bool
+	end)
+
+	local AutoScrapItemsW = true
+	section3a:addToggle("Scrap Wood",true,function(bool)
+		AutoScrapItemsW = bool
+	end)
+
+	local AutoScrapItemsG = true
+	section3a:addToggle("Scrap Gems",true,function(bool)
+		AutoScrapItemsG = bool
+	end)
+
+
+	task.spawn(function()
+		while task.wait() do
+			if AutoScrapItems then
+				for _, item in pairs(workspace.Items:GetChildren()) do
+					if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+						if AutoScrapItemsM and AutoScrapItemsW and AutoScrapItemsG then
+							for _, x0 in ipairs(AllKnownScrap) do
+								if item.Name == x0 then
+									pcall(function()
+										task.wait(.1)
+										local args = {item}
+										RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+										item:FindFirstChildWhichIsA("BasePart").CFrame=scrapper.CFrame*CFrame.new(0, 8, 0)
+										RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+									end)
+								end
+							end
+						else
+							if AutoScrapItemsM then
+								for _, x1 in ipairs(AllKnownScrapMetal) do
+									if item.Name == x1 then
+										pcall(function()
+											task.wait(.1)
+											local args = {item}
+											RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+											item:FindFirstChildWhichIsA("BasePart").CFrame=scrapper.CFrame*CFrame.new(0, 8, 0)
+											RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+										end)
+									end
+								end
+							end
+							if AutoScrapItemsW then
+								for _, x2 in ipairs(AllKnownScrapWood) do
+									if item.Name == x2 then
+										pcall(function()
+											task.wait(.1)
+											local args = {item}
+											RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+											item:FindFirstChildWhichIsA("BasePart").CFrame=scrapper.CFrame*CFrame.new(0, 8, 0)
+											RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+										end)
+									end
+								end
+							end
+							if AutoScrapItemsG then
+								for _, x3 in ipairs(AllKnownScrapGem) do
+									if item.Name == x3 then
+										pcall(function()
+											task.wait(.1)
+											local args = {item}
+											RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+											item:FindFirstChildWhichIsA("BasePart").CFrame=scrapper.CFrame*CFrame.new(0, 8, 0)
+											RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+										end)
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end)
+
+	local AutoCook = false
+	section4:addToggle("Auto Cook",false,function(bool)
+		AutoCook = bool
+	end)
+
+	task.spawn(function()
+		while task.wait() do
+			if AutoCook then
+				if workspace.Map.Campground.MainFire.Center.FireLight.Enabled == false then
+					notify("The campfire is out!")
+				else
+					for _, item in pairs(workspace.Items:GetChildren()) do
+						if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+							for _, x in ipairs(AllKnownCookableFood) do
+								if item.Name == x then
+									pcall(function()
+										task.wait(.1)
+										local args = {item}
+										RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+										item:FindFirstChildWhichIsA("BasePart").CFrame=campfire.CFrame*CFrame.new(0, 13, 0)
+										RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+									end)
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end)
+
+	local AutoEat = false
+	local AutoEatPercentage = 70
+	section4:addToggle("Auto Eat",false,function(bool)
+		AutoEat = bool
+		if AutoEat then
+			notify("Auto eat when hunger bar is lower than " .. AutoEatPercentage .."%")
+		end
+	end)
+
+	section4:addSlider("Auto eat when hunger bar dropped to:", 70, 0, 100, function(value)
+		AutoEatPercentage = value
+	end)
+
+	local hungerBar = player:WaitForChild("PlayerGui"):WaitForChild("Interface"):WaitForChild("StatBars"):WaitForChild("HungerBar"):WaitForChild("Bar")
+	local remoteConsume = RemoteEvents:WaitForChild("RequestConsumeItem")
+	local autoEatFoods = {"Cooked Steak", "Cooked Morsel", "Cooked Ribs", "Berry", "Corn", "Carrot", "Apple","Pumpkin"}
+
+	task.spawn(function()
+		while task.wait() do
+			if AutoEat then
+				if hungerBar.Size.X.Scale <= (AutoEatPercentage/100) then
+					repeat
+						local currentHunger = hungerBar.Size.X.Scale
+
+						local available = {}
+						for _, item in ipairs(workspace:WaitForChild("Items"):GetChildren()) do
+							if item.Name and table.find(autoEatFoods, item.Name) then
+								table.insert(available, item)
+								print("Found available food item: ", item.Name)
+							end
+						end
+
+						if #available > 0 then
+							local food = available[math.random(1, #available)]
+							if food then
+								pcall(function()
+									remoteConsume:InvokeServer(food)
+								end)
+							end
+						else
+							warn("No available food found in inventory.")
+							break -- Stop trying if no food
+						end
+
+						task.wait(1) -- Wait for GUI to reflect update
+
+					until hungerBar.Size.X.Scale >= 0.99 or not autoEatHPEnabled
+				end
+			end
+		end
+	end)
+
+	section5:addButton("Convert materials only",function()
+		if workspace.Structures:FindFirstChild("Biofuel Processor") then
+			for _, item in pairs(workspace.Items:GetChildren()) do
+				if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+					for _, x in ipairs(AllKnownBioFuelMaterials) do
+						if item.Name == x then
+							pcall(function()
+								task.wait(.1)
+								local args = {item}
+								RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+								item:FindFirstChildWhichIsA("BasePart").CFrame=workspace.Structures:FindFirstChild("Biofuel Processor").Part.CFrame*CFrame.new(0, 2, 0)
+								RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+							end)
+						end
+					end
+				end
+			end
+		else
+			notify("You don't have a Biofuel Processor!")
+		end
+	end)
+
+	section5:addButton("Update Item List",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if item:FindFirstChildWhichIsA("BasePart") then
+				if not seenNames[item.Name] then -- Check if name hasn't been seen
+					table.insert(uniqueItems, item.Name)
+					seenNames[item.Name] = true -- Mark name as seen
+				end
+			end
+		end
+		local tempItemsBFP = {}
+		for _, name in ipairs(uniqueItems) do
+			table.insert(tempItemsBFP, name)
+		end
+		table.insert(tempItemsBFP, "Select item to scrap") table.insert(tempItemsBFP, "")
+		for _, name in ipairs(tempItemsBFP) do
+			if game:GetService("CoreGui")["DogeHub V2"].Main["Items"]["BioFuel Processor"].Container.Dropdown.Search.TextBox.Text == name then
+				section5:updateDropdown(name,"Select item to convert",uniqueItems,function(BioFuelProcessorConvert1)
+					print("Selected: " .. ScrapperBioFuelProcessorConvert1scrap1)
+					notify("Item Selected: " .. BioFuelProcessorConvert1)
+					BioFuelProcessorConvert = BioFuelProcessorConvert1
+				end)
+			end
+		end
+	end)
+
+	section5:addDropdown("Select item to convert",uniqueItems,function(BioFuelProcessorConvert1)
+		print("Selected: " .. BioFuelProcessorConvert1)
+		notify("Item Selected: " .. BioFuelProcessorConvert1)
+		BioFuelProcessorConvert = BioFuelProcessorConvert1
+	end)
+
+	section5:addButton("Convert item",function()
+		if workspace.Structures:FindFirstChild("Biofuel Processor") then
+			for _, item in pairs(workspace.Items:GetChildren()) do
+				if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+					if item.Name == BioFuelProcessorConvert then
+						pcall(function()
+							task.wait()
+							local args = {item}
+							RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+							item:FindFirstChildWhichIsA("BasePart").CFrame=workspace.Structures:FindFirstChild("Biofuel Processor").Part.CFrame*CFrame.new(0, 2, 0)
+							RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+						end)
+					end
+				end
+			end
+		else
+			notify("You don't have a Biofuel Processor!")
+		end
+	end)
+
+	section5:addButton("Convert Everything",function()
+		if workspace.Structures:FindFirstChild("Biofuel Processor") then
+			local player = game.Players.LocalPlayer
+			local ScreenGuiK = Instance.new("ScreenGui")
+			local Frame = Instance.new("ImageLabel")
+			local TextLabelFrame = Instance.new("ImageLabel")
+			local TextLabel = Instance.new("TextLabel")
+			local TextButton = Instance.new("ImageButton")
+			local TextButtonText = Instance.new("TextButton")
+			local TextButton_2 = Instance.new("ImageButton")
+			local TextButton_2Text = Instance.new("TextButton")
+
+			ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+			Frame.Parent = ScreenGuiK
+			Frame.Name = "Main"
+			Frame.BackgroundTransparency = 1
+			Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+			Frame.Size = UDim2.new(0, 220, 0, 120)
+			Frame.Image = "rbxassetid://4641149554"
+			Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+			Frame.ScaleType = Enum.ScaleType.Slice
+			Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+			Frame.Active = true
+			Frame.Draggable = true
+
+			TextLabelFrame.Parent = Frame
+			TextLabelFrame.Name = "TopBar"
+			TextLabelFrame.BackgroundTransparency = 1
+			TextLabelFrame.ClipsDescendants = true
+			TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+			TextLabelFrame.ZIndex = 2
+			TextLabelFrame.Image = "rbxassetid://4595286933"
+			TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+			TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+			TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+
+			TextLabel.Parent = Frame
+			TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+			TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+			TextLabel.BackgroundTransparency = 1
+			TextLabel.Size = UDim2.new(0, 220, 0, 60)
+			TextLabel.ZIndex = 3
+			TextLabel.Font = Enum.Font.TitilliumWeb
+			TextLabel.Text = "This procedure may cause lag! Are you sure that you want to convert everything?"
+			TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+			TextLabel.TextScaled = false
+			TextLabel.TextSize = 18.000
+			TextLabel.TextWrapped = true
+
+			TextButton.Parent = Frame
+			TextButton.Name = "Button"
+			TextButton.BackgroundTransparency = 1
+			TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+			TextButton.BorderSizePixel = 0
+			TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+			TextButton.ZIndex = 2
+			TextButton.Image = "rbxassetid://5028857472"
+			TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+			TextButton.ScaleType = Enum.ScaleType.Slice
+			TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+			TextButtonText.Parent = TextButton
+			TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+			TextButtonText.BackgroundTransparency = 1
+			TextButtonText.ZIndex = 3
+			TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+			TextButtonText.Font = Enum.Font.TitilliumWeb
+			TextButtonText.Text = "Yes"
+			TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+			TextButtonText.TextScaled = true
+			TextButtonText.TextSize = 40.000
+			TextButtonText.TextWrapped = true
+
+			function ConvertEverythingYES()
+				for i,v in pairs(player.PlayerGui:GetChildren()) do
+					if v.Name == "ScreenGui" then
+						v:Destroy()
+					end
+				end
+				for _, item in pairs(workspace.Items:GetChildren()) do
+					if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+						if (item:FindFirstChild("Main") and item:FindFirstChildWhichIsA("MeshPart")) or item:GetDescendants("Glass") or item:FindFirstChild("Handle") or item:FindFirstChild("HumanoidRootPart") then
+							if workspace.Structures:FindFirstChild("Biofuel Processor") then
+								pcall(function()
+									task.wait()
+									local args = {item}
+									RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+									item:FindFirstChildWhichIsA("BasePart").CFrame=workspace.Structures:FindFirstChild("Biofuel Processor").Part.CFrame*CFrame.new(0, 2, 0)
+									RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+								end)
+							end
+						end
+					end
+				end
+			end
+			TextButton.MouseButton1Click:connect(ConvertEverythingYES)
+			TextButtonText.MouseButton1Click:connect(ConvertEverythingYES)
+
+			TextButton_2.Parent = Frame
+			TextButton_2.Name = "Button"
+			TextButton_2.BackgroundTransparency = 1
+			TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+			TextButton_2.BorderSizePixel = 0
+			TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+			TextButton_2.ZIndex = 2
+			TextButton_2.Image = "rbxassetid://5028857472"
+			TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+			TextButton_2.ScaleType = Enum.ScaleType.Slice
+			TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+			TextButton_2Text.Parent = TextButton_2
+			TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+			TextButton_2Text.BackgroundTransparency = 1
+			TextButton_2Text.ZIndex = 3
+			TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+			TextButton_2Text.Font = Enum.Font.TitilliumWeb
+			TextButton_2Text.Text = "No"
+			TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+			TextButton_2Text.TextScaled = true
+			TextButton_2Text.TextSize = 40.000
+			TextButton_2Text.TextWrapped = true
+
+			function ConvertEverythingNO()
+				for i,v in pairs(player.PlayerGui:GetChildren()) do
+					if v.Name == "ScreenGui" then
+						v:Destroy()
+					end
+				end
+			end
+			TextButton_2.MouseButton1Click:connect(ConvertEverythingNO)	
+			TextButton_2Text.MouseButton1Click:connect(ConvertEverythingNO)
+		else
+			notify("You don't have a Biofuel Processor!")
+		end
+	end)
+
+	-- forth page
+	local page4 = NoobieDoge:addPage("Mobs", 97521755974659)
+	local section1 = page4:addSection("Kill Aura")
+	local section2 = page4:addSection("Mob Hitbox")
+	local section3 = page4:addSection("Bring Mobs (FE)")
+
+	local uniqueMobs = {}
+	local seenNamesM = {} -- Dictionary to track seen names
+	for _, mob in pairs(workspace.Characters:GetChildren()) do
+		if mob.Name ~= "Lost Child" and mob.Name ~= "Lost Child2" and mob.Name ~= "Lost Child3" and mob.Name ~= "Lost Child4" and not mob:FindFirstChild("Cosmetic") and (not mob:FindFirstChild("Default") or mob.Name == "Alien") then
+			if not seenNamesM[mob.Name] then -- Check if name hasn't been seen
+				table.insert(uniqueMobs, mob.Name)
+				seenNamesM[mob.Name] = true -- Mark name as seen
+			end
+		end
+	end
+
+	local MobsKillAura = false
+	section1:addToggle("Mobs Kill Aura",false,function(bool)
+		MobsKillAura = bool
+		if MobsKillAura then
+			notify("Hold weapon to activate")
+		end
+	end)
+
+	local KillAuraRadius = 200
+	section1:addSlider("Kill Aura Radius", 200, 1, 200, function(value)
+		KillAuraRadius = value
+	end)
+
+	local Hitboxsizenum
+	section2:addSlider("Hitbox size", 10, 1, 1000, function(value)
+		Hitboxsizenum = value
+	end)
+
+	local ShowHitbox
+	section2:addToggle("Show Hitbox",false,function(bool)
+		ShowHitbox = bool
+	end)
+
+	local EnableHitboxChange
+	section2:addToggle("Enabled",false,function(bool)
+		EnableHitboxChange = bool
+	end)
+
+	section3:addButton("Update Mob List",function()
+		for _, mob in pairs(workspace.Characters:GetChildren()) do
+			if mob.Name ~= "Lost Child" and mob.Name ~= "Lost Child2" and mob.Name ~= "Lost Child3" and mob.Name ~= "Lost Child4" and not mob:FindFirstChild("Cosmetic") and (not mob:FindFirstChild("Default") or mob.Name == "Alien") then
+				if not seenNamesM[mob.Name] then -- Check if name hasn't been seen
+					table.insert(uniqueMobs, mob.Name)
+					seenNamesM[mob.Name] = true -- Mark name as seen
+				end
+			end
+		end
+		local tempMobsB = {}
+		for _, name in ipairs(uniqueMobs) do
+			table.insert(tempMobsB, name)
+		end
+		table.insert(tempMobsB, "Select item to bring") table.insert(tempMobsB, "")
+		for _, name in ipairs(tempMobsB) do
+			if game:GetService("CoreGui")["DogeHub V2"].Main["Mobs"]["Bring Mobs (FE)"].Container.Dropdown.Search.TextBox.Text == name then
+				section3:updateDropdown(name,"Select mobs to bring",uniqueMobs,function(LeBringMob1)
+					print("Selected: " .. LeBringMob1)
+					notify("Mob Selected: " .. LeBringMob1)
+					LeBringMob = LeBringMob1
+				end)
+			end
+		end
+	end)
+
+	section3:addDropdown("Select mobs to bring",uniqueMobs,function(LeBringMob1)
+		print("Selected: " .. LeBringMob1)
+		notify("Mob Selected: " .. LeBringMob1)
+		LeBringMob = LeBringMob1
+	end)
+
+	section3:addButton("Bring mob",function()
+		for _, mob in pairs(workspace.Characters:GetChildren()) do
+			if mob.Name ~= "Lost Child" and mob.Name ~= "Lost Child2" and mob.Name ~= "Lost Child3" and mob.Name ~= "Lost Child4" and not mob:FindFirstChild("Cosmetic") and (not mob:FindFirstChild("Default") or mob.Name == "Alien") then
+				if mob.Name == LeBringMob then
+					pcall(function()
+						ask.wait()
+						mob:FindFirstChildWhichIsA("BasePart").CFrame=player.Character.HumanoidRootPart.CFrame*CFrame.new(0, 13, 0)
+					end)
+				end
+			end
+		end
+	end)
+
+	section3:addButton("Bring every mobs",function()
+		for _, mob in pairs(workspace.Characters:GetChildren()) do
+			if mob.Name ~= "Lost Child" and mob.Name ~= "Lost Child2" and mob.Name ~= "Lost Child3" and mob.Name ~= "Lost Child4" and not mob:FindFirstChild("Cosmetic") and (not mob:FindFirstChild("Default") or mob.Name == "Alien") then
+				if mob:FindFirstChild("HumanoidRootPart") then
+					pcall(function()
+						task.wait()
+						mob:FindFirstChildWhichIsA("BasePart").CFrame=player.Character.HumanoidRootPart.CFrame*CFrame.new(0, 13, 0)
+					end)
+				end
+			end
+		end
+	end)
+
+	task.spawn(function()
+		while task.wait() do
+			if MobsKillAura then
+				local character = player.Character or player.CharacterAdded:Wait()
+				local hrp = character:FindFirstChild("HumanoidRootPart")
+				if hrp then
+					local tool, damageID = getAnyToolWithDamageID()
+					if tool and damageID then
+						equipTool(tool)
+						for _, mob in ipairs(Workspace.Characters:GetChildren()) do
+							if mob:IsA("Model") then
+								local part = mob:FindFirstChildWhichIsA("BasePart")
+								if part and (part.Position - hrp.Position).Magnitude <= KillAuraRadius then
+									pcall(function()
+										RemoteEvents.ToolDamageObject:InvokeServer(
+											mob,
+											tool,
+											damageID,
+											CFrame.new(part.Position)
+										)
+									end)
+								end
+							end
+						end
+
+						task.wait(0.04)
+					else
+						warn("No supported tool found in inventory")
+						task.wait(1)
+					end
+				else
+					task.wait(0.5)
+				end
+			end
+		end
+	end)
+
+	task.spawn(function()
+		while task.wait(.4) do
+			if EnableHitboxChange then
+				for _, mob in pairs(workspace.Characters:GetChildren()) do
+					if mob.Name ~= "Lost Child" and mob.Name ~= "Lost Child2" and mob.Name ~= "Lost Child3" and mob.Name ~= "Lost Child4" and not mob:FindFirstChild("Cosmetic") and (not mob:FindFirstChild("Default") or mob.Name == "Alien") then
+						if mob:FindFirstChild("HumanoidRootPart") then
+							if not mob:FindFirstChild("IceBlock") then
+								mob.HumanoidRootPart.Size = Vector3.new(Hitboxsizenum, Hitboxsizenum, Hitboxsizenum)
+								mob.HumanoidRootPart.CanCollide = false
+								mob.HumanoidRootPart.CanQuery = true
+								mob.HumanoidRootPart.Shape = "Ball"
+								DamageTarget(mob)
+								if ShowHitbox == true then
+									mob.HumanoidRootPart.Transparency = 0.5
+								else
+									mob.HumanoidRootPart.Transparency = 1
+								end
+								task.wait()
+							else
+								mob.IceBlock.Block1.Size = Vector3.new(Hitboxsizenum, Hitboxsizenum, Hitboxsizenum)
+								mob.IceBlock.Block1.CanCollide = false
+							end
+						end
+					end
+				end
+				for _, item in pairs(workspace.Items:GetChildren()) do --also increase hitbox for iceblocks on chests
+					if item:FindFirstChild("ChestLid") and item:FindFirstChild("Main") and item.Main:FindFirstChild("ProximityAttachment") and item:FindFirstChild("IceBlock") then
+						item.IceBlock.Block1.Size = Vector3.new(Hitboxsizenum, Hitboxsizenum, Hitboxsizenum)
+						item.IceBlock.Block1.CanCollide = false
+					end
+				end
+			end
+		end
+	end)
+
+	-- fifth page
+	local page5 = NoobieDoge:addPage("Trees", 97521755974659)
+	local section1 = page5:addSection("Chop Aura")
+
+	local AutoChopTree = false
+	section1:addToggle("Chop Aura",false,function(bool)
+		AutoChopTree = bool
+		if AutoChopTree then
+			notify("Auto Chopping Wood")
+		end
+	end)
+
+	local LogAuraRadius = 200
+	section1:addSlider("Chop Aura Radius", 200, 1, 200, function(value)
+		LogAuraRadius = value
+	end)
+
+	local function getAllSmallTrees()
+		local trees = {}
+		local function scan(folder)
+			for _, obj in ipairs(folder:GetChildren()) do
+				if obj:IsA("Model") and obj.Name == "Small Tree" then
+					table.insert(trees, obj)
+				end
+			end
+		end
+
+		local map = Workspace:FindFirstChild("Map")
+		if map then
+			if map:FindFirstChild("Foliage") then scan(map.Foliage) end
+			if map:FindFirstChild("Landmarks") then scan(map.Landmarks) end
+		end
+		return trees
+	end
+
+	local function findTrunk(tree)
+		for _, part in ipairs(tree:GetDescendants()) do
+			if part:IsA("BasePart") and part.Name == "Trunk" then return part end
+		end
+	end
+
+	local badTrees = {}
+	task.spawn(function()
+		while task.wait() do
+			if AutoChopTree then
+				local character = player.Character or player.CharacterAdded:Wait()
+				local hrp = character:FindFirstChild("HumanoidRootPart")
+				if hrp then
+					local tool, damageID = getAnyToolWithDamageID()
+					if tool and damageID then
+						equipTool(tool)
+						for _, tree in ipairs(getAllSmallTrees()) do
+							local trunk = findTrunk(tree)
+							if trunk and (trunk.Position - hrp.Position).Magnitude <= LogAuraRadius then
+								pcall(function()
+									RemoteEvents.ToolDamageObject:InvokeServer(
+										tree,
+										tool,
+										damageID,
+										CFrame.new(trunk.Position)
+									)
+								end)
+							end
+						end
+						task.wait()
+					else
+						warn("No supported tool found in inventory")
+						task.wait(1)
+					end
+				else
+					task.wait(0.5)
+				end
+			end
+		end
+	end)
+
+	-- sixth page
+	local page6 = NoobieDoge:addPage("Events", 97521755974659)
+	local section1 = page6:addSection("Halloween")
+
+	local hh = {}
+	local function findhh()
+		for _, house in pairs(workspace.Map.Landmarks:GetChildren()) do
+			if string.find(house.Name, "Halloween House") then
+				table.insert(hh,house.Name)
+			end
+		end
+	end
+	findhh()
+	local hh2
+	section1:addDropdown("Halloween House",hh,function(hh1)
+		print("Selected: " .. hh1)
+		notify("House Selected: " .. hh1)
+		hh2 = hh1
+	end)
+
+	section1:addButton("Teleport to House",function()
+		pcall(function()
+			player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks[hh2].Functional.TouchZone.CFrame*CFrame.new(0, 2, 0)
+		end)
+	end)
+
+	section1:addButton("Test1",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				if item.Name == "Halloween Candle" then
+					pcall(function()
+						task.wait()
+						local args = {item}
+						RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+						item:FindFirstChildWhichIsA("BasePart").CFrame=workspace.Map.Landmarks[hh2].Functional.TouchZone.CFrame*CFrame.new(0, 2, 0)
+						RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+					end)
+				end
+			end
+		end
+	end)
+	section1:addButton("Test2",function()
+		for _, item in pairs(workspace.Items:GetChildren()) do
+			if not item:FindFirstChild("ChestLid") and not item:FindFirstChild("AnvilFront") and not item:FindFirstChild("AnvilBase") and not item:FindFirstChild("AnvilBack") then
+				if item.Name == "Halloween Candle" then
+					for _, item1 in pairs(workspace.Map.Landmarks:GetChildren()) do
+						if item1.Functional.Lighting.Window.PointLight.Enabled ~= true then
+							pcall(function()
+								task.wait()
+								player.Character.HumanoidRootPart.CFrame = workspace.Map.Landmarks[item1].Functional.TouchZone.CFrame*CFrame.new(0, 2, 0)
+								local args = {item}
+								RemoteEvents.RequestStartDraggingItem:FireServer(unpack(args))
+								item:FindFirstChildWhichIsA("BasePart").CFrame=workspace.Map.Landmarks[item1].Functional.TouchZone.CFrame*CFrame.new(0, 2, 0)
+								RemoteEvents.StopDraggingItem:FireServer(unpack(args))
+							end)
+						end
+					end
+				end
+			end
+		end
+	end)
+
+	-- last page
+	local pagelast = NoobieDoge:addPage("Settings", 97521755974659)
+	local settings = pagelast:addSection("Settings")
+	local colors = pagelast:addSection("Colors")
+	local credits = pagelast:addSection("Credits")
+
+	settings:addButton("Upgrade Performance",function()
+		UPPERFORMANCE()
+		settings:updateButton("Upgrade Performance","Upgraded Performance")
+	end)
+
+	settings:addButton("Reset Script",function()
+		local player = game.Players.LocalPlayer
+		local ScreenGuiK = Instance.new("ScreenGui")
+		local Frame = Instance.new("ImageLabel")
+		local TextLabelFrame = Instance.new("ImageLabel")
+		local TextLabel = Instance.new("TextLabel")
+		local TextButton = Instance.new("ImageButton")
+		local TextButtonText = Instance.new("TextButton")
+		local TextButton_2 = Instance.new("ImageButton")
+		local TextButton_2Text = Instance.new("TextButton")
+
+		ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+		Frame.Parent = ScreenGuiK
+		Frame.Name = "Main"
+		Frame.BackgroundTransparency = 1
+		Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+		Frame.Size = UDim2.new(0, 220, 0, 120)
+		Frame.Image = "rbxassetid://4641149554"
+		Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+		Frame.ScaleType = Enum.ScaleType.Slice
+		Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+		Frame.Active = true
+		Frame.Draggable = true
+
+		TextLabelFrame.Parent = Frame
+		TextLabelFrame.Name = "TopBar"
+		TextLabelFrame.BackgroundTransparency = 1
+		TextLabelFrame.ClipsDescendants = true
+		TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+		TextLabelFrame.ZIndex = 2
+		TextLabelFrame.Image = "rbxassetid://4595286933"
+		TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+		TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+		
+		TextLabel.Parent = Frame
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Size = UDim2.new(0, 220, 0, 60)
+		TextLabel.ZIndex = 3
+		TextLabel.Font = Enum.Font.TitilliumWeb
+		TextLabel.Text = "Are you sure that you want to reset script?"
+		TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.TextScaled = false
+		TextLabel.TextSize = 21.000
+		TextLabel.TextWrapped = true
+
+		TextButton.Parent = Frame
+		TextButton.Name = "Button"
+		TextButton.BackgroundTransparency = 1
+		TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+		TextButton.BorderSizePixel = 0
+		TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton.ZIndex = 2
+		TextButton.Image = "rbxassetid://5028857472"
+		TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton.ScaleType = Enum.ScaleType.Slice
+		TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButtonText.Parent = TextButton
+		TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButtonText.BackgroundTransparency = 1
+		TextButtonText.ZIndex = 3
+		TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButtonText.Font = Enum.Font.TitilliumWeb
+		TextButtonText.Text = "Yes"
+		TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButtonText.TextScaled = true
+		TextButtonText.TextSize = 40.000
+		TextButtonText.TextWrapped = true
+
+		function ResetYES()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+			sliderpowa = false
+			CtrlClickTeePee = false
+			noclips = false
+			Pfly = false
+			trackthatguy = false
+			getgenv().dc = true
+			AutoUnlockAllChests = false
+			AutoGetAllCoinStacks = false
+			BoostPad = false
+			game.Lighting.FogStart = defaultFogStart
+			game.Lighting.FogEnd = defaultFogEnd
+			MobsKillAura = false
+			Hitboxsizenum = false
+			ShowHitbox = false
+			EnableHitboxChange = false
+			AutoBurnFuel = false
+			AutoScrapItems = false
+			AutoScrapItemsM = true
+			AutoScrapItemsW = true
+			AutoScrapItemsG = true
+			AutoCook = false
+			AutoEat = false
+			AutoChopTree = false
+			wait()
+			for i,library in pairs(game:GetService("CoreGui"):GetChildren()) do
+				if library.Name == "DogeHub V2" then
+					library:Destroy()
+				end
+			end
+			notify("Do not reset script too many times!")
+			wait(.1)
+			NNNITFMain()
+		end
+		TextButton.MouseButton1Click:connect(ResetYES)
+		TextButtonText.MouseButton1Click:connect(ResetYES)
+
+		TextButton_2.Parent = Frame
+		TextButton_2.Name = "Button"
+		TextButton_2.BackgroundTransparency = 1
+		TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+		TextButton_2.BorderSizePixel = 0
+		TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2.ZIndex = 2
+		TextButton_2.Image = "rbxassetid://5028857472"
+		TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton_2.ScaleType = Enum.ScaleType.Slice
+		TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButton_2Text.Parent = TextButton_2
+		TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButton_2Text.BackgroundTransparency = 1
+		TextButton_2Text.ZIndex = 3
+		TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2Text.Font = Enum.Font.TitilliumWeb
+		TextButton_2Text.Text = "No"
+		TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButton_2Text.TextScaled = true
+		TextButton_2Text.TextSize = 40.000
+		TextButton_2Text.TextWrapped = true
+
+		function ResetNO()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+		end
+		TextButton_2.MouseButton1Click:connect(ResetNO)	
+		TextButton_2Text.MouseButton1Click:connect(ResetNO)
+	end)
+
+	settings:addButton("Rejoin Server",function()
+		local player = game.Players.LocalPlayer
+		local ScreenGuiK = Instance.new("ScreenGui")
+		local Frame = Instance.new("ImageLabel")
+		local TextLabelFrame = Instance.new("ImageLabel")
+		local TextLabel = Instance.new("TextLabel")
+		local TextButton = Instance.new("ImageButton")
+		local TextButtonText = Instance.new("TextButton")
+		local TextButton_2 = Instance.new("ImageButton")
+		local TextButton_2Text = Instance.new("TextButton")
+
+		ScreenGuiK.Parent = player:WaitForChild("PlayerGui")
+
+		Frame.Parent = ScreenGuiK
+		Frame.Name = "Main"
+		Frame.BackgroundTransparency = 1
+		Frame.Position = UDim2.new(0.66, 0, 0.055, 0)
+		Frame.Size = UDim2.new(0, 220, 0, 120)
+		Frame.Image = "rbxassetid://4641149554"
+		Frame.ImageColor3 = Color3.fromRGB(24, 24, 24)
+		Frame.ScaleType = Enum.ScaleType.Slice
+		Frame.SliceCenter = Rect.new(4, 4, 296, 296)
+		Frame.Active = true
+		Frame.Draggable = true
+
+		TextLabelFrame.Parent = Frame
+		TextLabelFrame.Name = "TopBar"
+		TextLabelFrame.BackgroundTransparency = 1
+		TextLabelFrame.ClipsDescendants = true
+		TextLabelFrame.Size = UDim2.new(1, 0, 0, 38)
+		TextLabelFrame.ZIndex = 2
+		TextLabelFrame.Image = "rbxassetid://4595286933"
+		TextLabelFrame.ImageColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabelFrame.ScaleType = Enum.ScaleType.Slice
+		TextLabelFrame.SliceCenter = Rect.new(4, 4, 296, 296)
+		
+		TextLabel.Parent = Frame
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 163, 26)
+		TextLabel.Position = UDim2.new(0, 0, -0.1, 0)
+		TextLabel.BackgroundTransparency = 1
+		TextLabel.Size = UDim2.new(0, 220, 0, 60)
+		TextLabel.ZIndex = 3
+		TextLabel.Font = Enum.Font.TitilliumWeb
+		TextLabel.Text = "Are you sure you want to rejoin server?"
+		TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.TextScaled = false
+		TextLabel.TextSize = 24.000
+		TextLabel.TextWrapped = true
+
+		TextButton.Parent = Frame
+		TextButton.Name = "Button"
+		TextButton.BackgroundTransparency = 1
+		TextButton.Position = UDim2.new(0.075, 0, 0.500000006, 0)
+		TextButton.BorderSizePixel = 0
+		TextButton.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton.ZIndex = 2
+		TextButton.Image = "rbxassetid://5028857472"
+		TextButton.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton.ScaleType = Enum.ScaleType.Slice
+		TextButton.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButtonText.Parent = TextButton
+		TextButtonText.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButtonText.BackgroundTransparency = 1
+		TextButtonText.ZIndex = 3
+		TextButtonText.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButtonText.Font = Enum.Font.TitilliumWeb
+		TextButtonText.Text = "Yes"
+		TextButtonText.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButtonText.TextScaled = true
+		TextButtonText.TextSize = 40.000
+		TextButtonText.TextWrapped = true
+
+		function RejoinYES()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+			local TS = game:GetService("TeleportService")
+			local Player = game.Players.LocalPlayer
+			TS:Teleport(game.PlaceId, Player)
+		end
+		TextButton.MouseButton1Click:connect(RejoinYES)
+		TextButtonText.MouseButton1Click:connect(RejoinYES)
+
+		TextButton_2.Parent = Frame
+		TextButton_2.Name = "Button"
+		TextButton_2.BackgroundTransparency = 1
+		TextButton_2.Position = UDim2.new(0.55, 0, 0.500000006, 0)
+		TextButton_2.BorderSizePixel = 0
+		TextButton_2.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2.ZIndex = 2
+		TextButton_2.Image = "rbxassetid://5028857472"
+		TextButton_2.ImageColor3 = Color3.fromRGB(41, 41, 41)
+		TextButton_2.ScaleType = Enum.ScaleType.Slice
+		TextButton_2.SliceCenter = Rect.new(2, 2, 298, 298)
+
+		TextButton_2Text.Parent = TextButton_2
+		TextButton_2Text.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+		TextButton_2Text.BackgroundTransparency = 1
+		TextButton_2Text.ZIndex = 3
+		TextButton_2Text.Size = UDim2.new(0, 82.5, 0, 45)
+		TextButton_2Text.Font = Enum.Font.TitilliumWeb
+		TextButton_2Text.Text = "No"
+		TextButton_2Text.TextColor3 = Color3.fromRGB(200, 200, 200)
+		TextButton_2Text.TextScaled = true
+		TextButton_2Text.TextSize = 40.000
+		TextButton_2Text.TextWrapped = true
+
+		function RejoinNO()
+			for i,v in pairs(player.PlayerGui:GetChildren()) do
+				if v.Name == "ScreenGui" then
+					v:Destroy()
+				end
+			end
+		end
+		TextButton_2.MouseButton1Click:connect(RejoinNO)	
+		TextButton_2Text.MouseButton1Click:connect(RejoinNO)
+	end)
+
+	settings:addKeybind("Toggle Keybind", Enum.KeyCode.RightControl, function()
+	print("Activated Keybind")
+	NoobieDoge:toggle()
+	end, function()
+	print("Changed Keybind")
+	end)
+
+	local DHV2Frame = game:GetService("CoreGui")["DogeHub V2"]["DogeHub V2 Toggle"]
+	local DHV2TextButton = DHV2Frame.Button
+	local DHV2TextButtonText = DHV2Frame.Button.TextButton
+	local function ToggleGUI()
+		NoobieDoge:toggle()
+	end
+	DHV2TextButton.MouseButton1Click:connect(ToggleGUI)
+	DHV2TextButtonText.MouseButton1Click:connect(ToggleGUI)
+	
+	settings:addToggle("Show Mobile Toggle Button",false,function(bool)
+		SMTB = bool
+		if SMTB == true then
+			DHV2Frame.Visible = true
+		else
+			DHV2Frame.Visible = false
+		end
+	end)
+
+	for theme, color in pairs(themes) do -- all in one theme changer, i know, im cool
+		colors:addColorPicker(theme, color, function(color3)
+			NoobieDoge:setTheme(theme, color3)
+		end)
+	end
+
+	credits:addButton("Made by NoobieDoge")
+	credits:addButton("https://discord.gg/P2CeRjvTDt")
+	credits:addButton("Copy Discord Link",function()
+		setclipboard("https://discord.gg/P2CeRjvTDt")
+		wait()
+		notify("Discord link copied to cl ipboard!")
+	end)
+
+	gameplaceexecuted = "99 Nights in the Forest"
+
 end
-coroutine.wrap(ACHGC_fake_script)()
 
-            end)    
-
-
-    MainSection:NewButton("Cattori Hub", "idk", function()
-                _G.ToggleKeyBind = "g"
-loadstring(game:HttpGet('https://cattori.xyz/main.lua'))()
-end)
-
-MainSection:NewButton("Dex", "Explorer", function()
-loadstring(game:GetObjects("rbxassetid://418957341")[1].Source)()
-end)
-
-MainSection:NewButton("Impluse hub", "idk", function()
-loadstring(game:HttpGet('http://impulse-hub.xyz/ImpulseHub',true))()
- end)
-
-MainSection:NewButton("Zyrex-Hub", "10+", function()
-   _G.Toggle_GUI = Enum.KeyCode.RightControl --Right Ctrl
-
-loadstring(game:HttpGet(("https://raw.githubusercontent.com/NotZyrex/Zyrex-Hub/master/Main.lua"), true))();
-end)
-
-MainSection:NewButton("Psyhub", "idk", function()
-loadstring(game:GetObjects("rbxassetid://3014051754")[1].Source)()
- end)
-
-MainSection:NewButton("VG Hub", "60+", function()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
- end)
-
-MainSection:NewButton("Remote Spy", "Find remotes press F9", function()
-loadstring(game:HttpGet('https://pastebin.com/raw/b33cjh0p'))()
-end)
-
-            MainSection:NewButton("Ezhub", "130+ games", function()
-                --[[ this is there cmds list
-https://pastebin.com/CvjkJxAt
-]]--
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
---[[this is there thing idk
-https://pastebin.com/vavZfexv
-]]--
- end)
-    
-	   MainSection:NewButton("Owl Hub", "46+ how", function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
-            end)
-
-        MainSection:NewButton("Infinite Yield FE", "Admin", function()
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-        end)
-
-        MainSection:NewButton("Discord Invite2", "Copys Discord invite link", function()
-            setclipboard(string2)
-        end)
-        
-        MainSection:NewButton("Destroy GUIS", "CLCK A LOT OF TIMES", function()
-                for i, v in pairs(game:GetService("CoreGui"):GetDescendants()) do
-            if v.Name == "Main" and v.Parent then
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                wait(0.1)
-                v.Parent:Destroy()
-                break
-            end
-        end
-end)
-        
-        local Player = Window:NewTab("Player")
-        local PlayerSection = Player:NewSection("Player")
-        PlayerSection:NewSlider("WalkSpeed", "Changes how fast you walk", 500, 1, function(v) 
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-        end)
-
-        PlayerSection:NewSlider("Jumppower", "Changes how high you jump", 500, 1, function(v) 
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-        end)
-        
-        local Placeinfo = Window:NewTab("Place Info")
-        local Playerinform = Placeinfo:NewSection("Place Info")
-        
-         Playerinform:NewButton(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name, (game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Description), function()
-end)
-Playerinform:NewButton(game:GetService("Players"):GetNameFromUserIdAsync(game.CreatorId), (game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Description), function()
-
-end)
-       Playerinform:NewButton("FilterEnabled/Repesect Is: (Click dots)", ("Click on the button and press F9"), function()
-       print(game.Workspace.FilteringEnabled, "If it says true it means its on if it says false then it means its off")
-        if game:GetService("SoundService").RespectFilteringEnabled == true then
-                    print("RespectFilteringEnabled is enabled")
-                else
-                    print("RespectFilteringEnabled is disabled")
-                end
-       end)
-    end
+if game.PlaceId == 79546208627805 then
+	NNNITFLobby()
+elseif game.PlaceId == 126509999114328 then
+	NNNITFMain()
+else
+	NNNITFMain()
 end
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Kasep6720/Secret/refs/heads/Functions/DogeHubV2UserLogs', true))()
